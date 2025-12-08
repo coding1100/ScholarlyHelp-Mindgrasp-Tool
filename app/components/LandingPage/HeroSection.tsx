@@ -1,37 +1,70 @@
 "use client";
 
-import React from "react";
+import React, { FC } from "react";
 import HeroLead from "./HeroLead";
 import HeroRight from "./HeroRight";
 import ReviewBar from "./ReviewBar";
+import { StaticImageData } from "next/image";
 const Star: React.FC = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="#FFB400"/>
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"
+      fill="#FFB400"
+    />
   </svg>
 );
-const HeroSection: React.FC = () => {
+
+interface HeroSectionProps {
+  heroContent?: {
+    mainHeading: string;
+    subHeading?: string;
+    description: string;
+    btn1: string;
+    btn2: string;
+    formBackImg2: StaticImageData;
+  };
+}
+const HeroSection: FC<HeroSectionProps> = ({ heroContent }) => {
   return (
-    <section id="hero-section" className="w-full bg-[#F5F6FA] pb-[100px] max-[1320px]:px-8">
+    <section
+      id="hero-section"
+      className="w-full bg-[#F5F6FA] pb-[100px] max-[1320px]:px-8"
+    >
       <div className="mx-auto max-w-7xl py-10 !pt-[100px] md:py-14">
         <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-12 md:gap-12">
           <div className="md:col-span-5">
-          <HeroLead />
+            <HeroLead heroContent={heroContent} />
           </div>
           <div className="md:col-span-4">
-          <HeroRight />
+            <HeroRight formBackImg2={heroContent?.formBackImg2} />
           </div>
-          <div className="md:col-span-3 md:self-end">
+          <div className="md:col-span-3 md:self-end relative z-20">
             <div className="hidden md:flex flex-col gap-5">
               <div className="flex max-w-xs flex-col gap-2">
                 <div className="flex items-center gap-1">
-                  <Star /><Star /><Star /><Star /><Star />
+                  <Star />
+                  <Star />
+                  <Star />
+                  <Star />
+                  <Star />
                 </div>
-                <div className="font-semibold text-[#1E1E1E]">Stress Free A+</div>
+                <div className="font-semibold text-[#1E1E1E]">
+                  Stress Free A+
+                </div>
                 <p className="text-[14px] leading-6 text-[#555B66]">
-                  Scholarly has taken 100% of the stress I usually deal with when...
+                  Scholarly has taken 100% of the stress I usually deal with
+                  when...
                 </p>
                 <div className="mt-2 flex items-center gap-2">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A]">T</span>
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A]">
+                    T
+                  </span>
                   <div className="text-[12px] text-[#6A6F7A]">
                     <div>Tom Q.</div>
                     <div>Engineering Student, Devry University</div>
@@ -45,11 +78,8 @@ const HeroSection: React.FC = () => {
           <ReviewBar />
         </div> */}
       </div>
-      
     </section>
   );
 };
 
 export default HeroSection;
-
-
