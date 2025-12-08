@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FC } from "react";
 
 const CHECK_BG = "#9F92EC";
 const PRIMARY_BG = "#9F92EC";
@@ -27,42 +27,73 @@ const CheckBadge: React.FC = () => (
   </span>
 );
 
-const HeroLead: React.FC = () => {
+interface HeroLeadProps {
+  heroContent?: {
+    mainHeading: string;
+    subHeading?: string;
+    description: string;
+    btn1: string;
+    btn2: string;
+  };
+}
+const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
   return (
     <div className="max-w-2xl">
       <h1
         className="font-semibold text-[32px] md:text-[50px] leading-[1.1] text-black"
         style={{ fontFamily: "var(--font-poppins)" }}
       >
-        Stop Sacrificing
-        <br />
-        Your Time, We&apos;ll
-        <br />
-        Handle Your
-        <br />
-        Classes
+        {heroContent?.mainHeading ? (
+          <div dangerouslySetInnerHTML={{ __html: heroContent.mainHeading }} />
+        ) : (
+          <>
+            Stop Sacrificing
+            <br />
+            Your Time, We&apos;ll
+            <br />
+            Handle Your
+            <br />
+            Classes
+          </>
+        )}
       </h1>
-
-      <div className="mt-6 flex flex-col items-start gap-3">
-        <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-          <CheckBadge />
-          <span className="sm:text-[16px] text-[14px] text-[#111318]">
-            Free Up 20+ Hours/week
-          </span>
+      {heroContent ? (
+        <div className="mt-6">
+          {heroContent?.subHeading && (
+            <p
+              className="text-black font-semibold text-[19px]"
+              dangerouslySetInnerHTML={{ __html: heroContent.subHeading }}
+            />
+          )}
+          {heroContent?.description && (
+            <div
+              className="text-[#263238] text-[16px] mt-3"
+              dangerouslySetInnerHTML={{ __html: heroContent.description }}
+            />
+          )}
         </div>
-        <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-          <CheckBadge />
-          <span className="sm:text-[16px] text-[14px] text-[#111318]">
-            24/7 support
-          </span>
+      ) : (
+        <div className="mt-6 flex flex-col items-start gap-3">
+          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+            <CheckBadge />
+            <span className="sm:text-[16px] text-[14px] text-[#111318]">
+              Free Up 20+ Hours/week
+            </span>
+          </div>
+          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+            <CheckBadge />
+            <span className="sm:text-[16px] text-[14px] text-[#111318]">
+              24/7 support
+            </span>
+          </div>
+          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+            <CheckBadge />
+            <span className="sm:text-[16px] text-[14px] text-[#111318]">
+              100% Confidential
+            </span>
+          </div>
         </div>
-        <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-          <CheckBadge />
-          <span className="sm:text-[16px] text-[14px] text-[#111318]">
-            100% Confidential
-          </span>
-        </div>
-      </div>
+      )}
 
       <div className="mt-6 flex gap-4">
         <button
@@ -70,14 +101,14 @@ const HeroLead: React.FC = () => {
           className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
           style={{ backgroundColor: PRIMARY_BG }}
         >
-          Take My Full Class
+          {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
         </button>
         <button
           type="button"
           className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors"
           style={{ backgroundColor: SECONDARY_BG }}
         >
-          Pass My Exam
+          {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
         </button>
       </div>
     </div>
