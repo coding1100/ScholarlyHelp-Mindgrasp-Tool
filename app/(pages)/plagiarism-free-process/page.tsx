@@ -16,10 +16,10 @@ const Home: NextPage = () => {
         <HeroSection heroContent={plagiarismFreeContent.heroContent} />
         <OriginalSection />
         <div className="w-full bg-[#565ADD] py-14 px-4 mb-24">
-          <p className="text-[35px] text-white text-center font-bold">
+          <p className="md:text-[35px] sm:text-[28px] text-[24px] text-white text-center font-bold">
             Your Trust Our Commitment
           </p>
-          <p className="text-[17px] text-white text-center font-normal">
+          <p className="text-[17px] text-white text-center font-normal mb-5">
             We protect your academic integrity with a process designed to
             deliver original, high-quality work every time.
           </p>
