@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import HeroWhySliderCard from "@/app/components/reusable/HeroWhySliderCard";
 import icon1 from "@/app/assets/Icons/icon-1.svg";
 import icon2 from "@/app/assets/Icons/icon-2.png";
@@ -100,7 +100,19 @@ function SliderRow({
   );
 }
 
-export default function WhySlider() {
+interface WhySliderProps {
+  whyData?: {
+    mainHeading: string;
+    description: string;
+    sliderItems: {
+      icon: any;
+      text: string;
+      alt: string;
+    }[];
+  };
+}
+
+const WhySlider: FC<WhySliderProps> = ({ whyData }) => {
   const baseItems: SliderItem[] = useMemo(
     () => [
       { icon: icon1, text: "Highly-Skilled Subject Experts", alt: "Experts" },
@@ -144,22 +156,44 @@ export default function WhySlider() {
       <div className="w-full px-6 pb-10 scale-[1.03]">
         <div className="py-10 ">
           <h2 className="text-[42px] mb-2  font-bold text-center text-[#171717]">
-            Why choose Scholarly
+            {whyData?.mainHeading
+              ? whyData.mainHeading
+              : "Why choose Scholarly"}
           </h2>
-          <p className="sm:text-[18px] text-sm text-center text-[#171717]">
-            Scholarly Help offers plenty of services through skilled online
-            class helpers and various subject experts.
+          <p className="sm:text-[18px] text-sm text-center text-[#171717] max-w-[970px] mx-auto">
+            {whyData?.description
+              ? whyData.description
+              : "Scholarly Help offers plenty of services through skilled online class helpers and various subject experts."}
           </p>
         </div>
         <div className="flex flex-col gap-5">
-          <SliderRow items={items} direction="left" intervalMs={4500} />
-          <SliderRow items={items} direction="right" intervalMs={4000} />
-          <SliderRow items={items} direction="left" intervalMs={3500} />
+          <SliderRow
+            items={whyData?.sliderItems ? whyData.sliderItems : items}
+            direction="left"
+            intervalMs={4500}
+          />
+          <SliderRow
+            items={whyData?.sliderItems ? whyData.sliderItems : items}
+            direction="right"
+            intervalMs={4000}
+          />
+          <SliderRow
+            items={whyData?.sliderItems ? whyData.sliderItems : items}
+            direction="left"
+            intervalMs={3500}
+          />
         </div>
-        <div>
-          <button></button>
+        <div className="flex justify-center mt-[60px]">
+          <button
+            type="button"
+            className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
+          >
+            Take my online class
+          </button>
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default WhySlider;
