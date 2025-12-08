@@ -7,15 +7,20 @@ import { IoIosMail } from "react-icons/io";
 import { IoChatbubbles } from "react-icons/io5";
 import { MdPhoneInTalk } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import FormBackImg from "@/app/assets/Images/Hero-Group-195.png";
 
 interface ZohoForm2Props {
   nameValue?: string;
   textAreaRows?: number;
+  formBackImg2?: StaticImageData;
 }
 
-const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
+const HeroForm: FC<ZohoForm2Props> = ({
+  nameValue,
+  textAreaRows = 4,
+  formBackImg2,
+}) => {
   const [formData, setFormData] = useState({
     Email: "",
     Last_Name: "DefaultLastName",
@@ -162,14 +167,22 @@ const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
-
+  console.log(formBackImg2);
   return (
     <div className="relative">
-      <Image
-        src={FormBackImg}
-        alt="bg1"
-        className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
-      />
+      {formBackImg2 ? (
+        <Image
+          src={formBackImg2}
+          alt="bg1"
+          className="min-[1200px]:max-w-[650px] max-w-[550px] cus-img absolute min-[1200px]:right-[-322px] min-[1200px]:top-[-148px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
+        />
+      ) : (
+        <Image
+          src={FormBackImg}
+          alt="bg1"
+          className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+        />
+      )}
       <div className="max-w-[600px] mx-auto cus-div">
         <form
           ref={formRef}
@@ -186,13 +199,13 @@ const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
               value={formData.Email}
               onChange={handleChange}
               required
-              className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
+              className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
             />
             <IoIosMail className="text-[#6B7280] text-xl" />
           </div>
 
           {/* Phone Field */}
-          <div className="flex items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
+          <div className="flex text-black items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
             <input
               type="text"
               id="Phone"
