@@ -17,13 +17,13 @@ const TrustSection = () => {
             {Content.supportContent.description}
           </p>
         </div>
-        <div className="max-w-5xl mx-auto grid grid-cols-4 justify-center items-center">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-4 grid-cols-2 justify-center items-center">
           {Content.supportContent.steps.map((step, index) => (
             <div
               key={index}
-              className="flex flex-col justify-center items-center"
+              className="flex flex-col justify-center items-center md:mb-0 mb-5"
             >
-              <Image src={step.img} alt="" />
+              <Image src={step.img} alt="" className="md:w-auto w-[60px]" />
               <p className="text-[30px] font-bold text-[#493E8E]">
                 {step.title}
               </p>

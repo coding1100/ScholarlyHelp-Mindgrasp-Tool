@@ -9,7 +9,7 @@ const ChooseExpert = () => {
       <div className="max-w-7xl mx-auto text-white">
         {/* Header Section */}
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] font-bold  mb-3 sm:mb-4">
+          <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] font-bold mb-3 sm:mb-4">
             {Content.supportContent.mainHeading}
           </h2>
 
@@ -20,10 +20,13 @@ const ChooseExpert = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {Content.chooseExpertSection.steps.map((step, index) => (
-          <div key={index} className="bg-white px-[83px] py-10">
+          <div
+            key={index}
+            className="bg-white md:px-[83px] sm:px-[40px] px-5 py-10"
+          >
             <div className="flex items-center gap-4">
-              <Image src={step.icon} alt="" />
-              <p className="text-[30px] font-bold text-black leading-[38px]">
+              <Image src={step.icon} alt="" className="w-[60px] " />
+              <p className="md:text-[30px] sm:text-[24px] text-[20px] font-bold text-black md:leading-[38px] sm:leading-[28px] leading-[24px]">
                 {step.title}
               </p>
             </div>

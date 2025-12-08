@@ -155,7 +155,7 @@ const WhySlider: FC<WhySliderProps> = ({ whyData }) => {
     <section className="w-full overflow-hidden mt-[-100px] pt-[110px] pb-[30px] bg-white">
       <div className="w-full px-6 pb-10 scale-[1.03]">
         <div className="py-10 ">
-          <h2 className="text-[42px] mb-2  font-bold text-center text-[#171717]">
+          <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] mb-3 font-bold text-center text-[#171717]">
             {whyData?.mainHeading
               ? whyData.mainHeading
               : "Why choose Scholarly"}
