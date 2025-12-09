@@ -28,7 +28,14 @@ export async function GET(request: NextRequest) {
     const client = new MongoClient(databaseUrl);
     await client.connect();
     const db = client.db('scholarly_help');
-    const query = slug ? { slug } : {};
+    // Query by slug for subject pages, or by id (if slug matches id), or by id: "main" for main page
+    let query;
+    if (slug) {
+      // Try slug first, then try id with the same value
+      query = { $or: [{ slug }, { id: slug }] };
+    } else {
+      query = { id: "main" };
+    }
     const content = await db.collection('assignments').findOne(query);
     await client.close();
 
@@ -53,7 +60,7 @@ export async function POST(request: NextRequest) {
     console.log('Received data, size:', JSON.stringify(body).length, 'characters');
 
     // Exclude _id from the update to prevent immutable field error
-    const { _id, slug, ...updateData } = body;
+    const { _id, slug, id, ...updateData } = body;
 
     const client = new MongoClient(databaseUrl, {
       serverSelectionTimeoutMS: 5000, // 5 second timeout
@@ -67,8 +74,25 @@ export async function POST(request: NextRequest) {
     const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
-    const query = slug ? { slug } : {};
-    const result = await db.collection('assignments').replaceOne(query, updateData, { upsert: true });
+    // Determine query and data to save
+    let query;
+    let dataToSave;
+    
+    if (slug) {
+      // For subject pages: query by slug or id, and ensure both slug and id are set
+      query = { $or: [{ slug }, { id: slug }] };
+      dataToSave = { ...updateData, slug, id: id || slug };
+    } else if (id && id !== "main") {
+      // If id is provided and it's not "main", treat it as a subject page
+      query = { $or: [{ slug: id }, { id }] };
+      dataToSave = { ...updateData, slug: id, id };
+    } else {
+      // Main page
+      query = { id: "main" };
+      dataToSave = { ...updateData, id: "main" };
+    }
+    
+    const result = await db.collection('assignments').replaceOne(query, dataToSave, { upsert: true });
     console.log('Save result:', result);
 
     await client.close();
@@ -84,6 +108,46 @@ export async function POST(request: NextRequest) {
     console.error('Error saving to MongoDB:', error);
     return NextResponse.json({
       error: 'Failed to save data',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500, headers: corsHeaders });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500, headers: corsHeaders });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug');
+
+    if (!slug) {
+      return NextResponse.json({ error: 'Slug is required for deletion' }, { status: 400, headers: corsHeaders });
+    }
+
+    const client = new MongoClient(databaseUrl);
+    await client.connect();
+    const db = client.db('scholarly_help');
+    
+    // Try to delete by slug or id
+    const result = await db.collection('assignments').deleteOne({ $or: [{ slug }, { id: slug }] });
+    await client.close();
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ error: 'Document not found' }, { status: 404, headers: corsHeaders });
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Document deleted successfully',
+      deletedCount: result.deletedCount
+    }, { headers: corsHeaders });
+  } catch (error) {
+    console.error('Error deleting from MongoDB:', error);
+    return NextResponse.json({
+      error: 'Failed to delete data',
       details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500, headers: corsHeaders });
   }
