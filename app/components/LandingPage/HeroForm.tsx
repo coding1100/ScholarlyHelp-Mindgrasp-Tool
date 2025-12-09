@@ -7,15 +7,20 @@ import { IoIosMail } from "react-icons/io";
 import { IoChatbubbles } from "react-icons/io5";
 import { MdPhoneInTalk } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import FormBackImg from "@/app/assets/Images/Hero-Group-195.png";
 
 interface ZohoForm2Props {
   nameValue?: string;
   textAreaRows?: number;
+  formBackImg2?: StaticImageData;
 }
 
-const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
+const HeroForm: FC<ZohoForm2Props> = ({
+  nameValue,
+  textAreaRows = 4,
+  formBackImg2,
+}) => {
   const [formData, setFormData] = useState({
     Email: "",
     Last_Name: "DefaultLastName",
@@ -54,25 +59,39 @@ const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
   useEffect(() => {
     if (!formRef.current) return;
 
+    const checkVisibility = () => {
+      if (!formRef.current) return;
+      const rect = formRef.current.getBoundingClientRect();
+      const windowHeight =
+        window.innerHeight || document.documentElement.clientHeight;
+      // Form is visible if any part of it is in the viewport
+      const visible = rect.top < windowHeight && rect.bottom > 0;
+      setIsFormVisible(visible);
+    };
+
+    // Check initial visibility
+    checkVisibility();
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsFormVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px", // Account for button space at bottom
+      }
     );
 
     observer.observe(formRef.current);
 
-    // Check initial visibility
-    const rect = formRef.current.getBoundingClientRect();
-    const isInitiallyVisible =
-      rect.top >= 0 &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight);
-    setIsFormVisible(isInitiallyVisible);
+    // Also check on scroll for more reliable detection
+    window.addEventListener("scroll", checkVisibility, { passive: true });
+    window.addEventListener("resize", checkVisibility, { passive: true });
 
     return () => {
       observer.disconnect();
+      window.removeEventListener("scroll", checkVisibility);
+      window.removeEventListener("resize", checkVisibility);
     };
   }, []);
 
@@ -129,7 +148,7 @@ const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
         Description: "",
       });
       setLoading(false);
-      router.push('/thank-you');
+      router.push("/thank-you");
     } catch {
       alert("Failed to send request – try again later");
       setLoading(false);
@@ -148,21 +167,28 @@ const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
-
+  console.log(formBackImg2);
   return (
     <div className="relative">
-      <Image
-        src={FormBackImg}
-        alt="bg1"
-        className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
-      />
+      {formBackImg2 ? (
+        <Image
+          src={formBackImg2}
+          alt="bg1"
+          className="min-[1200px]:max-w-[650px] max-w-[550px] cus-img absolute min-[1200px]:right-[-322px] min-[1200px]:top-[-148px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
+        />
+      ) : (
+        <Image
+          src={FormBackImg}
+          alt="bg1"
+          className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+        />
+      )}
       <div className="max-w-[600px] mx-auto cus-div">
         <form
           ref={formRef}
           onSubmit={handleSubmit}
           className="bg-white rounded-lg shadow-sm p-6 flex flex-col gap-4 -z-[999]"
         >
-
           {/* Email Field */}
           <div className="flex items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
             <input
@@ -173,13 +199,13 @@ const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
               value={formData.Email}
               onChange={handleChange}
               required
-              className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
+              className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
             />
             <IoIosMail className="text-[#6B7280] text-xl" />
           </div>
 
           {/* Phone Field */}
-          <div className="flex items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
+          <div className="flex text-black items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
             <input
               type="text"
               id="Phone"
@@ -229,7 +255,7 @@ const HeroForm: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
         <button
           type="button"
           onClick={scrollToForm}
-          className="cursor-pointerfixed bottom-5 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#F56200] hover:bg-[#F56200] shadow-md transition-all duration-200 z-50"
+          className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
         >
           Get My Free, Confidential Quote
         </button>
