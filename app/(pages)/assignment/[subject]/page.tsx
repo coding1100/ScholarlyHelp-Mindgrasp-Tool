@@ -12,33 +12,62 @@ import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
 import GetQoute from "@/app/components/LandingPage/GetQoute";
 import Faq from "@/app/components/LandingPage/Faq";
 import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
-import { assignmentSubjects, getAssignmentContent, isValidAssignmentSubject, AssignmentSubject } from "../subjectContent";
-import { MetaData } from "@/app/metadata/metadata";
+import { assignmentSubjects, isValidAssignmentSubject } from "../subjectContent";
 import { notFound } from "next/navigation";
+import Head from "next/head";
 
-interface PageProps { params: { subject: string; }; }
+interface PageProps { params: { subject: string; }; pageData?: any; }
 
-const Page: React.FC<PageProps> = ({ params }) => {
-  if (!isValidAssignmentSubject(params.subject)) {
+async function fetchPageData(category: string, slug: string) {
+  const response = await fetch(`${process.env.DIRECTUS_URL}/items/pages?filter[category][_eq]=${category}&filter[slug][_eq]=${slug}`);
+  const data = await response.json();
+  return data.data[0];
+}
+
+export async function getServerSideProps(context: any) {
+  const { subject } = context.params;
+  if (!isValidAssignmentSubject(subject)) {
+    return { notFound: true };
+  }
+
+  const pageData = await fetchPageData('assignment', subject);
+
+  if (!pageData || pageData.status !== 'published') {
+    return { notFound: true };
+  }
+
+  return {
+    props: { pageData },
+  };
+}
+
+const Page: React.FC<PageProps> = ({ pageData }) => {
+  if (!pageData) {
     notFound();
   }
 
   return (
-    <MainLayout>
-      <HeroSection />
-      <Ratings />
-      <WhySlider />
-      <CardCarousel />
-      <Description />
-      <GuaranteedBlock />
-      <CustomerReviews />
-      <ProcessSection />
-      <Success />
-      <Subjects />
-      <AcademicPartners />
-      <GetQoute />
-      <Faq />
-    </MainLayout>
+    <>
+      <Head>
+        <title>{pageData.meta_title || pageData.title}</title>
+        <meta name="description" content={pageData.meta_description} />
+      </Head>
+      <MainLayout>
+        <HeroSection />
+        <Ratings />
+        <WhySlider />
+        <CardCarousel />
+        <Description />
+        <GuaranteedBlock />
+        <CustomerReviews />
+        <ProcessSection />
+        <Success />
+        <Subjects />
+        <AcademicPartners />
+        <GetQoute />
+        <Faq />
+      </MainLayout>
+    </>
   );
 };
 
@@ -52,11 +81,10 @@ export function generateMetadata({ params }: { params: { subject: string } }) {
   const subjectTitle = params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, " ");
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}assignment/${params.subject}`;
-  const metadata = MetaData[params.subject as keyof typeof MetaData];
 
   return {
-    title: metadata ? metadata.title : `${subjectTitle} Assignment Help - Professional Assistance`,
-    description: metadata ? metadata.description : `Get expert help with your ${params.subject.replace(/-/g, " ")} assignment.`,
+    title: `${subjectTitle} Assignment Help - Professional Assistance`,
+    description: `Get expert help with your ${params.subject.replace(/-/g, " ")} assignment.`,
     alternates: { canonical: canonicalUrl },
   };
 }

@@ -15,17 +15,21 @@ export async function OPTIONS() {
   return new NextResponse(null, { headers: corsHeaders });
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
     }
 
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug');
+
     const client = new MongoClient(databaseUrl);
     await client.connect();
     const db = client.db('scholarly_help');
-    const content = await db.collection('assignments').findOne({});
+    const query = slug ? { slug } : {};
+    const content = await db.collection('assignments').findOne(query);
     await client.close();
 
     return NextResponse.json(content || {}, { headers: corsHeaders });
@@ -49,7 +53,7 @@ export async function POST(request: NextRequest) {
     console.log('Received data, size:', JSON.stringify(body).length, 'characters');
 
     // Exclude _id from the update to prevent immutable field error
-    const { _id, ...updateData } = body;
+    const { _id, slug, ...updateData } = body;
 
     const client = new MongoClient(databaseUrl, {
       serverSelectionTimeoutMS: 5000, // 5 second timeout
@@ -63,7 +67,8 @@ export async function POST(request: NextRequest) {
     const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
-    const result = await db.collection('assignments').replaceOne({}, updateData, { upsert: true });
+    const query = slug ? { slug } : {};
+    const result = await db.collection('assignments').replaceOne(query, updateData, { upsert: true });
     console.log('Save result:', result);
 
     await client.close();
