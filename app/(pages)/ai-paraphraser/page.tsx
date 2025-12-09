@@ -11,7 +11,6 @@ import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
 interface PageProps {}
 const Page: FC<PageProps> = ({}) => {
-  // return <div>test</div>
   return (
     <>
       <ThemeToggle />
