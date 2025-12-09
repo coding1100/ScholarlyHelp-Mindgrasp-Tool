@@ -9,11 +9,11 @@ const ToolHeader: React.FC = () => {
   const currentPath = usePathname();
 
   return (
-    <header className="relative flex h-[8vh] items-center justify-between px-4 ">
+    <header className="relative flex h-[8vh] items-center justify-between px-4 bg-white dark:bg-gray-900 border-b dark:border-gray-700 transition-colors duration-300">
       <div></div>
       {/* Centered Title */}
 
-      <h1 className="md:text-xl font-semibold text-gray-800">
+      <h1 className="md:text-xl font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300">
         {currentPath === "/tools/paraphraser-tool/"
           ? "AI Paraphraser Tool"
           : currentPath === "/tools/summarizer-tool/"
@@ -30,7 +30,7 @@ const ToolHeader: React.FC = () => {
       <button
         type="button"
         onClick={() => setShowPricing(true)}
-        className="flex font-sans items-center justify-center gap-2 rounded-lg bg-indigo-600 pl-3 pr-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="flex font-sans items-center justify-center gap-2 rounded-lg bg-indigo-600 dark:bg-indigo-700 pl-3 pr-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 dark:hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-colors duration-300"
       >
         <LuZap className="h-4 w-4 text-white" />
         See Pricing

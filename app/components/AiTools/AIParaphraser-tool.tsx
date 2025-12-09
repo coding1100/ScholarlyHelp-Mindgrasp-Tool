@@ -137,12 +137,12 @@ const AIParaphraser: FC<AIParaphraserProp> = ({ setFlag }) => {
 
   return (
     <div className="container overflow-y-auto h-[90vh] mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl">
-      <div className="bg-white border  overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 overflow-hidden transition-colors duration-300">
         {/* ---------- main two‑column layout ---------- */}
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* --- left column : input --- */}
 
-          <div className="border-r">
+          <div className="border-r dark:border-gray-700">
             <TextSummarizerInput
               title="AI Paraphraser"
               initialText={inputText}
@@ -151,15 +151,18 @@ const AIParaphraser: FC<AIParaphraserProp> = ({ setFlag }) => {
               onWordLimitExceeded={setWordLimitExceeded}
             />
 
-            <div className="px-2 md:px-4 py-4 flex items-center justify-between space-x-3 border-b">
-              <label htmlFor="style" className="font-medium text-gray-700">
+            <div className="px-2 md:px-4 py-4 flex items-center justify-between space-x-3 border-b dark:border-gray-700">
+              <label
+                htmlFor="style"
+                className="font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
                 Paraphrase Style:
               </label>
               <select
                 id="style"
                 value={style}
                 onChange={(e) => setStyle(e.target.value)}
-                className="p-1 border w-[50%] border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer "
+                className="p-1 border w-[50%] border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300"
               >
                 <option>Standard</option>
                 <option>Creative</option>
@@ -186,7 +189,7 @@ const AIParaphraser: FC<AIParaphraserProp> = ({ setFlag }) => {
           />
         </div>
       </div>
-      <div className="text-sm font-serif  text-center pt-8 text-gray-500">
+      <div className="text-sm font-serif text-center pt-8 text-gray-500 dark:text-gray-400 transition-colors duration-300">
         <q>
           Finding it hard to rephrase your ideas effectively? ScholarlyHelp
           offers a powerful AI-driven paraphrasing tool designed to rewrite your
