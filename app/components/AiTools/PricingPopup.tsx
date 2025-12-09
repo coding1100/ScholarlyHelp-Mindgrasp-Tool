@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { FaRegClock, FaDatabase } from "react-icons/fa";
 import axiosInstance from "@/app/axios";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 interface PricingPlan {
   name: string;
@@ -103,7 +104,7 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         plan: planName,
       };
 
-      const response = await axiosInstance.post(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_NGROX_URL}/v1/billing/create-checkout`,
         payload,
         {

@@ -11,6 +11,7 @@ import { FiTool } from "react-icons/fi";
 import AccountPopover from "./AccountPopover";
 import UsageAndPricing from "./UsageAndPricing";
 import PromptModal from "./PromptModal";
+import axios from "axios";
 
 interface SidebarProps {
   onToggle?: () => void;
@@ -41,7 +42,6 @@ const MTSidebar = ({
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const accessToken =
     typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
-  console.log("Access Token is here", accessToken);
   const isVerifying = useRef(false);
   const [userToggled, setUserToggled] = useState(false);
   const [showPopover, setShowPopover] = useState(false);
@@ -97,8 +97,13 @@ const MTSidebar = ({
 
       isVerifying.current = true;
       try {
-        const response = await axiosInstance.get(
-          `${process.env.NEXT_PUBLIC_NGROX_URL}/auth/verify-token`
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_NGROX_URL}/auth/verify-token`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         console.log("Token verification response:", response);
       } catch (error) {
@@ -142,13 +147,13 @@ const MTSidebar = ({
   return (
     <aside
       className={
-        "relative flex h-[100vh] w-60 flex-col space-y-2 border-r bg-gray-100 p-4 font-sans"
+        "relative flex h-[100vh] w-60 flex-col space-y-2 border-r dark:border-gray-700 bg-gray-100 dark:bg-gray-800 p-4 font-sans text-black dark:text-gray-200 transition-colors duration-300"
       }
     >
       {/* 1. User Profile Section */}
       <div className="relative">
         <div
-          className="flex items-center w-full gap-2 cursor-pointer hover:bg-gray-300 rounded-md"
+          className="flex items-center w-full gap-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 rounded-md transition-colors duration-300"
           // ref={profileRef}
           onClick={() => setShowPopover((prev) => !prev)}
         >
@@ -162,21 +167,21 @@ const MTSidebar = ({
               className="rounded-full object-cover"
             />
           ) : (
-            <div className="w-8 h-8 flex items-center justify-center bg-indigo-200 text-indigo-700 font-bold rounded-full text-sm uppercase">
+            <div className="w-8 h-8 flex items-center justify-center bg-indigo-200 dark:bg-indigo-700 text-indigo-700 dark:text-indigo-200 font-bold rounded-full text-sm uppercase">
               {userName.charAt(0)}
             </div>
           )}
-          <span className="text-md font-semibold text-gray-800">
+          <span className="text-md font-semibold text-gray-800 dark:text-gray-200">
             {userName}
           </span>
           {/* </div> */}
 
-          <span className="text-gray-500 hover:text-gray-800">
+          <span className="text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
             <HiOutlineChevronUpDown className="h-4 w-4" />
           </span>
           <button
             onClick={onToggle}
-            className="text-gray-500 block lg:hidden hover:text-gray-800"
+            className="text-gray-500 dark:text-gray-400 block lg:hidden hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
           >
             <BiChevronsLeft className="h-5 w-5" />
           </button>
@@ -214,7 +219,7 @@ const MTSidebar = ({
       </button> */}
       <div>
         <button
-          className="flex w-full cursor-pointer items-center gap-3 px-3 py-1 text-sm transition-colors bg-white hover:bg-white "
+          className="flex w-full cursor-pointer items-center gap-3 px-3 py-1 text-sm transition-colors bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md"
           onClick={() => setShowTools((prev) => !prev)}
         >
           <FiTool className="h-5 w-5" />
@@ -226,10 +231,10 @@ const MTSidebar = ({
             <Link
               key={index}
               href={tool.href}
-              className={` py-1 px-2 text-sm ${
+              className={` py-1 px-2 text-sm rounded-md transition-colors ${
                 currentRoute === tool.href
-                  ? "font-semibold "
-                  : " hover:bg-gray-200"
+                  ? "font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
+                  : " hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
               }`}
             >
               {tool.name}

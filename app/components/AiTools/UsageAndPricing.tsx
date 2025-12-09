@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { LuZap } from "react-icons/lu";
 import PricingPopup from "./PricingPopup";
 import axiosInstance from "@/app/axios";
+import axios from "axios";
 
 interface UsageAndPricingProps {
   setFlag: (value: boolean) => void;
@@ -10,12 +12,17 @@ interface UsageAndPricingProps {
 }
 
 const UsageAndPricing: React.FC<UsageAndPricingProps> = ({ setFlag, flag }) => {
+  const router = useRouter();
   const user_id =
     typeof window !== "undefined" ? localStorage.getItem("user_id") : null;
 
   const [showPricing, setShowPricing] = useState(false);
   const [totalTokens, setTotalTokens] = useState<number>(0);
   const [usedTokens, setUsedTokens] = useState<number>(0);
+  let accessToken: string | null = null;
+  if (typeof window !== "undefined") {
+    accessToken = localStorage.getItem("access_token");
+  }
 
   // Calculate usage percentage with proper fallbacks
   const usagePercentage =
@@ -30,8 +37,13 @@ const UsageAndPricing: React.FC<UsageAndPricingProps> = ({ setFlag, flag }) => {
 
   const fetchTokenUsage = async () => {
     try {
-      const response = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_NGROX_URL}/users/token-usage`
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_NGROX_URL}/users/token-usage`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
       console.log("✅ Token usage response:", response.data);
@@ -48,6 +60,13 @@ const UsageAndPricing: React.FC<UsageAndPricingProps> = ({ setFlag, flag }) => {
         statusText: error?.response?.statusText,
         data: error?.response?.data,
       });
+
+      // Handle unauthorized (401) - redirect to /login
+      if (error?.response?.status === 401) {
+        console.log("🔄 Unauthorized - redirecting to /login");
+        router.push("/sign-in");
+        return;
+      }
 
       // Production-level fallback: Set default token values for Google OAuth users
       if (

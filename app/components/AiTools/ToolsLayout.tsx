@@ -25,37 +25,19 @@ const ToolsLayout: React.FC<ToolsLayoutProps> = ({
   const [checked, setChecked] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // useEffect(() => {
-  //   const t = localStorage.getItem("access_token");
-  //   if (!t) {
-  //     router.push("/sign-in");
-  //   } else {
-  //     setToken(t);
-  //   }
-  //   setChecked(true);
-  // }, [router]);
-
-  // if (!checked) {
-  //   return (
-  //     <div className="flex-1 flex items-center justify-center">Loading...</div>
-  //   );
-  // }
-
-  // if (!token) return null;
-
   return (
-    <div className="h-screen w-full flex flex-col relative">
+    <div className="h-screen w-full flex flex-col relative bg-white dark:bg-gray-900 transition-colors duration-300">
       {/* Mobile menu button */}
       <button
-        className="lg:hidden fixed top-10 left-2 z-50 p-0.5 bg-white border rounded-md"
+        className="lg:hidden fixed top-10 left-2 z-50 p-0.5 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
         onClick={() => setSidebarOpen(true)}
       >
-        <BiChevronsRight className="h-5 w-5 text-gray-700" />
+        <BiChevronsRight className="h-5 w-5 text-gray-700 dark:text-gray-300" />
       </button>
 
       <div className="flex flex-1 h-full">
         {/* Desktop Sidebar */}
-        <div className="w-60 flex-shrink-0 bg-white hidden lg:block">
+        <div className="w-60 flex-shrink-0 bg-white dark:bg-gray-800 hidden lg:block transition-colors duration-300">
           {/* <div className="py-3 sm:px-10 px-7 flex justify-between xl:container w-full flex-wrap sm:flex-nowrap bg-gray-50 border">
             <div className="flex items-center ">
               <Link href="/">
@@ -79,11 +61,11 @@ const ToolsLayout: React.FC<ToolsLayoutProps> = ({
         {sidebarOpen && (
           <>
             <div
-              className="fixed inset-0 z-40 bg-black bg-opacity-40"
+              className="fixed inset-0 z-40 bg-black bg-opacity-40 dark:bg-opacity-60"
               onClick={() => setSidebarOpen(false)}
             ></div>
-            <div className="fixed top-0 left-0 z-50 w-60 h-full">
-              <div className="flex items-center justify-center bg-gray-50 border p-2 lg:p-0">
+            <div className="fixed top-0 left-0 z-50 w-60 h-full bg-white dark:bg-gray-800 transition-colors duration-300">
+              <div className="flex items-center justify-center bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 p-2 lg:p-0">
                 <Link href="/">
                   <Image
                     src={LogoNormal}
@@ -102,7 +84,7 @@ const ToolsLayout: React.FC<ToolsLayoutProps> = ({
         )}
 
         {/* Tool content */}
-        <div className="flex-1  h-screen">
+        <div className="flex-1 h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
           {/* {children} */}
           <ToolHeader />
           {React.cloneElement(children as React.ReactElement, { token })}
