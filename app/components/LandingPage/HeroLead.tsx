@@ -57,43 +57,33 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
           </>
         )}
       </h1>
-      {heroContent ? (
-        <div className="mt-6">
-          {heroContent?.subHeading && (
-            <p
-              className="text-black font-semibold text-[19px]"
-              dangerouslySetInnerHTML={{ __html: heroContent.subHeading }}
-            />
-          )}
-          {heroContent?.description && (
-            <div
-              className="text-[#263238] text-[16px] mt-3"
-              dangerouslySetInnerHTML={{ __html: heroContent.description }}
-            />
-          )}
+      <div className="mt-6 flex flex-col items-start gap-3">
+        <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+          <CheckBadge />
+          <span className="sm:text-[16px] text-[14px] text-[#111318]">
+            {heroContent?.subHeading || "Free Up 20+ Hours/week"}  
+          </span>
         </div>
-      ) : (
-        <div className="mt-6 flex flex-col items-start gap-3">
-          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-            <CheckBadge />
-            <span className="sm:text-[16px] text-[14px] text-[#111318]">
-              Free Up 20+ Hours/week
-            </span>
-          </div>
-          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-            <CheckBadge />
-            <span className="sm:text-[16px] text-[14px] text-[#111318]">
-              24/7 support
-            </span>
-          </div>
-          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-            <CheckBadge />
-            <span className="sm:text-[16px] text-[14px] text-[#111318]">
-              100% Confidential
-            </span>
-          </div>
+        <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+          <CheckBadge />
+          <span className="sm:text-[16px] text-[14px] text-[#111318]">
+            24/7 support  
+          </span>
         </div>
-      )}
+        <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+          <CheckBadge />
+          <span className="sm:text-[16px] text-[14px] text-[#111318]">
+            100% Confidential  
+          </span>
+        </div>
+      </div>
+      
+      {/* {heroContent?.description && (
+        <div
+          className="text-[#263238] text-[16px] mt-3"
+          dangerouslySetInnerHTML={{ __html: heroContent.description }}
+        />
+      )} */}
 
       <div className="mt-6 flex gap-4">
         <button

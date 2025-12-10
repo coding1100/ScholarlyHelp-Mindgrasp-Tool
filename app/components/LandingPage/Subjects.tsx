@@ -3,8 +3,12 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { useMemo } from "react";
 
 export default function SubjectsSection() {
+  const data = useAssignmentData();
+  const subjectsData = data?.subjects;
   const currentPage = usePathname();
   const basePath = currentPage.split("/").slice(0, 2).join("/");
 
@@ -17,7 +21,13 @@ export default function SubjectsSection() {
 
   const isHomePage = currentPage === "/";
 
-  const subjects = [
+  type SubjectType = {
+    src: string;
+    label: string;
+    url: string;
+  };
+
+  const defaultSubjects: SubjectType[] = [
     {
       src: "/assets/Icon/english.png",
       label: "English",
@@ -71,21 +81,43 @@ export default function SubjectsSection() {
       url: `${basePath}/philosophy`,
     },
   ];
+  
+  // Use MongoDB subjects if available, otherwise use default
+  const subjects = useMemo(() => {
+    if (subjectsData?.subjectsContent && Array.isArray(subjectsData.subjectsContent) && subjectsData.subjectsContent.length > 0) {
+      return subjectsData.subjectsContent.map((item: any) => {
+        // Extract slug from URL if available
+        let url = item.url || '';
+        if (url && !url.startsWith('/')) {
+          url = `${basePath}${url.startsWith('/') ? '' : '/'}${url}`;
+        } else if (!url && item.title) {
+          // Generate URL from title if not provided
+          const slug = item.title.toLowerCase().replace(/\s+/g, '-');
+          url = `${basePath}/${slug}`;
+        }
+        
+        return {
+          src: item.icon || "/assets/Icon/english.png",
+          label: item.title || '',
+          url: url
+        };
+      }).filter((s: any) => s.label); // Filter out items without labels
+    }
+    return defaultSubjects;
+  }, [subjectsData, basePath]);
 
   return (
     <section className="pt-[86px] pb-16 bg-[#ECECFC] text-[#2B1C51]">
       <div className="max-w-7xl mx-auto max-[1320px]:px-8 text-center">
         <h2 className="text-[42px] text-[#000] font-bold mb-3">
-          Subjects & Majors We Cover
+          {subjectsData?.mainHeading || "Subjects & Majors We Cover"}
         </h2>
         <p className="sm:text-base text-sm text-gray-600 max-w-3xl mx-auto mb-12">
-          Beyond the subjects listed below, we excel at handling diverse topics
-          effectively. Our expertise knows no bounds, ensuring we’re ready for
-          any challenge that comes our way.
+          {subjectsData?.description || "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way."}
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-12">
-          {subjects.map((subject, index) =>
+          {subjects.map((subject: SubjectType, index: number) =>
             subject.url ? (
               <Link key={index} href={subject.url}>
                 <div className="bg-[#F2F2FD] rounded-lg p-6 h-[200px] flex flex-col items-center justify-center cursor-pointer">
