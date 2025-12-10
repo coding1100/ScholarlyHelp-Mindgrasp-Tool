@@ -24,17 +24,43 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const slug = searchParams.get('slug');
+    const listAll = searchParams.get('list') === 'all';
 
     const client = new MongoClient(databaseUrl);
     await client.connect();
     const db = client.db('scholarly_help');
-    // Query by slug for subject pages, or by id (if slug matches id), or by id: "main" for main page
+    
+    // If list=all, return all assignment pages
+    if (listAll) {
+      const pages = await db.collection('assignments').find({}).toArray();
+      await client.close();
+      return NextResponse.json({ pages }, { headers: corsHeaders });
+    }
+    
+    // Query by slug for subject pages, or by id (if slug matches id), or by id: "assignment_page" for main page
     let query;
     if (slug) {
-      // Try slug first, then try id with the same value
-      query = { $or: [{ slug }, { id: slug }] };
+      // Handle different slug formats
+      let slugVariations = [slug];
+      
+      // If slug is like "assignment_english", also try "english"
+      if (slug.startsWith('assignment_')) {
+        slugVariations.push(slug.replace('assignment_', ''));
+      } else {
+        // If slug is like "english", also try "assignment_english"
+        slugVariations.push(`assignment_${slug}`);
+      }
+      
+      // Build query to match any variation
+      const orConditions = [];
+      for (const variation of slugVariations) {
+        orConditions.push({ slug: variation });
+        orConditions.push({ id: variation });
+      }
+      query = { $or: orConditions };
     } else {
-      query = { id: "main" };
+      // Query for main assignment page - try both "main" and "assignment_page" for backward compatibility
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
     }
     const content = await db.collection('assignments').findOne(query);
     await client.close();
@@ -78,18 +104,28 @@ export async function POST(request: NextRequest) {
     let query;
     let dataToSave;
     
-    if (slug) {
+    // Use the id from the body to determine the page type
+    if (id === "assignment_page") {
+      // Main assignment page
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
+      dataToSave = { ...updateData, id: "assignment_page", pageType: "assignment_page" };
+    } else if (id && id.startsWith("assignment_")) {
+      // Subject pages like assignment_english, assignment_math, etc.
+      const subjectSlug = id.replace("assignment_", "");
+      query = { $or: [{ id }, { slug: subjectSlug }, { id: subjectSlug }] };
+      dataToSave = { ...updateData, id, slug: slug || subjectSlug, pageType: "assignment_page" };
+    } else if (slug) {
       // For subject pages: query by slug or id, and ensure both slug and id are set
       query = { $or: [{ slug }, { id: slug }] };
-      dataToSave = { ...updateData, slug, id: id || slug };
+      dataToSave = { ...updateData, slug, id: id || slug, pageType: "assignment_page" };
     } else if (id && id !== "main") {
       // If id is provided and it's not "main", treat it as a subject page
       query = { $or: [{ slug: id }, { id }] };
-      dataToSave = { ...updateData, slug: id, id };
+      dataToSave = { ...updateData, slug: id, id, pageType: "assignment_page" };
     } else {
-      // Main page
-      query = { id: "main" };
-      dataToSave = { ...updateData, id: "main" };
+      // Default to assignment_page
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
+      dataToSave = { ...updateData, id: "assignment_page", pageType: "assignment_page" };
     }
     
     const result = await db.collection('assignments').replaceOne(query, dataToSave, { upsert: true });

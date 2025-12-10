@@ -1,14 +1,18 @@
 // app/components/ThreeDCarousel.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 const proof5 = "/images/proof-3.webp";
 const proof1 = "/images/proof-2.webp";
 const proof2 = "/images/proof-2.webp";
 const proof4 = "/images/proof-3.webp";
 
 export default function ThreeDCarousel() {
+  const data = useAssignmentData();
+  const success = data?.success;
+  
   const scrollToQuote = () => {
     const quoteForm = document.getElementById('quote-form');
     if (quoteForm) {
@@ -18,12 +22,19 @@ export default function ThreeDCarousel() {
 
   const [active, setActive] = useState(0);
 
-  const slides = [
+  const defaultSlides = [
     { id: 0, image: proof1 },
     { id: 1, image: proof2 },
     { id: 2, image: proof4 },
-    { id: 2, image: proof5 },
+    { id: 3, image: proof5 },
   ];
+  
+  const slides = useMemo(() => {
+    if (success?.slides && Array.isArray(success.slides) && success.slides.length > 0) {
+      return success.slides;
+    }
+    return defaultSlides;
+  }, [success]);
 
   // Auto-slide every 8 seconds
   useEffect(() => {
@@ -38,11 +49,10 @@ export default function ThreeDCarousel() {
       <div className="max-w-6xl max-[992px]:max-w-4xl mx-auto">
         <div className="py-10 ">
           <h2 className="text-[42px] mb-[20px] text-[#000] font-bold text-center">
-            What Success Looks Like
+            {success?.mainHeading || "What Success Looks Like"}
           </h2>
           <p className="sm:text-[18px] text-sm text-center">
-            From exams and essays to full-class management, we handle it all so
-            you don’t have to.
+            {success?.description || "From exams and essays to full-class management, we handle it all so you don't have to."}
           </p>
         </div>
         <div
@@ -108,7 +118,7 @@ export default function ThreeDCarousel() {
           onClick={scrollToQuote}
           className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
         >
-          Take my online class
+          {success?.ctaButton?.text || "Take my online class"}
         </button>
       </div>
     </section>

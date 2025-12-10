@@ -1,11 +1,12 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import React from "react";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 
 // Icons & Images
 import Trustpilot from "@/app/assets/Images/Trustpilot.webp";
@@ -626,8 +627,23 @@ interface CustomerReviewsProps {
 }
 
 const CustomerReviews: FC<CustomerReviewsProps> = ({
-  btnText = "Place an Order Now",
+  btnText: propBtnText,
 }) => {
+  const data = useAssignmentData();
+  const customerReviews = data?.customerReviews;
+  const btnText = propBtnText || customerReviews?.ctaButton?.text || "Place an Order Now";
+  
+  // Use MongoDB reviews if available
+  const mongoReviews = useMemo(() => {
+    if (customerReviews?.reviews && Array.isArray(customerReviews.reviews) && customerReviews.reviews.length > 0) {
+      return customerReviews.reviews.map((review: any, index: number) => ({
+        id: review.id || index + 1,
+        title: review.title || '',
+        description: review.description || ''
+      }));
+    }
+    return null;
+  }, [customerReviews]);
   // Filter out negative reviews and remove duplicates
   const getUniqueReviews = () => {
     const negativeKeywords = [
@@ -662,7 +678,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     return uniqueReviews;
   };
 
-  const displayedReviews = getUniqueReviews();
+  const displayedReviews = mongoReviews || getUniqueReviews();
 
   // Group reviews into chunks of 6 (3 columns x 2 rows per slide)
   const groupedReviews = [];
@@ -697,13 +713,18 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
       <div className="max-w-7xl mx-auto pt-2 pb-3  max-[1320px]:px-8">
         {/* Header */}
         <h2 className="font-bold text-[#000] text-center text-[42px]  mb-3">
-          How Students Rate Us!
+          {customerReviews?.mainHeading || "How Students Rate Us!"}
         </h2>
         {/* <p className="md:text-5xl text-2xl text-[#00B67A] text-center mt-2">
           Excellent
         </p> */}
 
         {/* Trustpilot Rating */}
+        {customerReviews?.trustpilotRating && (
+          <p className="text-center text-gray-600 mb-4">
+            {customerReviews.trustpilotRating}
+          </p>
+        )}
         <div className="flex justify-center items-center gap-2 mt-4">
           <div className="flex items-end gap-1">
             <Image src={Trustpilot} alt="Trustpilot" className="md:w-10 w-8" />
@@ -712,7 +733,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
           <Image src={StarGroup} alt="5 Stars" className="max-w-32" />
         </div>
         <p className="text-[#7d7d7d] text-center mt-2">
-          Rated 4.6/5 Based on 1000+ Reviews
+          {customerReviews?.trustpilotRating || "Rated 4.6/5 Based on 1000+ Reviews"}
         </p>
 
         {/* Desktop Slider - 3 cards per row, 2 rows per slide */}
