@@ -14,7 +14,14 @@ export default function ReviewRatings() {
   const data = useAssignmentData();
   const ratings = data?.ratings;
   
-  const defaultPlatforms = [
+  type PlatformType = {
+    name: string;
+    rating: string;
+    stars: number;
+    logo: string | any;
+  };
+
+  const defaultPlatforms: PlatformType[] = [
     { name: "Sitejabber", rating: "4.9", stars: 4.5, logo: sitejabberLogo },
     { name: "Google Reviews", rating: "4.8", stars: 4.5, logo: googleLogo },
     { name: "Trustpilot", rating: "4.9", stars: 4.5, logo: trustpilotLogo },
@@ -44,7 +51,7 @@ export default function ReviewRatings() {
         className="max-w-7xl container py-6 px-12 rounded-lg lg:flex justify-between grid grid-cols-2 gap-6 bg-[#fff] "
         style={{ boxShadow: " 0px 11px 32px 0px #DFE5FF " }}
       >
-        {platforms.map((platform, index) => {
+        {platforms.map((platform: PlatformType, index: number) => {
           const starCount = Math.floor(platform.stars);
           const hasHalfStar = platform.stars % 1 >= 0.5;
           

@@ -76,6 +76,12 @@ const Faq: FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [showMore, setShowMore] = useState(false);
   
+  type FaqItemType = {
+    id: number | string;
+    question: string;
+    answer: string;
+  };
+
   const faqItems = useMemo(() => {
     if (faq?.faqs && Array.isArray(faq.faqs) && faq.faqs.length > 0) {
       return faq.faqs.map((item: any) => ({
@@ -106,7 +112,7 @@ const Faq: FC = () => {
 
         {/* Mobile & Tablet View (Grid with Show More) */}
         <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {displayedFaqs.map((item, i) => (
+          {displayedFaqs.map((item: FaqItemType, i: number) => (
             <div
               key={item.id}
               className={`transition-all duration-500 rounded-md border p-5 max-[992px]:p-2 ${
@@ -149,7 +155,7 @@ const Faq: FC = () => {
 
         {/* Desktop View (Full Grid, No Show More) */}
         <div className="hidden lg:grid grid-cols-2 gap-6">
-          {faqItems.map((item, i) => (
+          {faqItems.map((item: FaqItemType, i: number) => (
             <div
               key={item.id}
               className={`transition-all duration-500 rounded-md border p-5 max-[992px]:p-2 ${

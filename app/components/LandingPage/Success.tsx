@@ -22,7 +22,12 @@ export default function ThreeDCarousel() {
 
   const [active, setActive] = useState(0);
 
-  const defaultSlides = [
+  type SlideType = {
+    id?: number | string;
+    image: string;
+  };
+
+  const defaultSlides: SlideType[] = [
     { id: 0, image: proof1 },
     { id: 1, image: proof2 },
     { id: 2, image: proof4 },
@@ -59,7 +64,7 @@ export default function ThreeDCarousel() {
           className="relative max-[992px]:h-[400px] max-[768px]:h-[250px] max-[480px]:h-[150px] lg:h-[500px]"
           style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
         >
-          {slides.map((slide, i) => {
+          {slides.map((slide: SlideType, i: number) => {
             const next = (active + 1) % slides.length;
             const prev = (active + slides.length - 1) % slides.length;
 
@@ -100,7 +105,7 @@ export default function ThreeDCarousel() {
 
           {/* Pagination Dots */}
           <div className="absolute hidden -bottom-12 left-0 right-0 flex justify-center space-x-3">
-            {slides.map((_, i) => (
+            {slides.map((_: SlideType, i: number) => (
               <button
                 key={i}
                 onClick={() => setActive(i)}
