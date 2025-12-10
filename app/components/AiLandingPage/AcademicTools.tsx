@@ -1,0 +1,74 @@
+import Image from "next/image";
+import { FC } from "react";
+import RoundCheckIcon from "@/app/assets/Icons/roundCheck.png";
+import { Link } from "lucide-react";
+
+interface AcademicToolsProps {
+  content: {
+    heading1: string;
+    description1: string;
+    heading2: string;
+    description2: string;
+    tools: {
+      title: string;
+      description: string;
+      list: string[];
+      text: string;
+      btnText: string;
+      btnUrl: string;
+    }[];
+  };
+}
+
+const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
+  return (
+    <section className="w-full bg-white py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8">
+      {/* Header Section */}
+      <div className="text-center mb-8 sm:mb-14 md:mb-16 max-w-[895px] mx-auto">
+        <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] font-bold text-black mb-3 sm:mb-7 leading-[60px]">
+          {content.heading1}
+        </h2>
+        <p className="text-[14px] sm:text-[15px] md:text-[16px] font-normal text-[#263238] max-w-4xl mx-auto px-4 sm:px-0">
+          {content.description1}
+        </p>
+      </div>
+      <div className="text-center mb-8 sm:mb-10 md:mb-12 max-w-[895px] mx-auto">
+        <h2 className="text-[22px] sm:text-[28px] md:text-[30px] lg:text-[40px] font-bold text-black mb-3 sm:mb-7 leading-[60px]">
+          {content.heading2}
+        </h2>
+        <p className="text-[14px] sm:text-[15px] md:text-[16px] font-normal text-[#263238] max-w-4xl mx-auto px-4 sm:px-0">
+          {content.description2}
+        </p>
+      </div>
+      <div className="grid grid-cols-2 gap-14 max-w-7xl mx-auto">
+        {content.tools.map((tool, index) => (
+          <div
+            key={index}
+            className="col-span-1 px-7 pb-6 pt-10 border-[3px] border-[#D9D9D9] rounded-2xl relative z-20"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.15) 8px 8px 0px" }}
+          >
+            {/* <div className="absolute bg-[#D9D9D9] h-full w-full rounded-2xl -z-30 top-[10px] left-[10px]"></div> */}
+            <p className="text-[40px] font-bold mb-3">{tool.title}</p>
+            <p className="text-[17px] text-[#263238] mb-8">
+              {tool.description}
+            </p>
+            {tool.list.map((item, i) => (
+              <div key={i} className="flex items-start gap-4 mb-5">
+                <Image src={RoundCheckIcon} alt="icon" width={26} height={24} />
+                <p className="text-[17px] font-bold text-[#263238]">{item}</p>
+              </div>
+            ))}
+            <div className="px-9 py-5 bg-[#EDEFFE] rounded-[5px] mb-[17px]">
+              <p className="text-[15px] text-[#263238]">{tool.text}</p>
+            </div>
+            <button className="bg-[#9F92EC] text-center w-full rounded-md px-5 py-3 sm:text-lg text-sm font-medium text-white shadow-sm transition-colors">
+              {tool.btnText}
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default AcademicTools;
