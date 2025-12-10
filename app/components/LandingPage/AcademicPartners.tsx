@@ -2,11 +2,21 @@
 
 import Image from "next/image";
 import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 export default function AcademicPartners() {
   const data = useAssignmentData();
   const academicPartners = data?.academicPartners;
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 1450);
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
   
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
@@ -23,6 +33,12 @@ export default function AcademicPartners() {
     { id: 5, title: "100% Confidentiality Guarantee", description: "Failing behind on assignments? Let us step in. When you ask us to do my online class for me, we make sure your coursework gets done right — and on time." }
   ];
   
+  type CardType = {
+    id?: number | string;
+    title?: string;
+    description?: string;
+  };
+
   const cards = useMemo(() => {
     if (academicPartners?.cards && Array.isArray(academicPartners.cards) && academicPartners.cards.length > 0) {
       return academicPartners.cards;
@@ -63,8 +79,8 @@ export default function AcademicPartners() {
           />
 
           {/* Cards from MongoDB */}
-          {cards.map((card, index) => {
-            const rotations = [3, -9, 6, -6, 0];
+          {cards.map((card: CardType, index: number) => {
+            const rotations = isMobile ? [0, 0, 0, 0, 0] : [3, -9, 6, -6, 0];
             const positions = [
               { top: 30, left: 54 },
               { top: 2, right: 80 },
@@ -93,7 +109,6 @@ export default function AcademicPartners() {
                 style={{
                   backgroundColor: bgColor,
                   transform: `rotate(${rotation}deg)`,
-                  ...(position.top !== undefined && { top: `${position.top}px` }),
                   ...(position.left !== undefined && { left: `${position.left}px` }),
                   ...(position.right !== undefined && { right: `${position.right}px` }),
                   ...(position.bottom !== undefined && { bottom: `${position.bottom}px` })
