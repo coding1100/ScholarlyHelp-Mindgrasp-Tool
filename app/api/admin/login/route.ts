@@ -20,23 +20,36 @@ export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
 
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      return NextResponse.json({ error: 'Database not configured' }, { status: 401, headers: corsHeaders });
-    }
-
-    const client = new MongoClient(databaseUrl);
-    await client.connect();
-    const db = client.db('scholarly_help');
-    const user = await db.collection('users').findOne({ username, password });
-    await client.close();
-
-    if (user) {
-      const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET || 'default-secret', { expiresIn: '1h' });
+    // Check environment variables first (fallback for admin user)
+    const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    
+    if (username === adminUsername && password === adminPassword) {
+      const token = jwt.sign({ username: adminUsername }, process.env.JWT_SECRET || 'default-secret', { expiresIn: '1h' });
       return NextResponse.json({ success: true, token }, { headers: corsHeaders });
-    } else {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401, headers: corsHeaders });
     }
+
+    // Check MongoDB users collection
+    const databaseUrl = process.env.DATABASE_URL;
+    if (databaseUrl) {
+      try {
+        const client = new MongoClient(databaseUrl);
+        await client.connect();
+        const db = client.db('scholarly_help');
+        const user = await db.collection('users').findOne({ username, password });
+        await client.close();
+
+        if (user) {
+          const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET || 'default-secret', { expiresIn: '1h' });
+          return NextResponse.json({ success: true, token }, { headers: corsHeaders });
+        }
+      } catch (dbError) {
+        console.error('Database error during login:', dbError);
+        // Continue to return invalid credentials if DB check fails
+      }
+    }
+
+    return NextResponse.json({ error: 'Invalid credentials' }, { status: 401, headers: corsHeaders });
   } catch (error) {
     console.error('Error during login:', error);
     return NextResponse.json({ error: 'Login failed' }, { status: 500, headers: corsHeaders });
