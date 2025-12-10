@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import Slider, { Settings } from "react-slick";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 
 import slid1 from "@/app/assets/Images/slide1.svg";
 import slid2 from "@/app/assets/Images/slide2.svg";
@@ -67,9 +68,24 @@ const cardData = [
 ];
 
 export default function CardCarousel() {
+  const data = useAssignmentData();
+  const cardCarousel = data?.cardCarousel;
   const sliderRef = useRef<Slider | null>(null);
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [centerIndex, setCenterIndex] = useState(0);
+  
+  // Use MongoDB data if available, otherwise use default
+  const cards = useMemo(() => {
+    if (cardCarousel?.cards && Array.isArray(cardCarousel.cards) && cardCarousel.cards.length > 0) {
+      return cardCarousel.cards.map((card: any) => ({
+        id: card.id || Date.now(),
+        image: card.image || slid1,
+        title: card.title || '',
+        description: card.description || ''
+      }));
+    }
+    return cardData;
+  }, [cardCarousel]);
 
   // Responsive slides
   useEffect(() => {
@@ -109,16 +125,15 @@ export default function CardCarousel() {
         {/* Header */}
         <div className="text-center mb-12 mx-auto max-w-[740px]">
           <h2 className="text-[42px] text-[#000] font-bold   mb-3">
-            The Academic Pressure You&apos;re Facing Every Day
+            {cardCarousel?.mainHeading || "The Academic Pressure You're Facing Every Day"}
           </h2>
           <p className="sm:text-lg text-sm text-gray-600 max-w-3xl mx-auto">
-            We understand the weight on your shoulders — and we&apos;re here to
-            lighten the load.
+            {cardCarousel?.description || "We understand the weight on your shoulders — and we're here to lighten the load."}
           </p>
         </div>
       </div>
       <Slider ref={sliderRef} {...settings}>
-        {cardData.map((card, index) => {
+        {cards.map((card, index) => {
           const isCenter = index === centerIndex;
           return (
             <div key={card.id} className="px-2 cursor-pointer">

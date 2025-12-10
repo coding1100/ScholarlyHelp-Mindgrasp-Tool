@@ -1,8 +1,12 @@
 "use client";
 
 import React from "react";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 
 const HowWeHelp: React.FC = () => {
+  const data = useAssignmentData();
+  const description = data?.description;
+  
   const scrollToQuote = () => {
     const quoteForm = document.getElementById('quote-form');
     if (quoteForm) {
@@ -10,7 +14,7 @@ const HowWeHelp: React.FC = () => {
     }
   };
 
-  const services = [
+  const defaultServices = [
     {
       title: "Online Class Help",
       description:
@@ -24,7 +28,7 @@ const HowWeHelp: React.FC = () => {
     {
       title: "Online Exam Help",
       description:
-        "No time to prep? No problem. Our experts take your exams for you, just like you’d expect when you pay someone to take my online class — with results that speak for themselves.",
+        "No time to prep? No problem. Our experts take your exams for you, just like you'd expect when you pay someone to take my online class — with results that speak for themselves.",
     },
     {
       title: "Assignment Help",
@@ -42,6 +46,14 @@ const HowWeHelp: React.FC = () => {
         "Plagiarism is never an option. ScholarlyHelp provides papers written from scratch, with thorough checks using trusted plagiarism detection tools.",
     },
   ];
+  
+  const services = description?.services && description.services.length > 0 
+    ? description.services 
+    : defaultServices;
+  
+  const badges = description?.badges && description.badges.length > 0
+    ? description.badges
+    : ["Online Class Help", "Assignment Help", "Online Exam Help", "Essay Writing Services"];
 
   return (
     <section className="pt-[84px] pb-5 bg-white text-[#171717]">
@@ -49,18 +61,15 @@ const HowWeHelp: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-[42px] text-[#000] font-bold  mb-4">
-            How We Help You Succeed
+            {description?.mainHeading || "How We Help You Succeed"}
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 w-full html font-normal text-[17px] leading[1.4] tracking-normal text-center">
-            Your go-to source for top-notch academic writing services. Get
-            excellence in every assignment. From essays and research papers to
-            online classes and exam assistance, we offer a range of
-            comprehensive services to meet your academic needs. Get A+ grades!
-            <br />
-            Are you finding it difficult to complete your assignment questions
-            correctly and on time? Worry not, Scholarly Help offers 24/7
-            homework aid with reliable client support at your service.
-          </p>
+          <p 
+            className="text-sm sm:text-base md:text-lg text-gray-600 w-full html font-normal text-[17px] leading[1.4] tracking-normal text-center"
+            dangerouslySetInnerHTML={{ 
+              __html: description?.description || 
+                "Your go-to source for top-notch academic writing services. Get excellence in every assignment. From essays and research papers to online classes and exam assistance, we offer a range of comprehensive services to meet your academic needs. Get A+ grades!<br />Are you finding it difficult to complete your assignment questions correctly and on time? Worry not, Scholarly Help offers 24/7 homework aid with reliable client support at your service."
+            }}
+          />
         </div>
 
         {/* Services Grid */}
@@ -79,12 +88,7 @@ const HowWeHelp: React.FC = () => {
 
         {/* Badges Row */}
         <div className="flex flex-wrap sm:justify-center gap-4 md:gap-8 mb-10">
-          {[
-            "Online Class Help",
-            "Assignment Help",
-            "Online Exam Help",
-            "Essay Writing Services",
-          ].map((badge, idx) => (
+          {badges.map((badge, idx) => (
             <div
               key={idx}
               className="flex items-center gap-2  px-4 sm:py-2 rounded-full text-sm font-medium "
@@ -112,7 +116,7 @@ const HowWeHelp: React.FC = () => {
             onClick={scrollToQuote}
             className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-52"
           >
-            Take my online class
+            {description?.ctaButton?.text || "Take my online class"}
           </button>
         </div>
       </div>

@@ -1,8 +1,9 @@
 // components/Faq.tsx
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useState, useMemo } from "react";
 import Image from "next/image";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 const DownArrow = "/assets/Icon/faqDropdown.webp";
 
 const faqContent = [
@@ -70,8 +71,21 @@ const faqContent = [
 ];
 
 const Faq: FC = () => {
+  const data = useAssignmentData();
+  const faq = data?.faq;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [showMore, setShowMore] = useState(false);
+  
+  const faqItems = useMemo(() => {
+    if (faq?.faqs && Array.isArray(faq.faqs) && faq.faqs.length > 0) {
+      return faq.faqs.map((item: any) => ({
+        id: item.id || Date.now(),
+        question: item.question || '',
+        answer: item.answer || ''
+      }));
+    }
+    return faqContent;
+  }, [faq]);
 
   const toggleAccordion = (index: number) => {
     setActiveIndex((prev) => (prev === index ? null : index));
@@ -81,13 +95,13 @@ const Faq: FC = () => {
     setShowMore((prev) => !prev);
   };
 
-  const displayedFaqs = showMore ? faqContent : faqContent.slice(0, 3);
+  const displayedFaqs = showMore ? faqItems : faqItems.slice(0, 3);
 
   return (
     <section className="sm:pt-[83px] sm:pb-14 pt-8 max-[1320px]:px-8 pb-8 bg-white text-[#171717]">
       <div className="max-w-7xl mx-auto max-[1320px]:px-8">
         <h2 className="text-[42px] text-[#000]font-bold font-bold text-[#000] text-center mb-10">
-          Frequently Asked Questions
+          {faq?.mainHeading || "Frequently Asked Questions"}
         </h2>
 
         {/* Mobile & Tablet View (Grid with Show More) */}
@@ -135,7 +149,7 @@ const Faq: FC = () => {
 
         {/* Desktop View (Full Grid, No Show More) */}
         <div className="hidden lg:grid grid-cols-2 gap-6">
-          {faqContent.map((item, i) => (
+          {faqItems.map((item, i) => (
             <div
               key={item.id}
               className={`transition-all duration-500 rounded-md border p-5 max-[992px]:p-2 ${
