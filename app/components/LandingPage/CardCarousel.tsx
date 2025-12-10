@@ -74,6 +74,13 @@ export default function CardCarousel() {
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [centerIndex, setCenterIndex] = useState(0);
   
+  type CardType = {
+    id: number | string;
+    image: any;
+    title: string;
+    description: string;
+  };
+
   // Use MongoDB data if available, otherwise use default
   const cards = useMemo(() => {
     if (cardCarousel?.cards && Array.isArray(cardCarousel.cards) && cardCarousel.cards.length > 0) {
@@ -133,7 +140,7 @@ export default function CardCarousel() {
         </div>
       </div>
       <Slider ref={sliderRef} {...settings}>
-        {cards.map((card, index) => {
+        {cards.map((card: CardType, index: number) => {
           const isCenter = index === centerIndex;
           return (
             <div key={card.id} className="px-2 cursor-pointer">

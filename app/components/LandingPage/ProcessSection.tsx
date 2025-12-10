@@ -7,7 +7,13 @@ export default function ProcessSection() {
   const data = useAssignmentData();
   const processSection = data?.processSection;
   
-  const defaultSteps = [
+  type StepType = {
+    stepNumber?: number;
+    title: string;
+    description: string;
+  };
+
+  const defaultSteps: StepType[] = [
     { stepNumber: 1, title: "Place Your<br/>Order", description: "Use our online form, WhatsApp, Live chat, or email to submit order" },
     { stepNumber: 2, title: "Confirm<br/>Payment", description: "Secure your order with an advance payment to initiate the process." },
     { stepNumber: 3, title: "Expert Work<br/>in Progress", description: "Our skilled tutors start working on your order promptly." },
@@ -34,7 +40,7 @@ export default function ProcessSection() {
           </div>
 
           <div className="mt-[80px] grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, index) => (
+            {steps.map((step: StepType, index: number) => (
             <div key={index} className="relative flex flex-col items-center text-center">
               <div className="relative mb-3 h-[98px] w-[98px]">
                 <span className="absolute inset-0 rounded-full bg-white/10 rounded-tl-none rounded-bl-none rounded-tr-[90px] rounded-br-[90px] w-[50px] left-[52px]" />

@@ -21,7 +21,13 @@ export default function SubjectsSection() {
 
   const isHomePage = currentPage === "/";
 
-  const defaultSubjects = [
+  type SubjectType = {
+    src: string;
+    label: string;
+    url: string;
+  };
+
+  const defaultSubjects: SubjectType[] = [
     {
       src: "/assets/Icon/english.png",
       label: "English",
@@ -111,7 +117,7 @@ export default function SubjectsSection() {
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-12">
-          {subjects.map((subject, index) =>
+          {subjects.map((subject: SubjectType, index: number) =>
             subject.url ? (
               <Link key={index} href={subject.url}>
                 <div className="bg-[#F2F2FD] rounded-lg p-6 h-[200px] flex flex-col items-center justify-center cursor-pointer">

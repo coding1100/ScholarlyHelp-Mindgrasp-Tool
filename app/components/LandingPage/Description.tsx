@@ -14,7 +14,12 @@ const HowWeHelp: React.FC = () => {
     }
   };
 
-  const defaultServices = [
+  type ServiceType = {
+    title: string;
+    description: string;
+  };
+
+  const defaultServices: ServiceType[] = [
     {
       title: "Online Class Help",
       description:
@@ -74,7 +79,7 @@ const HowWeHelp: React.FC = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-64 gap-y-8 mb-12">
-          {services.map((service, index) => (
+          {services.map((service: ServiceType, index: number) => (
             <div key={index} className="bg-white">
               <h3 className="font-semibold text-[19.22px] leading-[120%] tracking-normal mb-3 text-[#171717]">
                 {service.title}
@@ -88,7 +93,7 @@ const HowWeHelp: React.FC = () => {
 
         {/* Badges Row */}
         <div className="flex flex-wrap sm:justify-center gap-4 md:gap-8 mb-10">
-          {badges.map((badge, idx) => (
+          {badges.map((badge: string, idx: number) => (
             <div
               key={idx}
               className="flex items-center gap-2  px-4 sm:py-2 rounded-full text-sm font-medium "

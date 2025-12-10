@@ -633,6 +633,12 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   const customerReviews = data?.customerReviews;
   const btnText = propBtnText || customerReviews?.ctaButton?.text || "Place an Order Now";
   
+  type ReviewType = {
+    id?: number | string;
+    title: string;
+    description: string;
+  };
+
   // Use MongoDB reviews if available
   const mongoReviews = useMemo(() => {
     if (customerReviews?.reviews && Array.isArray(customerReviews.reviews) && customerReviews.reviews.length > 0) {
@@ -742,7 +748,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
             {groupedReviews.map((group, groupIndex) => (
               <div key={groupIndex}>
                 <div className="grid grid-cols-3 gap-6">
-                  {group.map((review, index) => (
+                  {group.map((review: ReviewType, index: number) => (
                     <div key={index}>
                       <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
                         <Image src={Verifiend} alt="Review" />
@@ -762,7 +768,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         {/* Mobile Slider - 1 card per slide */}
         <div className="mt-8 md:hidden block">
           <Slider {...settings}>
-            {displayedReviews.map((review, index) => (
+            {displayedReviews.map((review: ReviewType, index: number) => (
               <div key={index} className="px-2">
                 <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
                   <Image src={Verifiend} alt="Review" />
