@@ -4,10 +4,13 @@
 import Image from "next/image";
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 
 const HeroForm = dynamic(() => import("./HeroForm"), { ssr: false });
 
 export default function GetQuote() {
+  const data = useAssignmentData();
+  const getQuote = data?.getQuote;
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
@@ -190,11 +193,10 @@ export default function GetQuote() {
         </div>
         <div className="w-[30%] p-4 bg-gray-100 max-[1080px]:w-[100%] max-[1080px]:mb-20">
           <h3 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-            Stop Sacrificing Your Time, We’ll Handle Your Classes
+            {getQuote?.mainHeading || "Stop Sacrificing Your Time, We'll Handle Your Classes"}
           </h3>
           <p className="text-gray-600 mt-4 text-sm md:text-base">
-            From exams and essays to full‑class management, we handle it all so
-            you don’t have to.
+            {getQuote?.description || "From exams and essays to full‑class management, we handle it all so you don't have to."}
           </p>
         </div>
       </div>

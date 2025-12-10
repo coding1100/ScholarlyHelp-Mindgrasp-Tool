@@ -15,17 +15,54 @@ export async function OPTIONS() {
   return new NextResponse(null, { headers: corsHeaders });
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
     }
 
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug');
+    const listAll = searchParams.get('list') === 'all';
+
     const client = new MongoClient(databaseUrl);
     await client.connect();
     const db = client.db('scholarly_help');
-    const content = await db.collection('assignments').findOne({});
+    
+    // If list=all, return all assignment pages
+    if (listAll) {
+      const pages = await db.collection('assignments').find({}).toArray();
+      await client.close();
+      return NextResponse.json({ pages }, { headers: corsHeaders });
+    }
+    
+    // Query by slug for subject pages, or by id (if slug matches id), or by id: "assignment_page" for main page
+    let query;
+    if (slug) {
+      // Handle different slug formats
+      let slugVariations = [slug];
+      
+      // If slug is like "assignment_english", also try "english"
+      if (slug.startsWith('assignment_')) {
+        slugVariations.push(slug.replace('assignment_', ''));
+      } else {
+        // If slug is like "english", also try "assignment_english"
+        slugVariations.push(`assignment_${slug}`);
+      }
+      
+      // Build query to match any variation
+      const orConditions = [];
+      for (const variation of slugVariations) {
+        orConditions.push({ slug: variation });
+        orConditions.push({ id: variation });
+      }
+      query = { $or: orConditions };
+    } else {
+      // Query for main assignment page - try both "main" and "assignment_page" for backward compatibility
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
+    }
+    const content = await db.collection('assignments').findOne(query);
     await client.close();
 
     return NextResponse.json(content || {}, { headers: corsHeaders });
@@ -49,7 +86,7 @@ export async function POST(request: NextRequest) {
     console.log('Received data, size:', JSON.stringify(body).length, 'characters');
 
     // Exclude _id from the update to prevent immutable field error
-    const { _id, ...updateData } = body;
+    const { _id, slug, id, ...updateData } = body;
 
     const client = new MongoClient(databaseUrl, {
       serverSelectionTimeoutMS: 5000, // 5 second timeout
@@ -63,7 +100,35 @@ export async function POST(request: NextRequest) {
     const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
-    const result = await db.collection('assignments').replaceOne({}, updateData, { upsert: true });
+    // Determine query and data to save
+    let query;
+    let dataToSave;
+    
+    // Use the id from the body to determine the page type
+    if (id === "assignment_page") {
+      // Main assignment page
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
+      dataToSave = { ...updateData, id: "assignment_page", pageType: "assignment_page" };
+    } else if (id && id.startsWith("assignment_")) {
+      // Subject pages like assignment_english, assignment_math, etc.
+      const subjectSlug = id.replace("assignment_", "");
+      query = { $or: [{ id }, { slug: subjectSlug }, { id: subjectSlug }] };
+      dataToSave = { ...updateData, id, slug: slug || subjectSlug, pageType: "assignment_page" };
+    } else if (slug) {
+      // For subject pages: query by slug or id, and ensure both slug and id are set
+      query = { $or: [{ slug }, { id: slug }] };
+      dataToSave = { ...updateData, slug, id: id || slug, pageType: "assignment_page" };
+    } else if (id && id !== "main") {
+      // If id is provided and it's not "main", treat it as a subject page
+      query = { $or: [{ slug: id }, { id }] };
+      dataToSave = { ...updateData, slug: id, id, pageType: "assignment_page" };
+    } else {
+      // Default to assignment_page
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
+      dataToSave = { ...updateData, id: "assignment_page", pageType: "assignment_page" };
+    }
+    
+    const result = await db.collection('assignments').replaceOne(query, dataToSave, { upsert: true });
     console.log('Save result:', result);
 
     await client.close();
@@ -79,6 +144,46 @@ export async function POST(request: NextRequest) {
     console.error('Error saving to MongoDB:', error);
     return NextResponse.json({
       error: 'Failed to save data',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500, headers: corsHeaders });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500, headers: corsHeaders });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug');
+
+    if (!slug) {
+      return NextResponse.json({ error: 'Slug is required for deletion' }, { status: 400, headers: corsHeaders });
+    }
+
+    const client = new MongoClient(databaseUrl);
+    await client.connect();
+    const db = client.db('scholarly_help');
+    
+    // Try to delete by slug or id
+    const result = await db.collection('assignments').deleteOne({ $or: [{ slug }, { id: slug }] });
+    await client.close();
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ error: 'Document not found' }, { status: 404, headers: corsHeaders });
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Document deleted successfully',
+      deletedCount: result.deletedCount
+    }, { headers: corsHeaders });
+  } catch (error) {
+    console.error('Error deleting from MongoDB:', error);
+    return NextResponse.json({
+      error: 'Failed to delete data',
       details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500, headers: corsHeaders });
   }
