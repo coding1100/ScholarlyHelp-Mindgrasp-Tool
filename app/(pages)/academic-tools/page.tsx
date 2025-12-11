@@ -18,9 +18,7 @@ const Page: FC<PageProps> = ({}) => {
       <HeroSection heroContent={MainAiLanding.heroContent} />
       <AcademicTools content={MainAiLanding.academicTools} />
       <WhyTools whyToolsContent={MainAiLanding.whyTools} />
-      <div className="bg-linear-to-b from-white via-[#ECECFC] to-white">
-        <WhySlider whyData={MainAiLanding.whyScholalrySlider} />
-      </div>
+      <WhySlider whyData={MainAiLanding.whyScholalrySlider} />
       <CustomerReviews />
       <AcademicPartners />
 

@@ -25,7 +25,7 @@ const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
     <section className="w-full bg-white py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8">
       {/* Header Section */}
       <div className="text-center mb-8 sm:mb-14 md:mb-16 max-w-[895px] mx-auto">
-        <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] font-bold text-black mb-3 sm:mb-7 leading-[60px]">
+        <h2 className="sm:text-[28px] text-[24px] md:text-[36px] lg:text-[42px] xl:text-[50px] lg:font-bold font-semibold text-black mb-3 sm:mb-7 xl:leading-[60px] lg:leading-[52px] leading-[42px]">
           {content.heading1}
         </h2>
         <p className="text-[14px] sm:text-[15px] md:text-[16px] font-normal text-[#263238] max-w-4xl mx-auto px-4 sm:px-0">
@@ -40,7 +40,7 @@ const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
           {content.description2}
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-14 max-w-7xl mx-auto">
+      <div className="grid md:grid-cols-2 lg:gap-14 gap-10  max-w-7xl mx-auto">
         {content.tools.map((tool, index) => (
           <div
             key={index}
@@ -48,7 +48,9 @@ const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
             style={{ boxShadow: "rgba(0, 0, 0, 0.15) 8px 8px 0px" }}
           >
             {/* <div className="absolute bg-[#D9D9D9] h-full w-full rounded-2xl -z-30 top-[10px] left-[10px]"></div> */}
-            <p className="text-[40px] font-bold mb-3">{tool.title}</p>
+            <p className="lg:text-[40px] md:text-[30px] text-[24px] lg:font-bold font-semibold lg:leading-[48px] md:leading-[38px] leading-[32px] text-black mb-3">
+              {tool.title}
+            </p>
             <p className="text-[17px] text-[#263238] mb-8">
               {tool.description}
             </p>
