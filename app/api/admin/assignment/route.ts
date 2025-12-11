@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
       query = { $or: orConditions };
     } else {
       // Query for main assignment page - try both "main" and "assignment_page" for backward compatibility
-      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }] };
     }
     const content = await db.collection('assignments').findOne(query);
     await client.close();
@@ -105,26 +105,30 @@ export async function POST(request: NextRequest) {
     let dataToSave;
     
     // Use the id from the body to determine the page type
+    // pageType should match the id value
+    const finalId = id || slug || "assignment_page";
+    
     if (id === "assignment_page") {
       // Main assignment page
-      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }] };
       dataToSave = { ...updateData, id: "assignment_page", pageType: "assignment_page" };
     } else if (id && id.startsWith("assignment_")) {
       // Subject pages like assignment_english, assignment_math, etc.
       const subjectSlug = id.replace("assignment_", "");
       query = { $or: [{ id }, { slug: subjectSlug }, { id: subjectSlug }] };
-      dataToSave = { ...updateData, id, slug: slug || subjectSlug, pageType: "assignment_page" };
+      dataToSave = { ...updateData, id, slug: slug || subjectSlug, pageType: id };
     } else if (slug) {
       // For subject pages: query by slug or id, and ensure both slug and id are set
+      const finalIdValue = id || slug;
       query = { $or: [{ slug }, { id: slug }] };
-      dataToSave = { ...updateData, slug, id: id || slug, pageType: "assignment_page" };
+      dataToSave = { ...updateData, slug, id: finalIdValue, pageType: finalIdValue };
     } else if (id && id !== "main") {
       // If id is provided and it's not "main", treat it as a subject page
       query = { $or: [{ slug: id }, { id }] };
-      dataToSave = { ...updateData, slug: id, id, pageType: "assignment_page" };
+      dataToSave = { ...updateData, slug: id, id, pageType: id };
     } else {
       // Default to assignment_page
-      query = { $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }] };
+      query = { $or: [{ id: "assignment_page" }, { id: "main" }] };
       dataToSave = { ...updateData, id: "assignment_page", pageType: "assignment_page" };
     }
     
