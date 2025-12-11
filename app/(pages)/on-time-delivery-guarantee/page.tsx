@@ -6,18 +6,18 @@ import WhySlider from "@/app/components/LandingPage/WhySlider";
 import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import Faq from "@/app/components/LandingPage/Faq";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
-import TrustSection from "@/app/components/OtherLandingPages/UsExpert/TrustedSection";
-import ExpertSection from "@/app/components/OtherLandingPages/UsExpert/ExpertSection";
-import ChooseExpert from "@/app/components/OtherLandingPages/UsExpert/ChooseExpert";
+import WhyGuaranteeMatters from "@/app/components/OtherLandingPages/OnTimeDelivery/WhyGuaranteeMatters";
+import WhyGuarantee from "@/app/components/OtherLandingPages/GradeGuarantee/WhyGuarantee";
+import HowGuaranteeWorks from "@/app/components/OtherLandingPages/OnTimeDelivery/HowGuaranteeWorks";
 
 const Home: NextPage = () => {
   return (
     <div>
       <MainLayout>
         <HeroSection heroContent={Content.heroContent} />
-        <TrustSection content={Content.supportContent} />
-        <ExpertSection />
-        <ChooseExpert content={Content.chooseExpertSection} />
+        <WhyGuaranteeMatters content={Content.whyGuarantee} />
+        <WhyGuarantee content={Content.whyGuaranteeContent} />
+        <HowGuaranteeWorks content={Content.HowGuaranteeWorks} />
         <div className="bg-linear-to-b from-white via-[#ECECFC] to-white">
           <WhySlider whyData={Content.whyScholalrySlider} />
         </div>

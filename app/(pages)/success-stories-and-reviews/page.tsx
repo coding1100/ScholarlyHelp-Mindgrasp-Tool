@@ -6,18 +6,38 @@ import WhySlider from "@/app/components/LandingPage/WhySlider";
 import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import Faq from "@/app/components/LandingPage/Faq";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
+import Success from "@/app/components/LandingPage/Success";
+import FeaturedStories from "@/app/components/OtherLandingPages/SuccessStories/FeaturedStories";
 import TrustSection from "@/app/components/OtherLandingPages/UsExpert/TrustedSection";
-import ExpertSection from "@/app/components/OtherLandingPages/UsExpert/ExpertSection";
-import ChooseExpert from "@/app/components/OtherLandingPages/UsExpert/ChooseExpert";
 
 const Home: NextPage = () => {
   return (
     <div>
       <MainLayout>
         <HeroSection heroContent={Content.heroContent} />
+        <div className="bg-white py-20">
+          <div className="max-w-[835px] mx-auto text-center">
+            <h2 className="text-black lg:text-[50px] [992px]:text-[42px] md:text-[30px] sm:text-[28px] text-[24px] lg:leading-[60px] [992px]:leading-[52px] leading-[42px] font-bold mb-5">
+              What Students Say
+              <br />
+              About Scholarly Help
+            </h2>
+            <p className="text-[19px] text-black font-semibold mb-5">
+              Honest feedback from students who trust our academic support.
+            </p>
+            <p className="text-[17px] text-[#263238] font-normal">
+              These stories reflect the impact of our work, from improved grades
+              to stress-free submissions and reliable academic support. Every
+              review highlights our dedication to quality, confidentiality, and
+              timely assistance, showing how students succeed with a partner
+              they can trust.
+            </p>
+          </div>
+        </div>
+        <Success />
+        <FeaturedStories content={Content.featuredStories} />
         <TrustSection content={Content.supportContent} />
-        <ExpertSection />
-        <ChooseExpert content={Content.chooseExpertSection} />
+
         <div className="bg-linear-to-b from-white via-[#ECECFC] to-white">
           <WhySlider whyData={Content.whyScholalrySlider} />
         </div>

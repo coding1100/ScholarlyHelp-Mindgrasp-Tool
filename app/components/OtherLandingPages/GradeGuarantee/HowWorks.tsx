@@ -34,10 +34,10 @@ const HowWorks: FC<HowWorksProps> = ({ content }) => {
           >
             {index % 2 === 0 ? (
               <>
-                <div className="order-1 md:order-1">
+                <div className="order-2 md:order-1">
                   <Image src={item.img} alt={item.title} />
                 </div>
-                <div className="order-2 md:order-2">
+                <div className="order-1 md:order-2">
                   <p className="text-[30px] leading-[34px] text-black font-bold mb-4">
                     {item.title}
                   </p>

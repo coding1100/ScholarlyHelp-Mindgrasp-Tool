@@ -10,9 +10,9 @@ const proof4 = "/images/proof-3.webp";
 
 export default function ThreeDCarousel() {
   const scrollToQuote = () => {
-    const quoteForm = document.getElementById('quote-form');
+    const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
-      quoteForm.scrollIntoView({ behavior: 'smooth' });
+      quoteForm.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -37,7 +37,7 @@ export default function ThreeDCarousel() {
     <section className="pt-9 pb-20 px-5 overflow-hidden bg-gray-50 text-[#171717]">
       <div className="max-w-6xl max-[992px]:max-w-4xl mx-auto">
         <div className="py-10 ">
-          <h2 className="text-[42px] mb-[20px] text-[#000] font-bold text-center">
+          <h2 className="lg:text-[42px] [992px]:text-[30px] md:text-[28px] sm:text-[24px] text-[20px] lg:mb-[20px] mb-[10px] text-[#000] font-bold text-center">
             What Success Looks Like
           </h2>
           <p className="sm:text-[18px] text-sm text-center">

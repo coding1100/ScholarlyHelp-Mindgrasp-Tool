@@ -31,11 +31,17 @@ const GuaranteeCovers: FC<GuaranteeCoversProps> = ({ content }) => {
         <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-7 mt-14 text-start">
           {content.items.map((item, index) => (
             <div key={index} className="col-span-1 text-white">
-              <Image src={item.icon} alt={item.title} className="mb-11" />
-              <p className="text-[30px] font-bold leading-[35px] mb-5">
+              <Image
+                src={item.icon}
+                alt={item.title}
+                className="lg:mb-11 md:mb-8 mb-5 w-auto lg:h-[94px] md:h-[64px] h-[50px]"
+              />
+              <p className="lg:text-[30px] md:text-[24px] text-[20px] lg:font-bold font-semibold lg:leading-[35px] md:leading-[28px] leading-[24px] mb-5">
                 {item.title}
               </p>
-              <p className="text-[17px] font-normal ">{item.description}</p>
+              <p className="md:text-[17px] text-[15px] font-normal ">
+                {item.description}
+              </p>
             </div>
           ))}
         </div>
