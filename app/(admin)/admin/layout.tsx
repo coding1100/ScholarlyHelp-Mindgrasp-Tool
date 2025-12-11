@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: HomeIcon },
+  { name: 'Edit Home', href: '/admin/home', icon: HomeIcon },
   { name: 'Edit Assignment', href: '/admin/assignment', icon: DocumentIcon },
   { name: 'Edit Exam', href: '/admin/exam', icon: ExamIcon },
   { name: 'Edit Homework', href: '/admin/homework', icon: HomeworkIcon },

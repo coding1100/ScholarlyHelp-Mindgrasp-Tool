@@ -1,6 +1,3 @@
-// "use client";
-
-import type { NextPage } from "next";
 import MainLayout from "./MainLayout";
 import HeroSection from "./components/LandingPage/HeroSection";
 import WhySlider from "./components/LandingPage/WhySlider";
@@ -15,10 +12,68 @@ import CardCarousel from "./components/LandingPage/CardCarousel";
 import GuaranteedBlock from "./components/LandingPage/GuaranteedBlock";
 import Description from "./components/LandingPage/Description";
 import Ratings from "./components/LandingPage/Ratings";
+import { HomeDataProvider } from "./(pages)/HomeDataProvider";
+import dynamicImport from "next/dynamic";
 
-const Home: NextPage = () => {
+const GetQouteDynamic = dynamicImport(() => import("./components/LandingPage/GetQoute"), { ssr: false });
+
+// Force dynamic rendering to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+async function fetchHomeData() {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      console.error('Database URL not configured');
+      return null;
+    }
+
+    const { MongoClient } = await import('mongodb');
+    const client = new MongoClient(databaseUrl, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+    });
+    
+    await client.connect();
+    const db = client.db('scholarly_help');
+    
+    // Query for main home page - try multiple variations
+    const query = { 
+      $or: [
+        { id: "home_page" }, 
+        { id: "home" },
+        { id: "main" },
+        { slug: "home_page" },
+        { slug: "home" },
+        { slug: "main" }
+      ]
+    };
+    
+    console.log('Querying home collection with query:', JSON.stringify(query));
+    const content = await db.collection('home').findOne(query);
+    console.log('Found content:', content ? 'Yes' : 'No');
+    
+    // If no content found, try to see what's in the collection
+    if (!content) {
+      const allDocs = await db.collection('home').find({}).limit(5).toArray();
+      console.log('Sample documents in home:', allDocs.map(d => ({ id: d.id, slug: d.slug })));
+    }
+    
+    await client.close();
+
+    return content as any;
+  } catch (error) {
+    console.error('Error fetching home data:', error);
+    return null;
+  }
+}
+
+const Home = async () => {
+  const pageData = await fetchHomeData();
+  
   return (
-    <div>
+    <HomeDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
         <Ratings />
@@ -31,18 +86,59 @@ const Home: NextPage = () => {
         <Success />
         {/* <Subjects /> */}
         <AcademicPartners />
-        <GetQoute />
+        <GetQouteDynamic />
         <Faq />
       </MainLayout>
-    </div>
+    </HomeDataProvider>
   );
 };
 
 export default Home;
 
-export function generateMetadata({}) {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
+export async function generateMetadata() {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (databaseUrl) {
+      const { MongoClient } = await import('mongodb');
+      const client = new MongoClient(databaseUrl, {
+        serverSelectionTimeoutMS: 5000,
+        connectTimeoutMS: 10000,
+      });
+      
+      await client.connect();
+      const db = client.db('scholarly_help');
+      
+      const query = { 
+        $or: [
+          { id: "home_page" }, 
+          { id: "home" },
+          { id: "main" }
+        ]
+      };
+      
+      const pageData: any = await db.collection('home').findOne(query);
+      await client.close();
+      
+      if (pageData) {
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
+        const metaTitle = pageData.meta?.title || "Scholarly Help - Academic Writing Services For You";
+        const metaDescription = pageData.meta?.description || "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!";
+        const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}`;
+        
+        return {
+          title: metaTitle,
+          description: metaDescription,
+          alternates: {
+            canonical: canonicalUrl,
+          },
+        };
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching metadata:', error);
+  }
+  
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}`;
   return {
     title: "Scholarly Help - Academic Writing Services For You",
