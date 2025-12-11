@@ -2,7 +2,7 @@
 
 // app/components/GuaranteeSection.tsx
 import Image from "next/image"; // optional – replace with your own button
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 // Import the icons (replace with your actual image paths or use SVG icons)
 import IconZeroDetection from "@/app/assets/Icons/zero-detection.png";
@@ -20,7 +20,7 @@ interface GuaranteeItem {
 }
 
 export default function GuaranteeSection() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const guaranteedBlock = data?.guaranteedBlock;
   
   const scrollToQuote = () => {

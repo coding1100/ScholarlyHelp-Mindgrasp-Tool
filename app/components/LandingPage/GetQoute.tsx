@@ -4,12 +4,12 @@
 import Image from "next/image";
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 const HeroForm = dynamic(() => import("./HeroForm"), { ssr: false });
 
 export default function GetQuote() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const getQuote = data?.getQuote;
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
