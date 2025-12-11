@@ -9,6 +9,7 @@ import { MdPhoneInTalk } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
 import Image, { StaticImageData } from "next/image";
 import FormBackImg from "@/app/assets/Images/Hero-Group-195.png";
+import { usePageData } from "./usePageData";
 
 interface ZohoForm2Props {
   nameValue?: string;
@@ -21,6 +22,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
   textAreaRows = 4,
   formBackImg2,
 }) => {
+  const data = usePageData();
+  const getQuote = data?.getQuote;
   const [formData, setFormData] = useState({
     Email: "",
     Last_Name: "DefaultLastName",
@@ -244,7 +247,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
             {loading ? (
               <ClipLoader color="#fff" size={22} />
             ) : (
-              "Get My Free, Confidential Quote"
+              getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"
             )}
           </button>
         </form>
@@ -257,7 +260,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           onClick={scrollToForm}
           className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
         >
-          Get My Free, Confidential Quote
+          {getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"}
         </button>
       ) : null}
     </div>
