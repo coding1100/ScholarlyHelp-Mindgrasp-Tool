@@ -82,7 +82,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     const defaultPageData: any = {
       id: `assignment_${subject}`,
       slug: subject,
-      pageType: 'assignment_page',
+      pageType: `assignment_${subject}`,
       status: 'published',
       meta: { title: '', description: '' },
       heroSection: { mainHeading: '', subHeading: '', description: '' },

@@ -109,7 +109,10 @@ export default function AssignmentAdmin() {
             throw new Error(data.error);
           }
           
-          setPageData(data && Object.keys(data).length > 0 ? data : {
+          setPageData(data && Object.keys(data).length > 0 ? {
+            ...data,
+            pageType: data.id || data.pageType || 'assignment_page'
+          } : {
             id: 'assignment_page',
             pageType: 'assignment_page',
             meta: { title: '', description: '' },
@@ -171,7 +174,10 @@ export default function AssignmentAdmin() {
         
         if (pageId === 'assignment_page') {
           // Assignment page structure
-          setPageData(data && Object.keys(data).length > 0 ? data : {
+          setPageData(data && Object.keys(data).length > 0 ? {
+            ...data,
+            pageType: data.id || data.pageType || 'assignment_page'
+          } : {
             id: 'assignment_page',
             pageType: 'assignment_page',
             meta: { title: '', description: '' },
@@ -196,11 +202,12 @@ export default function AssignmentAdmin() {
           setPageData(data && Object.keys(data).length > 0 ? {
             ...data,
             slug: data.slug || extractedSlug,
-            id: data.id || pageId
+            id: data.id || pageId,
+            pageType: data.id || pageId
           } : {
             id: pageId,
             slug: extractedSlug,
-            pageType: 'assignment_page',
+            pageType: pageId,
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -240,7 +247,7 @@ export default function AssignmentAdmin() {
         setPageData({
             id: pageId,
             slug: extractedSlug,
-            pageType: 'assignment_page',
+            pageType: pageId,
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
