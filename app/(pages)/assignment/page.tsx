@@ -16,6 +16,10 @@ import Subjects from "@/app/components/LandingPage/Subjects";
 import { AssignmentDataProvider } from "./AssignmentDataProvider";
 // import type { Metadata } from "next";
 
+// Force dynamic rendering to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // export const metadata: Metadata = {
 //   title: "Help Me Do My Assignment | Online Assignment Help | Scholarly Help",
 // };

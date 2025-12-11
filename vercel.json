@@ -1,0 +1,5 @@
+{
+    "rewrites": [
+      { "source": "/api/directus/(.*)", "destination": "/api/directus/index.js" }
+    ]
+  }
