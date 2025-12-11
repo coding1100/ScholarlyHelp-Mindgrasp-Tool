@@ -16,6 +16,10 @@ import { assignmentSubjects, isValidAssignmentSubject } from "../subjectContent"
 import { notFound } from "next/navigation";
 import { AssignmentDataProvider } from "../AssignmentDataProvider";
 
+// Force dynamic rendering to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface PageProps { 
   params: { subject: string; }; 
 }
