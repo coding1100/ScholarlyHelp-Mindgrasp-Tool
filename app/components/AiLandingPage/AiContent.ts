@@ -7,7 +7,180 @@ import slide5 from "@/app/assets/Images/aitoollanding/stanford.png";
 import effortless from "@/app/assets/Images/aitoollanding/effortless.png";
 import interactive from "@/app/assets/Images/aitoollanding/interactive.png";
 import learning from "@/app/assets/Images/aitoollanding/learning.png";
-// Icons are now referenced by string identifiers to avoid passing functions to client components
+import FormBackImg2 from "@/app/assets/Images/heroBg2.png";
+import icon1 from "@/app/assets/Icons/icon-1.svg";
+import icon2 from "@/app/assets/Icons/icon-2.png";
+import icon3 from "@/app/assets/Icons/icon-3.png";
+import icon4 from "@/app/assets/Icons/icon-4.png";
+import icon5 from "@/app/assets/Icons/icon-5.png";
+import icon6 from "@/app/assets/Icons/icon-6.png";
+import icon7 from "@/app/assets/Icons/icon-7.png";
+import icon8 from "@/app/assets/Icons/icon-8.png";
+
+export const MainAiLanding = {
+  heroContent: {
+    mainHeading: "Academic AI Tools",
+    subHeading:
+      "Smart tools designed to support your learning with clarity and accuracy.",
+    description:
+      "Our academic tools are built to make your work easier, faster, and more efficient. Whether you're managing research, organizing tasks, reviewing concepts, or improving writing quality, each tool is designed to guide you with simplicity and precision. These tools help you stay productive and confident throughout your academic journey.",
+    btn1: "Get Started Securely",
+    btn2: "Talk to an Expert",
+    formBackImg2: FormBackImg2,
+  },
+  academicTools: {
+    heading1: "AI Designed Tools for Students Educational Success",
+    description1:
+      "At ScholarlyHelp, we believe academic work should be smarter, simpler, and more accessible. Our AI-powered tools are created to help you learn faster, write better, and complete your tasks with confidence. Whether you're generating essays, paraphrasing content, summarizing long readings, or crafting a thesis statement, our tools are here to support you instantly and for free.",
+
+    heading2: "Our AI Academic Tools",
+    description2:
+      "Professional tools crafted to give you clarity, structure, and accuracy.",
+    tools: [
+      {
+        title: "AI Essay Generator",
+        description:
+          "Create structured, high-quality essays in minutes with our intelligent essay builder. Our AI Essay Generator helps you:",
+        list: [
+          "Build strong introductions with a clear focus",
+          "Develop organized and logical body paragraphs",
+          "Support arguments with relevant insights",
+          "Maintain smooth transitions between sections",
+          "Ensure clarity and professional tone",
+          "Generate complete essays instantly",
+        ],
+        text: "Perfect for: essays, reflections, responses, coursework writing, and academic practice tasks.",
+        btnText: "Generate Your Essay Now",
+        btnUrl: "/",
+      },
+      {
+        title: "AI Paraphraser",
+        description:
+          "Rewrite content into fresh, original wording while keeping the meaning intact. Our AI Paraphraser helps you:",
+        list: [
+          "Avoid repetitive phrasing",
+          "Improve clarity and readability",
+          "Strengthen sentence flow and structure",
+          "Reword ideas professionally",
+          "Adjust tone without losing meaning",
+          "Reduce similarity in rewritten content",
+        ],
+        text: "Ideal for: assignments, reports, notes, research writing, chapter rewrites, and study materials.",
+        btnText: "Paraphrase Your Text Instantly",
+        btnUrl: "/",
+      },
+      {
+        title: "AI Summarizer",
+        description:
+          "Turn long chapters, PDFs, notes, or articles into clear, concise summaries instantly. Our AI Summarizer helps you:",
+        list: [
+          "Capture the main ideas quickly",
+          "Extract important arguments",
+          "Reduce lengthy content into key points",
+          "Make study materials easier to review",
+          "Save time when studying large documents",
+          "Improve understanding with simplified summaries",
+        ],
+        text: "Perfect for: study notes, article reviews, quick revisions, and exam preparation.",
+        btnText: "Summarize Any Text",
+        btnUrl: "/",
+      },
+      {
+        title: "AI Thesis Generator",
+        description:
+          "Craft a compelling, academically sound thesis statement with guided suggestions. Our AI Thesis Generator helps you:",
+        list: [
+          "Build a focused research direction",
+          "Create strong, argument-driven statements",
+          "Align your thesis with the essay or project goals",
+          "Generate multiple thesis ideas instantly",
+          "Strengthen academic writing structure",
+          "Enhance clarity and academic depth",
+        ],
+        text: "Perfect for: research papers, essays, proposals, and major writing assignments.",
+        btnText: "Generate Your Thesis Statement",
+        btnUrl: "/",
+      },
+    ],
+  },
+  whyTools: {
+    heading: "Why Use ScholarlyHelp Tools?",
+    qualities: [
+      {
+        title: "Free & Easy to Use",
+        description:
+          "No setup or learning curve, just enter your text and get instant results.",
+      },
+      {
+        title: "Designed for Students",
+        description:
+          "Tools created to support real academic needs with clear, structured output.",
+      },
+      {
+        title: "AI-Powered Accuracy",
+        description:
+          "Delivers polished, academically aligned results to improve clarity and structure.",
+      },
+      {
+        title: "100% Private & Secure",
+        description:
+          "Your content stays safe; nothing is stored, shared, or reused.",
+      },
+      {
+        title: "Saves Time & Improves Productivity",
+        description:
+          "Transforms complex tasks into quick, manageable steps so you work more efficiently.",
+      },
+    ],
+  },
+  whyScholalrySlider: {
+    mainHeading: "Why Scholarly Help?",
+    description:
+      "We provide secure and affordable academic assistance tailored to your needs. Whether you need help with online classes, exams, essays, homework, or full assignments, our skilled subject experts deliver accurate, timely, and confidential support you can rely on.",
+    sliderItems: [
+      {
+        icon: icon2,
+        text: "Highly-Skilled Subject Experts",
+        alt: "",
+      },
+      {
+        icon: icon1,
+        text: "Highly Affordable Rates",
+        alt: "",
+      },
+      {
+        icon: icon3,
+        text: "100% User Confidentiality",
+        alt: "",
+      },
+      {
+        icon: icon4,
+        text: "Deliver Resourceful Solutions",
+        alt: "",
+      },
+      {
+        icon: icon5,
+        text: "Produce Premium Content",
+        alt: "",
+      },
+      {
+        icon: icon6,
+        text: "Zero Grammatical Mistakes",
+        alt: "",
+      },
+      {
+        icon: icon7,
+        text: "Non-Plagiarized Content",
+        alt: "",
+      },
+      {
+        icon: icon8,
+        text: "Live Chat Support Availability",
+        alt: "",
+      },
+    ],
+  },
+};
 
 export const AiSummarizerContent = {
   heroContent: {

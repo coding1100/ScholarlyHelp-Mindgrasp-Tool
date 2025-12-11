@@ -12,11 +12,11 @@ const proof4 = "/images/proof-3.webp";
 export default function ThreeDCarousel() {
   const data = useAssignmentData();
   const success = data?.success;
-  
+
   const scrollToQuote = () => {
-    const quoteForm = document.getElementById('quote-form');
+    const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
-      quoteForm.scrollIntoView({ behavior: 'smooth' });
+      quoteForm.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -33,9 +33,13 @@ export default function ThreeDCarousel() {
     { id: 2, image: proof4 },
     { id: 3, image: proof5 },
   ];
-  
+
   const slides = useMemo(() => {
-    if (success?.slides && Array.isArray(success.slides) && success.slides.length > 0) {
+    if (
+      success?.slides &&
+      Array.isArray(success.slides) &&
+      success.slides.length > 0
+    ) {
       return success.slides;
     }
     return defaultSlides;
@@ -57,7 +61,8 @@ export default function ThreeDCarousel() {
             {success?.mainHeading || "What Success Looks Like"}
           </h2>
           <p className="sm:text-[18px] text-sm text-center">
-            {success?.description || "From exams and essays to full-class management, we handle it all so you don't have to."}
+            {success?.description ||
+              "From exams and essays to full-class management, we handle it all so you don't have to."}
           </p>
         </div>
         <div
