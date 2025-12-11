@@ -1,18 +1,5 @@
 import MainLayout from "@/app/MainLayout";
-import AcademicPartner from "@/app/components/AcademicPartner/AcademicPartner";
-import CustomerReviews from "@/app/components/CustomerReviews/CustomerReviews";
-import ExcellenceProof from "@/app/components/ExcellenceProof/ExcellenceProof";
-import Faq from "@/app/components/LandingPage/Faq";
-import Hero from "@/app/components/Hero/Hero";
-import Process from "@/app/components/Process/Process";
-import { processContent } from "@/app/components/Process/content";
-import Qualities from "@/app/components/Qualities/Qualities";
-import Samples from "@/app/components/Samples/Samples";
-import SiteReviews from "@/app/components/SiteReviews/SiteReviews";
-import Subjects from "@/app/components/LandingPage/Subjects";
-import dynamic from "next/dynamic";
 import { MetaData } from "@/app/metadata/metadata";
-import { getAssignmentContent } from "./content";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
 import Ratings from "@/app/components/LandingPage/Ratings";
 import WhySlider from "@/app/components/LandingPage/WhySlider";
@@ -22,45 +9,54 @@ import GuaranteedBlock from "@/app/components/LandingPage/GuaranteedBlock";
 import ProcessSection from "@/app/components/LandingPage/ProcessSection";
 import Success from "@/app/components/LandingPage/Success";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
-const WhyScholarly = dynamic(
-  () => import("@/app/components/WhyScholarly/WhyScholarly")
-);
-const GetQoute = dynamic(() => import("@/app/components/LandingPage/GetQoute"));
+import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
+import GetQoute from "@/app/components/LandingPage/GetQoute";
+import Faq from "@/app/components/LandingPage/Faq";
+import Subjects from "@/app/components/LandingPage/Subjects";
+import { AssignmentDataProvider } from "./AssignmentDataProvider";
 // import type { Metadata } from "next";
+
+// Force dynamic rendering to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 // export const metadata: Metadata = {
 //   title: "Help Me Do My Assignment | Online Assignment Help | Scholarly Help",
 // };
+async function fetchAssignmentData() {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      console.error('Database URL not configured');
+      return null;
+    }
+
+    const { MongoClient } = await import('mongodb');
+    const client = new MongoClient(databaseUrl);
+    await client.connect();
+    const db = client.db('scholarly_help');
+    
+    // Query for main assignment page
+    const query = { 
+      $or: [{ id: "assignment_page" }, { id: "main" }]
+    };
+    
+    const content = await db.collection('assignments').findOne(query);
+    await client.close();
+
+    return content as any;
+  } catch (error) {
+    console.error('Error fetching assignment data:', error);
+    return null;
+  }
+}
+
 const Page = async () => {
-  const content = await getAssignmentContent();
-  // return <div>test</div>
+  const pageData = await fetchAssignmentData();
+  
   return (
-    <MainLayout>
-      {/* <Hero content={content.heroContent} />
-      <Qualities />
-      <SiteReviews />
-      <WhyScholarly
-        header={content.whyScholarly}
-        content={content.whyScholarly.whyScholarlyContent}
-      />
-      <AcademicPartner
-        btnText={content.btnText}
-        mainHeading={content.academic.mainheading}
-        content={content.academic.academicContent}
-      />
-      <ExcellenceProof
-        btnText={content.btnText}
-        content={content.excellenceProofContent}
-      />
-      <Process content={processContent} />
-      <Samples btnText={content.btnText} />
-      <CustomerReviews btnText={content.btnText} />
-      <Subjects
-        btnText={content.btnText}
-        mainHeading={content.subjects.mainHeading}
-        content={content.subjects.subjectsContent}
-      />
-      <Faq content={content.faqContent} /> */}
+    <AssignmentDataProvider data={pageData}>
+      <MainLayout>
         <HeroSection />
         <Ratings />
         <WhySlider />
@@ -74,14 +70,48 @@ const Page = async () => {
         <AcademicPartners />
         <GetQoute />
         <Faq />
-    </MainLayout>
+      </MainLayout>
+    </AssignmentDataProvider>
   );
 };
 export default Page;
 
-export function generateMetadata({}) {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
+export async function generateMetadata() {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (databaseUrl) {
+      const { MongoClient } = await import('mongodb');
+      const client = new MongoClient(databaseUrl);
+      await client.connect();
+      const db = client.db('scholarly_help');
+      
+      const query = { 
+        $or: [{ id: "assignment_page" }, { id: "main" }]
+      };
+      
+      const pageData: any = await db.collection('assignments').findOne(query);
+      await client.close();
+      
+      if (pageData) {
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
+        const metaTitle = pageData.meta?.title || MetaData.assignment.title;
+        const metaDescription = pageData.meta?.description || MetaData.assignment.description;
+        const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}${MetaData.assignment.url}`;
+        
+        return {
+          title: metaTitle,
+          description: metaDescription,
+          alternates: {
+            canonical: canonicalUrl,
+          },
+        };
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching metadata:', error);
+  }
+  
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}${MetaData.assignment.url}`;
   return {
     title: `${MetaData.assignment.title}`,

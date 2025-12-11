@@ -5,6 +5,7 @@ import HeroLead from "./HeroLead";
 import HeroRight from "./HeroRight";
 import ReviewBar from "./ReviewBar";
 import { StaticImageData } from "next/image";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 const Star: React.FC = () => (
   <svg
     width="18"
@@ -30,7 +31,10 @@ interface HeroSectionProps {
     formBackImg2: StaticImageData;
   };
 }
-const HeroSection: FC<HeroSectionProps> = ({ heroContent }) => {
+const HeroSection: FC<HeroSectionProps> = ({ heroContent: propHeroContent }) => {
+  const data = useAssignmentData();
+  const heroContent = propHeroContent || data?.heroSection;
+  
   return (
     <section
       id="hero-section"

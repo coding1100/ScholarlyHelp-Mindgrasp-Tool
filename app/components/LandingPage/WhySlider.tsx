@@ -7,6 +7,7 @@ import icon2 from "@/app/assets/Icons/icon-2.png";
 import icon3 from "@/app/assets/Icons/icon-3.png";
 import boxShadow from "@/app/assets/Images/center-box-shadow.svg";
 import Image from "next/image";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 
 type SliderItem = {
   icon: string | any;
@@ -112,9 +113,24 @@ interface WhySliderProps {
   };
 }
 
-const WhySlider: FC<WhySliderProps> = ({ whyData }) => {
+const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
+  const data = useAssignmentData();
+  const whyData = propWhyData || data?.whySlider;
+  
+  // Convert MongoDB sliderItems to component format
+  const mongoItems: SliderItem[] = useMemo(() => {
+    if (whyData?.sliderItems && Array.isArray(whyData.sliderItems)) {
+      return whyData.sliderItems.map((item: any) => ({
+        icon: item.icon || icon1,
+        text: item.text || '',
+        alt: item.alt || ''
+      }));
+    }
+    return [];
+  }, [whyData]);
+  
   const baseItems: SliderItem[] = useMemo(
-    () => [
+    () => mongoItems.length > 0 ? mongoItems : [
       { icon: icon1, text: "Highly-Skilled Subject Experts", alt: "Experts" },
       { icon: icon2, text: "Highly Affordable Rates", alt: "Affordable Rates" },
       {
@@ -124,26 +140,11 @@ const WhySlider: FC<WhySliderProps> = ({ whyData }) => {
       },
       {
         icon: icon3,
-        text: "100% User Confidentiality",
-        alt: "Confidentiality",
-      },
-      {
-        icon: icon1,
-        text: "100% User Confidentiality",
-        alt: "Confidentiality",
-      },
-      {
-        icon: icon3,
-        text: "100% User Confidentiality",
-        alt: "Confidentiality",
-      },
-      {
-        icon: icon1,
-        text: "100% User Confidentiality",
-        alt: "Confidentiality",
+        text: "24/7 Support",
+        alt: "Support",
       },
     ],
-    []
+    [mongoItems]
   );
 
   const items: SliderItem[] = useMemo(
@@ -188,7 +189,7 @@ const WhySlider: FC<WhySliderProps> = ({ whyData }) => {
             type="button"
             className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
           >
-            Take my online class
+            {whyData?.ctaButton?.text || "Take my online class"}
           </button>
         </div>
       </div>

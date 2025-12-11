@@ -1,11 +1,12 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import React from "react";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 
 // Icons & Images
 import Trustpilot from "@/app/assets/Images/Trustpilot.webp";
@@ -626,8 +627,34 @@ interface CustomerReviewsProps {
 }
 
 const CustomerReviews: FC<CustomerReviewsProps> = ({
-  btnText = "Place an Order Now",
+  btnText: propBtnText,
 }) => {
+  const data = useAssignmentData();
+  const customerReviews = data?.customerReviews;
+  const btnText =
+    propBtnText || customerReviews?.ctaButton?.text || "Place an Order Now";
+
+  type ReviewType = {
+    id?: number | string;
+    title: string;
+    description: string;
+  };
+
+  // Use MongoDB reviews if available
+  const mongoReviews = useMemo(() => {
+    if (
+      customerReviews?.reviews &&
+      Array.isArray(customerReviews.reviews) &&
+      customerReviews.reviews.length > 0
+    ) {
+      return customerReviews.reviews.map((review: any, index: number) => ({
+        id: review.id || index + 1,
+        title: review.title || "",
+        description: review.description || "",
+      }));
+    }
+    return null;
+  }, [customerReviews]);
   // Filter out negative reviews and remove duplicates
   const getUniqueReviews = () => {
     const negativeKeywords = [
@@ -662,7 +689,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     return uniqueReviews;
   };
 
-  const displayedReviews = getUniqueReviews();
+  const displayedReviews = mongoReviews || getUniqueReviews();
 
   // Group reviews into chunks of 6 (3 columns x 2 rows per slide)
   const groupedReviews = [];
@@ -704,6 +731,11 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         </p> */}
 
         {/* Trustpilot Rating */}
+        {customerReviews?.trustpilotRating && (
+          <p className="text-center text-gray-600 mb-4">
+            {customerReviews.trustpilotRating}
+          </p>
+        )}
         <div className="flex justify-center items-center gap-2 mt-4">
           <div className="flex items-end gap-1">
             <Image src={Trustpilot} alt="Trustpilot" className="md:w-10 w-8" />
@@ -712,7 +744,8 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
           <Image src={StarGroup} alt="5 Stars" className="max-w-32" />
         </div>
         <p className="text-[#7d7d7d] text-center mt-2">
-          Rated 4.6/5 Based on 1000+ Reviews
+          {customerReviews?.trustpilotRating ||
+            "Rated 4.6/5 Based on 1000+ Reviews"}
         </p>
 
         {/* Desktop Slider - 3 cards per row, 2 rows per slide */}
@@ -721,7 +754,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
             {groupedReviews.map((group, groupIndex) => (
               <div key={groupIndex}>
                 <div className="grid grid-cols-3 gap-6">
-                  {group.map((review, index) => (
+                  {group.map((review: ReviewType, index: number) => (
                     <div key={index}>
                       <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
                         <Image src={Verifiend} alt="Review" />
@@ -741,7 +774,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         {/* Mobile Slider - 1 card per slide */}
         <div className="mt-8 md:hidden block">
           <Slider {...settings}>
-            {displayedReviews.map((review, index) => (
+            {displayedReviews.map((review: ReviewType, index: number) => (
               <div key={index} className="px-2">
                 <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
                   <Image src={Verifiend} alt="Review" />
