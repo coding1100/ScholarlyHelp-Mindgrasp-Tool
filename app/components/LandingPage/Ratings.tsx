@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Star } from "lucide-react";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 // Import all images at the top (Next.js static imports)
 import sitejabberLogo from "@/app/assets/Images/sidejabber.webp";
@@ -11,7 +11,7 @@ import trustpilotLogo from "@/app/assets/Images/Trustpilot.webp";
 import reviewIoLogo from "@/app/assets/Images/review.webp";
 
 export default function ReviewRatings() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const ratings = data?.ratings;
   
   type PlatformType = {

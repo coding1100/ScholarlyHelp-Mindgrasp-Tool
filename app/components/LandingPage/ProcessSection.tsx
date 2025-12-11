@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 export default function ProcessSection() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const processSection = data?.processSection;
   
   type StepType = {

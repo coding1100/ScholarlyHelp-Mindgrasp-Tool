@@ -8,12 +8,12 @@ import Description from "@/app/components/LandingPage/Description";
 import GuaranteedBlock from "@/app/components/LandingPage/GuaranteedBlock";
 import ProcessSection from "@/app/components/LandingPage/ProcessSection";
 import Success from "@/app/components/LandingPage/Success";
-import Subjects from "@/app/components/LandingPage/Subjects";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
+import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import GetQoute from "@/app/components/LandingPage/GetQoute";
 import Faq from "@/app/components/LandingPage/Faq";
-import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
-import { ExamDataProvider } from "../exam/ExamDataProvider";
+import Subjects from "@/app/components/LandingPage/Subjects";
+import { ExamDataProvider } from "./ExamDataProvider";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = 'force-dynamic';
@@ -70,7 +70,6 @@ const Page = async () => {
     </ExamDataProvider>
   );
 };
-
 export default Page;
 
 export async function generateMetadata() {
@@ -118,3 +117,4 @@ export async function generateMetadata() {
     },
   };
 }
+

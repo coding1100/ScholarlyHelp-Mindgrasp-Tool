@@ -4,7 +4,7 @@ import { useRef, useState, useEffect, useMemo } from "react";
 import Slider, { Settings } from "react-slick";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 import slid1 from "@/app/assets/Images/slide1.svg";
 import slid2 from "@/app/assets/Images/slide2.svg";
@@ -68,7 +68,7 @@ const cardData = [
 ];
 
 export default function CardCarousel() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const cardCarousel = data?.cardCarousel;
   const sliderRef = useRef<Slider | null>(null);
   const [slidesToShow, setSlidesToShow] = useState(5);

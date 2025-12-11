@@ -3,7 +3,7 @@
 
 import { FC, useState, useMemo } from "react";
 import Image from "next/image";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 const DownArrow = "/assets/Icon/faqDropdown.webp";
 
 const faqContent = [
@@ -71,7 +71,7 @@ const faqContent = [
 ];
 
 const Faq: FC = () => {
-  const data = useAssignmentData();
+  const data = usePageData();
   const faq = data?.faq;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [showMore, setShowMore] = useState(false);

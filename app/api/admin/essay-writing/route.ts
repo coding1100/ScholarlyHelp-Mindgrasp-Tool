@@ -35,46 +35,46 @@ export async function GET(request: NextRequest) {
     await client.connect();
     const db = client.db('scholarly_help');
     
-    // If list=all, return all online-class pages
+    // If list=all, return all essay-writing pages
     if (listAll) {
-      const pages = await db.collection('online_classes').find({}).toArray();
-      console.log(`Found ${pages.length} pages in online_classes collection`);
+      const pages = await db.collection('essay_writing').find({}).toArray();
+      console.log(`Found ${pages.length} pages in essay_writing collection`);
       await client.close();
       return NextResponse.json({ pages }, { headers: corsHeaders });
     }
     
-    // Query by slug for subject pages, or by id (if slug matches id), or by id: "online_class_page" for main page
+    // Query by slug for subject pages, or by id (if slug matches id), or by id: "essay_writing_page" for main page
     let query;
     if (slug) {
       // Check if slug is for main page
-      if (slug === 'online_class_page' || slug === 'online_classes_page' || slug === 'main') {
-        // Query for main online-class page - try multiple variations including with/without 's'
+      if (slug === 'essay_writing_page' || slug === 'essay_writings_page' || slug === 'main') {
+        // Query for main essay-writing page - try multiple variations including with/without 's'
         query = { 
           $or: [
-            { id: "online_class_page" }, 
-            { id: "online_classes_page" },
+            { id: "essay_writing_page" }, 
+            { id: "essay_writings_page" },
             { id: "main" },
-            { slug: "online_class_page" },
-            { slug: "online_classes_page" },
+            { slug: "essay_writing_page" },
+            { slug: "essay_writings_page" },
             { slug: "main" }
           ] 
         };
-        console.log('Querying online_classes for main page (via slug), query:', JSON.stringify(query));
+        console.log('Querying essay_writing for main page (via slug), query:', JSON.stringify(query));
       } else {
         // Handle different slug formats for subject pages
         let slugVariations = [slug];
         
-        // If slug is like "online_class_english", also try "english"
-        if (slug.startsWith('online_class_')) {
-          slugVariations.push(slug.replace('online_class_', ''));
-        } else if (slug.startsWith('online_classes_')) {
-          // Handle online_classes_ prefix
-          slugVariations.push(slug.replace('online_classes_', ''));
-          slugVariations.push(slug.replace('online_classes_', 'online_class_'));
+        // If slug is like "essay_writing_english", also try "english"
+        if (slug.startsWith('essay_writing_')) {
+          slugVariations.push(slug.replace('essay_writing_', ''));
+        } else if (slug.startsWith('essay_writings_')) {
+          // Handle essay_writings_ prefix
+          slugVariations.push(slug.replace('essay_writings_', ''));
+          slugVariations.push(slug.replace('essay_writings_', 'essay_writing_'));
         } else {
-          // If slug is like "english", also try "online_class_english"
-          slugVariations.push(`online_class_${slug}`);
-          slugVariations.push(`online_classes_${slug}`);
+          // If slug is like "english", also try "essay_writing_english"
+          slugVariations.push(`essay_writing_${slug}`);
+          slugVariations.push(`essay_writings_${slug}`);
         }
         
         // Build query to match any variation
@@ -84,24 +84,24 @@ export async function GET(request: NextRequest) {
           orConditions.push({ id: variation });
         }
         query = { $or: orConditions };
-        console.log(`Querying online_classes with slug: ${slug}, query:`, JSON.stringify(query));
+        console.log(`Querying essay_writing with slug: ${slug}, query:`, JSON.stringify(query));
       }
     } else {
-      // Query for main online-class page - try multiple variations including with/without 's'
+      // Query for main essay-writing page - try multiple variations including with/without 's'
       query = { 
         $or: [
-          { id: "online_class_page" }, 
-          { id: "online_classes_page" },
+          { id: "essay_writing_page" }, 
+          { id: "essay_writings_page" },
           { id: "main" },
-          { slug: "online_class_page" },
-          { slug: "online_classes_page" },
+          { slug: "essay_writing_page" },
+          { slug: "essay_writings_page" },
           { slug: "main" }
         ] 
       };
-      console.log('Querying online_classes for main page, query:', JSON.stringify(query));
+      console.log('Querying essay_writing for main page, query:', JSON.stringify(query));
     }
     
-    const content = await db.collection('online_classes').findOne(query);
+    const content = await db.collection('essay_writing').findOne(query);
     console.log(`Found content:`, content ? 'Yes' : 'No');
     await client.close();
 
@@ -117,7 +117,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('POST /api/admin/online-class - Starting save operation');
+    console.log('POST /api/admin/essay-writing - Starting save operation');
 
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
@@ -149,21 +149,21 @@ export async function POST(request: NextRequest) {
     
     // Use the id from the body to determine the page type
     // pageType should match the id value
-    const finalId = id || slug || "online_class_page";
+    const finalId = id || slug || "essay_writing_page";
     
-    if (id === "online_class_page" || id === "online_classes_page") {
-      // Main online-class page - normalize to online_class_page
+    if (id === "essay_writing_page" || id === "essay_writings_page") {
+      // Main essay-writing page - normalize to essay_writing_page
       query = { 
         $or: [
-          { id: "online_class_page" }, 
-          { id: "online_classes_page" },
+          { id: "essay_writing_page" }, 
+          { id: "essay_writings_page" },
           { id: "main" }
         ] 
       };
-      dataToSave = { ...updateData, id: "online_class_page", pageType: "online_class_page" };
-    } else if (id && id.startsWith("online_class_")) {
-      // Subject pages like online_class_english, online_class_math, etc.
-      const subjectSlug = id.replace("online_class_", "");
+      dataToSave = { ...updateData, id: "essay_writing_page", pageType: "essay_writing_page" };
+    } else if (id && id.startsWith("essay_writing_")) {
+      // Subject pages like essay_writing_english, essay_writing_math, etc.
+      const subjectSlug = id.replace("essay_writing_", "");
       query = { $or: [{ id }, { slug: subjectSlug }, { id: subjectSlug }] };
       dataToSave = { ...updateData, id, slug: slug || subjectSlug, pageType: id };
     } else if (slug) {
@@ -176,18 +176,18 @@ export async function POST(request: NextRequest) {
       query = { $or: [{ slug: id }, { id }] };
       dataToSave = { ...updateData, slug: id, id, pageType: id };
     } else {
-      // Default to online_class_page
+      // Default to essay_writing_page
       query = { 
         $or: [
-          { id: "online_class_page" }, 
-          { id: "online_classes_page" },
+          { id: "essay_writing_page" }, 
+          { id: "essay_writings_page" },
           { id: "main" }
         ] 
       };
-      dataToSave = { ...updateData, id: "online_class_page", pageType: "online_class_page" };
+      dataToSave = { ...updateData, id: "essay_writing_page", pageType: "essay_writing_page" };
     }
     
-    const result = await db.collection('online_classes').replaceOne(query, dataToSave, { upsert: true });
+    const result = await db.collection('essay_writing').replaceOne(query, dataToSave, { upsert: true });
     console.log('Save result:', result);
 
     await client.close();
@@ -227,7 +227,7 @@ export async function DELETE(request: NextRequest) {
     const db = client.db('scholarly_help');
     
     // Try to delete by slug or id
-    const result = await db.collection('online_classes').deleteOne({ $or: [{ slug }, { id: slug }] });
+    const result = await db.collection('essay_writing').deleteOne({ $or: [{ slug }, { id: slug }] });
     await client.close();
 
     if (result.deletedCount === 0) {
@@ -247,3 +247,4 @@ export async function DELETE(request: NextRequest) {
     }, { status: 500, headers: corsHeaders });
   }
 }
+
