@@ -183,12 +183,14 @@ export default function OnlineClassAdmin() {
     if (pageId) {
       setPageLoading(true);
       try {
+        // Find the page in availablePages for slug extraction
+        const page = availablePages.find(p => p.id === pageId);
+        
         // For main page, fetch without slug to trigger main page query logic
         let apiUrl = '';
         if (pageId === 'online_class_page') {
           apiUrl = '/api/admin/online-class';
         } else {
-          const page = availablePages.find(p => p.id === pageId);
           // Use the pageId directly as slug for API call (handles both online_class_english and english formats)
           const slug = pageId.startsWith('online_class_') ? pageId : (page?.slug || pageId);
           apiUrl = `/api/admin/online-class?slug=${slug}`;
