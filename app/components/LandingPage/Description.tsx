@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 const HowWeHelp: React.FC = () => {
-  const data = useAssignmentData();
+  const data = usePageData();
   const description = data?.description;
   
   const scrollToQuote = () => {

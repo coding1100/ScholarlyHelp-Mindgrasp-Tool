@@ -19,105 +19,62 @@ export async function GET(request: NextRequest) {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
-      console.error('DATABASE_URL not configured');
-      return NextResponse.json({ error: 'Database not configured' }, { status: 500, headers: corsHeaders });
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
     }
 
     const { searchParams } = new URL(request.url);
     const slug = searchParams.get('slug');
     const listAll = searchParams.get('list') === 'all';
 
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-    });
-    
+    const client = new MongoClient(databaseUrl);
     await client.connect();
     const db = client.db('scholarly_help');
     
-    // If list=all, return all online-class pages
+    // If list=all, return all exam pages
     if (listAll) {
-      const pages = await db.collection('online_classes').find({}).toArray();
-      console.log(`Found ${pages.length} pages in online_classes collection`);
+      const pages = await db.collection('exam').find({}).toArray();
       await client.close();
       return NextResponse.json({ pages }, { headers: corsHeaders });
     }
     
-    // Query by slug for subject pages, or by id (if slug matches id), or by id: "online_class_page" for main page
+    // Query by slug for subject pages, or by id (if slug matches id), or by id: "exam_page" for main page
     let query;
     if (slug) {
-      // Check if slug is for main page
-      if (slug === 'online_class_page' || slug === 'online_classes_page' || slug === 'main') {
-        // Query for main online-class page - try multiple variations including with/without 's'
-        query = { 
-          $or: [
-            { id: "online_class_page" }, 
-            { id: "online_classes_page" },
-            { id: "main" },
-            { slug: "online_class_page" },
-            { slug: "online_classes_page" },
-            { slug: "main" }
-          ] 
-        };
-        console.log('Querying online_classes for main page (via slug), query:', JSON.stringify(query));
+      // Handle different slug formats
+      let slugVariations = [slug];
+      
+      // If slug is like "exam_english", also try "english"
+      if (slug.startsWith('exam_')) {
+        slugVariations.push(slug.replace('exam_', ''));
       } else {
-        // Handle different slug formats for subject pages
-        let slugVariations = [slug];
-        
-        // If slug is like "online_class_english", also try "english"
-        if (slug.startsWith('online_class_')) {
-          slugVariations.push(slug.replace('online_class_', ''));
-        } else if (slug.startsWith('online_classes_')) {
-          // Handle online_classes_ prefix
-          slugVariations.push(slug.replace('online_classes_', ''));
-          slugVariations.push(slug.replace('online_classes_', 'online_class_'));
-        } else {
-          // If slug is like "english", also try "online_class_english"
-          slugVariations.push(`online_class_${slug}`);
-          slugVariations.push(`online_classes_${slug}`);
-        }
-        
-        // Build query to match any variation
-        const orConditions = [];
-        for (const variation of slugVariations) {
-          orConditions.push({ slug: variation });
-          orConditions.push({ id: variation });
-        }
-        query = { $or: orConditions };
-        console.log(`Querying online_classes with slug: ${slug}, query:`, JSON.stringify(query));
+        // If slug is like "english", also try "exam_english"
+        slugVariations.push(`exam_${slug}`);
       }
+      
+      // Build query to match any variation
+      const orConditions = [];
+      for (const variation of slugVariations) {
+        orConditions.push({ slug: variation });
+        orConditions.push({ id: variation });
+      }
+      query = { $or: orConditions };
     } else {
-      // Query for main online-class page - try multiple variations including with/without 's'
-      query = { 
-        $or: [
-          { id: "online_class_page" }, 
-          { id: "online_classes_page" },
-          { id: "main" },
-          { slug: "online_class_page" },
-          { slug: "online_classes_page" },
-          { slug: "main" }
-        ] 
-      };
-      console.log('Querying online_classes for main page, query:', JSON.stringify(query));
+      // Query for main exam page - try both "main" and "exam_page" for backward compatibility
+      query = { $or: [{ id: "exam_page" }, { id: "main" }] };
     }
-    
-    const content = await db.collection('online_classes').findOne(query);
-    console.log(`Found content:`, content ? 'Yes' : 'No');
+    const content = await db.collection('exam').findOne(query);
     await client.close();
 
     return NextResponse.json(content || {}, { headers: corsHeaders });
   } catch (error) {
     console.error('Error fetching from MongoDB:', error);
-    return NextResponse.json({ 
-      error: 'Failed to fetch data',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500, headers: corsHeaders });
+    return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500, headers: corsHeaders });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('POST /api/admin/online-class - Starting save operation');
+    console.log('POST /api/admin/exam - Starting save operation');
 
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
@@ -149,21 +106,15 @@ export async function POST(request: NextRequest) {
     
     // Use the id from the body to determine the page type
     // pageType should match the id value
-    const finalId = id || slug || "online_class_page";
+    const finalId = id || slug || "exam_page";
     
-    if (id === "online_class_page" || id === "online_classes_page") {
-      // Main online-class page - normalize to online_class_page
-      query = { 
-        $or: [
-          { id: "online_class_page" }, 
-          { id: "online_classes_page" },
-          { id: "main" }
-        ] 
-      };
-      dataToSave = { ...updateData, id: "online_class_page", pageType: "online_class_page" };
-    } else if (id && id.startsWith("online_class_")) {
-      // Subject pages like online_class_english, online_class_math, etc.
-      const subjectSlug = id.replace("online_class_", "");
+    if (id === "exam_page") {
+      // Main exam page
+      query = { $or: [{ id: "exam_page" }, { id: "main" }] };
+      dataToSave = { ...updateData, id: "exam_page", pageType: "exam_page" };
+    } else if (id && id.startsWith("exam_")) {
+      // Subject pages like exam_english, exam_math, etc.
+      const subjectSlug = id.replace("exam_", "");
       query = { $or: [{ id }, { slug: subjectSlug }, { id: subjectSlug }] };
       dataToSave = { ...updateData, id, slug: slug || subjectSlug, pageType: id };
     } else if (slug) {
@@ -176,18 +127,12 @@ export async function POST(request: NextRequest) {
       query = { $or: [{ slug: id }, { id }] };
       dataToSave = { ...updateData, slug: id, id, pageType: id };
     } else {
-      // Default to online_class_page
-      query = { 
-        $or: [
-          { id: "online_class_page" }, 
-          { id: "online_classes_page" },
-          { id: "main" }
-        ] 
-      };
-      dataToSave = { ...updateData, id: "online_class_page", pageType: "online_class_page" };
+      // Default to exam_page
+      query = { $or: [{ id: "exam_page" }, { id: "main" }] };
+      dataToSave = { ...updateData, id: "exam_page", pageType: "exam_page" };
     }
     
-    const result = await db.collection('online_classes').replaceOne(query, dataToSave, { upsert: true });
+    const result = await db.collection('exam').replaceOne(query, dataToSave, { upsert: true });
     console.log('Save result:', result);
 
     await client.close();
@@ -227,7 +172,7 @@ export async function DELETE(request: NextRequest) {
     const db = client.db('scholarly_help');
     
     // Try to delete by slug or id
-    const result = await db.collection('online_classes').deleteOne({ $or: [{ slug }, { id: slug }] });
+    const result = await db.collection('exam').deleteOne({ $or: [{ slug }, { id: slug }] });
     await client.close();
 
     if (result.deletedCount === 0) {
@@ -247,3 +192,4 @@ export async function DELETE(request: NextRequest) {
     }, { status: 500, headers: corsHeaders });
   }
 }
+

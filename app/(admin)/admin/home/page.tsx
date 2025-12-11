@@ -2,168 +2,18 @@
 
 import { useState, useEffect } from "react";
 
-export default function AssignmentAdmin() {
-  const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
-  const [selectedPage, setSelectedPage] = useState<string>('assignment_page');
+export default function HomeAdmin() {
   const [pageData, setPageData] = useState<any>(null);
   const [pageLoading, setPageLoading] = useState(false);
 
-  // Fetch all available pages
+  // Load home page data on mount
   useEffect(() => {
-    const fetchAvailablePages = async () => {
-      try {
-        const res = await fetch('/api/admin/assignment?list=all');
-        if (!res.ok) {
-          console.error('Failed to fetch pages:', res.status, res.statusText);
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        const data = await res.json();
-        if (data.error) {
-          console.error('API error:', data.error);
-          throw new Error(data.error);
-        }
-        if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
-            let pageId = page.id || page.slug || '';
-            let slug = page.slug || page.id || '';
-            
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              // If it's a subject slug like "english", make it "assignment_english"
-              pageId = `assignment_${pageId}`;
-            }
-            
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
-            }
-            
-            // Format title
-            let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
-            } else {
-              title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
-            }
-            
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
-          
-          // Ensure assignment_page is in the list
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
-          }
-          
-          // Sort: assignment_page first, then alphabetically
-          pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
-            return a.title.localeCompare(b.title);
-          });
-          
-          setAvailablePages(pages);
-        } else {
-        // Default pages if none found
-        setAvailablePages([
-          { id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' },
-          { id: 'assignment_english', slug: 'english', title: 'Assignment English' },
-          { id: 'assignment_math', slug: 'math', title: 'Assignment Math' }
-        ]);
-        }
-      } catch (error) {
-        console.error('Error fetching available pages:', error);
-        alert(`Error loading pages: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your DATABASE_URL environment variable in Vercel.`);
-        // Default pages on error
-        setAvailablePages([
-          { id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' },
-          { id: 'assignment_english', slug: 'english', title: 'Assignment English' },
-          { id: 'assignment_math', slug: 'math', title: 'Assignment Math' }
-        ]);
-      }
-    };
-    fetchAvailablePages();
-  }, []);
-
-  // Auto-select assignment_page when pages are loaded
-  useEffect(() => {
-    if (availablePages.length > 0 && selectedPage === 'assignment_page' && !pageData && !pageLoading) {
-      const loadAssignmentPage = async () => {
-        setPageLoading(true);
-        try {
-          const res = await fetch(`/api/admin/assignment?slug=assignment_page`);
-          if (!res.ok) {
-            console.error('Failed to fetch assignment page:', res.status, res.statusText);
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-          const data = await res.json();
-          if (data.error) {
-            console.error('API error:', data.error);
-            throw new Error(data.error);
-          }
-          
-          setPageData(data && Object.keys(data).length > 0 ? {
-            ...data,
-            pageType: data.id || data.pageType || 'assignment_page'
-          } : {
-            id: 'assignment_page',
-            pageType: 'assignment_page',
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
-        } catch (error) {
-          console.error('Error fetching assignment page:', error);
-          setPageData({
-            id: 'assignment_page',
-            pageType: 'assignment_page',
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
-        } finally {
-          setPageLoading(false);
-        }
-      };
-      loadAssignmentPage();
-    }
-  }, [availablePages]);
-
-  // Fetch page data when page is selected
-  const handlePageChange = async (pageId: string) => {
-    setSelectedPage(pageId);
-    if (pageId) {
+    const loadHomePage = async () => {
       setPageLoading(true);
       try {
-        const page = availablePages.find(p => p.id === pageId);
-        // Use the pageId directly as slug for API call (handles both assignment_english and english formats)
-        const slug = pageId.startsWith('assignment_') ? pageId : (page?.slug || pageId);
-        const res = await fetch(`/api/admin/assignment?slug=${slug}`);
+        const res = await fetch(`/api/admin/home`);
         if (!res.ok) {
-          console.error('Failed to fetch page:', res.status, res.statusText);
+          console.error('Failed to fetch home page:', res.status, res.statusText);
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
@@ -172,256 +22,47 @@ export default function AssignmentAdmin() {
           throw new Error(data.error);
         }
         
-        if (pageId === 'assignment_page') {
-          // Assignment page structure
-          setPageData(data && Object.keys(data).length > 0 ? {
-            ...data,
-            pageType: data.id || data.pageType || 'assignment_page'
-          } : {
-            id: 'assignment_page',
-            pageType: 'assignment_page',
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
-        } else {
-          // Subject page structure (same as assignment_english)
-          // Extract slug from pageId (assignment_english -> english)
-          const extractedSlug = pageId.startsWith('assignment_') 
-            ? pageId.replace('assignment_', '') 
-            : (page?.slug || pageId);
-          
-          setPageData(data && Object.keys(data).length > 0 ? {
-            ...data,
-            slug: data.slug || extractedSlug,
-            id: data.id || pageId,
-            pageType: data.id || pageId
-          } : {
-            id: pageId,
-            slug: extractedSlug,
-            pageType: pageId,
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
-        }
+        setPageData(data && Object.keys(data).length > 0 ? {
+          ...data,
+          pageType: data.id || data.pageType || 'home_page'
+        } : {
+          id: 'home_page',
+          pageType: 'home_page',
+          meta: { title: '', description: '', canonicalUrl: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '' },
+          whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
+          guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          processSection: { mainHeading: '', description: '', steps: [] },
+          success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+          getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          faq: { mainHeading: '', faqs: [] }
+        });
       } catch (error) {
-        console.error('Error fetching page:', error);
-        if (pageId === 'assignment_page') {
-          setPageData({
-            id: 'assignment_page',
-            pageType: 'assignment_page',
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
-        } else {
-          // Extract slug from pageId (assignment_english -> english)
-          const extractedSlug = pageId.startsWith('assignment_') 
-            ? pageId.replace('assignment_', '') 
-            : (availablePages.find(p => p.id === pageId)?.slug || pageId);
+        console.error('Error fetching home page:', error);
         setPageData({
-            id: pageId,
-            slug: extractedSlug,
-            pageType: pageId,
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
-        }
+          id: 'home_page',
+          pageType: 'home_page',
+          meta: { title: '', description: '', canonicalUrl: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '' },
+          whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
+          guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          processSection: { mainHeading: '', description: '', steps: [] },
+          success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+          getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          faq: { mainHeading: '', faqs: [] }
+        });
       } finally {
         setPageLoading(false);
       }
-    } else {
-      setPageData(null);
-    }
-  };
-
-  const handlePageSave = async () => {
-    if (!pageData) return;
-    setPageLoading(true);
-    try {
-      const response = await fetch('/api/admin/assignment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(pageData),
-      });
-      const result = await response.json();
-      if (result.success) {
-        alert('Page saved successfully!');
-        // Refresh available pages list
-        const res = await fetch('/api/admin/assignment?list=all');
-        const data = await res.json();
-        if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
-            let pageId = page.id || page.slug || '';
-            let slug = page.slug || page.id || '';
-            
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              pageId = `assignment_${pageId}`;
-            }
-            
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
-            }
-            
-            // Format title
-            let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
-            } else {
-              title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
-            }
-            
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
-          
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
-          }
-          
-          // Sort: assignment_page first, then alphabetically
-          pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
-            return a.title.localeCompare(b.title);
-          });
-          
-          setAvailablePages(pages);
-        }
-      } else {
-        alert('Error saving page');
-      }
-    } catch (error) {
-      alert('Error saving page');
-    } finally {
-      setPageLoading(false);
-    }
-  };
-
-  const handlePageDelete = async () => {
-    if (!pageData?.id || pageData.id === 'assignment_page') {
-      alert('Cannot delete the main assignment page');
-      return;
-    }
-    
-    if (!confirm(`Are you sure you want to delete "${pageData.id}"? This action cannot be undone.`)) {
-      return;
-    }
-
-    setPageLoading(true);
-    try {
-      const page = availablePages.find(p => p.id === pageData.id);
-      const slug = page?.slug || pageData.slug || pageData.id;
-      const response = await fetch(`/api/admin/assignment?slug=${slug}`, {
-        method: 'DELETE',
-      });
-      const result = await response.json();
-      if (result.success) {
-        alert('Page deleted successfully!');
-        setSelectedPage('');
-        setPageData(null);
-        // Refresh available pages list
-        const res = await fetch('/api/admin/assignment?list=all');
-        const data = await res.json();
-        if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
-            let pageId = page.id || page.slug || '';
-            let slug = page.slug || page.id || '';
-            
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              pageId = `assignment_${pageId}`;
-            }
-            
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
-            }
-            
-            // Format title
-            let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
-            } else {
-              title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
-            }
-            
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
-          
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
-          }
-          
-          // Sort: assignment_page first, then alphabetically
-          pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
-            return a.title.localeCompare(b.title);
-          });
-          
-          setAvailablePages(pages);
-        }
-      } else {
-        alert('Error deleting page');
-      }
-    } catch (error) {
-      alert('Error deleting page');
-    } finally {
-      setPageLoading(false);
-    }
-  };
+    };
+    loadHomePage();
+  }, []);
 
   const updatePageData = (path: string, value: any) => {
     const keys = path.split('.');
@@ -429,10 +70,31 @@ export default function AssignmentAdmin() {
       const newData = { ...prev };
       let current = newData;
       for (let i = 0; i < keys.length - 1; i++) {
-        if (!current[keys[i]]) current[keys[i]] = {};
+        if (!current[keys[i]]) {
+          current[keys[i]] = {};
+        }
         current = current[keys[i]];
       }
       current[keys[keys.length - 1]] = value;
+      return newData;
+    });
+  };
+
+  const addArrayItem = (path: string, item: any) => {
+    const keys = path.split('.');
+    setPageData((prev: any) => {
+      const newData = { ...prev };
+      let current = newData;
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (!current[keys[i]]) {
+          current[keys[i]] = {};
+        }
+        current = current[keys[i]];
+      }
+      if (!Array.isArray(current[keys[keys.length - 1]])) {
+        current[keys[keys.length - 1]] = [];
+      }
+      current[keys[keys.length - 1]].push(item);
       return newData;
     });
   };
@@ -443,25 +105,9 @@ export default function AssignmentAdmin() {
       const newData = { ...prev };
       let current = newData;
       for (let i = 0; i < keys.length; i++) {
-        if (!current[keys[i]]) current[keys[i]] = [];
         current = current[keys[i]];
       }
-      if (!current[index]) current[index] = {};
       current[index][field] = value;
-      return newData;
-    });
-  };
-
-  const addArrayItem = (path: string, defaultItem: any) => {
-    const keys = path.split('.');
-    setPageData((prev: any) => {
-      const newData = { ...prev };
-      let current = newData;
-      for (let i = 0; i < keys.length; i++) {
-        if (!current[keys[i]]) current[keys[i]] = [];
-        current = current[keys[i]];
-      }
-      current.push(defaultItem);
       return newData;
     });
   };
@@ -477,6 +123,29 @@ export default function AssignmentAdmin() {
       current.splice(index, 1);
       return newData;
     });
+  };
+
+  const handlePageSave = async () => {
+    if (!pageData) return;
+    setPageLoading(true);
+    try {
+      const response = await fetch('/api/admin/home', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pageData),
+      });
+      const result = await response.json();
+      if (result.success) {
+        alert('Home page saved successfully!');
+      } else {
+        alert(`Error: ${result.error || 'Failed to save'}`);
+      }
+    } catch (error) {
+      console.error('Error saving page:', error);
+      alert(`Error saving page: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setPageLoading(false);
+    }
   };
 
   const renderPageForm = () => {
@@ -504,6 +173,15 @@ export default function AssignmentAdmin() {
                 value={pageData.meta?.description || ''}
                 onChange={(e) => updatePageData('meta.description', e.target.value)}
           className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Canonical URL</label>
+              <input
+                type="text"
+                value={pageData.meta?.canonicalUrl || ''}
+                onChange={(e) => updatePageData('meta.canonicalUrl', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
       </div>
@@ -651,7 +329,7 @@ export default function AssignmentAdmin() {
                 value={(pageData.description?.badges || []).join(', ')}
                 onChange={(e) => updatePageData('description.badges', e.target.value.split(',').map((b: string) => b.trim()).filter(Boolean))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Online Class Help, Assignment Help, Online Exam Help"
+                placeholder="Badge 1, Badge 2, Badge 3"
               />
             </div>
             <div>
@@ -1036,16 +714,6 @@ export default function AssignmentAdmin() {
 
           {/* Save Button */}
         <div className="flex justify-end gap-4">
-          {selectedPage && selectedPage !== 'assignment_page' && (
-            <button
-              type="button"
-              onClick={handlePageDelete}
-              disabled={pageLoading}
-              className="inline-flex items-center px-6 py-3 border border-red-300 text-base font-medium rounded-md shadow-sm text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Delete
-            </button>
-          )}
             <button
               type="submit"
               disabled={pageLoading}
@@ -1071,25 +739,8 @@ export default function AssignmentAdmin() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Manage Assignment Content</h1>
-        <p className="mt-2 text-sm text-gray-600">Select a page to edit its content</p>
-      </div>
-
-      {/* Page Selector */}
-      <div className="mb-8">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Select Page</label>
-        <select
-          value={selectedPage}
-          onChange={(e) => handlePageChange(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="">Select a page...</option>
-          {availablePages.map((page) => (
-            <option key={page.id} value={page.id}>
-              {page.title || page.id}
-            </option>
-          ))}
-        </select>
+        <h1 className="text-3xl font-bold text-gray-900">Manage Home Page Content</h1>
+        <p className="mt-2 text-sm text-gray-600">Edit the home page content</p>
       </div>
 
       {pageLoading && (
@@ -1098,10 +749,10 @@ export default function AssignmentAdmin() {
         </div>
       )}
 
-      {!pageLoading && selectedPage && (
+      {!pageLoading && (
         <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
           <p className="text-sm text-blue-800">
-            <strong>Editing:</strong> {availablePages.find(p => p.id === selectedPage)?.title || selectedPage}
+            <strong>Editing:</strong> Home Page
           </p>
         </div>
       )}
@@ -1110,3 +761,4 @@ export default function AssignmentAdmin() {
     </div>
   );
 }
+

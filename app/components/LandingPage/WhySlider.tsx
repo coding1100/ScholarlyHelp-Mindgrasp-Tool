@@ -7,7 +7,7 @@ import icon2 from "@/app/assets/Icons/icon-2.png";
 import icon3 from "@/app/assets/Icons/icon-3.png";
 import boxShadow from "@/app/assets/Images/center-box-shadow.svg";
 import Image from "next/image";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 type SliderItem = {
   icon: string | any;
@@ -114,7 +114,7 @@ interface WhySliderProps {
 }
 
 const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
-  const data = useAssignmentData();
+  const data = usePageData();
   const whyData = propWhyData || data?.whySlider;
   
   // Convert MongoDB sliderItems to component format
