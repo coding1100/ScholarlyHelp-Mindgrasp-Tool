@@ -183,12 +183,14 @@ export default function EssayWritingAdmin() {
     if (pageId) {
       setPageLoading(true);
       try {
+        // Find the page in availablePages for slug extraction
+        const page = availablePages.find(p => p.id === pageId);
+        
         // For main page, fetch without slug to trigger main page query logic
         let apiUrl = '';
         if (pageId === 'essay_writing_page') {
           apiUrl = '/api/admin/essay-writing';
         } else {
-          const page = availablePages.find(p => p.id === pageId);
           // Use the pageId directly as slug for API call (handles both essay_writing_english and english formats)
           const slug = pageId.startsWith('essay_writing_') ? pageId : (page?.slug || pageId);
           apiUrl = `/api/admin/essay-writing?slug=${slug}`;
