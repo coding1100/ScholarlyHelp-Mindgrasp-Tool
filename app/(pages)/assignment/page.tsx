@@ -38,7 +38,7 @@ async function fetchAssignmentData() {
     
     // Query for main assignment page
     const query = { 
-      $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }]
+      $or: [{ id: "assignment_page" }, { id: "main" }]
     };
     
     const content = await db.collection('assignments').findOne(query);
@@ -86,7 +86,7 @@ export async function generateMetadata() {
       const db = client.db('scholarly_help');
       
       const query = { 
-        $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }]
+        $or: [{ id: "assignment_page" }, { id: "main" }]
       };
       
       const pageData: any = await db.collection('assignments').findOne(query);

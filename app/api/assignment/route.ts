@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
     } else {
       // Query for main assignment page
       query = { 
-        $or: [{ id: "assignment_page" }, { id: "main" }, { pageType: "assignment_page" }],
+        $or: [{ id: "assignment_page" }, { id: "main" }],
         status: { $ne: 'draft' }
       };
     }
