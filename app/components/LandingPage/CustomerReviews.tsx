@@ -631,8 +631,9 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
 }) => {
   const data = useAssignmentData();
   const customerReviews = data?.customerReviews;
-  const btnText = propBtnText || customerReviews?.ctaButton?.text || "Place an Order Now";
-  
+  const btnText =
+    propBtnText || customerReviews?.ctaButton?.text || "Place an Order Now";
+
   type ReviewType = {
     id?: number | string;
     title: string;
@@ -641,11 +642,15 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
 
   // Use MongoDB reviews if available
   const mongoReviews = useMemo(() => {
-    if (customerReviews?.reviews && Array.isArray(customerReviews.reviews) && customerReviews.reviews.length > 0) {
+    if (
+      customerReviews?.reviews &&
+      Array.isArray(customerReviews.reviews) &&
+      customerReviews.reviews.length > 0
+    ) {
       return customerReviews.reviews.map((review: any, index: number) => ({
         id: review.id || index + 1,
-        title: review.title || '',
-        description: review.description || ''
+        title: review.title || "",
+        description: review.description || "",
       }));
     }
     return null;
@@ -718,8 +723,8 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     <div className="bg-white text-[#171717] w-full">
       <div className="max-w-7xl mx-auto pt-2 pb-3  max-[1320px]:px-8">
         {/* Header */}
-        <h2 className="font-bold text-[#000] text-center text-[42px]  mb-3">
-          {customerReviews?.mainHeading || "How Students Rate Us!"}
+        <h2 className="font-bold text-[#000] text-center [992px]:text-[42px] text-[30px]  mb-3">
+          How Students Rate Us!
         </h2>
         {/* <p className="md:text-5xl text-2xl text-[#00B67A] text-center mt-2">
           Excellent
@@ -739,7 +744,8 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
           <Image src={StarGroup} alt="5 Stars" className="max-w-32" />
         </div>
         <p className="text-[#7d7d7d] text-center mt-2">
-          {customerReviews?.trustpilotRating || "Rated 4.6/5 Based on 1000+ Reviews"}
+          {customerReviews?.trustpilotRating ||
+            "Rated 4.6/5 Based on 1000+ Reviews"}
         </p>
 
         {/* Desktop Slider - 3 cards per row, 2 rows per slide */}
