@@ -2,6 +2,7 @@
 
 // app/components/GuaranteeSection.tsx
 import Image from "next/image"; // optional – replace with your own button
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 
 // Import the icons (replace with your actual image paths or use SVG icons)
 import IconZeroDetection from "@/app/assets/Icons/zero-detection.png";
@@ -19,6 +20,9 @@ interface GuaranteeItem {
 }
 
 export default function GuaranteeSection() {
+  const data = useAssignmentData();
+  const guaranteedBlock = data?.guaranteedBlock;
+  
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
@@ -26,7 +30,15 @@ export default function GuaranteeSection() {
     }
   };
 
-  const guarantees: GuaranteeItem[] = [
+  // Use MongoDB data if available
+  const mongoGuarantees: GuaranteeItem[] = guaranteedBlock?.guarantees && Array.isArray(guaranteedBlock.guarantees)
+    ? guaranteedBlock.guarantees.map((g: any) => ({
+        title: <span dangerouslySetInnerHTML={{ __html: g.title || '' }} />,
+        icon: <Image src={g.icon || IconZeroDetection} alt={g.title || ''} className="w-25 h-25" />
+      }))
+    : [];
+
+  const defaultGuarantees: GuaranteeItem[] = [
     {
       title: (
         <>
@@ -110,6 +122,8 @@ export default function GuaranteeSection() {
       ),
     },
   ];
+  
+  const guarantees = mongoGuarantees.length > 0 ? mongoGuarantees : defaultGuarantees;
 
   return (
     <section className="w-full relative overflow-hidden pt-[60px] pb-[30px]  bg-white text-[#171717] max-[1320px]:px-8">
@@ -117,17 +131,16 @@ export default function GuaranteeSection() {
         {/* Header */}
         <div className="text-left mb-12 mt-10 w-[28%] max-[1080px]:w-[100%]">
           <h2 className="text-[42px] text-[#000] font-bold  leading-[120%] tracking-[0] mb-[30px]">
-            We&apos;ve Got You Covered — Guaranteed!
+            {guaranteedBlock?.mainHeading || "We've Got You Covered — Guaranteed!"}
           </h2>
           <p className="font-poppins font-normal sm:text-[17px] text-sm leading-[1.5] tracking-[0] mb-[30px]">
-            Your success is our mission. We back every service with guarantees
-            that protect your grades, your investment, and your peace of mind.
+            {guaranteedBlock?.description || "Your success is our mission. We back every service with guarantees that protect your grades, your investment, and your peace of mind."}
           </p>
           <button
             onClick={scrollToQuote}
             className="sm:mx-0 mx-auto rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
           >
-            Take my online class
+            {guaranteedBlock?.ctaButton?.text || "Take my online class"}
           </button>
         </div>
 
