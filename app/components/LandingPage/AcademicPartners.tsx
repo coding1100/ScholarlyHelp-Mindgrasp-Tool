@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 import { useMemo, useState, useEffect } from "react";
 
 export default function AcademicPartners() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const academicPartners = data?.academicPartners;
   const [isMobile, setIsMobile] = useState(false);
   

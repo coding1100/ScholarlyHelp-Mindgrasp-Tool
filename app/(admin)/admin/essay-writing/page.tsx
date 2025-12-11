@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 
-export default function AssignmentAdmin() {
+export default function EssayWritingAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
-  const [selectedPage, setSelectedPage] = useState<string>('assignment_page');
+  const [selectedPage, setSelectedPage] = useState<string>('essay_writing_page');
   const [pageData, setPageData] = useState<any>(null);
   const [pageLoading, setPageLoading] = useState(false);
 
@@ -12,7 +12,7 @@ export default function AssignmentAdmin() {
   useEffect(() => {
     const fetchAvailablePages = async () => {
       try {
-        const res = await fetch('/api/admin/assignment?list=all');
+        const res = await fetch('/api/admin/essay-writing?list=all');
         if (!res.ok) {
           console.error('Failed to fetch pages:', res.status, res.statusText);
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -23,49 +23,73 @@ export default function AssignmentAdmin() {
           throw new Error(data.error);
         }
         if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
+          // Use a Map to deduplicate by normalized ID
+          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+          
+          data.pages.forEach((page: any) => {
             let pageId = page.id || page.slug || '';
             let slug = page.slug || page.id || '';
             
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              // If it's a subject slug like "english", make it "assignment_english"
-              pageId = `assignment_${pageId}`;
+            // Normalize "main" to "essay_writing_page"
+            if (pageId === 'main') {
+              pageId = 'essay_writing_page';
             }
             
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
+            // Handle cases where pageId might have "essay_writings_" (with 's') prefix
+            if (pageId.startsWith('essay_writings_')) {
+              pageId = pageId.replace('essay_writings_', 'essay_writing_');
             }
             
-            // Format title
+            // Normalize IDs: if it's a subject page without essay_writing_ prefix, add it
+            if (pageId && pageId !== 'essay_writing_page' && !pageId.startsWith('essay_writing_')) {
+              // If it's a subject slug like "english", make it "essay_writing_english"
+              pageId = `essay_writing_${pageId}`;
+            }
+            
+            // Extract slug from essay_writing_ prefixed IDs
+            if (pageId.startsWith('essay_writing_') && pageId !== 'essay_writing_page') {
+              slug = pageId.replace('essay_writing_', '');
+            }
+            
+            // Format title - extract just the subject name
             let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
+            if (pageId === 'essay_writing_page') {
+              title = 'Essay Writing';
+            } else if (pageId.startsWith('essay_writing_')) {
+              // Extract subject name by removing "essay_writing_" prefix
+              let subjectName = pageId.replace('essay_writing_', '');
+              // Capitalize first letter of each word
+              subjectName = subjectName.replace(/-/g, ' ').split(' ').map((word: string) => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+              ).join(' ');
+              title = `Essay Writing ${subjectName}`;
             } else {
               title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
             }
             
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
+            // Only add if ID is valid and not already in map
+            if (pageId && !pagesMap.has(pageId)) {
+              pagesMap.set(pageId, {
+                id: pageId,
+                slug: slug,
+                title: title
+              });
+            }
+          });
           
-          // Ensure assignment_page is in the list
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
+          // Convert map to array
+          const pages = Array.from(pagesMap.values());
+          
+          // Ensure essay_writing_page is in the list
+          const hasEssayWritingPage = pages.some((p: any) => p.id === 'essay_writing_page');
+          if (!hasEssayWritingPage) {
+            pages.unshift({ id: 'essay_writing_page', slug: 'essay_writing_page', title: 'Essay Writing' });
           }
           
-          // Sort: assignment_page first, then alphabetically
+          // Sort: essay_writing_page first, then alphabetically
           pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
+            if (a.id === 'essay_writing_page') return -1;
+            if (b.id === 'essay_writing_page') return 1;
             return a.title.localeCompare(b.title);
           });
           
@@ -73,9 +97,9 @@ export default function AssignmentAdmin() {
         } else {
         // Default pages if none found
         setAvailablePages([
-          { id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' },
-          { id: 'assignment_english', slug: 'english', title: 'Assignment English' },
-          { id: 'assignment_math', slug: 'math', title: 'Assignment Math' }
+          { id: 'essay_writing_page', slug: 'essay_writing_page', title: 'Essay Writing' },
+          { id: 'essay_writing_english', slug: 'english', title: 'Essay Writing English' },
+          { id: 'essay_writing_math', slug: 'math', title: 'Essay Writing Math' }
         ]);
         }
       } catch (error) {
@@ -83,24 +107,25 @@ export default function AssignmentAdmin() {
         alert(`Error loading pages: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your DATABASE_URL environment variable in Vercel.`);
         // Default pages on error
         setAvailablePages([
-          { id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' },
-          { id: 'assignment_english', slug: 'english', title: 'Assignment English' },
-          { id: 'assignment_math', slug: 'math', title: 'Assignment Math' }
+          { id: 'essay_writing_page', slug: 'essay_writing_page', title: 'Essay Writing' },
+          { id: 'essay_writing_english', slug: 'english', title: 'Essay Writing English' },
+          { id: 'essay_writing_math', slug: 'math', title: 'Essay Writing Math' }
         ]);
       }
     };
     fetchAvailablePages();
   }, []);
 
-  // Auto-select assignment_page when pages are loaded
+  // Auto-select essay_writing_page when pages are loaded
   useEffect(() => {
-    if (availablePages.length > 0 && selectedPage === 'assignment_page' && !pageData && !pageLoading) {
-      const loadAssignmentPage = async () => {
+    if (availablePages.length > 0 && selectedPage === 'essay_writing_page' && !pageData && !pageLoading) {
+      const loadEssayWritingPage = async () => {
         setPageLoading(true);
         try {
-          const res = await fetch(`/api/admin/assignment?slug=assignment_page`);
+          // For main page, fetch without slug to trigger main page query logic
+          const res = await fetch(`/api/admin/essay-writing`);
           if (!res.ok) {
-            console.error('Failed to fetch assignment page:', res.status, res.statusText);
+            console.error('Failed to fetch essay-writing page:', res.status, res.statusText);
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
@@ -111,10 +136,10 @@ export default function AssignmentAdmin() {
           
           setPageData(data && Object.keys(data).length > 0 ? {
             ...data,
-            pageType: data.id || data.pageType || 'assignment_page'
+            pageType: data.id || data.pageType || 'essay_writing_page'
           } : {
-            id: 'assignment_page',
-            pageType: 'assignment_page',
+            id: 'essay_writing_page',
+            pageType: 'essay_writing_page',
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -128,10 +153,10 @@ export default function AssignmentAdmin() {
             faq: { mainHeading: '', faqs: [] }
           });
         } catch (error) {
-          console.error('Error fetching assignment page:', error);
+          console.error('Error fetching essay-writing page:', error);
           setPageData({
-            id: 'assignment_page',
-            pageType: 'assignment_page',
+            id: 'essay_writing_page',
+            pageType: 'essay_writing_page',
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -148,7 +173,7 @@ export default function AssignmentAdmin() {
           setPageLoading(false);
         }
       };
-      loadAssignmentPage();
+      loadEssayWritingPage();
     }
   }, [availablePages]);
 
@@ -158,10 +183,17 @@ export default function AssignmentAdmin() {
     if (pageId) {
       setPageLoading(true);
       try {
-        const page = availablePages.find(p => p.id === pageId);
-        // Use the pageId directly as slug for API call (handles both assignment_english and english formats)
-        const slug = pageId.startsWith('assignment_') ? pageId : (page?.slug || pageId);
-        const res = await fetch(`/api/admin/assignment?slug=${slug}`);
+        // For main page, fetch without slug to trigger main page query logic
+        let apiUrl = '';
+        if (pageId === 'essay_writing_page') {
+          apiUrl = '/api/admin/essay-writing';
+        } else {
+          const page = availablePages.find(p => p.id === pageId);
+          // Use the pageId directly as slug for API call (handles both essay_writing_english and english formats)
+          const slug = pageId.startsWith('essay_writing_') ? pageId : (page?.slug || pageId);
+          apiUrl = `/api/admin/essay-writing?slug=${slug}`;
+        }
+        const res = await fetch(apiUrl);
         if (!res.ok) {
           console.error('Failed to fetch page:', res.status, res.statusText);
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -172,14 +204,14 @@ export default function AssignmentAdmin() {
           throw new Error(data.error);
         }
         
-        if (pageId === 'assignment_page') {
-          // Assignment page structure
+        if (pageId === 'essay_writing_page') {
+          // essay-writing page structure
           setPageData(data && Object.keys(data).length > 0 ? {
             ...data,
-            pageType: data.id || data.pageType || 'assignment_page'
+            pageType: data.id || data.pageType || 'essay_writing_page'
           } : {
-            id: 'assignment_page',
-            pageType: 'assignment_page',
+            id: 'essay_writing_page',
+            pageType: 'essay_writing_page',
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -193,10 +225,10 @@ export default function AssignmentAdmin() {
             faq: { mainHeading: '', faqs: [] }
           });
         } else {
-          // Subject page structure (same as assignment_english)
-          // Extract slug from pageId (assignment_english -> english)
-          const extractedSlug = pageId.startsWith('assignment_') 
-            ? pageId.replace('assignment_', '') 
+          // Subject page structure (same as essay_writing_english)
+          // Extract slug from pageId (essay_writing_english -> english)
+          const extractedSlug = pageId.startsWith('essay_writing_') 
+            ? pageId.replace('essay_writing_', '') 
             : (page?.slug || pageId);
           
           setPageData(data && Object.keys(data).length > 0 ? {
@@ -223,10 +255,10 @@ export default function AssignmentAdmin() {
         }
       } catch (error) {
         console.error('Error fetching page:', error);
-        if (pageId === 'assignment_page') {
+        if (pageId === 'essay_writing_page') {
           setPageData({
-            id: 'assignment_page',
-            pageType: 'assignment_page',
+            id: 'essay_writing_page',
+            pageType: 'essay_writing_page',
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -240,9 +272,9 @@ export default function AssignmentAdmin() {
             faq: { mainHeading: '', faqs: [] }
           });
         } else {
-          // Extract slug from pageId (assignment_english -> english)
-          const extractedSlug = pageId.startsWith('assignment_') 
-            ? pageId.replace('assignment_', '') 
+          // Extract slug from pageId (essay_writing_english -> english)
+          const extractedSlug = pageId.startsWith('essay_writing_') 
+            ? pageId.replace('essay_writing_', '') 
             : (availablePages.find(p => p.id === pageId)?.slug || pageId);
         setPageData({
             id: pageId,
@@ -273,7 +305,7 @@ export default function AssignmentAdmin() {
     if (!pageData) return;
     setPageLoading(true);
     try {
-      const response = await fetch('/api/admin/assignment', {
+      const response = await fetch('/api/admin/essay-writing', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(pageData),
@@ -282,50 +314,74 @@ export default function AssignmentAdmin() {
       if (result.success) {
         alert('Page saved successfully!');
         // Refresh available pages list
-        const res = await fetch('/api/admin/assignment?list=all');
+        const res = await fetch('/api/admin/essay-writing?list=all');
         const data = await res.json();
         if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
+          // Use a Map to deduplicate by normalized ID
+          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+          
+          data.pages.forEach((page: any) => {
             let pageId = page.id || page.slug || '';
             let slug = page.slug || page.id || '';
             
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              pageId = `assignment_${pageId}`;
+            // Normalize "main" to "essay_writing_page"
+            if (pageId === 'main') {
+              pageId = 'essay_writing_page';
             }
             
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
+            // Handle cases where pageId might have "essay_writinges_" (with 's') prefix
+            if (pageId.startsWith('essay_writinges_')) {
+              pageId = pageId.replace('essay_writinges_', 'essay_writing_');
             }
             
-            // Format title
+            // Normalize IDs: if it's a subject page without essay_writing_ prefix, add it
+            if (pageId && pageId !== 'essay_writing_page' && !pageId.startsWith('essay_writing_')) {
+              pageId = `essay_writing_${pageId}`;
+            }
+            
+            // Extract slug from essay_writing_ prefixed IDs
+            if (pageId.startsWith('essay_writing_') && pageId !== 'essay_writing_page') {
+              slug = pageId.replace('essay_writing_', '');
+            }
+            
+            // Format title - extract just the subject name
             let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
+            if (pageId === 'essay_writing_page') {
+              title = 'Essay Writing';
+            } else if (pageId.startsWith('essay_writing_')) {
+              // Extract subject name by removing "essay_writing_" prefix
+              let subjectName = pageId.replace('essay_writing_', '');
+              // Capitalize first letter of each word
+              subjectName = subjectName.replace(/-/g, ' ').split(' ').map((word: string) => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+              ).join(' ');
+              title = `Essay Writing ${subjectName}`;
             } else {
               title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
             }
             
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
+            // Only add if ID is valid and not already in map
+            if (pageId && !pagesMap.has(pageId)) {
+              pagesMap.set(pageId, {
+                id: pageId,
+                slug: slug,
+                title: title
+              });
+            }
+          });
           
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
+          // Convert map to array
+          const pages = Array.from(pagesMap.values());
+          
+          const hasEssayWritingPage = pages.some((p: any) => p.id === 'essay_writing_page');
+          if (!hasEssayWritingPage) {
+            pages.unshift({ id: 'essay_writing_page', slug: 'essay_writing_page', title: 'Essay Writing' });
           }
           
-          // Sort: assignment_page first, then alphabetically
+          // Sort: essay_writing_page first, then alphabetically
           pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
+            if (a.id === 'essay_writing_page') return -1;
+            if (b.id === 'essay_writing_page') return 1;
             return a.title.localeCompare(b.title);
           });
           
@@ -342,8 +398,8 @@ export default function AssignmentAdmin() {
   };
 
   const handlePageDelete = async () => {
-    if (!pageData?.id || pageData.id === 'assignment_page') {
-      alert('Cannot delete the main assignment page');
+    if (!pageData?.id || pageData.id === 'essay_writing_page') {
+      alert('Cannot delete the main essay-writing page');
       return;
     }
     
@@ -355,7 +411,7 @@ export default function AssignmentAdmin() {
     try {
       const page = availablePages.find(p => p.id === pageData.id);
       const slug = page?.slug || pageData.slug || pageData.id;
-      const response = await fetch(`/api/admin/assignment?slug=${slug}`, {
+      const response = await fetch(`/api/admin/essay-writing?slug=${slug}`, {
         method: 'DELETE',
       });
       const result = await response.json();
@@ -364,50 +420,74 @@ export default function AssignmentAdmin() {
         setSelectedPage('');
         setPageData(null);
         // Refresh available pages list
-        const res = await fetch('/api/admin/assignment?list=all');
+        const res = await fetch('/api/admin/essay-writing?list=all');
         const data = await res.json();
         if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
+          // Use a Map to deduplicate by normalized ID
+          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+          
+          data.pages.forEach((page: any) => {
             let pageId = page.id || page.slug || '';
             let slug = page.slug || page.id || '';
             
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              pageId = `assignment_${pageId}`;
+            // Normalize "main" to "essay_writing_page"
+            if (pageId === 'main') {
+              pageId = 'essay_writing_page';
             }
             
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
+            // Handle cases where pageId might have "essay_writinges_" (with 's') prefix
+            if (pageId.startsWith('essay_writinges_')) {
+              pageId = pageId.replace('essay_writinges_', 'essay_writing_');
             }
             
-            // Format title
+            // Normalize IDs: if it's a subject page without essay_writing_ prefix, add it
+            if (pageId && pageId !== 'essay_writing_page' && !pageId.startsWith('essay_writing_')) {
+              pageId = `essay_writing_${pageId}`;
+            }
+            
+            // Extract slug from essay_writing_ prefixed IDs
+            if (pageId.startsWith('essay_writing_') && pageId !== 'essay_writing_page') {
+              slug = pageId.replace('essay_writing_', '');
+            }
+            
+            // Format title - extract just the subject name
             let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
+            if (pageId === 'essay_writing_page') {
+              title = 'Essay Writing';
+            } else if (pageId.startsWith('essay_writing_')) {
+              // Extract subject name by removing "essay_writing_" prefix
+              let subjectName = pageId.replace('essay_writing_', '');
+              // Capitalize first letter of each word
+              subjectName = subjectName.replace(/-/g, ' ').split(' ').map((word: string) => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+              ).join(' ');
+              title = `Essay Writing ${subjectName}`;
             } else {
               title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
             }
             
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
+            // Only add if ID is valid and not already in map
+            if (pageId && !pagesMap.has(pageId)) {
+              pagesMap.set(pageId, {
+                id: pageId,
+                slug: slug,
+                title: title
+              });
+            }
+          });
           
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
+          // Convert map to array
+          const pages = Array.from(pagesMap.values());
+          
+          const hasEssayWritingPage = pages.some((p: any) => p.id === 'essay_writing_page');
+          if (!hasEssayWritingPage) {
+            pages.unshift({ id: 'essay_writing_page', slug: 'essay_writing_page', title: 'Essay Writing' });
           }
           
-          // Sort: assignment_page first, then alphabetically
+          // Sort: essay_writing_page first, then alphabetically
           pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
+            if (a.id === 'essay_writing_page') return -1;
+            if (b.id === 'essay_writing_page') return 1;
             return a.title.localeCompare(b.title);
           });
           
@@ -651,7 +731,7 @@ export default function AssignmentAdmin() {
                 value={(pageData.description?.badges || []).join(', ')}
                 onChange={(e) => updatePageData('description.badges', e.target.value.split(',').map((b: string) => b.trim()).filter(Boolean))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Online Class Help, Assignment Help, Online Exam Help"
+                placeholder="Essay Writing Help, essay-writing Help, Online essay-writing Help"
               />
             </div>
             <div>
@@ -1036,7 +1116,7 @@ export default function AssignmentAdmin() {
 
           {/* Save Button */}
         <div className="flex justify-end gap-4">
-          {selectedPage && selectedPage !== 'assignment_page' && (
+          {selectedPage && selectedPage !== 'essay_writing_page' && (
             <button
               type="button"
               onClick={handlePageDelete}
@@ -1071,7 +1151,7 @@ export default function AssignmentAdmin() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Manage Assignment Content</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Manage Essay Writing Content</h1>
         <p className="mt-2 text-sm text-gray-600">Select a page to edit its content</p>
       </div>
 
@@ -1110,3 +1190,6 @@ export default function AssignmentAdmin() {
     </div>
   );
 }
+
+
+

@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 
-export default function AssignmentAdmin() {
+export default function HomeworkAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
-  const [selectedPage, setSelectedPage] = useState<string>('assignment_page');
+  const [selectedPage, setSelectedPage] = useState<string>('homework_page');
   const [pageData, setPageData] = useState<any>(null);
   const [pageLoading, setPageLoading] = useState(false);
 
@@ -12,7 +12,7 @@ export default function AssignmentAdmin() {
   useEffect(() => {
     const fetchAvailablePages = async () => {
       try {
-        const res = await fetch('/api/admin/assignment?list=all');
+        const res = await fetch('/api/admin/homework?list=all');
         if (!res.ok) {
           console.error('Failed to fetch pages:', res.status, res.statusText);
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -23,49 +23,63 @@ export default function AssignmentAdmin() {
           throw new Error(data.error);
         }
         if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
+          // Use a Map to deduplicate by normalized ID
+          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+          
+          data.pages.forEach((page: any) => {
             let pageId = page.id || page.slug || '';
             let slug = page.slug || page.id || '';
             
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              // If it's a subject slug like "english", make it "assignment_english"
-              pageId = `assignment_${pageId}`;
+            // Normalize "main" to "homework_page"
+            if (pageId === 'main') {
+              pageId = 'homework_page';
             }
             
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
+            // Normalize IDs: if it's a subject page without homework_ prefix, add it
+            if (pageId && pageId !== 'homework_page' && !pageId.startsWith('homework_')) {
+              // If it's a subject slug like "english", make it "homework_english"
+              pageId = `homework_${pageId}`;
+            }
+            
+            // Extract slug from homework_ prefixed IDs
+            if (pageId.startsWith('homework_') && pageId !== 'homework_page') {
+              slug = pageId.replace('homework_', '');
             }
             
             // Format title
             let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
+            if (pageId === 'homework_page') {
+              title = 'Homework';
+            } else if (pageId.startsWith('homework_')) {
+              const subjectName = pageId.replace('homework_', '').replace(/-/g, ' ');
+              title = `Homework ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
             } else {
               title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
             }
             
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
+            // Only add if ID is valid and not already in map
+            if (pageId && !pagesMap.has(pageId)) {
+              pagesMap.set(pageId, {
+                id: pageId,
+                slug: slug,
+                title: title
+              });
+            }
+          });
           
-          // Ensure assignment_page is in the list
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
+          // Convert map to array
+          const pages = Array.from(pagesMap.values());
+          
+          // Ensure homework_page is in the list
+          const hashomeworkPage = pages.some((p: any) => p.id === 'homework_page');
+          if (!hashomeworkPage) {
+            pages.unshift({ id: 'homework_page', slug: 'homework_page', title: 'homework' });
           }
           
-          // Sort: assignment_page first, then alphabetically
+          // Sort: homework_page first, then alphabetically
           pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
+            if (a.id === 'homework_page') return -1;
+            if (b.id === 'homework_page') return 1;
             return a.title.localeCompare(b.title);
           });
           
@@ -73,9 +87,9 @@ export default function AssignmentAdmin() {
         } else {
         // Default pages if none found
         setAvailablePages([
-          { id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' },
-          { id: 'assignment_english', slug: 'english', title: 'Assignment English' },
-          { id: 'assignment_math', slug: 'math', title: 'Assignment Math' }
+          { id: 'homework_page', slug: 'homework_page', title: 'homework' },
+          { id: 'homework_english', slug: 'english', title: 'homework English' },
+          { id: 'homework_math', slug: 'math', title: 'homework Math' }
         ]);
         }
       } catch (error) {
@@ -83,24 +97,24 @@ export default function AssignmentAdmin() {
         alert(`Error loading pages: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your DATABASE_URL environment variable in Vercel.`);
         // Default pages on error
         setAvailablePages([
-          { id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' },
-          { id: 'assignment_english', slug: 'english', title: 'Assignment English' },
-          { id: 'assignment_math', slug: 'math', title: 'Assignment Math' }
+          { id: 'homework_page', slug: 'homework_page', title: 'homework' },
+          { id: 'homework_english', slug: 'english', title: 'homework English' },
+          { id: 'homework_math', slug: 'math', title: 'homework Math' }
         ]);
       }
     };
     fetchAvailablePages();
   }, []);
 
-  // Auto-select assignment_page when pages are loaded
+  // Auto-select homework_page when pages are loaded
   useEffect(() => {
-    if (availablePages.length > 0 && selectedPage === 'assignment_page' && !pageData && !pageLoading) {
-      const loadAssignmentPage = async () => {
+    if (availablePages.length > 0 && selectedPage === 'homework_page' && !pageData && !pageLoading) {
+      const loadHomeworkPage = async () => {
         setPageLoading(true);
         try {
-          const res = await fetch(`/api/admin/assignment?slug=assignment_page`);
+          const res = await fetch(`/api/admin/homework?slug=homework_page`);
           if (!res.ok) {
-            console.error('Failed to fetch assignment page:', res.status, res.statusText);
+            console.error('Failed to fetch homework page:', res.status, res.statusText);
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
@@ -111,10 +125,10 @@ export default function AssignmentAdmin() {
           
           setPageData(data && Object.keys(data).length > 0 ? {
             ...data,
-            pageType: data.id || data.pageType || 'assignment_page'
+            pageType: data.id || data.pageType || 'homework_page'
           } : {
-            id: 'assignment_page',
-            pageType: 'assignment_page',
+            id: 'homework_page',
+            pageType: 'homework_page',
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -128,10 +142,10 @@ export default function AssignmentAdmin() {
             faq: { mainHeading: '', faqs: [] }
           });
         } catch (error) {
-          console.error('Error fetching assignment page:', error);
+          console.error('Error fetching homework page:', error);
           setPageData({
-            id: 'assignment_page',
-            pageType: 'assignment_page',
+            id: 'homework_page',
+            pageType: 'homework_page',
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -148,7 +162,7 @@ export default function AssignmentAdmin() {
           setPageLoading(false);
         }
       };
-      loadAssignmentPage();
+      loadHomeworkPage();
     }
   }, [availablePages]);
 
@@ -159,9 +173,9 @@ export default function AssignmentAdmin() {
       setPageLoading(true);
       try {
         const page = availablePages.find(p => p.id === pageId);
-        // Use the pageId directly as slug for API call (handles both assignment_english and english formats)
-        const slug = pageId.startsWith('assignment_') ? pageId : (page?.slug || pageId);
-        const res = await fetch(`/api/admin/assignment?slug=${slug}`);
+        // Use the pageId directly as slug for API call (handles both homework_english and english formats)
+        const slug = pageId.startsWith('homework_') ? pageId : (page?.slug || pageId);
+        const res = await fetch(`/api/admin/homework?slug=${slug}`);
         if (!res.ok) {
           console.error('Failed to fetch page:', res.status, res.statusText);
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -172,14 +186,14 @@ export default function AssignmentAdmin() {
           throw new Error(data.error);
         }
         
-        if (pageId === 'assignment_page') {
-          // Assignment page structure
+        if (pageId === 'homework_page') {
+          // homework page structure
           setPageData(data && Object.keys(data).length > 0 ? {
             ...data,
-            pageType: data.id || data.pageType || 'assignment_page'
+            pageType: data.id || data.pageType || 'homework_page'
           } : {
-            id: 'assignment_page',
-            pageType: 'assignment_page',
+            id: 'homework_page',
+            pageType: 'homework_page',
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -193,10 +207,10 @@ export default function AssignmentAdmin() {
             faq: { mainHeading: '', faqs: [] }
           });
         } else {
-          // Subject page structure (same as assignment_english)
-          // Extract slug from pageId (assignment_english -> english)
-          const extractedSlug = pageId.startsWith('assignment_') 
-            ? pageId.replace('assignment_', '') 
+          // Subject page structure (same as homework_english)
+          // Extract slug from pageId (homework_english -> english)
+          const extractedSlug = pageId.startsWith('homework_') 
+            ? pageId.replace('homework_', '') 
             : (page?.slug || pageId);
           
           setPageData(data && Object.keys(data).length > 0 ? {
@@ -223,10 +237,10 @@ export default function AssignmentAdmin() {
         }
       } catch (error) {
         console.error('Error fetching page:', error);
-        if (pageId === 'assignment_page') {
+        if (pageId === 'homework_page') {
           setPageData({
-            id: 'assignment_page',
-            pageType: 'assignment_page',
+            id: 'homework_page',
+            pageType: 'homework_page',
             meta: { title: '', description: '' },
             heroSection: { mainHeading: '', subHeading: '', description: '' },
             whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -240,9 +254,9 @@ export default function AssignmentAdmin() {
             faq: { mainHeading: '', faqs: [] }
           });
         } else {
-          // Extract slug from pageId (assignment_english -> english)
-          const extractedSlug = pageId.startsWith('assignment_') 
-            ? pageId.replace('assignment_', '') 
+          // Extract slug from pageId (homework_english -> english)
+          const extractedSlug = pageId.startsWith('homework_') 
+            ? pageId.replace('homework_', '') 
             : (availablePages.find(p => p.id === pageId)?.slug || pageId);
         setPageData({
             id: pageId,
@@ -273,7 +287,7 @@ export default function AssignmentAdmin() {
     if (!pageData) return;
     setPageLoading(true);
     try {
-      const response = await fetch('/api/admin/assignment', {
+      const response = await fetch('/api/admin/homework', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(pageData),
@@ -282,50 +296,64 @@ export default function AssignmentAdmin() {
       if (result.success) {
         alert('Page saved successfully!');
         // Refresh available pages list
-        const res = await fetch('/api/admin/assignment?list=all');
+        const res = await fetch('/api/admin/homework?list=all');
         const data = await res.json();
         if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
+          // Use a Map to deduplicate by normalized ID
+          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+          
+          data.pages.forEach((page: any) => {
             let pageId = page.id || page.slug || '';
             let slug = page.slug || page.id || '';
             
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              pageId = `assignment_${pageId}`;
+            // Normalize "main" to "homework_page"
+            if (pageId === 'main') {
+              pageId = 'homework_page';
             }
             
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
+            // Normalize IDs: if it's a subject page without homework_ prefix, add it
+            if (pageId && pageId !== 'homework_page' && !pageId.startsWith('homework_')) {
+              pageId = `homework_${pageId}`;
+            }
+            
+            // Extract slug from homework_ prefixed IDs
+            if (pageId.startsWith('homework_') && pageId !== 'homework_page') {
+              slug = pageId.replace('homework_', '');
             }
             
             // Format title
             let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
+            if (pageId === 'homework_page') {
+              title = 'Homework';
+            } else if (pageId.startsWith('homework_')) {
+              const subjectName = pageId.replace('homework_', '').replace(/-/g, ' ');
+              title = `Homework ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
             } else {
               title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
             }
             
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
+            // Only add if ID is valid and not already in map
+            if (pageId && !pagesMap.has(pageId)) {
+              pagesMap.set(pageId, {
+                id: pageId,
+                slug: slug,
+                title: title
+              });
+            }
+          });
           
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
+          // Convert map to array
+          const pages = Array.from(pagesMap.values());
+          
+          const hashomeworkPage = pages.some((p: any) => p.id === 'homework_page');
+          if (!hashomeworkPage) {
+            pages.unshift({ id: 'homework_page', slug: 'homework_page', title: 'homework' });
           }
           
-          // Sort: assignment_page first, then alphabetically
+          // Sort: homework_page first, then alphabetically
           pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
+            if (a.id === 'homework_page') return -1;
+            if (b.id === 'homework_page') return 1;
             return a.title.localeCompare(b.title);
           });
           
@@ -342,8 +370,8 @@ export default function AssignmentAdmin() {
   };
 
   const handlePageDelete = async () => {
-    if (!pageData?.id || pageData.id === 'assignment_page') {
-      alert('Cannot delete the main assignment page');
+    if (!pageData?.id || pageData.id === 'homework_page') {
+      alert('Cannot delete the main homework page');
       return;
     }
     
@@ -355,7 +383,7 @@ export default function AssignmentAdmin() {
     try {
       const page = availablePages.find(p => p.id === pageData.id);
       const slug = page?.slug || pageData.slug || pageData.id;
-      const response = await fetch(`/api/admin/assignment?slug=${slug}`, {
+      const response = await fetch(`/api/admin/homework?slug=${slug}`, {
         method: 'DELETE',
       });
       const result = await response.json();
@@ -364,50 +392,64 @@ export default function AssignmentAdmin() {
         setSelectedPage('');
         setPageData(null);
         // Refresh available pages list
-        const res = await fetch('/api/admin/assignment?list=all');
+        const res = await fetch('/api/admin/homework?list=all');
         const data = await res.json();
         if (data.pages && Array.isArray(data.pages)) {
-          const pages = data.pages.map((page: any) => {
+          // Use a Map to deduplicate by normalized ID
+          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+          
+          data.pages.forEach((page: any) => {
             let pageId = page.id || page.slug || '';
             let slug = page.slug || page.id || '';
             
-            // Normalize IDs: if it's a subject page without assignment_ prefix, add it
-            if (pageId && pageId !== 'assignment_page' && pageId !== 'main' && !pageId.startsWith('assignment_')) {
-              pageId = `assignment_${pageId}`;
+            // Normalize "main" to "homework_page"
+            if (pageId === 'main') {
+              pageId = 'homework_page';
             }
             
-            // Extract slug from assignment_ prefixed IDs
-            if (pageId.startsWith('assignment_') && pageId !== 'assignment_page') {
-              slug = pageId.replace('assignment_', '');
+            // Normalize IDs: if it's a subject page without homework_ prefix, add it
+            if (pageId && pageId !== 'homework_page' && !pageId.startsWith('homework_')) {
+              pageId = `homework_${pageId}`;
+            }
+            
+            // Extract slug from homework_ prefixed IDs
+            if (pageId.startsWith('homework_') && pageId !== 'homework_page') {
+              slug = pageId.replace('homework_', '');
             }
             
             // Format title
             let title = '';
-            if (pageId === 'assignment_page') {
-              title = 'Assignment';
-            } else if (pageId.startsWith('assignment_')) {
-              const subjectName = pageId.replace('assignment_', '').replace(/-/g, ' ');
-              title = `Assignment ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
+            if (pageId === 'homework_page') {
+              title = 'Homework';
+            } else if (pageId.startsWith('homework_')) {
+              const subjectName = pageId.replace('homework_', '').replace(/-/g, ' ');
+              title = `Homework ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
             } else {
               title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
             }
             
-            return {
-              id: pageId,
-              slug: slug,
-              title: title
-            };
-          }).filter((p: any) => p.id);
+            // Only add if ID is valid and not already in map
+            if (pageId && !pagesMap.has(pageId)) {
+              pagesMap.set(pageId, {
+                id: pageId,
+                slug: slug,
+                title: title
+              });
+            }
+          });
           
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
+          // Convert map to array
+          const pages = Array.from(pagesMap.values());
+          
+          const hashomeworkPage = pages.some((p: any) => p.id === 'homework_page');
+          if (!hashomeworkPage) {
+            pages.unshift({ id: 'homework_page', slug: 'homework_page', title: 'homework' });
           }
           
-          // Sort: assignment_page first, then alphabetically
+          // Sort: homework_page first, then alphabetically
           pages.sort((a: any, b: any) => {
-            if (a.id === 'assignment_page') return -1;
-            if (b.id === 'assignment_page') return 1;
+            if (a.id === 'homework_page') return -1;
+            if (b.id === 'homework_page') return 1;
             return a.title.localeCompare(b.title);
           });
           
@@ -651,7 +693,7 @@ export default function AssignmentAdmin() {
                 value={(pageData.description?.badges || []).join(', ')}
                 onChange={(e) => updatePageData('description.badges', e.target.value.split(',').map((b: string) => b.trim()).filter(Boolean))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Online Class Help, Assignment Help, Online Exam Help"
+                placeholder="Online Class Help, homework Help, Online homework Help"
               />
             </div>
             <div>
@@ -1036,7 +1078,7 @@ export default function AssignmentAdmin() {
 
           {/* Save Button */}
         <div className="flex justify-end gap-4">
-          {selectedPage && selectedPage !== 'assignment_page' && (
+          {selectedPage && selectedPage !== 'homework_page' && (
             <button
               type="button"
               onClick={handlePageDelete}
@@ -1071,7 +1113,7 @@ export default function AssignmentAdmin() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Manage Assignment Content</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Manage Homework Content</h1>
         <p className="mt-2 text-sm text-gray-600">Select a page to edit its content</p>
       </div>
 
@@ -1110,3 +1152,5 @@ export default function AssignmentAdmin() {
     </div>
   );
 }
+
+

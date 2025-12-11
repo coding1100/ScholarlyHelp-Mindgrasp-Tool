@@ -3,14 +3,14 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 const proof5 = "/images/proof-3.webp";
 const proof1 = "/images/proof-2.webp";
 const proof2 = "/images/proof-2.webp";
 const proof4 = "/images/proof-3.webp";
 
 export default function ThreeDCarousel() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const success = data?.success;
 
   const scrollToQuote = () => {
