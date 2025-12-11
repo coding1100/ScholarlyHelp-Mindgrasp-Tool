@@ -65,7 +65,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Page not found' }, { status: 404, headers: corsHeaders });
     }
 
-    return NextResponse.json(content, { headers: corsHeaders });
+    // Add cache control headers to prevent caching
+    const noCacheHeaders = {
+      ...corsHeaders,
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+    };
+
+    return NextResponse.json(content, { headers: noCacheHeaders });
   } catch (error) {
     console.error('Error fetching from MongoDB:', error);
     return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500, headers: corsHeaders });

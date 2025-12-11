@@ -13,7 +13,15 @@ export default function AssignmentAdmin() {
     const fetchAvailablePages = async () => {
       try {
         const res = await fetch('/api/admin/assignment?list=all');
+        if (!res.ok) {
+          console.error('Failed to fetch pages:', res.status, res.statusText);
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
         const data = await res.json();
+        if (data.error) {
+          console.error('API error:', data.error);
+          throw new Error(data.error);
+        }
         if (data.pages && Array.isArray(data.pages)) {
           const pages = data.pages.map((page: any) => {
             let pageId = page.id || page.slug || '';
@@ -72,6 +80,7 @@ export default function AssignmentAdmin() {
         }
       } catch (error) {
         console.error('Error fetching available pages:', error);
+        alert(`Error loading pages: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your DATABASE_URL environment variable in Vercel.`);
         // Default pages on error
         setAvailablePages([
           { id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' },
@@ -90,7 +99,15 @@ export default function AssignmentAdmin() {
         setPageLoading(true);
         try {
           const res = await fetch(`/api/admin/assignment?slug=assignment_page`);
+          if (!res.ok) {
+            console.error('Failed to fetch assignment page:', res.status, res.statusText);
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
           const data = await res.json();
+          if (data.error) {
+            console.error('API error:', data.error);
+            throw new Error(data.error);
+          }
           
           setPageData(data && Object.keys(data).length > 0 ? data : {
             id: 'assignment_page',
@@ -142,7 +159,15 @@ export default function AssignmentAdmin() {
         // Use the pageId directly as slug for API call (handles both assignment_english and english formats)
         const slug = pageId.startsWith('assignment_') ? pageId : (page?.slug || pageId);
         const res = await fetch(`/api/admin/assignment?slug=${slug}`);
+        if (!res.ok) {
+          console.error('Failed to fetch page:', res.status, res.statusText);
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
         const data = await res.json();
+        if (data.error) {
+          console.error('API error:', data.error);
+          throw new Error(data.error);
+        }
         
         if (pageId === 'assignment_page') {
           // Assignment page structure
