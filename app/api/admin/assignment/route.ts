@@ -84,9 +84,13 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     console.log('Received data, size:', JSON.stringify(body).length, 'characters');
+    console.log('Received getQuote data:', JSON.stringify(body.getQuote));
 
     // Exclude _id from the update to prevent immutable field error
     const { _id, slug, id, ...updateData } = body;
+    
+    // Log the getQuote structure after destructuring
+    console.log('updateData.getQuote:', JSON.stringify(updateData.getQuote));
 
     const client = new MongoClient(databaseUrl, {
       serverSelectionTimeoutMS: 5000, // 5 second timeout
@@ -132,8 +136,15 @@ export async function POST(request: NextRequest) {
       dataToSave = { ...updateData, id: "assignment_page", pageType: "assignment_page" };
     }
     
+    // Log what we're about to save
+    console.log('Saving dataToSave.getQuote:', JSON.stringify(dataToSave.getQuote));
+    
     const result = await db.collection('assignments').replaceOne(query, dataToSave, { upsert: true });
     console.log('Save result:', result);
+    
+    // Verify what was saved by fetching it back
+    const savedDoc = await db.collection('assignments').findOne(query);
+    console.log('Verified saved getQuote:', JSON.stringify(savedDoc?.getQuote));
 
     await client.close();
     console.log('Connection closed, save operation completed');

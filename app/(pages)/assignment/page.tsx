@@ -32,7 +32,10 @@ async function fetchAssignmentData() {
     }
 
     const { MongoClient } = await import('mongodb');
-    const client = new MongoClient(databaseUrl);
+    const client = new MongoClient(databaseUrl, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+    });
     await client.connect();
     const db = client.db('scholarly_help');
     
@@ -42,6 +45,13 @@ async function fetchAssignmentData() {
     };
     
     const content = await db.collection('assignments').findOne(query);
+    
+    // Debug: Log the getQuote data to verify it's being fetched correctly
+    if (content) {
+      console.log('Fetched assignment data - getQuote:', content.getQuote);
+      console.log('Fetched assignment data - ctaButton.text:', content.getQuote?.ctaButton?.text);
+    }
+    
     await client.close();
 
     return content as any;

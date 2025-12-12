@@ -7,14 +7,21 @@ import Description from "@/app/components/LandingPage/Description";
 import GuaranteedBlock from "@/app/components/LandingPage/GuaranteedBlock";
 import ProcessSection from "@/app/components/LandingPage/ProcessSection";
 import Success from "@/app/components/LandingPage/Success";
-import Subjects from "@/app/components/LandingPage/Subjects";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
 import GetQoute from "@/app/components/LandingPage/GetQoute";
 import Faq from "@/app/components/LandingPage/Faq";
 import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
-import { subjectContent, defaultContent, subjects, SubjectType } from "../subjectContent";
-import { MetaData } from "@/app/metadata/metadata";
+import Subjects from "@/app/components/LandingPage/Subjects";
+import { subjects, SubjectType } from "../subjectContent";
 import { notFound } from "next/navigation";
+import { OnlineClassDataProvider } from "../OnlineClassDataProvider";
+import dynamicImport from "next/dynamic";
+
+const GetQouteDynamic = dynamicImport(() => import("@/app/components/LandingPage/GetQoute"), { ssr: false });
+
+// Force dynamic rendering to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface PageProps {
   params: {
@@ -22,28 +29,135 @@ interface PageProps {
   };
 }
 
-const Page: React.FC<PageProps> = ({ params }) => {
+async function fetchPageData(slug: string) {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      console.error('Database URL not configured');
+      return null;
+    }
+
+    const { MongoClient } = await import('mongodb');
+    const client = new MongoClient(databaseUrl, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+    });
+    
+    await client.connect();
+    const db = client.db('scholarly_help');
+    
+    // Handle different slug formats
+    let slugVariations = [slug];
+    
+    // If slug is like "online_class_english", also try "english"
+    if (slug.startsWith('online_class_')) {
+      slugVariations.push(slug.replace('online_class_', ''));
+    } else {
+      // If slug is like "english", also try "online_class_english"
+      slugVariations.push(`online_class_${slug}`);
+    }
+    
+    // Build query to match any variation
+    const orConditions = [];
+    for (const variation of slugVariations) {
+      orConditions.push({ slug: variation });
+      orConditions.push({ id: variation });
+    }
+    const query = { $or: orConditions };
+    
+    console.log(`Querying online_classes with slug: ${slug}, query:`, JSON.stringify(query));
+    const content = await db.collection('online_classes').findOne(query);
+    console.log('Found content:', content ? 'Yes' : 'No');
+    
+    // If no content found, try to see what's in the collection
+    if (!content) {
+      const allDocs = await db.collection('online_classes').find({ slug: slug }).limit(5).toArray();
+      console.log('Sample documents matching slug:', allDocs.map(d => ({ id: d.id, slug: d.slug })));
+    }
+    
+    await client.close();
+
+    return content as any;
+  } catch (error) {
+    console.error('Error fetching page data:', error);
+    return null;
+  }
+}
+
+const Page: React.FC<PageProps> = async ({ params }) => {
   // Check if the subject is valid
   if (!subjects.includes(params.subject as SubjectType)) {
     notFound();
   }
 
+  const pageData = await fetchPageData(params.subject);
+
+  // If no pageData found, still render the page with default structure
+  // This allows the page to work even if data doesn't exist in MongoDB yet
+  if (!pageData) {
+    // Return a default page structure instead of 404
+    const defaultPageData: any = {
+      id: `online_class_${params.subject}`,
+      slug: params.subject,
+      pageType: `online_class_${params.subject}`,
+      status: 'published',
+      meta: { title: '', description: '' },
+      heroSection: { mainHeading: '', subHeading: '', description: '' },
+      whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+      cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+      description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
+      guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
+      processSection: { mainHeading: '', description: '', steps: [] },
+      success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+      academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+      getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
+      faq: { mainHeading: '', faqs: [] }
+    };
+    
+    return (
+      <OnlineClassDataProvider data={defaultPageData}>
+        <MainLayout>
+          <HeroSection />
+          <Ratings />
+          <WhySlider />
+          <CardCarousel />
+          <Description />
+          <GuaranteedBlock />
+          <CustomerReviews />
+          <ProcessSection />
+          <Success />
+          <Subjects />
+          <AcademicPartners />
+          <GetQouteDynamic />
+          <Faq />
+        </MainLayout>
+      </OnlineClassDataProvider>
+    );
+  }
+
+  // Only return 404 if status is explicitly set to something other than published
+  if (pageData.status && pageData.status !== 'published' && pageData.status !== 'draft') {
+    notFound();
+  }
+
   return (
-    <MainLayout>
-      <HeroSection />
-      <Ratings />
-      <WhySlider />
-      <CardCarousel />
-      <Description />
-      <GuaranteedBlock />
-      <CustomerReviews />
-      <ProcessSection />
-      <Success />
-      <Subjects />
-      <AcademicPartners />
-      <GetQoute />
-      <Faq />
-    </MainLayout>
+    <OnlineClassDataProvider data={pageData}>
+      <MainLayout>
+        <HeroSection />
+        <Ratings />
+        <WhySlider />
+        <CardCarousel />
+        <Description />
+        <GuaranteedBlock />
+        <CustomerReviews />
+        <ProcessSection />
+        <Success />
+        <Subjects />
+        <AcademicPartners />
+        <GetQouteDynamic />
+        <Faq />
+      </MainLayout>
+    </OnlineClassDataProvider>
   );
 };
 
@@ -55,7 +169,7 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: { subject: string } }) {
+export async function generateMetadata({ params }: { params: { subject: string } }) {
   if (!subjects.includes(params.subject as SubjectType)) {
     return {
       title: 'Not Found',
@@ -63,16 +177,56 @@ export function generateMetadata({ params }: { params: { subject: string } }) {
     };
   }
 
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (databaseUrl) {
+      const { MongoClient } = await import('mongodb');
+      const client = new MongoClient(databaseUrl);
+      await client.connect();
+      const db = client.db('scholarly_help');
+      
+      let slugVariations: string[] = [params.subject];
+      if (params.subject.startsWith('online_class_')) {
+        slugVariations.push(params.subject.replace('online_class_', ''));
+      } else {
+        slugVariations.push(`online_class_${params.subject}`);
+      }
+      
+      const orConditions = [];
+      for (const variation of slugVariations) {
+        orConditions.push({ slug: variation });
+        orConditions.push({ id: variation });
+      }
+      const query = { $or: orConditions, status: { $ne: 'draft' } };
+      
+      const pageData: any = await db.collection('online_classes').findOne(query);
+      await client.close();
+      
+      if (pageData) {
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
+        const metaTitle = pageData.meta?.title || `${params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, " ")} Online Class Help`;
+        const metaDescription = pageData.meta?.description || `Get expert help with your ${params.subject.replace(/-/g, " ")} online classes.`;
+        const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/online-class/${params.subject}`;
+        
+        return {
+          title: metaTitle,
+          description: metaDescription,
+          alternates: { canonical: canonicalUrl },
+        };
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching metadata:', error);
+  }
+
+  // Fallback metadata
   const subjectTitle = params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, ' ');
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}online-class/${params.subject}`;
   
-  // Use MetaData if available for the subject, otherwise use a dynamic title
-  const metadata = MetaData[params.subject as keyof typeof MetaData];
-  
   return {
-    title: metadata ? metadata.title : `${subjectTitle} Online Class Help - Professional Assistance`,
-    description: metadata ? metadata.description : `Get expert help with your ${params.subject.replace(/-/g, ' ')} online classes. Our professional tutors provide comprehensive assistance for better grades.`,
+    title: `${subjectTitle} Online Class Help - Professional Assistance`,
+    description: `Get expert help with your ${params.subject.replace(/-/g, ' ')} online classes.`,
     alternates: {
       canonical: canonicalUrl,
     },

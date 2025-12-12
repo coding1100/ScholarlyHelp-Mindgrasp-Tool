@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 import { useMemo } from "react";
 
 export default function SubjectsSection() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const subjectsData = data?.subjects;
   const currentPage = usePathname();
   const basePath = currentPage.split("/").slice(0, 2).join("/");

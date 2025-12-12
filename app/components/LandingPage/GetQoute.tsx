@@ -4,13 +4,20 @@
 import Image from "next/image";
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 const HeroForm = dynamic(() => import("./HeroForm"), { ssr: false });
 
 export default function GetQuote() {
-  const data = useAssignmentData();
+  const data = usePageData();
   const getQuote = data?.getQuote;
+  
+  // Debug: Log the getQuote data to see what we're receiving
+  if (typeof window !== 'undefined') {
+    console.log('GetQuote component - getQuote data:', getQuote);
+    console.log('GetQuote component - ctaButton.text:', getQuote?.ctaButton?.text);
+  }
+  
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
@@ -185,7 +192,7 @@ export default function GetQuote() {
                   onClick={scrollToQuote}
                   className="w-full mt-8 rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
                 >
-                  Take my online class
+                  {getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"}
                 </button>
               </form>
             </div>
