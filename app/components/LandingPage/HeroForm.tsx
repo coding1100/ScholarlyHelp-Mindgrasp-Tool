@@ -188,6 +188,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           ref={formRef}
           onSubmit={handleSubmit}
           className="bg-white rounded-lg shadow-sm p-6 flex flex-col gap-4 -z-[999]"
+          id="quote-form"
         >
           {/* Email Field */}
           <div className="flex items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">

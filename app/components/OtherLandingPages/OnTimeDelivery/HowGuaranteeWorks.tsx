@@ -63,7 +63,7 @@ const HowGuaranteeWorks: FC<HowGuaranteeWorksProps> = ({ content }) => {
                   </div>
                 </div>
               ) : (
-                <div className="w-full [992px]:max-w-[525px] flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 md:ml-auto mb-8 sm:mb-10 md:mb-12">
+                <div className=" md:max-w-[628px] flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 md:ml-auto mb-8 sm:mb-10 md:mb-12">
                   <p
                     className="text-[60px] sm:text-[80px] md:text-[103px] leading-[60px] sm:leading-[80px] md:leading-[103px] font-semibold"
                     style={{ color: getNumberColor(index) }}
