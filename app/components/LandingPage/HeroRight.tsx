@@ -13,6 +13,7 @@ import Bg4 from "@/app/assets/Images/Hero-b-4.png";
 import Heart from "@/app/assets/Images/Hero-b-Heart.png";
 import Update from "@/app/assets/Images/Hero-b-Update.png";
 import Discount from "@/app/assets/Images/Hero-b-Discount.png";
+import TomIcon from "@/app/assets/Icons/tom.png";
 
 const Star: React.FC = () => (
   <svg
@@ -105,7 +106,11 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
         </p>
         <div className="mt-2 flex items-center gap-2">
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A]">
-            T
+            <Image
+              src={TomIcon}
+              alt="Tom Icon"
+              className="max:w-[31px] min-w-[28px]"
+            />
           </span>
           <div className="text-[12px] text-[#6A6F7A]">
             <div>Tom Q.</div>
