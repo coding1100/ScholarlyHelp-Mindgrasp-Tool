@@ -16,7 +16,7 @@ interface GuaranteeCoversProps {
 
 const GuaranteeCovers: FC<GuaranteeCoversProps> = ({ content }) => {
   return (
-    <section className="w-full bg-[#8173D1] py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 mb-10">
+    <section className="w-full bg-[#8173D1] py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-[28px] text-white sm:text-[36px] md:text-[40px] font-bold mb-3 sm:mb-4">
           {content.mainHeading}
