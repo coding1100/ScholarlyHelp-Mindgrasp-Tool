@@ -116,34 +116,45 @@ interface WhySliderProps {
 const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
   const data = useAssignmentData();
   const whyData = propWhyData || data?.whySlider;
-  
+
   // Convert MongoDB sliderItems to component format
   const mongoItems: SliderItem[] = useMemo(() => {
     if (whyData?.sliderItems && Array.isArray(whyData.sliderItems)) {
       return whyData.sliderItems.map((item: any) => ({
         icon: item.icon || icon1,
-        text: item.text || '',
-        alt: item.alt || ''
+        text: item.text || "",
+        alt: item.alt || "",
       }));
     }
     return [];
   }, [whyData]);
-  
+
   const baseItems: SliderItem[] = useMemo(
-    () => mongoItems.length > 0 ? mongoItems : [
-      { icon: icon1, text: "Highly-Skilled Subject Experts", alt: "Experts" },
-      { icon: icon2, text: "Highly Affordable Rates", alt: "Affordable Rates" },
-      {
-        icon: icon1,
-        text: "100% User Confidentiality",
-        alt: "Confidentiality",
-      },
-      {
-        icon: icon3,
-        text: "24/7 Support",
-        alt: "Support",
-      },
-    ],
+    () =>
+      mongoItems.length > 0
+        ? mongoItems
+        : [
+            {
+              icon: icon1,
+              text: "Highly-Skilled Subject Experts",
+              alt: "Experts",
+            },
+            {
+              icon: icon2,
+              text: "Highly Affordable Rates",
+              alt: "Affordable Rates",
+            },
+            {
+              icon: icon1,
+              text: "100% User Confidentiality",
+              alt: "Confidentiality",
+            },
+            {
+              icon: icon3,
+              text: "24/7 Support",
+              alt: "Support",
+            },
+          ],
     [mongoItems]
   );
 
@@ -188,6 +199,12 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
           <button
             type="button"
             className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
+            onClick={() => {
+              const form = document.getElementById("quote-form");
+              if (form) {
+                form.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
           >
             {whyData?.ctaButton?.text || "Take my online class"}
           </button>

@@ -4,8 +4,10 @@ import React, { FC } from "react";
 import HeroLead from "./HeroLead";
 import HeroRight from "./HeroRight";
 import ReviewBar from "./ReviewBar";
-import { StaticImageData } from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import TomIcon from "@/app/assets/Icons/tom.png";
+
 const Star: React.FC = () => (
   <svg
     width="18"
@@ -31,10 +33,12 @@ interface HeroSectionProps {
     formBackImg2: StaticImageData;
   };
 }
-const HeroSection: FC<HeroSectionProps> = ({ heroContent: propHeroContent }) => {
+const HeroSection: FC<HeroSectionProps> = ({
+  heroContent: propHeroContent,
+}) => {
   const data = useAssignmentData();
   const heroContent = propHeroContent || data?.heroSection;
-  
+
   return (
     <section
       id="hero-section"
@@ -67,7 +71,11 @@ const HeroSection: FC<HeroSectionProps> = ({ heroContent: propHeroContent }) => 
                 </p>
                 <div className="mt-2 flex items-center gap-2">
                   <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A]">
-                    T
+                    <Image
+                      src={TomIcon}
+                      alt="Tom Icon"
+                      className="max:w-[31px] min-w-[28px]"
+                    />
                   </span>
                   <div className="text-[12px] text-[#6A6F7A]">
                     <div>Tom Q.</div>
