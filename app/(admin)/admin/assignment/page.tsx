@@ -426,7 +426,8 @@ export default function AssignmentAdmin() {
   const updatePageData = (path: string, value: any) => {
     const keys = path.split('.');
     setPageData((prev: any) => {
-      const newData = { ...prev };
+      if (!prev) return prev;
+      const newData = JSON.parse(JSON.stringify(prev)); // Deep clone to avoid reference issues
       let current = newData;
       for (let i = 0; i < keys.length - 1; i++) {
         if (!current[keys[i]]) current[keys[i]] = {};
@@ -795,7 +796,7 @@ export default function AssignmentAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('processSection.steps', { stepNumber: (pageData.processSection?.steps?.length || 0) + 1, title: '', description: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
               >
                 + Add Step
               </button>
@@ -862,7 +863,7 @@ export default function AssignmentAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('success.slides', { id: Date.now(), image: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
               >
                 + Add Slide
               </button>
@@ -936,7 +937,7 @@ export default function AssignmentAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('academicPartners.cards', { id: Date.now(), title: '', description: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
               >
                 + Add Card
               </button>

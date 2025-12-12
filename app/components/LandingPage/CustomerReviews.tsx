@@ -6,7 +6,7 @@ import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 
 // Icons & Images
 import Trustpilot from "@/app/assets/Images/Trustpilot.webp";
@@ -629,7 +629,7 @@ interface CustomerReviewsProps {
 const CustomerReviews: FC<CustomerReviewsProps> = ({
   btnText: propBtnText,
 }) => {
-  const data = useAssignmentData();
+  const data = usePageData();
   const customerReviews = data?.customerReviews;
   const btnText =
     propBtnText || customerReviews?.ctaButton?.text || "Place an Order Now";

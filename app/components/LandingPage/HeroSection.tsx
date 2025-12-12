@@ -5,7 +5,7 @@ import HeroLead from "./HeroLead";
 import HeroRight from "./HeroRight";
 import ReviewBar from "./ReviewBar";
 import Image, { StaticImageData } from "next/image";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 import TomIcon from "@/app/assets/Icons/tom.png";
 
 const Star: React.FC = () => (
@@ -36,7 +36,7 @@ interface HeroSectionProps {
 const HeroSection: FC<HeroSectionProps> = ({
   heroContent: propHeroContent,
 }) => {
-  const data = useAssignmentData();
+  const data = usePageData();
   const heroContent = propHeroContent || data?.heroSection;
 
   return (
