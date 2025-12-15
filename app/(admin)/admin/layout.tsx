@@ -13,7 +13,7 @@ const navigation = [
   { name: 'Edit Homework', href: '/admin/homework', icon: HomeworkIcon },
   { name: 'Edit Online Class', href: '/admin/online-class', icon: AcademicIcon },
   { name: 'Edit Essay Writing', href: '/admin/essay-writing', icon: EssayWritingIcon },
-  { name: 'Edit FAQ', href: '/admin/faq', icon: FaqIcon },
+  // { name: 'Edit FAQ', href: '/admin/faq', icon: FaqIcon },
 ];
 
 function HomeIcon() {
