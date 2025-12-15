@@ -101,7 +101,7 @@ export const Content = {
   whyScholalrySlider: {
     mainHeading: "Why Scholarly Help?",
     description:
-      "We provide secure and affordable academic assistance tailored to your needs. Whether you need help with online classes, exams, essays, homework, or full assignments, our skilled subject experts deliver accurate, timely, and confidential support you can rely on.",
+      "Scholarly Help is built to make your academic journey easier, smoother, and fully supported. From secure processes to expert guidance, we focus on providing reliable help you can trust. Our team works with consistency, privacy, and dedication, ensuring every task is handled with care and delivered exactly when you need it.",
     sliderItems: [
       {
         icon: icon2,
@@ -145,4 +145,104 @@ export const Content = {
       },
     ],
   },
+  academicPartners: {
+    mainHeading: "Your Academic Partners for Success",
+    description:
+      "We’re here to support your academic progress with reliable service, trusted experts, and consistent quality. Our team delivers work with care, privacy, and professionalism, helping you reach your goals with confidence.",
+    defaultCard: [
+      {
+        id: 1,
+        title: "Confidential Partner",
+        description:
+          "Your privacy always comes first. All your details, files, and conversations remain protected within a secure and confidential system.",
+      },
+      {
+        id: 2,
+        title: "Founded by Students",
+        description:
+          "Built by people who understand real academic challenges, we offer practical solutions designed to make your learning journey easier.",
+      },
+      {
+        id: 3,
+        title: "40+ Master's Level Tutors",
+        description:
+          "Our team includes highly skilled experts with advanced degrees who deliver accurate, dependable, and subject-focused academic support.",
+      },
+      {
+        id: 4,
+        title: "2,100+ Courses Completed",
+        description:
+          "With a strong history of successful course completions, our experience reflects the trust and results students rely on every day.",
+      },
+      {
+        id: 5,
+        title: "100% Confidentiality Guarantee",
+        description:
+          "Every task is handled with complete discretion, ensuring your identity and academic activities remain fully protected.",
+      },
+    ],
+  },
+
+  faq: [
+    {
+      id: 1,
+      question: "How does your On-Time Delivery Guarantee work?",
+      answer:
+        "We follow a structured process that prioritizes your deadline and ensures your work is completed and delivered within the expected time frame.",
+    },
+    {
+      id: 2,
+      question: "What if my task is urgent?",
+      answer:
+        "We can handle urgent tasks as long as the deadline is realistic. Our experts begin working immediately to meet your timeframe.",
+    },
+    {
+      id: 3,
+      question: "Will the expert start working right away?",
+      answer:
+        "Yes. Once your instructions and deadline are confirmed, we assign a qualified expert immediately, so no time is lost.",
+    },
+    {
+      id: 4,
+      question: "Can I request progress updates?",
+      answer:
+        "Yes, you can ask for updates anytime through your secure dashboard to stay informed about the status of your work.",
+    },
+    {
+      id: 5,
+      question: "What if the final file needs revisions?",
+      answer:
+        "If revisions are required based on your original instructions, we will complete them promptly without additional cost.",
+    },
+    {
+      id: 6,
+      question: "How do you make sure the work is delivered on time?",
+      answer:
+        "We use a planned workflow, expert scheduling, and internal quality checks to ensure timely completion and on-time delivery.",
+    },
+    {
+      id: 7,
+      question: "Do you accept tasks with very short deadlines?",
+      answer:
+        "Yes, we try our best to accommodate short deadlines depending on the complexity and available expert.",
+    },
+    {
+      id: 8,
+      question: "Will the quality be affected if the task is urgent?",
+      answer:
+        "No. Our experts maintain accuracy and high standards, even for fast-track tasks, through focused and efficient work methods.",
+    },
+    {
+      id: 9,
+      question: "Is communication required during the process?",
+      answer:
+        "If we need clarification, quick replies help us stay aligned with your expectations and keep the work on schedule.",
+    },
+    {
+      id: 10,
+      question: "How can I trust that my work will arrive on time?",
+      answer:
+        "Our track record, structured workflow, and dedicated experts ensure consistent, reliable delivery backed by our on-time guarantee.",
+    },
+  ],
 };

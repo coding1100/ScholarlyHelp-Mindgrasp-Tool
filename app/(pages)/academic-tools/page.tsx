@@ -20,9 +20,9 @@ const Page: FC<PageProps> = ({}) => {
       <WhyTools whyToolsContent={MainAiLanding.whyTools} />
       <WhySlider whyData={MainAiLanding.whyScholalrySlider} />
       <CustomerReviews />
-      <AcademicPartners />
+      <AcademicPartners content={MainAiLanding.academicPartners} />
 
-      <Faq />
+      <Faq content={MainAiLanding.faq} />
     </MainLayout>
   );
 };
@@ -33,8 +33,8 @@ export function generateMetadata({}) {
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}${MetaData.aboutUs.url}`;
   return {
-    title: `${MetaData.aboutUs.title}`,
-    description: `${MetaData.aboutUs.description}`,
+    title: `Free Academic Tools | Essay, Paraphraser, Summary & Thesis`,
+    description: `Use our free AI academic tools to write essays, paraphrase content, summarize text, and create thesis statements. Fast, accurate, student-friendly support.`,
     alternates: {
       canonical: canonicalUrl,
     },

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -12,6 +13,8 @@ const config: Config = {
       // => @media (min-width: 576px) { ... }
       md: "768px",
       // => @media (min-width: 768px) { ... }
+      mid: "827px",
+      // => @media (min-width: 827px) { ... }
       lg: "992px",
       // => @media (min-width: 992px) { ... }
       xl: "1200px",
