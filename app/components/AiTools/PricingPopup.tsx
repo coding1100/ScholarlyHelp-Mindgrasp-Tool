@@ -127,15 +127,15 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-4 sm:p-6 relative max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-2xl p-4 sm:p-6 relative max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <button
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl font-bold"
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl font-bold transition-colors duration-300"
           onClick={onClose}
           aria-label="Close"
         >
           ×
         </button>
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center text-black dark:text-white transition-colors duration-300">
           Upgrade to Unlimited
         </h2>
         <ul className="mb-6 space-y-2 text-xs sm:text-sm">
@@ -143,8 +143,12 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <li key={i} className="flex items-start gap-3">
               <span className="mt-1">{f.icon}</span>
               <div>
-                <span className="font-semibold text-gray-800">{f.title}</span>
-                <div className="text-gray-500 text-sm">{f.desc}</div>
+                <span className="font-semibold text-gray-800 dark:text-gray-100 transition-colors duration-300">
+                  {f.title}
+                </span>
+                <div className="text-gray-500 dark:text-gray-400 text-sm transition-colors duration-300">
+                  {f.desc}
+                </div>
               </div>
             </li>
           ))}
@@ -157,8 +161,8 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 key={plan.name}
                 className={`flex items-center border rounded-lg px-4 py-2 mb-2 cursor-pointer transition-all ${
                   selectedPlan === idx
-                    ? "border-indigo-600 bg-indigo-50"
-                    : "border-gray-200 bg-white"
+                    ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-900/30"
+                    : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
                 } text-xs sm:text-sm ${
                   isDisabled ? "opacity-60 cursor-not-allowed" : ""
                 }`}
@@ -174,20 +178,22 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 />
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold">{plan.name}</span>
+                    <span className="font-semibold text-black dark:text-white transition-colors duration-300">
+                      {plan.name}
+                    </span>
                     {plan.duration && (
-                      <span className="text-[10px] sm:text-xs bg-green-100 text-green-700 rounded px-2 py-0.5 font-medium">
+                      <span className="text-[10px] sm:text-xs bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 rounded px-2 py-0.5 font-medium transition-colors duration-300">
                         {plan.duration}
                       </span>
                     )}
                   </div>
                   <div className="flex items-center gap-2 mt-1">
                     {plan.oldPrice && (
-                      <span className="text-gray-400 line-through text-xs">
+                      <span className="text-gray-400 dark:text-gray-500 line-through text-xs transition-colors duration-300">
                         {plan.oldPrice}
                       </span>
                     )}
-                    <span className="text-base sm:text-lg font-bold text-indigo-700">
+                    <span className="text-base sm:text-lg font-bold text-indigo-700 dark:text-indigo-400 transition-colors duration-300">
                       {plan.price}
                     </span>
                   </div>
@@ -199,7 +205,7 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <button
           onClick={handleUpgrade}
           disabled={isLoading}
-          className={`w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-lg transition-colors mb-2 text-xs sm:text-sm ${
+          className={`w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white font-semibold py-2.5 rounded-lg transition-colors mb-2 text-xs sm:text-sm ${
             isLoading ? "opacity-75 cursor-not-allowed" : ""
           }`}
         >
@@ -231,7 +237,7 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             "Upgrade Now"
           )}
         </button>
-        <div className="text-center text-[10px] sm:text-xs text-gray-500 mt-2">
+        <div className="text-center text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-2 transition-colors duration-300">
           Join 37,102 researchers improving their writing with{" "}
           <span className="font-semibold">ScholarlyHelp</span>
         </div>
