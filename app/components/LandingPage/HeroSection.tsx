@@ -5,7 +5,7 @@ import HeroLead from "./HeroLead";
 import HeroRight from "./HeroRight";
 import ReviewBar from "./ReviewBar";
 import Image, { StaticImageData } from "next/image";
-import { usePageData } from "./usePageData";
+import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
 import TomIcon from "@/app/assets/Icons/tom.png";
 
 const Star: React.FC = () => (
@@ -36,7 +36,7 @@ interface HeroSectionProps {
 const HeroSection: FC<HeroSectionProps> = ({
   heroContent: propHeroContent,
 }) => {
-  const data = usePageData();
+  const data = useAssignmentData();
   const heroContent = propHeroContent || data?.heroSection;
 
   return (
@@ -46,13 +46,13 @@ const HeroSection: FC<HeroSectionProps> = ({
     >
       <div className="mx-auto max-w-7xl py-10 !pt-[100px] md:py-14">
         <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-12 md:gap-12">
-          <div className="md:col-span-5">
+          <div className="mid:col-span-5 md:col-span-6">
             <HeroLead heroContent={heroContent} />
           </div>
-          <div className="md:col-span-4">
+          <div className="mid:col-span-4 md:col-span-6">
             <HeroRight formBackImg2={heroContent?.formBackImg2} />
           </div>
-          <div className="md:col-span-3 md:self-end relative z-20">
+          <div className="mid:col-span-3 md:col-span-6 md:self-end relative z-20">
             <div className="hidden md:flex flex-col gap-5">
               <div className="flex max-w-xs flex-col gap-2">
                 <div className="flex items-center gap-1">

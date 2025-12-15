@@ -180,6 +180,105 @@ export const MainAiLanding = {
       },
     ],
   },
+  academicPartners: {
+    mainHeading: "Your Academic Partners for Success",
+    description:
+      "We're here to support your academic journey with dependable guidance and student-focused tools. Our platform offers expert assistance, time-saving features, and full privacy protection, helping you work smarter, stay organized, and achieve meaningful progress in every subject.",
+    defaultCard: [
+      {
+        id: 1,
+        title: "Confidential Partner",
+        description:
+          "We handle your academic tasks discreetly, allowing you to get expert help without exposing your identity or institution details.",
+      },
+      {
+        id: 2,
+        title: "Founded by Students",
+        description:
+          "Built by students who understand real academic challenges, our platform provides practical and supportive solutions.",
+      },
+      {
+        id: 3,
+        title: "40+ Master's Level Tutors",
+        description:
+          "Every expert is carefully selected through a strict vetting process, ensuring top-tier subject knowledge and professional guidance.",
+      },
+      {
+        id: 4,
+        title: "2,100+ Courses Completed",
+        description:
+          "Our experience speaks for itself. We've assisted thousands of students across numerous subjects with proven, successful outcomes.",
+      },
+      {
+        id: 5,
+        title: "100% Confidentiality",
+        description:
+          "Your files, conversations, and academic work remain private forever, providing complete trust and comfort.",
+      },
+    ],
+  },
+  faq: [
+    {
+      id: 1,
+      question: "Are these tools free to use?",
+      answer:
+        "Yes. All Scholarly Help tools are free and accessible without any complicated setup.",
+    },
+    {
+      id: 2,
+      question: "Do I need an account to use the tools?",
+      answer:
+        "No. You can use every tool instantly without creating an account or sharing personal details.",
+    },
+    {
+      id: 3,
+      question: "Are my inputs saved or stored?",
+      answer:
+        "No. Everything you type is private, and we never store or share your content.",
+    },
+    {
+      id: 4,
+      question: "Can I use these tools for multiple subjects?",
+      answer:
+        "Yes. They work on essays, summaries, paraphrasing, thesis building, and general academic tasks across all subjects.",
+    },
+    {
+      id: 5,
+      question: "Do these tools follow academic writing standards?",
+      answer:
+        "Yes. Each tool is designed to support clear, structured, and academically aligned output.",
+    },
+    {
+      id: 6,
+      question: "Will the tools rewrite content accurately?",
+      answer:
+        "Our AI tools keep your original meaning intact while improving clarity, tone, and readability.",
+    },
+    {
+      id: 7,
+      question: "Can these tools help me save study time?",
+      answer:
+        "Absolutely. They simplify long readings, clarify ideas, and help you produce well-structured work faster.",
+    },
+    {
+      id: 8,
+      question: "Are the tools safe for school use?",
+      answer:
+        "Yes. All tools operate privately and securely, giving you safe, academic-friendly support.",
+    },
+    {
+      id: 9,
+      question: "Can I use these tools on any device?",
+      answer:
+        "Yes. They work smoothly on phones, tablets, laptops, and desktops.",
+    },
+    {
+      id: 10,
+      question: "What makes Scholarly Help tools different?",
+      answer:
+        "They're designed specifically for students, offering clarity, simplicity, privacy, and accurate academic output every time.",
+    },
+  ],
 };
 
 export const AiSummarizerContent = {
@@ -188,6 +287,7 @@ export const AiSummarizerContent = {
     description:
       "Scholarly AI is your all-in-one academic writing assistant designed to simplify and elevate your work. Its powerful AI summarizer and summary generator make it easy to condense lengthy research papers, articles, or essays into clear, concise insights. With Scholarly AI, you can focus more on your analysis while it handles the heavy lifting of summarization—helping you write smarter, faster, and with confidence.",
     buttonText: "Start writing",
+    buttonUrl: "/tools/summarizer-tool",
   },
   imgSection: {
     img: AiDashboard,
@@ -209,7 +309,7 @@ export const AiSummarizerContent = {
         description:
           "Say goodbye to manual summarizing. Simply paste your text, and Scholarly AI instantly extracts the main ideas—delivering a concise and coherent summary in seconds.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/summarizer-tool",
         img: effortless,
       },
       {
@@ -217,7 +317,7 @@ export const AiSummarizerContent = {
         description:
           "Take control of your results. Edit, refine, and personalize your summaries in real time to match your tone, purpose, and academic goals.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/summarizer-tool",
         img: interactive,
       },
       {
@@ -225,7 +325,7 @@ export const AiSummarizerContent = {
         description:
           "Scholarly AI isn’t just a writing tool—it’s your learning companion. Understand how effective summaries are built and strengthen your academic writing with every use.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/summarizer-tool",
         img: learning,
       },
     ],
@@ -236,7 +336,7 @@ export const AiSummarizerContent = {
     description:
       "At Scholarly AI, we’re dedicated to promoting honest and responsible academic work. Our platform is built to assist and empower your writing—not replace your original ideas.",
     buttonText: "Get Started",
-    buttonUrl: "/",
+    buttonUrl: "/tools/summarizer-tool",
   },
   guideSection: {
     subTitle: "HOW IT WORKS",
@@ -317,7 +417,7 @@ export const AiSummarizerContent = {
     description:
       "Join thousands of students and researchers using Scholarly AI to write smarter, faster, and better. Create your free account today and unlock your full writing potential.",
     buttonText: "Start writing",
-    buttonUrl: "/",
+    buttonUrl: "/sign-up",
   },
 };
 
@@ -327,6 +427,7 @@ export const AiParahrasingContent = {
     description:
       "Struggling to express your ideas clearly? Scholarly AI is your intelligent writing partner. Our advanced AI paraphrasing tool helps you reword academic content effortlessly, enhancing clarity, fluency, and originality while preserving your true meaning.",
     buttonText: "Start writing",
+    buttonUrl: "/tools/paraphraser-tool",
   },
   imgSection: {
     img: AiDashboard,
@@ -348,7 +449,7 @@ export const AiParahrasingContent = {
         description:
           "When words don’t come easily, Scholarly AI provides powerful paraphrasing suggestions to inspire your creativity, helping you break through writer’s block and keep your writing flow strong.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/paraphraser-tool",
         img: effortless,
       },
       {
@@ -356,7 +457,7 @@ export const AiParahrasingContent = {
         description:
           "Scholarly AI refines your sentences while maintaining their core meaning—improving clarity, coherence, and tone so your academic writing reads effortlessly and professionally.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/paraphraser-tool",
         img: interactive,
       },
       {
@@ -364,7 +465,7 @@ export const AiParahrasingContent = {
         description:
           "Explore diverse expressions for your ideas. Scholarly AI offers alternative phrasings and sentence structures, helping you enrich your writing style and expand your academic vocabulary.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/paraphraser-tool",
         img: learning,
       },
     ],
@@ -375,7 +476,7 @@ export const AiParahrasingContent = {
     description:
       "At Scholarly AI, we believe great writing starts with your own voice. Our goal is to help you express your thoughts more effectively while preserving authenticity. Scholarly AI isn’t about shortcuts—it’s about empowering you to communicate your ideas clearly, confidently, and ethically.",
     buttonText: "Get Started",
-    buttonUrl: "/",
+    buttonUrl: "/tools/paraphraser-tool",
   },
   guideSection: {
     subTitle: "HOW IT WORKS",
@@ -462,7 +563,7 @@ export const AiParahrasingContent = {
     description:
       "Join Scholarly AI today and experience a smarter, more confident way to write, paraphrase, and express your ideas. Sign up for free and take your writing to new heights.",
     buttonText: "Start writing",
-    buttonUrl: "/",
+    buttonUrl: "/sign-up",
   },
 };
 
@@ -472,6 +573,7 @@ export const AiEssayContent = {
     description:
       "Having trouble organizing your thoughts into a clear, structured essay? Scholarly AI is your intelligent writing companion—designed to help you create well-crafted outlines that bring structure, clarity, and focus to your academic work.",
     buttonText: "Start writing",
+    buttonUrl: "/tools/essay-outline-generator",
   },
   imgSection: {
     img: AiDashboard,
@@ -493,7 +595,7 @@ export const AiEssayContent = {
         description:
           "Turn your essay topic into a structured outline within seconds. Scholarly AI analyzes your subject and generates a detailed roadmap to guide your writing journey.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/essay-outline-generator",
         img: effortless,
       },
       {
@@ -501,7 +603,7 @@ export const AiEssayContent = {
         description:
           "Let Scholarly AI handle the structure while you concentrate on expressing your ideas and building compelling arguments that stand out.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/essay-outline-generator",
         img: interactive,
       },
       {
@@ -509,7 +611,7 @@ export const AiEssayContent = {
         description:
           "Say goodbye to writer’s block. Scholarly AI provides an intuitive outline that helps you stay organized and makes the writing process smoother from start to finish.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/essay-outline-generator",
         img: learning,
       },
     ],
@@ -520,7 +622,7 @@ export const AiEssayContent = {
     description:
       "At Scholarly AI, we believe great writing starts with great structure. Our mission is to support your learning and creativity—not replace it. The essay outline generator helps you plan with clarity, ensuring your writing reflects both originality and academic honesty.",
     buttonText: "Get Started",
-    buttonUrl: "/",
+    buttonUrl: "/tools/essay-outline-generator",
   },
   guideSection: {
     subTitle: "GUIDE",
@@ -595,7 +697,7 @@ export const AiEssayContent = {
     description:
       "Experience how Scholarly AI simplifies academic writing. Sign up for a free account today and see how our AI-powered outline generator helps you plan, structure, and write smarter.",
     buttonText: "Start writing",
-    buttonUrl: "/",
+    buttonUrl: "/sign-up",
   },
 };
 
@@ -605,6 +707,7 @@ export const AiThesisContent = {
     description:
       "Scholarly Help's Thesis Statement Generator is a sophisticated AI-powered writing assistant designed to help students and researchers craft compelling, focused thesis statements that form the backbone of exceptional academic essays. Whether you're developing an argumentative position, formulating an analytical interpretation, or articulating an expository claim, our intelligent thesis statement maker transforms your ideas into clear, specific, and arguable statements that capture your essay's central argument. By analyzing your topic, essay type, and perspective, our tool generates multiple high-quality thesis options complete with proper scope, logical structure, and academic rigor. Scholarly Help empowers you to articulate your arguments with clarity and confidence—we provide the framework that helps your original thinking shine, never replacing your intellectual contribution with automated content.",
     buttonText: "Make Your Thesis Statement Free",
+    buttonUrl: "/tools/thesis-statement-generator",
   },
   imgSection: {
     img: AiDashboard,
@@ -626,7 +729,7 @@ export const AiThesisContent = {
         description:
           "Our AI thesis statement generator analyzes your topic, essay type, and perspective to create focused, arguable thesis statements that meet academic standards. Whether you're writing an argumentative essay requiring a clear position, an analytical paper needing an interpretive claim, or an expository piece demanding a factual assertion, our intelligent system formulates thesis statements with the perfect scope and specificity. Each generated statement includes a clear subject, a definitive stance, and supporting reasoning—the three essential elements professors look for in strong thesis statements across all academic disciplines.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/thesis-statement-generator",
         img: effortless,
       },
       {
@@ -634,7 +737,7 @@ export const AiThesisContent = {
         description:
           "Never settle for a thesis statement that doesn't quite capture your argument. Scholarly Help's thesis statement maker generates multiple high-quality variations for every topic, giving you diverse perspectives and phrasings to choose from. Each variation maintains logical coherence while offering different angles, emphasis points, and argumentative approaches. Compare statements side-by-side, combine elements from different versions, or use the variations to explore multiple directions your essay could take. This feature transforms thesis development from a frustrating challenge into an exploratory process that enhances your critical thinking.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/thesis-statement-generator",
         img: interactive,
       },
       {
@@ -642,7 +745,7 @@ export const AiThesisContent = {
         description:
           "Your initial thesis is just the starting point. Our free thesis statement generator includes an advanced refinement system that strengthens your thesis through iterative improvement. Adjust the specificity level, modify the tone from assertive to measured, shift argumentative focus, incorporate counterargument acknowledgment, or align with specific formatting requirements. The AI understands context and maintains logical consistency while adapting your thesis statement to perfectly match your essay's needs. Real-time feedback highlights potential weaknesses and suggests improvements, teaching you what makes thesis statements compelling while generating superior results.",
         linkText: "Get Started",
-        url: "/",
+        url: "/tools/thesis-statement-generator",
         img: learning,
       },
     ],
@@ -653,7 +756,7 @@ export const AiThesisContent = {
     description:
       "At Scholarly Help, we believe that strong thesis statements are the foundation of persuasive, well-structured academic writing. Our AI thesis statement generator is built on the principle that technology should amplify your intellectual capabilities, not substitute for them. We provide sophisticated tools that help you articulate your arguments with precision and clarity, while you maintain complete ownership of your ideas, research, and critical thinking. Our free thesis statement maker serves as your writing partner—offering structure, suggestions, and refinement that enable you to communicate your unique perspective more effectively. We're committed to supporting authentic academic work that reflects your voice, analytical skills, and scholarly growth.",
     buttonText: "Start Creating Thesis Statements Free",
-    buttonUrl: "/",
+    buttonUrl: "/tools/thesis-statement-generator",
   },
   guideSection: {
     subTitle: "GUIDE",
@@ -729,6 +832,6 @@ export const AiThesisContent = {
     description:
       "Join hundreds of thousands of students using Scholarly Help's free AI thesis statement generator to write more focused, persuasive essays. Create your first thesis statement in seconds—no credit card required, no hidden fees, completely free forever.",
     buttonText: "Generate Your Thesis Statement Now",
-    buttonUrl: "/",
+    buttonUrl: "/sign-up",
   },
 };

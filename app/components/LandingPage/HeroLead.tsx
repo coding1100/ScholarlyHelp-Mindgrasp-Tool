@@ -1,6 +1,7 @@
 "use client";
 
 import React, { FC } from "react";
+import { usePathname } from "next/navigation";
 
 const CHECK_BG = "#9F92EC";
 const PRIMARY_BG = "#9F92EC";
@@ -37,6 +38,21 @@ interface HeroLeadProps {
   };
 }
 const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
+  const pathname = usePathname();
+  
+  // Routes where badges section should be hidden
+  const hiddenRoutes = [
+    '/a-or-b-grade-guarantee',
+    '/on-time-delivery-guarantee',
+    '/success-stories-and-reviews',
+    '/academic-tools',
+    '/guarantee-anonymity',
+    '/plagiarism-free-process',
+    '/us-based-phd-experts',
+  ];
+  
+  const shouldHideBadges = hiddenRoutes.includes(pathname || '');
+
   return (
     <div className="max-w-2xl">
       <h1
@@ -58,36 +74,35 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
         )}
       </h1>
 
-      {!heroContent?.description ||
-        (!heroContent?.subHeading && (
-          <div className="mt-6 flex flex-col items-start gap-3">
-            <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-              <div>
-                <CheckBadge />
-              </div>
-              <span className="sm:text-[16px] text-[14px] text-[#111318]">
-                {heroContent?.subHeading || "Free Up 20+ Hours/week"}
-              </span>
+      {!shouldHideBadges && (
+        <div className="mt-6 flex flex-col items-start gap-3">
+          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+            <div>
+              <CheckBadge />
             </div>
-            <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-              <div>
-                <CheckBadge />
-              </div>
-
-              <span className="sm:text-[16px] text-[14px] text-[#111318]">
-                24/7 support
-              </span>
-            </div>
-            <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
-              <div>
-                <CheckBadge />
-              </div>
-              <span className="sm:text-[16px] text-[14px] text-[#111318]">
-                100% Confidential
-              </span>
-            </div>
+            <span className="sm:text-[16px] text-[14px] text-[#111318]">
+              Free Up 20+ Hours/week
+            </span>
           </div>
-        ))}
+          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+            <div>
+              <CheckBadge />
+            </div>
+
+            <span className="sm:text-[16px] text-[14px] text-[#111318]">
+              24/7 support
+            </span>
+          </div>
+          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+            <div>
+              <CheckBadge />
+            </div>
+            <span className="sm:text-[16px] text-[14px] text-[#111318]">
+              100% Confidential
+            </span>
+          </div>
+        </div>
+      )}
 
       {heroContent?.subHeading && (
         <div

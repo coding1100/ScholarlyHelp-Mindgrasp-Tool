@@ -145,7 +145,7 @@ export const Content = {
   whyScholalrySlider: {
     mainHeading: "Why Scholarly Help?",
     description:
-      "We provide secure and affordable academic assistance tailored to your needs. Whether you need help with online classes, exams, essays, homework, or full assignments, our skilled subject experts deliver accurate, timely, and confidential support you can rely on.",
+      "We provide reliable, confidential, and high-quality academic support designed to help you achieve strong results without stress. With experienced experts, secure processes, and a commitment to student success, we make your academic journey easier, safer, and fully supported at every step.",
     sliderItems: [
       {
         icon: icon2,
@@ -189,4 +189,105 @@ export const Content = {
       },
     ],
   },
+  academicPartners: {
+    mainHeading: "Your Academic Partners for Success",
+    description:
+      "We’re committed to supporting you with dependable academic guidance backed by experience, privacy, and quality. Our team works with full dedication to help you succeed with confidence throughout your academic journey.",
+    defaultCard: [
+      {
+        id: 1,
+        title: "Confidential partner",
+        description:
+          "We protect your privacy at every stage, ensuring your details, files, and academic work remain secure and handled with complete discretion.",
+      },
+      {
+        id: 2,
+        title: "Founded by Students",
+        description:
+          "Created by individuals who understand real student challenges, our platform is built to offer practical, supportive, and reliable academic help.",
+      },
+      {
+        id: 3,
+        title: "40+ Master's Level Tutors",
+        description:
+          "Our team includes skilled subject experts with advanced degrees who deliver accurate, high-quality support across multiple academic fields.",
+      },
+      {
+        id: 4,
+        title: "2,100+ Courses Completed",
+        description:
+          "With thousands of successful course completions, our experience reflects the consistency, reliability, and strong results that students trust us for.",
+      },
+      {
+        id: 5,
+        title: "100% Confidentiality Guarantee",
+        description:
+          "Your identity and academic activities remain private, giving you a safe and secure environment to get the help you need without worry.",
+      },
+    ],
+  },
+
+  faq: [
+    {
+      id: 1,
+      question: "How does your A or B Grade Guarantee work?",
+      answer:
+        "We follow a clear process based on your instructions, deadlines, and subject requirements. When these conditions are met, our experts deliver high-quality work designed for A or B results.",
+    },
+    {
+      id: 2,
+      question: "Do all subjects qualify for this guarantee?",
+      answer:
+        "Yes, most subjects qualify. Our team includes experienced experts across multiple fields, allowing us to offer reliable support in a wide range of academic areas.",
+    },
+    {
+      id: 3,
+      question: "What happens if my work doesn't meet the expected grade?",
+      answer:
+        "If something falls short, we review the task, make corrections, and provide improvements based on your original instructions to help you reach the targeted outcome.",
+    },
+    {
+      id: 4,
+      question:
+        "Is this guarantee available for both short tasks and long projects?",
+      answer:
+        "Yes, the guarantee applies to essays, homework tasks, projects, and course-related work as long as instructions and deadlines are provided clearly.",
+    },
+    {
+      id: 5,
+      question: "Do I need to share my personal or institutional details?",
+      answer:
+        "No. Your identity always stays private. We only require the task instructions and materials needed to complete your work.",
+    },
+    {
+      id: 6,
+      question: "How important are deadlines for this guarantee?",
+      answer:
+        "Very important. Assigning the work on time helps our experts deliver accurate, high-quality results without rush or compromise.",
+    },
+    {
+      id: 7,
+      question: "What if I need revisions?",
+      answer:
+        "Revisions are included. If any part of your work needs adjustment based on the original instructions, we will fix it without additional cost.",
+    },
+    {
+      id: 8,
+      question: "Can I communicate with my expert during the process?",
+      answer:
+        "Yes. You can stay in touch through your secure dashboard to provide updates, answer questions, or share extra details.",
+    },
+    {
+      id: 9,
+      question: "Do you use plagiarism-free sources for guaranteed work?",
+      answer:
+        "Absolutely. Everything is written from scratch, backed by credible research, and checked with trusted tools to ensure originality.",
+    },
+    {
+      id: 10,
+      question: "How do I know the work will match my academic level?",
+      answer:
+        "We match you with a qualified expert who writes according to your level, course expectations, and required standards. This ensures the work fits naturally with your academic profile.",
+    },
+  ],
 };

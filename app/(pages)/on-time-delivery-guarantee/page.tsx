@@ -22,9 +22,9 @@ const Home: NextPage = () => {
           <WhySlider whyData={Content.whyScholalrySlider} />
         </div>
         <CustomerReviews />
-        <AcademicPartners />
+        <AcademicPartners content={Content.academicPartners} />
 
-        <Faq />
+        <Faq content={Content.faq} />
       </MainLayout>
     </div>
   );
@@ -37,9 +37,9 @@ export function generateMetadata({}) {
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}`;
   return {
-    title: "US-Based PhD Experts | Trusted Academic Support Online",
+    title: "On-Time Delivery Guarantee | Fast, Reliable Academic Support",
     description:
-      "Connect with verified US-based PhD scholars for reliable academic support. Expert guidance you can trust across multiple subjects and tasks.",
+      "Receive your work on schedule with our On-Time Delivery Guarantee. We ensure fast, dependable, and stress-free academic support for every task.",
     alternates: {
       canonical: canonicalUrl,
     },

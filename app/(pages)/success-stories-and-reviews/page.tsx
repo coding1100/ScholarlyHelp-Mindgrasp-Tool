@@ -34,15 +34,13 @@ const Home: NextPage = () => {
             </p>
           </div>
         </div>
-        <Success />
+        <Success content={Content.successLookLike} />
         <FeaturedStories content={Content.featuredStories} />
         <TrustSection content={Content.supportContent} />
 
-        <div className="bg-linear-to-b from-white via-[#ECECFC] to-white">
-          <WhySlider whyData={Content.whyScholalrySlider} />
-        </div>
+        <WhySlider whyData={Content.whyScholalrySlider} />
         <CustomerReviews />
-        <AcademicPartners />
+        <AcademicPartners content={Content.academicPartners} />
 
         <Faq />
       </MainLayout>
@@ -57,9 +55,9 @@ export function generateMetadata({}) {
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}`;
   return {
-    title: "US-Based PhD Experts | Trusted Academic Support Online",
+    title: "Success Stories & Reviews | Student Results & Experiences",
     description:
-      "Connect with verified US-based PhD scholars for reliable academic support. Expert guidance you can trust across multiple subjects and tasks.",
+      "Explore real success stories from students who achieved better grades and confidence with our support. Honest reviews that reflect trust, quality, and results.",
     alternates: {
       canonical: canonicalUrl,
     },
