@@ -5,7 +5,7 @@ import HeroLead from "./HeroLead";
 import HeroRight from "./HeroRight";
 import ReviewBar from "./ReviewBar";
 import Image, { StaticImageData } from "next/image";
-import { useAssignmentData } from "@/app/(pages)/assignment/AssignmentDataProvider";
+import { usePageData } from "./usePageData";
 import TomIcon from "@/app/assets/Icons/tom.png";
 
 const Star: React.FC = () => (
@@ -36,8 +36,15 @@ interface HeroSectionProps {
 const HeroSection: FC<HeroSectionProps> = ({
   heroContent: propHeroContent,
 }) => {
-  const data = useAssignmentData();
+  const data = usePageData();
   const heroContent = propHeroContent || data?.heroSection;
+  
+  // Debug: Log the heroSection data to see what we're receiving
+  if (typeof window !== 'undefined') {
+    console.log('HeroSection component - data:', data);
+    console.log('HeroSection component - heroSection:', data?.heroSection);
+    console.log('HeroSection component - mainHeading:', data?.heroSection?.mainHeading);
+  }
 
   return (
     <section
