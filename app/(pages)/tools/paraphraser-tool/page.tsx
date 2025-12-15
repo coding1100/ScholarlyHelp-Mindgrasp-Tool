@@ -28,7 +28,7 @@ export default function ParaphraserPage() {
         <div className="animate-pulse bg-gray-200 dark:bg-gray-800 h-72" />
       }
     >
-      <ThemeToggle />
+      <ThemeToggle top="top-12" />
       <ToolsLayout setFlag={setFlag} flag={flag}>
         <AIParaphraser setFlag={setFlag} />
       </ToolsLayout>

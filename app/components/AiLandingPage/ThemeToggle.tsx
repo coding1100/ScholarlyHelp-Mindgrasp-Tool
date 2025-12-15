@@ -3,7 +3,10 @@
 import { FC, useEffect, useState } from "react";
 import { FiSun, FiMoon } from "react-icons/fi";
 
-const ThemeToggle: FC = () => {
+interface ThemeToggleProps {
+  top?: string;
+}
+const ThemeToggle: FC<ThemeToggleProps> = ({ top = "top-6" }) => {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -11,9 +14,11 @@ const ThemeToggle: FC = () => {
     setMounted(true);
     // Check localStorage or system preference
     const stored = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
     const shouldBeDark = stored === "dark" || (!stored && prefersDark);
-    
+
     setIsDark(shouldBeDark);
     if (shouldBeDark) {
       document.documentElement.classList.add("dark");
@@ -25,7 +30,7 @@ const ThemeToggle: FC = () => {
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
-    
+
     if (newTheme) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -42,7 +47,7 @@ const ThemeToggle: FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed top-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-white dark:bg-[#1a1a2e] shadow-lg dark:shadow-[#8953e6]/30 border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:scale-110 hover:shadow-xl dark:hover:shadow-[#8953e6]/40 group backdrop-blur-sm"
+      className={`fixed ${top} right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-white dark:bg-[#1a1a2e] shadow-lg dark:shadow-[#8953e6]/30 border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:scale-110 hover:shadow-xl dark:hover:shadow-[#8953e6]/40 group backdrop-blur-sm`}
       aria-label="Toggle dark mode"
     >
       <div className="relative w-6 h-6 flex items-center justify-center">
@@ -67,4 +72,3 @@ const ThemeToggle: FC = () => {
 };
 
 export default ThemeToggle;
-

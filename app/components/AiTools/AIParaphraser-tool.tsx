@@ -1,6 +1,7 @@
 "use client";
 
 import React, { FC, useEffect, useState } from "react";
+import { FaChevronDown } from "react-icons/fa";
 import TextSummarizerInput from "./TextSummarizerInput";
 import ResultDisplay from "./ResultDisplay";
 import ActionButtons from "./ActionButtons";
@@ -158,17 +159,22 @@ const AIParaphraser: FC<AIParaphraserProp> = ({ setFlag }) => {
               >
                 Paraphrase Style:
               </label>
-              <select
-                id="style"
-                value={style}
-                onChange={(e) => setStyle(e.target.value)}
-                className="p-1 border w-[50%] border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300"
-              >
-                <option>Standard</option>
-                <option>Creative</option>
-                <option>Formal</option>
-                <option>Casual</option>
-              </select>
+              <div className="relative w-[50%]">
+                <select
+                  id="style"
+                  value={style}
+                  onChange={(e) => setStyle(e.target.value)}
+                  className="p-1 pr-7 border w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                >
+                  <option>Standard</option>
+                  <option>Creative</option>
+                  <option>Formal</option>
+                  <option>Casual</option>
+                </select>
+                <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                  <FaChevronDown className="w-3 h-3" />
+                </span>
+              </div>
             </div>
             {/* reusable action buttons */}
             <ActionButtons
