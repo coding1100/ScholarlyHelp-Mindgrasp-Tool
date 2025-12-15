@@ -51,10 +51,19 @@ export default function Header() {
         {
           title: "How It Works & Proof",
           links: [
-            { name: "How We Guarantee 100% Anonymity", href: "" },
-            { name: "Our Plagiarism-Free Process", href: "" },
-            { name: "Our US-Based PhD Experts", href: "" },
-            { name: "Success Stories & Reviews", href: "" },
+            {
+              name: "How We Guarantee 100% Anonymity",
+              href: "/guarantee-anonymity",
+            },
+            {
+              name: "Our Plagiarism-Free Process",
+              href: "/plagiarism-free-process",
+            },
+            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts" },
+            {
+              name: "Success Stories & Reviews",
+              href: "/success-stories-and-reviews",
+            },
           ],
           button: [{ name: "See Success Stories", href: "#" }],
         },
@@ -78,20 +87,32 @@ export default function Header() {
           title: "Our Guarantees",
           links: [
             { name: "Our Promise (Risk-Free)", href: "" },
-            { name: "A or B Grade Guarantee", href: "" },
+            { name: "A or B Grade Guarantee", href: "/a-or-b-grade-guarantee" },
             { name: "100% Confidentiality Pact", href: "" },
             { name: "0% Plagiarism Guarantee", href: "" },
-            { name: "On-Time Delivery Guarantee", href: "" },
+            {
+              name: "On-Time Delivery Guarantee",
+              href: "/on-time-delivery-guarantee",
+            },
           ],
           button: [{ name: "Find Your Solution", href: "" }],
         },
         {
           title: "How It Works & Proof",
           links: [
-            { name: "How We Guarantee 100% Anonymity", href: "" },
-            { name: "Our Plagiarism-Free Process", href: "" },
-            { name: "Our US-Based PhD Experts", href: "" },
-            { name: "Success Stories & Reviews", href: "" },
+            {
+              name: "How We Guarantee 100% Anonymity",
+              href: "/guarantee-anonymity",
+            },
+            {
+              name: "Our Plagiarism-Free Process",
+              href: "/plagiarism-free-process",
+            },
+            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts" },
+            {
+              name: "Success Stories & Reviews",
+              href: "/success-stories-and-reviews",
+            },
           ],
           button: [{ name: "See Success Stories", href: "" }],
         },
@@ -123,10 +144,19 @@ export default function Header() {
         {
           title: "How It Works & Proof",
           links: [
-            { name: "How We Guarantee 100% Anonymity", href: "" },
-            { name: "Our Plagiarism-Free Process", href: "" },
-            { name: "Our US-Based PhD Experts", href: "" },
-            { name: "Success Stories & Reviews", href: "" },
+            {
+              name: "How We Guarantee 100% Anonymity",
+              href: "/guarantee-anonymity",
+            },
+            {
+              name: "Our Plagiarism-Free Process",
+              href: "/plagiarism-free-process",
+            },
+            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts" },
+            {
+              name: "Success Stories & Reviews",
+              href: "/success-stories-and-reviews",
+            },
           ],
           button: [{ name: "Find Your Solution", href: "" }],
         },

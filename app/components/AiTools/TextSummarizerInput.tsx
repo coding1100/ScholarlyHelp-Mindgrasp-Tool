@@ -74,16 +74,18 @@ const TextSummarizerInput: React.FC<TextSummarizerInputProps> = ({
   };
 
   return (
-    <div className="bg-white w-full">
+    <div className="bg-white dark:bg-gray-900 w-full transition-colors duration-300">
       {/* Header */}
       <div className="p-4">
-        <h2 className="text-xl font-normal text-gray-800">{title}</h2>
+        <h2 className="text-xl font-normal text-gray-800 dark:text-gray-100 transition-colors duration-300">
+          {title}
+        </h2>
       </div>
 
       {/* Textarea */}
-      <div className="relative px-4 pb-10 border-b border-t">
+      <div className="relative px-4 pt-5 pb-8 border-b border-t border-gray-200 dark:border-gray-700 transition-colors duration-300 ">
         <textarea
-          className="w-full h-48 p-3 py-4 rounded-md focus:outline-none  resize-none text-gray-800 placeholder:text-gray-400"
+          className="w-full h-48 p-3 py-4 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-colors duration-300"
           placeholder={placeholder}
           value={inputText}
           onChange={handleInputChange}
@@ -94,7 +96,7 @@ const TextSummarizerInput: React.FC<TextSummarizerInputProps> = ({
           <div className="w-full absolute top-[110px] left-1/2 transform -translate-x-1/2 flex space-x-3 justify-center">
             <button
               onClick={handlePasteText}
-              className="flex items-center space-x-2 px-2 md:px-4 py-2 text-gray-800 rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50"
+              className="flex items-center space-x-2 px-2 md:px-4 py-2 text-gray-800 dark:text-gray-100 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300"
             >
               <FaRegFileAlt />
               <span>Paste Text</span>
@@ -109,7 +111,7 @@ const TextSummarizerInput: React.FC<TextSummarizerInputProps> = ({
             />
             <button
               onClick={handleUploadButtonClick}
-              className="flex items-center space-x-2 px-2 md:px-4 py-2 text-gray-800 rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50"
+              className="flex items-center space-x-2 px-2 md:px-4 py-2 text-gray-800 dark:text-gray-100 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300"
             >
               <FaFileUpload />
               <span>Upload Document</span>
@@ -120,8 +122,10 @@ const TextSummarizerInput: React.FC<TextSummarizerInputProps> = ({
         {/* Word count in bottom right */}
         <div
           className={`absolute bottom-2 right-4 text-sm ${
-            wordCount > 200 ? "text-red-500 font-semibold" : "text-gray-500"
-          }`}
+            wordCount > 200
+              ? "text-red-500 dark:text-red-400 font-semibold"
+              : "text-gray-500 dark:text-gray-400"
+          } transition-colors duration-300`}
         >
           Word Count: {wordCount}
         </div>
