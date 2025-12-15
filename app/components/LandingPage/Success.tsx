@@ -1,7 +1,7 @@
 // app/components/ThreeDCarousel.tsx
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, FC } from "react";
 import Image from "next/image";
 import { usePageData } from "./usePageData";
 const proof5 = "/images/proof-3.webp";
@@ -9,9 +9,16 @@ const proof1 = "/images/proof-2.webp";
 const proof2 = "/images/proof-2.webp";
 const proof4 = "/images/proof-3.webp";
 
-export default function ThreeDCarousel() {
+interface SuccessProps {
+  content?: {
+    mainHeading: string;
+    description: string;
+  };
+}
+const Success: FC<SuccessProps> = ({ content }) => {
   const data = usePageData();
-  const success = data?.success;
+  const success =
+    content?.mainHeading && content?.description ? content : data?.success;
 
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
@@ -133,4 +140,6 @@ export default function ThreeDCarousel() {
       </div>
     </section>
   );
-}
+};
+
+export default Success;

@@ -20,13 +20,11 @@ const Home: NextPage = () => {
         <GuaranteeCovers content={Content.guaranteeCoversContent} />
         <HowWorks content={Content.howWorksContent} />
         <ChooseExpert content={Content.guarantee} />
-        <div className="bg-linear-to-b from-white via-[#ECECFC] to-white">
-          <WhySlider whyData={Content.whyScholalrySlider} />
-        </div>
+        <WhySlider whyData={Content.whyScholalrySlider} />
         <CustomerReviews />
-        <AcademicPartners />
+        <AcademicPartners content={Content.academicPartners} />
 
-        <Faq />
+        <Faq content={Content.faq} />
       </MainLayout>
     </div>
   );
@@ -39,9 +37,9 @@ export function generateMetadata({}) {
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}`;
   return {
-    title: "US-Based PhD Experts | Trusted Academic Support Online",
+    title: "A/B Grade Guarantee | Reliable Academic Support",
     description:
-      "Connect with verified US-based PhD scholars for reliable academic support. Expert guidance you can trust across multiple subjects and tasks.",
+      "Get dependable academic help backed by our A/B Grade Guarantee. Expert tutors, simple process, and trusted support built for strong, consistent results.",
     alternates: {
       canonical: canonicalUrl,
     },

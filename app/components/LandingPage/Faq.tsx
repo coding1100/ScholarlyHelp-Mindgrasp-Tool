@@ -70,12 +70,20 @@ const faqContent = [
   },
 ];
 
-const Faq: FC = () => {
+interface FaqProps {
+  content?:
+    | {
+        id: number;
+        question: string;
+        answer: string;
+      }[];
+}
+const Faq: FC<FaqProps> = ({ content }) => {
   const data = usePageData();
   const faq = data?.faq;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [showMore, setShowMore] = useState(false);
-  
+
   type FaqItemType = {
     id: number | string;
     question: string;
@@ -83,15 +91,36 @@ const Faq: FC = () => {
   };
 
   const faqItems = useMemo(() => {
+    // Priority 1: Check if content is an array directly (content={Content.faq})
+    if (Array.isArray(content) && content.length > 0) {
+      return content.map((item: any) => ({
+        id: item.id || Date.now(),
+        question: item.question || "",
+        answer: item.answer || "",
+      }));
+    }
+    // Priority 2: Check if content.faq exists from props (content={{ faq: [...] }})
+    if (content && typeof content === "object" && "faq" in content) {
+      const contentFaq = (content as { faq?: any[] }).faq;
+      if (Array.isArray(contentFaq) && contentFaq.length > 0) {
+        return contentFaq.map((item: any) => ({
+          id: item.id || Date.now(),
+          question: item.question || "",
+          answer: item.answer || "",
+        }));
+      }
+    }
+    // Priority 3: Check if faq.faqs exists from usePageData
     if (faq?.faqs && Array.isArray(faq.faqs) && faq.faqs.length > 0) {
       return faq.faqs.map((item: any) => ({
         id: item.id || Date.now(),
-        question: item.question || '',
-        answer: item.answer || ''
+        question: item.question || "",
+        answer: item.answer || "",
       }));
     }
+    // Priority 4: Fall back to default faqContent
     return faqContent;
-  }, [faq]);
+  }, [content, faq]);
 
   const toggleAccordion = (index: number) => {
     setActiveIndex((prev) => (prev === index ? null : index));
