@@ -78,8 +78,8 @@ const ThesisGenerator = () => {
       {/* <h1 className="text-3xl md:text-5xl text-center mb-4 font-serif">
         Thesis Generator
       </h1> */}
-      <div className="grid grid-cols-1 md:grid-cols-2 flex-grow border border-gray-200 mt-4">
-        <div className="bg-white border-r">
+      <div className="grid grid-cols-1 md:grid-cols-2 flex-grow border border-gray-200 dark:border-gray-700 mt-4 transition-colors duration-300">
+        <div className="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <ThesisGeneratorForm formData={formData} setFormData={setFormData} />
           <ActionButtons
             onClear={handleClear}
@@ -91,7 +91,7 @@ const ThesisGenerator = () => {
         </div>
         <ResultDisplay resultText={resultText} title="Result" />
       </div>
-      <div className="text-sm font-serif font-medium text-center pt-8 text-gray-500">
+      <div className="text-sm font-serif font-medium text-center pt-8 text-gray-500 dark:text-gray-400 transition-colors duration-300">
         <q>
           Finding it hard to rephrase your ideas effectively? ScholarlyHelp
           offers a powerful AI-driven paraphrasing tool designed to rewrite your

@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
 import EssayOutlinetool from "@/app/components/AiTools/EssayOutline-tool";
+import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
 // Try with simpler fallbacks first
 // const ToolsLayout = dynamic(
@@ -26,6 +27,7 @@ const Page = () => {
 
   return (
     <Suspense fallback={<p>Loading page...</p>}>
+      <ThemeToggle top="top-12" />
       <ToolsLayout setFlag={setFlag} flag={flag}>
         <EssayOutlinetool />
       </ToolsLayout>
