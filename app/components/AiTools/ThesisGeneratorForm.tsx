@@ -21,8 +21,8 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
   };
 
   return (
-    <div className="border-b border-gray-200 flex flex-col bg-gray-100">
-      <h2 className="bg-white text-lg font-semibold text-gray-800 py-4 px-4 mb-4 border-b">
+    <div className="border-b border-gray-200 dark:border-gray-700 flex flex-col bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      <h2 className="bg-white dark:bg-gray-800 text-lg font-semibold text-gray-800 dark:text-gray-100 py-4 px-4 mb-4 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
         Thesis Generator
       </h2>
 
@@ -31,7 +31,7 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="topic"
-            className="text-sm font-medium text-gray-700 mb-1 block"
+            className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 block transition-colors duration-300"
           >
             Thesis topic:
           </label>
@@ -39,7 +39,7 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
             id="topic"
             type="text"
             placeholder="ex: Impact of consuming junk food"
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300"
             value={formData.topic}
             onChange={(e) => handleChange("topic", e.target.value)}
           />
@@ -49,7 +49,7 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="mainIdea"
-            className="text-sm font-medium text-gray-700 mb-1 block"
+            className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 block transition-colors duration-300"
           >
             Main idea about topic (optional):
           </label>
@@ -57,7 +57,7 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
             id="mainIdea"
             type="text"
             placeholder="ex: Junk food is bad for the body"
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300"
             value={formData.mainIdea}
             onChange={(e) => handleChange("mainIdea", e.target.value)}
           />
@@ -67,7 +67,7 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="supportingReason"
-            className="text-sm font-medium text-gray-700 mb-1 block"
+            className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 block transition-colors duration-300"
           >
             Reason supporting main idea (optional):
           </label>
@@ -75,7 +75,7 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
             id="supportingReason"
             type="text"
             placeholder="ex: Junk food creates health issues"
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300"
             value={formData.supportingReason}
             onChange={(e) => handleChange("supportingReason", e.target.value)}
           />
@@ -85,7 +85,7 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="audience"
-            className="text-sm font-medium text-gray-700 mb-1 block"
+            className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 block transition-colors duration-300"
           >
             Intended audience (optional):
           </label>
@@ -93,7 +93,7 @@ const ThesisGeneratorForm: React.FC<ThesisGeneratorFormProps> = ({
             id="audience"
             type="text"
             placeholder="ex: College students"
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300"
             value={formData.audience}
             onChange={(e) => handleChange("audience", e.target.value)}
           />

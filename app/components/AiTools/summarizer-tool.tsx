@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { FaChevronDown } from "react-icons/fa";
 import TextSummarizerInput from "./TextSummarizerInput";
 import ResultDisplay from "./ResultDisplay";
 import ActionButtons from "./ActionButtons";
@@ -116,14 +117,16 @@ const SummarizerTool: React.FC = () => {
   };
 
   return (
-    <div className="container max-w-[840px] mx-auto p-4 md:p-8">
+    <div className="container overflow-y-auto h-[90vh] mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl">
       {/* <h1 className="text-2xl md:text-5xl text-center mb-4 font-serif">
         AI Summarizer Generator
       </h1> */}
       {isLoading && (
         <div className="flex justify-center items-center py-4">
           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <span className="ml-3 text-blue-600 font-medium">Processing...</span>
+          <span className="ml-3 text-blue-600 dark:text-blue-400 font-medium">
+            Processing...
+          </span>
         </div>
       )}
       <div
@@ -131,7 +134,7 @@ const SummarizerTool: React.FC = () => {
         style={{ alignItems: "stretch" }}
       >
         {/* Input Component */}
-        <div className="bg-white border border-gray-300  h-auto flex flex-col">
+        <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 h-auto flex flex-col transition-colors duration-300">
           <TextSummarizerInput
             title="AI Summarizer"
             onTextChange={handleTextChange}
@@ -141,38 +144,45 @@ const SummarizerTool: React.FC = () => {
             placeholder="Enter text or upload PDF for summarization..."
           />
           {/* ───── Summary Style & Length controls ───── */}
-          <div className="space-y-6 border-b p-2">
+          <div className="space-y-6 border-b border-gray-200 dark:border-gray-700 p-2 transition-colors duration-300">
             {/* ===== Summary Style ===== */}
             <div className="flex justify-between items-center">
               <label
                 htmlFor="summaryStyle"
-                className="block text-sm font-semibold mb-1"
+                className="block text-sm font-semibold mb-1 text-gray-800 dark:text-gray-100 transition-colors duration-300"
               >
                 Summary Style:
               </label>
-              <select
-                id="summaryStyle"
-                value={summaryStyle}
-                onChange={(e) =>
-                  setSummaryStyle(
-                    e.target.value as "Paragraph" | "Bullet Points"
-                  )
-                }
-                className="w-[50%] rounded-md border border-gray-200 p-1 hover:cursor-pointer  focus:outline-none focus:ring-2 focus:ring-black dark:bg-white/10"
-              >
-                <option value="Paragraph">Paragraph</option>
-                <option value="Bullet Points">Bullet Points</option>
-                <option value="Numbered List">Numbered List</option>
-              </select>
+              <div className="relative w-[50%]">
+                <select
+                  id="summaryStyle"
+                  value={summaryStyle}
+                  onChange={(e) =>
+                    setSummaryStyle(
+                      e.target.value as "Paragraph" | "Bullet Points"
+                    )
+                  }
+                  className="w-full rounded-md border border-gray-200 text-black dark:border-gray-600 p-1 pr-7 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-black dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 appearance-none"
+                >
+                  <option value="Paragraph">Paragraph</option>
+                  <option value="Bullet Points">Bullet Points</option>
+                  <option value="Numbered List">Numbered List</option>
+                </select>
+                <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                  <FaChevronDown className="w-3 h-3" />
+                </span>
+              </div>
             </div>
 
             {/* ===== Summary Length ===== */}
             <div className="flex space-x-4 justify-between items-center">
-              <label className="block text-sm font-semibold mb-1">
+              <label className="block text-sm font-semibold mb-1 text-gray-800 dark:text-gray-100 transition-colors duration-300">
                 Summary Length:
               </label>
               <div className="flex items-center space-x-2">
-                <span className="text-xs">Short</span>
+                <span className="text-xs text-gray-600 dark:text-gray-300 transition-colors duration-300">
+                  Short
+                </span>
                 <input
                   type="range"
                   min={0}
@@ -182,9 +192,11 @@ const SummarizerTool: React.FC = () => {
                     const newValue = Number(e.target.value);
                     setSummaryLength(lengthOptions[newValue]);
                   }}
-                  className="flex-1 appearance-none h-2 rounded-full bg-gray-300/70 accent-indigo-600 cursor-pointer"
+                  className="flex-1 appearance-none h-2 rounded-full bg-gray-300/70 dark:bg-gray-700 accent-indigo-600 cursor-pointer transition-colors duration-300"
                 />
-                <span className="text-xs">Long</span>
+                <span className="text-xs text-gray-600 dark:text-gray-300 transition-colors duration-300">
+                  Long
+                </span>
               </div>
             </div>
           </div>
@@ -199,7 +211,7 @@ const SummarizerTool: React.FC = () => {
         </div>
 
         {/* Result Component */}
-        <div className="bg-white border border-gray-300 h-auto flex flex-col justify-between">
+        <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 h-auto flex flex-col justify-between transition-colors duration-300">
           {/* <ResultDisplay
             resultText={isLoading ? "Generating summary..." : summarizedResult}
           /> */}
