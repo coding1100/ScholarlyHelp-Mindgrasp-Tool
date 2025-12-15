@@ -104,15 +104,15 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
         </div>
       )}
 
-      {heroContent?.subHeading && (
+      {heroContent?.subHeading && shouldHideBadges && (
         <div
-          className="text-black text-[19px] mt-3 font-semibold"
+          className="text-black text-[19px] mt-3 font-semibold "
           dangerouslySetInnerHTML={{ __html: heroContent.subHeading }}
         />
       )}
-      {heroContent?.description && (
+      {heroContent?.description  && shouldHideBadges && (
         <div
-          className="text-[#263238] text-[16px] mt-3"
+          className="text-[#263238] text-[16px] mt-3 "
           dangerouslySetInnerHTML={{ __html: heroContent.description }}
         />
       )}

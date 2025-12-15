@@ -33,6 +33,8 @@ async function fetchHomeData() {
     const client = new MongoClient(databaseUrl, {
       serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 10000,
+      // Force a new connection to avoid caching
+      maxPoolSize: 1,
     });
     
     await client.connect();
@@ -51,8 +53,18 @@ async function fetchHomeData() {
     };
     
     console.log('Querying home collection with query:', JSON.stringify(query));
-    const content = await db.collection('home').findOne(query);
+    // Use findOne with no caching
+    const content = await db.collection('home').findOne(query, {
+      // Disable any potential caching
+      readPreference: 'primary',
+    });
     console.log('Found content:', content ? 'Yes' : 'No');
+    
+    // Debug: Log the heroSection data to verify it's being fetched correctly
+    if (content) {
+      console.log('Fetched home data - heroSection:', JSON.stringify(content.heroSection));
+      console.log('Fetched home data - heroSection.mainHeading:', content.heroSection?.mainHeading);
+    }
     
     // If no content found, try to see what's in the collection
     if (!content) {

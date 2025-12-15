@@ -498,7 +498,8 @@ export default function HomeworkAdmin() {
   const addArrayItem = (path: string, defaultItem: any) => {
     const keys = path.split('.');
     setPageData((prev: any) => {
-      const newData = { ...prev };
+      if (!prev) return prev;
+      const newData = JSON.parse(JSON.stringify(prev)); // Deep clone to avoid reference issues
       let current = newData;
       for (let i = 0; i < keys.length; i++) {
         if (!current[keys[i]]) current[keys[i]] = [];
