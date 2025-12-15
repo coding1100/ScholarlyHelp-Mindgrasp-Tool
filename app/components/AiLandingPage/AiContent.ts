@@ -180,6 +180,105 @@ export const MainAiLanding = {
       },
     ],
   },
+  academicPartners: {
+    mainHeading: "Your Academic Partners for Success",
+    description:
+      "We're here to support your academic journey with dependable guidance and student-focused tools. Our platform offers expert assistance, time-saving features, and full privacy protection, helping you work smarter, stay organized, and achieve meaningful progress in every subject.",
+    defaultCard: [
+      {
+        id: 1,
+        title: "Confidential Partner",
+        description:
+          "We handle your academic tasks discreetly, allowing you to get expert help without exposing your identity or institution details.",
+      },
+      {
+        id: 2,
+        title: "Founded by Students",
+        description:
+          "Built by students who understand real academic challenges, our platform provides practical and supportive solutions.",
+      },
+      {
+        id: 3,
+        title: "40+ Master's Level Tutors",
+        description:
+          "Every expert is carefully selected through a strict vetting process, ensuring top-tier subject knowledge and professional guidance.",
+      },
+      {
+        id: 4,
+        title: "2,100+ Courses Completed",
+        description:
+          "Our experience speaks for itself. We've assisted thousands of students across numerous subjects with proven, successful outcomes.",
+      },
+      {
+        id: 5,
+        title: "100% Confidentiality",
+        description:
+          "Your files, conversations, and academic work remain private forever, providing complete trust and comfort.",
+      },
+    ],
+  },
+  faq: [
+    {
+      id: 1,
+      question: "Are these tools free to use?",
+      answer:
+        "Yes. All Scholarly Help tools are free and accessible without any complicated setup.",
+    },
+    {
+      id: 2,
+      question: "Do I need an account to use the tools?",
+      answer:
+        "No. You can use every tool instantly without creating an account or sharing personal details.",
+    },
+    {
+      id: 3,
+      question: "Are my inputs saved or stored?",
+      answer:
+        "No. Everything you type is private, and we never store or share your content.",
+    },
+    {
+      id: 4,
+      question: "Can I use these tools for multiple subjects?",
+      answer:
+        "Yes. They work on essays, summaries, paraphrasing, thesis building, and general academic tasks across all subjects.",
+    },
+    {
+      id: 5,
+      question: "Do these tools follow academic writing standards?",
+      answer:
+        "Yes. Each tool is designed to support clear, structured, and academically aligned output.",
+    },
+    {
+      id: 6,
+      question: "Will the tools rewrite content accurately?",
+      answer:
+        "Our AI tools keep your original meaning intact while improving clarity, tone, and readability.",
+    },
+    {
+      id: 7,
+      question: "Can these tools help me save study time?",
+      answer:
+        "Absolutely. They simplify long readings, clarify ideas, and help you produce well-structured work faster.",
+    },
+    {
+      id: 8,
+      question: "Are the tools safe for school use?",
+      answer:
+        "Yes. All tools operate privately and securely, giving you safe, academic-friendly support.",
+    },
+    {
+      id: 9,
+      question: "Can I use these tools on any device?",
+      answer:
+        "Yes. They work smoothly on phones, tablets, laptops, and desktops.",
+    },
+    {
+      id: 10,
+      question: "What makes Scholarly Help tools different?",
+      answer:
+        "They're designed specifically for students, offering clarity, simplicity, privacy, and accurate academic output every time.",
+    },
+  ],
 };
 
 export const AiSummarizerContent = {

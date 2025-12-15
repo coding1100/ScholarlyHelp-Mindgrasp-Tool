@@ -19,13 +19,13 @@ const FeaturedStories: FC<FeaturedStoriesProps> = ({ content }) => {
     <section className="pt-9 pb-20 px-5 overflow-hidden bg-white text-[#171717]">
       <div className="max-w-7xl mx-auto">
         <div className="py-10 ">
-          <h2 className="lg:text-[42px] [992px]:text-[30px] md:text-[28px] sm:text-[24px] text-[20px] lg:mb-[20px] mb-[10px] text-[#000] font-bold text-center">
+          <h2 className="lg:text-[42px] md:text-[28px] sm:text-[24px] text-[20px] lg:mb-[20px] mb-[10px] text-[#000] font-bold text-center">
             {content.heading}
           </h2>
         </div>
         {content.stories.map((story, index) => (
           <div
-            className="grid [992px]:grid-cols-2 grid-cols-1 gap-5 max-w-[955px] mx-auto mb-20"
+            className="grid md:grid-cols-2 grid-cols-1 gap-5 max-w-[955px] mx-auto mb-20"
             key={index}
           >
             {index % 2 === 0 ? (
@@ -34,7 +34,7 @@ const FeaturedStories: FC<FeaturedStoriesProps> = ({ content }) => {
                   <Image src={story.image} alt="Featured Stories" />
                 </div>
                 <div className="col-span-1 order-2">
-                  <p className="lg:text-[35px] md:text-[28px] sm:text-[24px] text-[20px] lg:leading-[40px] [992px]:leading-[38px] leading-[32px] font-bold text-black mb-3">
+                  <p className="lg:text-[35px] md:text-[28px] sm:text-[24px] text-[20px] lg:leading-[40px] leading-[32px] font-bold text-black mb-3">
                     {story.title}
                   </p>
                   <p className="text-xl font-bold text-black">{story.name}</p>
@@ -49,7 +49,7 @@ const FeaturedStories: FC<FeaturedStoriesProps> = ({ content }) => {
             ) : (
               <>
                 <div className="col-span-1 md:order-1 order-2">
-                  <p className="lg:text-[35px] md:text-[28px] sm:text-[24px] text-[20px] lg:leading-[40px] [992px]:leading-[38px] leading-[32px] font-bold text-black mb-3">
+                  <p className="lg:text-[35px] md:text-[28px] sm:text-[24px] text-[20px] lg:leading-[40px] leading-[32px] font-bold text-black mb-3">
                     {story.title}
                   </p>
                   <p className="text-xl font-bold text-black">{story.name}</p>
