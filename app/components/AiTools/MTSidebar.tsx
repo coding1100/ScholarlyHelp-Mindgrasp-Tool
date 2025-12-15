@@ -31,11 +31,11 @@ const MTSidebar = ({
   const currentRoute = usePathname();
   const router = useRouter();
   const tools = [
-    { name: "Paraphraser Tool", href: "/tools/paraphraser-tool/" },
-    { name: "Summarizer Tool", href: "/tools/summarizer-tool/" },
-    { name: "Thesis Generator Tool", href: "/tools/thesis-generator-tool/" },
-    { name: "Essay Outline Tool", href: "/tools/essay-outline-tool/" },
-    { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
+    { name: "Paraphraser Tool", href: "/tools/paraphraser-tool" },
+    { name: "Summarizer Tool", href: "/tools/summarizer-tool" },
+    { name: "Thesis Generator Tool", href: "/tools/thesis-generator-tool" },
+    { name: "Essay Outline Tool", href: "/tools/essay-outline-tool" },
+    // { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
   ];
   const [showTools, setShowTools] = useState(false);
   const [userName, setUserName] = useState("User");
@@ -219,7 +219,7 @@ const MTSidebar = ({
       </button> */}
       <div>
         <button
-          className="flex w-full cursor-pointer items-center gap-3 px-3 py-1 text-sm transition-colors bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md"
+          className="flex w-full items-center gap-3 px-3 py-1 text-sm transition-colors bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md"
           onClick={() => setShowTools((prev) => !prev)}
         >
           <FiTool className="h-5 w-5" />
