@@ -566,7 +566,7 @@ export default function ExamAdmin() {
                 placeholder="Use &lt;br/&gt; for line breaks"
               />
             </div>
-            <div>
+            <div className="hidden">
               <label className="block text-sm font-medium text-gray-700 mb-2">Sub Heading</label>
               <input
                 type="text"
