@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     const client = new MongoClient(databaseUrl);
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     
     // If list=all, return all assignment pages
     if (listAll) {
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     await client.connect();
     console.log('Connected to MongoDB successfully');
 
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     console.log('Using database: scholarly_help');
 
     // Determine query and data to save
@@ -180,7 +180,7 @@ export async function DELETE(request: NextRequest) {
 
     const client = new MongoClient(databaseUrl);
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     
     // Try to delete by slug or id
     const result = await db.collection('assignments').deleteOne({ $or: [{ slug }, { id: slug }] });

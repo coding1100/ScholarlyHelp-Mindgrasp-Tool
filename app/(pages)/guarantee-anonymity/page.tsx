@@ -28,7 +28,7 @@ async function fetchPageData() {
       readPreference: 'primary',
     });
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     
     // Query for guarantee-anonymity page by id
     const query = { 

@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
     const client = new MongoClient(databaseUrl);
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     
     // Query by slug for subject pages, or by id (if slug matches id), or by id: "exam_page" for main page
     let query;

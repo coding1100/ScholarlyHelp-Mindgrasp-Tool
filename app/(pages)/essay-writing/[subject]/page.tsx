@@ -44,7 +44,7 @@ async function fetchPageData(slug: string) {
     });
     
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     
     // Handle different slug formats
     let slugVariations = [slug];
@@ -187,7 +187,7 @@ export async function generateMetadata({ params }: { params: { subject: string }
       const { MongoClient } = await import('mongodb');
       const client = new MongoClient(databaseUrl);
       await client.connect();
-      const db = client.db('scholarly_help');
+      const db = client.db('ScholarlyHelp_V1');
       
       let slugVariations: string[] = [params.subject];
       if (params.subject.startsWith('essay_writing_')) {
