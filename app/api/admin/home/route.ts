@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     });
     
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     
     // Query for main home page - try multiple variations
     const query = { 
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     await client.connect();
     console.log('Connected to MongoDB successfully');
 
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     console.log('Using database: scholarly_help');
 
     // For home page, always use home_page as id
