@@ -30,7 +30,7 @@ async function fetchExamData() {
     const { MongoClient } = await import('mongodb');
     const client = new MongoClient(databaseUrl);
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Query for main exam page
     const query = { 
@@ -79,7 +79,7 @@ export async function generateMetadata() {
       const { MongoClient } = await import('mongodb');
       const client = new MongoClient(databaseUrl);
       await client.connect();
-      const db = client.db('ScholarlyHelp_V1');
+      const db = client.db('scholarly_help');
       
       const query = { 
         $or: [{ id: "exam_page" }, { id: "main" }]

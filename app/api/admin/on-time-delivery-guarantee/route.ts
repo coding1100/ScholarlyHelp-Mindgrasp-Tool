@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     });
     
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Query for on-time-delivery-guarantee page by id
     const query = { 
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     await client.connect();
     console.log('Connected to MongoDB successfully');
 
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
     // For on-time-delivery-guarantee page, always use on-time-delivery-guarantee as id

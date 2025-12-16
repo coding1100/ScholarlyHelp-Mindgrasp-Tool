@@ -34,7 +34,7 @@ async function fetchHomeworkData() {
     });
     
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Query for main homework page
     const query = { 
@@ -88,7 +88,7 @@ export async function generateMetadata() {
       });
       
       await client.connect();
-      const db = client.db('ScholarlyHelp_V1');
+      const db = client.db('scholarly_help');
       
       const query = { 
         $or: [{ id: "homework_page" }, { id: "main" }]

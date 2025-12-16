@@ -10,7 +10,7 @@ async function migratePages() {
 
   const client = new MongoClient(databaseUrl);
   await client.connect();
-  const db = client.db('ScholarlyHelp_V1');
+  const db = client.db('scholarly_help');
 
   // Sample pages for assignment subjects
   const pages = [
