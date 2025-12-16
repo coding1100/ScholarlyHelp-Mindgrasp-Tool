@@ -1,14 +1,26 @@
 "use client";
 
-import Image from "next/image";
-import { Content } from "@/app/(pages)/us-based-phd-experts/content";
+import Image, { StaticImageData } from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef } from "react";
+import { useRef, FC } from "react";
 
-const ExpertSection = () => {
+interface ExpertSectionProps {
+  content: {
+    mainHeading: string;
+    description: string;
+    slider: {
+      img: StaticImageData;
+      expertName: string;
+      designation: string;
+      description: string;
+    }[];
+  };
+}
+
+const ExpertSection: FC<ExpertSectionProps> = ({ content }) => {
   const sliderRef = useRef<Slider | null>(null);
 
   const settings = {
@@ -52,18 +64,18 @@ const ExpertSection = () => {
         {/* Header Section */}
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] font-bold text-black mb-3 sm:mb-4">
-            {Content.expertContent.mainHeading}
+            {content.mainHeading}
           </h2>
 
           <p className="text-[14px] sm:text-[15px] md:text-[16px] font-normal text-[#263238] max-w-4xl mx-auto px-4 sm:px-0">
-            {Content.expertContent.description}
+            {content.description}
           </p>
         </div>
 
         {/* Expert Slider */}
         <div className="relative">
           <Slider ref={sliderRef} {...settings}>
-            {Content.expertContent.slider.map((expert, index) => (
+            {content.slider.map((expert, index) => (
               <div key={index} className="px-5 h-full">
                 <div
                   className="bg-white p-[21px] flex flex-col justify-center items-center rounded-lg h-full min-h-[500px]"
