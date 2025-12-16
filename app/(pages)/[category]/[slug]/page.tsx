@@ -1,28 +1,49 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
+// Force dynamic rendering to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface PageProps { 
   params: { category: string; slug: string; }; 
 }
 
 async function fetchPageData(category: string, slug: string) {
   try {
-    const directusUrl = process.env.DIRECTUS_URL;
-    if (!directusUrl) {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      console.error('Database URL not configured');
       return null;
     }
+
+    const { MongoClient } = await import('mongodb');
+    const client = new MongoClient(databaseUrl, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+      maxPoolSize: 1,
+      readPreference: 'primary',
+    });
+    await client.connect();
+    const db = client.db('scholarly_help');
     
-    const response = await fetch(
-      `${directusUrl}/items/pages?filter[category][_eq]=${category}&filter[slug][_eq]=${slug}`,
-      { cache: 'no-store' }
-    );
+    // Query for page by id (slug) in pages collection
+    // The slug should match the id in the pages collection
+    const query = { 
+      id: slug
+    };
     
-    if (!response.ok) {
-      return null;
+    const content = await db.collection('pages').findOne(query);
+    
+    await client.close();
+
+    if (!content) {
+      console.log(`No content found for slug: ${slug} in pages collection`);
+    } else {
+      console.log(`Successfully fetched data for slug: ${slug} from MongoDB`);
     }
-    
-    const data = await response.json();
-    return data.data?.[0] || null;
+
+    return content as any;
   } catch (error) {
     console.error('Error fetching page data:', error);
     return null;
@@ -39,23 +60,40 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
   
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
+  const canonicalUrl = `${baseUrl}${params.category}/${params.slug}`;
+  
   return {
-    title: pageData.meta_title || pageData.title || 'Page',
-    description: pageData.meta_description || '',
+    title: pageData.meta?.title || pageData.meta_title || pageData.title || 'Page',
+    description: pageData.meta?.description || pageData.meta_description || '',
+    alternates: {
+      canonical: pageData.meta?.canonicalUrl || canonicalUrl,
+    },
   };
 }
 
 export default async function DynamicPage({ params }: PageProps) {
   const pageData = await fetchPageData(params.category, params.slug);
 
-  if (!pageData || pageData.status !== 'published') {
+  // Only return 404 if explicitly set to not published, otherwise show the page
+  if (!pageData) {
+    notFound();
+  }
+
+  // If status is explicitly 'draft', return 404
+  if (pageData.status === 'draft') {
     notFound();
   }
 
   return (
     <div>
-      <h1>{pageData.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: pageData.content }} />
+      <h1>{pageData.title || pageData.heroSection?.mainHeading || 'Page'}</h1>
+      {pageData.content && (
+        <div dangerouslySetInnerHTML={{ __html: pageData.content }} />
+      )}
+      {!pageData.content && pageData.heroSection?.description && (
+        <div dangerouslySetInnerHTML={{ __html: pageData.heroSection.description }} />
+      )}
     </div>
   );
 }

@@ -1,0 +1,225 @@
+{
+  "id": "academic-tools",
+  "pageType": "academic-tools",
+  "status": "published",
+  "meta": {
+    "title": "Free Academic Tools | Essay, Paraphraser, Summary & Thesis",
+    "description": "Use our free AI academic tools to write essays, paraphrase content, summarize text, and create thesis statements. Fast, accurate, student-friendly support.",
+    "canonicalUrl": ""
+  },
+  "heroSection": {
+    "mainHeading": "Academic AI Tools",
+    "subHeading": "Smart tools designed to support your learning with clarity and accuracy.",
+    "description": "Our academic tools are built to make your work easier, faster, and more efficient. Whether you're managing research, organizing tasks, reviewing concepts, or improving writing quality, each tool is designed to guide you with simplicity and precision. These tools help you stay productive and confident throughout your academic journey."
+  },
+  "academicTools": {
+    "heading1": "AI Designed Tools for Students Educational Success",
+    "description1": "At ScholarlyHelp, we believe academic work should be smarter, simpler, and more accessible. Our AI-powered tools are created to help you learn faster, write better, and complete your tasks with confidence. Whether you're generating essays, paraphrasing content, summarizing long readings, or crafting a thesis statement, our tools are here to support you instantly and for free.",
+    "heading2": "Our AI Academic Tools",
+    "description2": "Professional tools crafted to give you clarity, structure, and accuracy.",
+    "tools": [
+      {
+        "title": "AI Essay Generator",
+        "description": "Create structured, high-quality essays in minutes with our intelligent essay builder. Our AI Essay Generator helps you:",
+        "list": [
+          "Build strong introductions with a clear focus",
+          "Develop organized and logical body paragraphs",
+          "Support arguments with relevant insights",
+          "Maintain smooth transitions between sections",
+          "Ensure clarity and professional tone",
+          "Generate complete essays instantly"
+        ],
+        "text": "Perfect for: essays, reflections, responses, coursework writing, and academic practice tasks.",
+        "btnText": "Generate Your Essay Now"
+      },
+      {
+        "title": "AI Paraphraser",
+        "description": "Rewrite content into fresh, original wording while keeping the meaning intact. Our AI Paraphraser helps you:",
+        "list": [
+          "Avoid repetitive phrasing",
+          "Improve clarity and readability",
+          "Strengthen sentence flow and structure",
+          "Reword ideas professionally",
+          "Adjust tone without losing meaning",
+          "Reduce similarity in rewritten content"
+        ],
+        "text": "Ideal for: assignments, reports, notes, research writing, chapter rewrites, and study materials.",
+        "btnText": "Paraphrase Your Text Instantly"
+      },
+      {
+        "title": "AI Summarizer",
+        "description": "Turn long chapters, PDFs, notes, or articles into clear, concise summaries instantly. Our AI Summarizer helps you:",
+        "list": [
+          "Capture the main ideas quickly",
+          "Extract important arguments",
+          "Reduce lengthy content into key points",
+          "Make study materials easier to review",
+          "Save time when studying large documents",
+          "Improve understanding with simplified summaries"
+        ],
+        "text": "Perfect for: study notes, article reviews, quick revisions, and exam preparation.",
+        "btnText": "Summarize Any Text"
+      },
+      {
+        "title": "AI Thesis Generator",
+        "description": "Craft a compelling, academically sound thesis statement with guided suggestions. Our AI Thesis Generator helps you:",
+        "list": [
+          "Build a focused research direction",
+          "Create strong, argument-driven statements",
+          "Align your thesis with the essay or project goals",
+          "Generate multiple thesis ideas instantly",
+          "Strengthen academic writing structure",
+          "Enhance clarity and academic depth"
+        ],
+        "text": "Perfect for: research papers, essays, proposals, and major writing assignments.",
+        "btnText": "Generate Your Thesis Statement"
+      }
+    ]
+  },
+  "whyTools": {
+    "heading": "Why Use ScholarlyHelp Tools?",
+    "qualities": [
+      {
+        "title": "Free & Easy to Use",
+        "description": "No setup or learning curve, just enter your text and get instant results."
+      },
+      {
+        "title": "Designed for Students",
+        "description": "Tools created to support real academic needs with clear, structured output."
+      },
+      {
+        "title": "AI-Powered Accuracy",
+        "description": "Delivers polished, academically aligned results to improve clarity and structure."
+      },
+      {
+        "title": "100% Private & Secure",
+        "description": "Your content stays safe; nothing is stored, shared, or reused."
+      },
+      {
+        "title": "Saves Time & Improves Productivity",
+        "description": "Transforms complex tasks into quick, manageable steps so you work more efficiently."
+      }
+    ]
+  },
+  "whyScholalrySlider": {
+    "mainHeading": "Why Scholarly Help?",
+    "description": "We provide secure and affordable academic assistance tailored to your needs. Whether you need help with online classes, exams, essays, homework, or full assignments, our skilled subject experts deliver accurate, timely, and confidential support you can rely on.",
+    "sliderItems": [
+      {
+        "icon": "/assets/Icons/icon-2.png",
+        "text": "Highly-Skilled Subject Experts"
+      },
+      {
+        "icon": "/assets/Icons/icon-1.svg",
+        "text": "Highly Affordable Rates"
+      },
+      {
+        "icon": "/assets/Icons/icon-3.png",
+        "text": "100% User Confidentiality"
+      },
+      {
+        "icon": "/assets/Icons/icon-4.png",
+        "text": "Deliver Resourceful Solutions"
+      },
+      {
+        "icon": "/assets/Icons/icon-5.png",
+        "text": "Produce Premium Content"
+      },
+      {
+        "icon": "/assets/Icons/icon-6.png",
+        "text": "Zero Grammatical Mistakes"
+      },
+      {
+        "icon": "/assets/Icons/icon-7.png",
+        "text": "Non-Plagiarized Content"
+      },
+      {
+        "icon": "/assets/Icons/icon-8.png",
+        "text": "Live Chat Support Availability"
+      }
+    ]
+  },
+  "academicPartners": {
+    "mainHeading": "Your Academic Partners for Success",
+    "description": "We're here to support your academic journey with dependable guidance and student-focused tools. Our platform offers expert assistance, time-saving features, and full privacy protection, helping you work smarter, stay organized, and achieve meaningful progress in every subject.",
+    "defaultCard": [
+      {
+        "id": 1,
+        "title": "Confidential Partner",
+        "description": "We handle your academic tasks discreetly, allowing you to get expert help without exposing your identity or institution details."
+      },
+      {
+        "id": 2,
+        "title": "Founded by Students",
+        "description": "Built by students who understand real academic challenges, our platform provides practical and supportive solutions."
+      },
+      {
+        "id": 3,
+        "title": "40+ Master's Level Tutors",
+        "description": "Every expert is carefully selected through a strict vetting process, ensuring top-tier subject knowledge and professional guidance."
+      },
+      {
+        "id": 4,
+        "title": "2,100+ Courses Completed",
+        "description": "Our experience speaks for itself. We've assisted thousands of students across numerous subjects with proven, successful outcomes."
+      },
+      {
+        "id": 5,
+        "title": "100% Confidentiality",
+        "description": "Your files, conversations, and academic work remain private forever, providing complete trust and comfort."
+      }
+    ]
+  },
+  "faq": [
+    {
+      "id": 1,
+      "question": "Are these tools free to use?",
+      "answer": "Yes. All Scholarly Help tools are free and accessible without any complicated setup."
+    },
+    {
+      "id": 2,
+      "question": "Do I need an account to use the tools?",
+      "answer": "No. You can use every tool instantly without creating an account or sharing personal details."
+    },
+    {
+      "id": 3,
+      "question": "Are my inputs saved or stored?",
+      "answer": "No. Everything you type is private, and we never store or share your content."
+    },
+    {
+      "id": 4,
+      "question": "Can I use these tools for multiple subjects?",
+      "answer": "Yes. They work on essays, summaries, paraphrasing, thesis building, and general academic tasks across all subjects."
+    },
+    {
+      "id": 5,
+      "question": "Do these tools follow academic writing standards?",
+      "answer": "Yes. Each tool is designed to support clear, structured, and academically aligned output."
+    },
+    {
+      "id": 6,
+      "question": "Will the tools rewrite content accurately?",
+      "answer": "Our AI tools keep your original meaning intact while improving clarity, tone, and readability."
+    },
+    {
+      "id": 7,
+      "question": "Can these tools help me save study time?",
+      "answer": "Absolutely. They simplify long readings, clarify ideas, and help you produce well-structured work faster."
+    },
+    {
+      "id": 8,
+      "question": "Are the tools safe for school use?",
+      "answer": "Yes. All tools operate privately and securely, giving you safe, academic-friendly support."
+    },
+    {
+      "id": 9,
+      "question": "Can I use these tools on any device?",
+      "answer": "Yes. They work smoothly on phones, tablets, laptops, and desktops."
+    },
+    {
+      "id": 10,
+      "question": "What makes Scholarly Help tools different?",
+      "answer": "They're designed specifically for students, offering clarity, simplicity, privacy, and accurate academic output every time."
+    }
+  ]
+}

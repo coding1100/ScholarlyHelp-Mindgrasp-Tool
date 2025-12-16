@@ -5,16 +5,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
 
-const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: HomeIcon },
-  { name: 'Edit Home', href: '/admin/home', icon: HomeIcon },
-  { name: 'Edit Assignment', href: '/admin/assignment', icon: DocumentIcon },
-  { name: 'Edit Exam', href: '/admin/exam', icon: ExamIcon },
-  { name: 'Edit Homework', href: '/admin/homework', icon: HomeworkIcon },
-  { name: 'Edit Online Class', href: '/admin/online-class', icon: AcademicIcon },
-  { name: 'Edit Essay Writing', href: '/admin/essay-writing', icon: EssayWritingIcon },
-];
-
 function HomeIcon() {
   return (
     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,6 +57,83 @@ function FaqIcon() {
   );
 }
 
+function GradeGuaranteeIcon() {
+  return (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
+
+function ToolsIcon() {
+  return (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+  );
+}
+
+function PrivacyIcon() {
+  return (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+  );
+}
+
+function ExpertIcon() {
+  return (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+  );
+}
+
+function SuccessIcon() {
+  return (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+    </svg>
+  );
+}
+
+function PlagiarismIcon() {
+  return (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  );
+}
+
+function DeliveryIcon() {
+  return (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
+
+const mainNavigation = [
+  { name: 'Dashboard', href: '/admin', icon: HomeIcon },
+  { name: 'Edit Home', href: '/admin/home', icon: HomeIcon },
+  { name: 'Edit Assignment', href: '/admin/assignment', icon: DocumentIcon },
+  { name: 'Edit Exam', href: '/admin/exam', icon: ExamIcon },
+  { name: 'Edit Homework', href: '/admin/homework', icon: HomeworkIcon },
+  { name: 'Edit Online Class', href: '/admin/online-class', icon: AcademicIcon },
+  { name: 'Edit Essay Writing', href: '/admin/essay-writing', icon: EssayWritingIcon },
+];
+
+const pagesNavigation = [
+  { name: 'Edit A/B Grade Guarantee', href: '/admin/a-or-b-grade-guarantee', icon: GradeGuaranteeIcon },
+  { name: 'Edit Academic Tools', href: '/admin/academic-tools', icon: ToolsIcon },
+  { name: 'Edit Guarantee Anonymity', href: '/admin/guarantee-anonymity', icon: PrivacyIcon },
+  { name: 'Edit US-Based PhD Experts', href: '/admin/us-based-phd-experts', icon: ExpertIcon },
+  { name: 'Edit Success Stories', href: '/admin/success-stories-and-reviews', icon: SuccessIcon },
+  { name: 'Edit Plagiarism-Free Process', href: '/admin/plagiarism-free-process', icon: PlagiarismIcon },
+  { name: 'Edit On-Time Delivery', href: '/admin/on-time-delivery-guarantee', icon: DeliveryIcon },
+];
+
 export default function AdminLayout({
   children,
 }: {
@@ -74,6 +141,7 @@ export default function AdminLayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pagesOpen, setPagesOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -99,6 +167,11 @@ export default function AdminLayout({
       }
     } else {
       router.push('/admin/login');
+    }
+
+    // Auto-open Pages dropdown if current path is one of the pages
+    if (pagesNavigation.some(item => pathname === item.href)) {
+      setPagesOpen(true);
     }
   }, [router, pathname]);
 
@@ -128,8 +201,8 @@ export default function AdminLayout({
                 </svg>
               </button>
             </div>
-            <nav className="flex-1 px-4 py-6 space-y-2">
-              {navigation.map((item) => {
+            <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+              {mainNavigation.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <Link
@@ -147,19 +220,68 @@ export default function AdminLayout({
                   </Link>
                 );
               })}
+              
+              {/* Pages Dropdown */}
+              <div className="space-y-1">
+                <button
+                  onClick={() => setPagesOpen(!pagesOpen)}
+                  className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    pagesNavigation.some(item => pathname === item.href)
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                    <span className="ml-3">Pages</span>
+                  </div>
+                  <svg
+                    className={`w-4 h-4 transition-transform ${pagesOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {pagesOpen && (
+                  <div className="ml-4 space-y-1">
+                    {pagesNavigation.map((item) => {
+                      const isActive = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                            isActive
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                          }`}
+                          onClick={() => setSidebarOpen(false)}
+                        >
+                          <item.icon />
+                          <span className="ml-3">{item.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </nav>
           </div>
         </div>
       </div>
 
       {/* Desktop sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:block">
-        <div className="flex flex-col h-full bg-white shadow-lg">
-          <div className="flex items-center p-6 border-b">
+      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:z-40 lg:block">
+        <div className="flex flex-col h-full bg-white shadow-lg overflow-hidden">
+          <div className="flex items-center p-6 border-b flex-shrink-0">
             <h2 className="text-xl font-bold text-gray-900">Admin Panel</h2>
           </div>
-          <nav className="flex-1 px-4 py-6 space-y-2">
-            {navigation.map((item) => {
+          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto min-h-0">
+            {mainNavigation.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
@@ -176,6 +298,54 @@ export default function AdminLayout({
                 </Link>
               );
             })}
+            
+            {/* Pages Dropdown */}
+            <div className="space-y-1">
+              <button
+                onClick={() => setPagesOpen(!pagesOpen)}
+                className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  pagesNavigation.some(item => pathname === item.href)
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                }`}
+              >
+                <div className="flex items-center">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                  <span className="ml-3">Pages</span>
+                </div>
+                <svg
+                  className={`w-4 h-4 transition-transform ${pagesOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {pagesOpen && (
+                <div className="ml-4 space-y-1">
+                  {pagesNavigation.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                          isActive
+                            ? 'bg-blue-100 text-blue-700'
+                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        }`}
+                      >
+                        <item.icon />
+                        <span className="ml-3">{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </nav>
         </div>
       </div>
@@ -196,7 +366,9 @@ export default function AdminLayout({
                   </svg>
                 </button>
                 <h1 className="text-2xl font-semibold text-gray-900">
-                  {navigation.find(item => item.href === pathname)?.name || 'Admin'}
+                  {mainNavigation.find(item => item.href === pathname)?.name || 
+                   pagesNavigation.find(item => item.href === pathname)?.name || 
+                   'Admin'}
                 </h1>
               </div>
               <div className="flex items-center space-x-4">
