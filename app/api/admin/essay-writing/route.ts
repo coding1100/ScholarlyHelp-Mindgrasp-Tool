@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     });
     
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // If list=all, return all essay-writing pages
     if (listAll) {
@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
     await client.connect();
     console.log('Connected to MongoDB successfully');
 
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
     // Determine query and data to save
@@ -224,7 +224,7 @@ export async function DELETE(request: NextRequest) {
 
     const client = new MongoClient(databaseUrl);
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Try to delete by slug or id
     const result = await db.collection('essay_writing').deleteOne({ $or: [{ slug }, { id: slug }] });

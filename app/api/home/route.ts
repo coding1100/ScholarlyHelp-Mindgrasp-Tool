@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     });
     
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Query for main home page - try multiple variations
     const query = { 

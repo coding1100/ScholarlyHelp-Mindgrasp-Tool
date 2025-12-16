@@ -37,7 +37,7 @@ async function fetchOnlineClassData() {
     });
     
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Query for main online-class page - try multiple variations including with/without 's'
     const query = { 
@@ -103,7 +103,7 @@ export async function generateMetadata() {
       const { MongoClient } = await import('mongodb');
       const client = new MongoClient(databaseUrl);
       await client.connect();
-      const db = client.db('ScholarlyHelp_V1');
+      const db = client.db('scholarly_help');
       
       const query = { 
         $or: [
