@@ -37,7 +37,7 @@ async function fetchAssignmentData() {
       connectTimeoutMS: 10000,
     });
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
     
     // Query for main assignment page
     const query = { 
@@ -93,7 +93,7 @@ export async function generateMetadata() {
       const { MongoClient } = await import('mongodb');
       const client = new MongoClient(databaseUrl);
       await client.connect();
-      const db = client.db('scholarly_help');
+      const db = client.db('ScholarlyHelp_V1');
       
       const query = { 
         $or: [{ id: "assignment_page" }, { id: "main" }]

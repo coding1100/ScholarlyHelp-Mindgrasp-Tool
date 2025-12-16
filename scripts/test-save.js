@@ -8,7 +8,7 @@ async function testSave() {
 
     const client = new MongoClient(databaseUrl);
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db('ScholarlyHelp_V1');
 
     // Test data
     const testData = {

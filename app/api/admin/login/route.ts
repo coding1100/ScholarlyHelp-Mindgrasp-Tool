@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       try {
         const client = new MongoClient(databaseUrl);
         await client.connect();
-        const db = client.db('scholarly_help');
+        const db = client.db('ScholarlyHelp_V1');
         const user = await db.collection('users').findOne({ username, password });
         await client.close();
 
