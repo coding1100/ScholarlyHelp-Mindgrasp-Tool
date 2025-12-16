@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       connectTimeoutMS: 10000,
     });
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Query for guarantee-anonymity page by id
     const query = { 

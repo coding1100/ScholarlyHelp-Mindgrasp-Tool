@@ -37,7 +37,7 @@ async function fetchEssayWritingData() {
     });
     
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Query for main essay-writing page - try multiple variations including with/without 's'
     const query = { 
@@ -107,7 +107,7 @@ export async function generateMetadata() {
       });
       
       await client.connect();
-      const db = client.db('ScholarlyHelp_V1');
+      const db = client.db('scholarly_help');
       
       const query = { 
         $or: [

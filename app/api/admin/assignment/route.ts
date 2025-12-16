@@ -26,9 +26,12 @@ export async function GET(request: NextRequest) {
     const slug = searchParams.get('slug');
     const listAll = searchParams.get('list') === 'all';
 
-    const client = new MongoClient(databaseUrl);
+    const client = new MongoClient(databaseUrl, {
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 15000,
+    });
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // If list=all, return all assignment pages
     if (listAll) {
@@ -101,7 +104,7 @@ export async function POST(request: NextRequest) {
     await client.connect();
     console.log('Connected to MongoDB successfully');
 
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
     // Determine query and data to save
@@ -180,7 +183,7 @@ export async function DELETE(request: NextRequest) {
 
     const client = new MongoClient(databaseUrl);
     await client.connect();
-    const db = client.db('ScholarlyHelp_V1');
+    const db = client.db('scholarly_help');
     
     // Try to delete by slug or id
     const result = await db.collection('assignments').deleteOne({ $or: [{ slug }, { id: slug }] });
