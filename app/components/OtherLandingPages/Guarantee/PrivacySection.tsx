@@ -33,7 +33,7 @@ const PrivacySection = ({ content }: PrivacySectionProps) => {
 
         {/* Cards Grid */}
         <div className="mt-8 sm:mt-10 md:mt-12 max-w-[780px] mx-auto">
-          {privacyContent.steps.map((step, index) => (
+          {(privacyContent.steps || []).map((step, index) => (
             <div
               key={index}
               className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 sm:gap-8 md:gap-12 lg:gap-16 p-4 sm:p-5 md:p-6 mb-8 sm:mb-10 md:mb-12 last:mb-0"
