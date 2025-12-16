@@ -114,7 +114,7 @@ function DeliveryIcon() {
   );
 }
 
-const navigation = [
+const mainNavigation = [
   { name: 'Dashboard', href: '/admin', icon: HomeIcon },
   { name: 'Edit Home', href: '/admin/home', icon: HomeIcon },
   { name: 'Edit Assignment', href: '/admin/assignment', icon: DocumentIcon },
@@ -122,6 +122,9 @@ const navigation = [
   { name: 'Edit Homework', href: '/admin/homework', icon: HomeworkIcon },
   { name: 'Edit Online Class', href: '/admin/online-class', icon: AcademicIcon },
   { name: 'Edit Essay Writing', href: '/admin/essay-writing', icon: EssayWritingIcon },
+];
+
+const pagesNavigation = [
   { name: 'Edit A/B Grade Guarantee', href: '/admin/a-or-b-grade-guarantee', icon: GradeGuaranteeIcon },
   { name: 'Edit Academic Tools', href: '/admin/academic-tools', icon: ToolsIcon },
   { name: 'Edit Guarantee Anonymity', href: '/admin/guarantee-anonymity', icon: PrivacyIcon },
@@ -138,6 +141,7 @@ export default function AdminLayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pagesOpen, setPagesOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -163,6 +167,11 @@ export default function AdminLayout({
       }
     } else {
       router.push('/admin/login');
+    }
+
+    // Auto-open Pages dropdown if current path is one of the pages
+    if (pagesNavigation.some(item => pathname === item.href)) {
+      setPagesOpen(true);
     }
   }, [router, pathname]);
 
@@ -193,7 +202,7 @@ export default function AdminLayout({
               </button>
             </div>
             <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-              {navigation.map((item) => {
+              {mainNavigation.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <Link
@@ -211,6 +220,55 @@ export default function AdminLayout({
                   </Link>
                 );
               })}
+              
+              {/* Pages Dropdown */}
+              <div className="space-y-1">
+                <button
+                  onClick={() => setPagesOpen(!pagesOpen)}
+                  className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    pagesNavigation.some(item => pathname === item.href)
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                    <span className="ml-3">Pages</span>
+                  </div>
+                  <svg
+                    className={`w-4 h-4 transition-transform ${pagesOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {pagesOpen && (
+                  <div className="ml-4 space-y-1">
+                    {pagesNavigation.map((item) => {
+                      const isActive = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                            isActive
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                          }`}
+                          onClick={() => setSidebarOpen(false)}
+                        >
+                          <item.icon />
+                          <span className="ml-3">{item.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </nav>
           </div>
         </div>
@@ -223,7 +281,7 @@ export default function AdminLayout({
             <h2 className="text-xl font-bold text-gray-900">Admin Panel</h2>
           </div>
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto min-h-0">
-            {navigation.map((item) => {
+            {mainNavigation.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
@@ -240,6 +298,54 @@ export default function AdminLayout({
                 </Link>
               );
             })}
+            
+            {/* Pages Dropdown */}
+            <div className="space-y-1">
+              <button
+                onClick={() => setPagesOpen(!pagesOpen)}
+                className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  pagesNavigation.some(item => pathname === item.href)
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                }`}
+              >
+                <div className="flex items-center">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                  <span className="ml-3">Pages</span>
+                </div>
+                <svg
+                  className={`w-4 h-4 transition-transform ${pagesOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {pagesOpen && (
+                <div className="ml-4 space-y-1">
+                  {pagesNavigation.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                          isActive
+                            ? 'bg-blue-100 text-blue-700'
+                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        }`}
+                      >
+                        <item.icon />
+                        <span className="ml-3">{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </nav>
         </div>
       </div>
@@ -260,7 +366,9 @@ export default function AdminLayout({
                   </svg>
                 </button>
                 <h1 className="text-2xl font-semibold text-gray-900">
-                  {navigation.find(item => item.href === pathname)?.name || 'Admin'}
+                  {mainNavigation.find(item => item.href === pathname)?.name || 
+                   pagesNavigation.find(item => item.href === pathname)?.name || 
+                   'Admin'}
                 </h1>
               </div>
               <div className="flex items-center space-x-4">
