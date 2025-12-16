@@ -3,8 +3,17 @@
 import Image from "next/image";
 import { guaranteeAnonymityContent } from "@/app/(pages)/guarantee-anonymity/content";
 
-const PrivacySection = () => {
-  const { privacyContent } = guaranteeAnonymityContent;
+interface PrivacySectionProps {
+  content?: {
+    mainHeading?: string;
+    subHeading?: string;
+    description?: string;
+    steps?: Array<{ title: string; description: string; img?: any }>;
+  };
+}
+
+const PrivacySection = ({ content }: PrivacySectionProps) => {
+  const privacyContent = content || guaranteeAnonymityContent.privacyContent;
 
   return (
     <section className="w-full bg-white py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8">
