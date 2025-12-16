@@ -83,14 +83,11 @@ const Home: NextPage = async () => {
   // HowGuaranteeWorks doesn't need images, just use MongoDB or static content
   const howGuaranteeWorks = pageData?.HowGuaranteeWorks || Content.HowGuaranteeWorks;
 
-  // Merge whyScholarlySlider - keep static icons from Content
+  // Merge whyScholarlySlider - keep static icons from Content (sliderItems not from backend)
   const whyScholarlySlider = pageData?.whyScholalrySlider
     ? {
         ...pageData.whyScholalrySlider,
-        sliderItems: pageData.whyScholalrySlider.sliderItems?.map((item: any, index: number) => ({
-          ...item,
-          icon: Content.whyScholalrySlider.sliderItems[index]?.icon || item.icon // Use static icon if available
-        })) || Content.whyScholalrySlider.sliderItems
+        sliderItems: Content.whyScholalrySlider.sliderItems // Always use static sliderItems
       }
     : Content.whyScholalrySlider;
 
