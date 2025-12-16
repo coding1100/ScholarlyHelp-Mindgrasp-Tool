@@ -51,14 +51,44 @@ async function fetchPageData() {
 const Home: NextPage = async () => {
   const pageData = await fetchPageData();
 
-  // Use MongoDB data if available, otherwise fallback to static content
-  const heroContent = pageData?.heroSection || Content.heroContent;
+  // Merge MongoDB data with static images from Content
+  const heroContent = pageData?.heroSection 
+    ? { ...pageData.heroSection, formBackImg2: Content.heroContent.formBackImg2 }
+    : Content.heroContent;
+
+  // Merge featuredStories - keep static images from Content
+  const featuredStories = pageData?.featuredStories
+    ? {
+        ...pageData.featuredStories,
+        stories: pageData.featuredStories.stories?.map((story: any, index: number) => ({
+          ...story,
+          image: Content.featuredStories.stories[index]?.image || story.image // Use static image if available
+        })) || Content.featuredStories.stories
+      }
+    : Content.featuredStories;
+
+  // Merge supportContent - keep static steps/images from Content
+  const supportContent = pageData?.supportContent
+    ? {
+        ...pageData.supportContent,
+        steps: Content.supportContent.steps // Use static steps with images
+      }
+    : Content.supportContent;
+
+  // Merge whyScholarlySlider - keep static icons from Content
+  const whyScholarlySlider = pageData?.whyScholalrySlider
+    ? {
+        ...pageData.whyScholalrySlider,
+        sliderItems: pageData.whyScholalrySlider.sliderItems?.map((item: any, index: number) => ({
+          ...item,
+          icon: Content.whyScholalrySlider.sliderItems[index]?.icon || item.icon // Use static icon if available
+        })) || Content.whyScholalrySlider.sliderItems
+      }
+    : Content.whyScholalrySlider;
+
   const successLookLike = pageData?.successLookLike || Content.successLookLike;
-  const featuredStories = pageData?.featuredStories || Content.featuredStories;
-  const supportContent = pageData?.supportContent || Content.supportContent;
-  const whyScholarlySlider = pageData?.whyScholarlySlider || Content.whyScholalrySlider;
-  const academicPartners = pageData?.academicPartners || Content.academicPartners;
-  const faq = pageData?.faq || Content.faq;
+  const academicPartners = pageData?.academicPartners || undefined;
+  const faq = pageData?.faq || undefined;
 
   return (
     <div>

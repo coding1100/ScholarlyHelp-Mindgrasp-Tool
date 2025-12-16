@@ -51,14 +51,51 @@ async function fetchPageData() {
 const Home: NextPage = async () => {
   const pageData = await fetchPageData();
 
-  // Use MongoDB data if available, otherwise fallback to static content
-  const heroContent = pageData?.heroSection || Content.heroContent;
-  const whyGuarantee = pageData?.whyGuarantee || Content.whyGuarantee;
-  const whyGuaranteeContent = pageData?.whyGuaranteeContent || Content.whyGuaranteeContent;
-  const HowGuaranteeWorks = pageData?.HowGuaranteeWorks || Content.HowGuaranteeWorks;
-  const whyScholarlySlider = pageData?.whyScholarlySlider || Content.whyScholalrySlider;
-  const academicPartners = pageData?.academicPartners || Content.academicPartners;
-  const faq = pageData?.faq || Content.faq;
+  // Merge MongoDB data with static images from Content
+  const heroContent = pageData?.heroSection 
+    ? { ...pageData.heroSection, formBackImg2: Content.heroContent.formBackImg2 }
+    : Content.heroContent;
+
+  // Merge whyGuarantee - keep static images from Content
+  const whyGuarantee = pageData?.whyGuarantee
+    ? {
+        ...pageData.whyGuarantee,
+        details: pageData.whyGuarantee.details && pageData.whyGuarantee.details.length > 0
+          ? pageData.whyGuarantee.details.map((detail: any, index: number) => ({
+              ...detail,
+              imge: Content.whyGuarantee.details[index]?.imge || detail.imge // Use static image if available
+            }))
+          : Content.whyGuarantee.details // Use static details if MongoDB doesn't have them
+      }
+    : Content.whyGuarantee;
+
+  // Merge whyGuaranteeContent - keep static image from Content
+  const whyGuaranteeContent = pageData?.whyGuaranteeContent 
+    ? { 
+        ...pageData.whyGuaranteeContent, 
+        details: { 
+          ...pageData.whyGuaranteeContent.details,
+          imge: Content.whyGuaranteeContent.details.imge // Use static image
+        }
+      }
+    : Content.whyGuaranteeContent;
+
+  // HowGuaranteeWorks doesn't need images, just use MongoDB or static content
+  const howGuaranteeWorks = pageData?.HowGuaranteeWorks || Content.HowGuaranteeWorks;
+
+  // Merge whyScholarlySlider - keep static icons from Content
+  const whyScholarlySlider = pageData?.whyScholalrySlider
+    ? {
+        ...pageData.whyScholalrySlider,
+        sliderItems: pageData.whyScholalrySlider.sliderItems?.map((item: any, index: number) => ({
+          ...item,
+          icon: Content.whyScholalrySlider.sliderItems[index]?.icon || item.icon // Use static icon if available
+        })) || Content.whyScholalrySlider.sliderItems
+      }
+    : Content.whyScholalrySlider;
+
+  const academicPartners = pageData?.academicPartners || undefined;
+  const faq = pageData?.faq || undefined;
 
   return (
     <div>
@@ -66,7 +103,7 @@ const Home: NextPage = async () => {
         <HeroSection heroContent={heroContent} />
         <WhyGuaranteeMatters content={whyGuarantee} />
         <WhyGuarantee content={whyGuaranteeContent} />
-        <HowGuaranteeWorks content={HowGuaranteeWorks} />
+        <HowGuaranteeWorks content={howGuaranteeWorks} />
         <div className="bg-linear-to-b from-white via-[#ECECFC] to-white">
           <WhySlider whyData={whyScholarlySlider} />
         </div>
