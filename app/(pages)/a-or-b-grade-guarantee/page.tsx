@@ -101,16 +101,13 @@ const Page: NextPage = async () => {
       }
     : Content.howWorksContent;
 
-  // Merge whyScholarlySlider - keep static icons from Content
+  // Merge whyScholarlySlider - keep static icons from Content (sliderItems not from admin)
   const whyScholarlySlider = pageData?.whyScholalrySlider
     ? {
         ...pageData.whyScholalrySlider,
-        sliderItems: pageData.whyScholalrySlider.sliderItems?.map((item: any, index: number) => ({
-          ...item,
-          icon: Content.whyScholalrySlider.sliderItems[index]?.icon || item.icon // Use static icon if available
-        })) || Content.whyScholarlySlider.sliderItems
+        sliderItems: Content.whyScholalrySlider.sliderItems // Always use static sliderItems
       }
-    : Content.whyScholarlySlider;
+    : Content.whyScholalrySlider;
 
   const academicPartners = pageData?.academicPartners || Content.academicPartners;
   const faq = pageData?.faq || Content.faq;
