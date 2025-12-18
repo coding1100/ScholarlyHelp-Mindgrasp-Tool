@@ -77,6 +77,7 @@ jobs:
 
             # Stop the application (if using PM2)
             pm2 stop scholarly-help || true
+            pm2 delete scholarly-help || true
 
             # Create new directory and extract
             mkdir -p current
@@ -97,21 +98,4 @@ jobs:
           EOF
 
           # Cleanup local SSH key
-          rm ~/.ssh/deploy_key
-
-      - name: Verify deployment
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-        run: |
-          # Setup SSH
-          mkdir -p ~/.ssh
-          echo "$EC2_SSH_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-
-          # Check PM2 status
-          ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "pm2 status"
-
-          # Cleanup
           rm ~/.ssh/deploy_key
