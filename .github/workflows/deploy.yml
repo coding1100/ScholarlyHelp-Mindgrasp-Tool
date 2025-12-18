@@ -75,11 +75,6 @@ jobs:
             # Stop the application (if using PM2)
             pm2 stop scholarly-help || true
 
-            # Backup current version
-            if [ -d "current" ]; then
-              mv current backup_$(date +%Y%m%d_%H%M%S)
-            fi
-
             # Create new directory and extract
             mkdir -p current
             tar -xzf /tmp/deploy.tar.gz -C current/
@@ -96,10 +91,6 @@ jobs:
 
             # Cleanup
             rm /tmp/deploy.tar.gz
-
-            # Remove old backups (keep last 3)
-            cd ..
-            ls -t | grep backup_ | tail -n +4 | xargs -r rm -rf
           EOF
 
           # Cleanup local SSH key
