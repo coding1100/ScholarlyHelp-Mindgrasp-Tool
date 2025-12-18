@@ -1,0 +1,123 @@
+name: Deploy to Amazon EC2
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js application
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: https://scholarly.namatechnologlies.com/v1
+          NEXT_PUBLIC_COMPANY_PHONE_NUMBER: 1-716-708-1869
+          NEXT_PUBLIC_SITE_URL: https://scholarlyhelp.com/
+          NEXT_PUBLIC_NGROX_URL: https://scholarlyhelp-test.webdesigningcompanynewyork.com/v1
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+          # Directus Security Keys (from directus-keys.txt)
+          DIRECTUS_KEY: ${{ secrets.DIRECTUS_KEY }}
+          DIRECTUS_SECRET: ${{ secrets.DIRECTUS_SECRET }}
+
+          # Directus Admin Credentials (for initial setup)
+          DIRECTUS_ADMIN_EMAIL: ${{ secrets.DIRECTUS_ADMIN_EMAIL }}
+          DIRECTUS_ADMIN_PASSWORD: ${{ secrets.DIRECTUS_ADMIN_PASSWORD }}
+
+      - name: Create deployment package
+        run: |
+          mkdir -p deploy
+          cp -r .next deploy/
+          cp -r public deploy/
+          cp -r node_modules deploy/
+          cp package.json deploy/
+          cp package-lock.json deploy/
+          cp next.config.js deploy/
+          tar -czf deploy.tar.gz -C deploy .
+
+      - name: Deploy to Amazon EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          APP_DIR: ${{ secrets.APP_DIR }}
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$EC2_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
+
+          # Copy deployment package to EC2
+          scp -i ~/.ssh/deploy_key deploy.tar.gz $EC2_USER@$EC2_HOST:/tmp/
+
+          # Execute deployment commands on EC2
+          ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST << 'EOF'
+            # Navigate to application directory
+            cd $APP_DIR || exit 1
+
+            # Stop the application (if using PM2)
+            pm2 stop scholarly-help || true
+
+            # Backup current version
+            if [ -d "current" ]; then
+              mv current backup_$(date +%Y%m%d_%H%M%S)
+            fi
+
+            # Create new directory and extract
+            mkdir -p current
+            tar -xzf /tmp/deploy.tar.gz -C current/
+            cd current
+
+            # Set environment variables (if .env file exists on server)
+            if [ -f ../.env ]; then
+              cp ../.env .env
+            fi
+
+            # Start the application with PM2
+            pm2 start npm --name "scholarly-help" -- start
+            pm2 save
+
+            # Cleanup
+            rm /tmp/deploy.tar.gz
+
+            # Remove old backups (keep last 3)
+            cd ..
+            ls -t | grep backup_ | tail -n +4 | xargs -r rm -rf
+          EOF
+
+          # Cleanup local SSH key
+          rm ~/.ssh/deploy_key
+
+      - name: Verify deployment
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$EC2_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          # Check PM2 status
+          ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "pm2 status"
+
+          # Cleanup
+          rm ~/.ssh/deploy_key
