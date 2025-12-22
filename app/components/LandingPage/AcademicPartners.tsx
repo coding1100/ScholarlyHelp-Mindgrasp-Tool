@@ -1,14 +1,20 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import { usePageData } from "./usePageData";
 import { useMemo, useState, useEffect, FC } from "react";
 
 interface AcademicPartnersProps {
   content?: {
-    mainHeading: string;
-    description: string;
-    defaultCard: {
+    mainHeading?: string;
+    description?: string;
+    defaultCard?: {
+      id: number;
+      title: string;
+      description: string;
+    }[];
+    cards?: { // Add support for 'cards' from admin panel
       id: number;
       title: string;
       description: string;
@@ -16,7 +22,12 @@ interface AcademicPartnersProps {
   };
 }
 
-const AcademicPartners: FC<AcademicPartnersProps> = ({ content }) => {
+const AcademicPartners: FC<AcademicPartnersProps> = ({ content: propsContent }) => {
+  const pageData = usePageData();
+
+  // Use props content if available, otherwise fallback to pageData
+  const content = propsContent || pageData?.academicPartners;
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -74,6 +85,13 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content }) => {
     description?: string;
   };
 
+  interface Position {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+  }
+
   return (
     <section className="pt-[90px] pb-[90px] px-4 bg-gradient-to-b from-white w-full to-gray-50 ">
       <div className="max-w-7xl mx-auto flex max-[1450px]:flex-col max-[1320px]:px-8">
@@ -97,7 +115,6 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content }) => {
           </div>
         </div>
         {/* Feature Cards */}
-        {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto w-[60%] relative min-h-[600px] mb-[120px] max-[1450px]:w-[100%] max-[1450px]:mb-[0px]">
           <Image
             src="/assets/Icon/card-line.svg"
@@ -108,15 +125,15 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content }) => {
           />
 
           {/* Cards from MongoDB */}
-          {(content?.defaultCard ?? defaultCards).map(
+          {(content?.cards ?? content?.defaultCard ?? defaultCards).map(
             (card: CardType, index: number) => {
               const rotations = isMobile ? [0, 0, 0, 0, 0] : [3, -9, 6, -6, 0];
-              const positions = [
+              const positions: Position[] = [
                 { top: 30, left: 54 },
                 { top: 2, right: 80 },
-                { top: 180, left: -186, bottom: -110 },
-                { top: undefined, bottom: -120, left: 165 },
-                { top: undefined, bottom: -100, right: -45 },
+                { left: -186, bottom: -110 },
+                { bottom: -120, left: 165 },
+                { bottom: -100, right: -45 },
               ];
               const bgColors = [
                 "#FEF6D3",
@@ -138,26 +155,24 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content }) => {
               const bgColor = bgColors[index % bgColors.length];
               const imagePath = imagePaths[index % imagePaths.length];
 
+              const cardStyle: React.CSSProperties = {
+                backgroundColor: bgColor,
+                transform: `rotate(${rotation}deg)`,
+              };
+
+              if (position.top !== undefined) cardStyle.top = `${position.top}px`;
+              if (position.bottom !== undefined) cardStyle.bottom = `${position.bottom}px`;
+              if (position.left !== undefined) cardStyle.left = `${position.left}px`;
+              if (position.right !== undefined) cardStyle.right = `${position.right}px`;
+
               return (
                 <div
                   key={card.id || index}
                   className="p-6 py-7 border-yellow-200 shadow-md hover:shadow-xl transition-shadow rounded-[21px] min-h-[310px] w-[289px] absolute z-[9] max-[1450px]:[position:unset] max-[1450px]:rotate-[0deg] max-[1450px]:min-h-fit max-[1450px]:w-full"
-                  style={{
-                    backgroundColor: bgColor,
-                    transform: `rotate(${rotation}deg)`,
-                    ...(position.left !== undefined && {
-                      left: `${position.left}px`,
-                    }),
-                    ...(position.right !== undefined && {
-                      right: `${position.right}px`,
-                    }),
-                    ...(position.bottom !== undefined && {
-                      bottom: `${position.bottom}px`,
-                    }),
-                  }}
+                  style={cardStyle}
                 >
                   <div className="flex items-start space-x-4 flex-col">
-                    <div className="flex-shrink-0 mb-4">
+                    <div className="flex-shrink-0 mb-2">
                       <Image
                         src={imagePath}
                         alt={card.title || ""}
@@ -167,8 +182,8 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content }) => {
                         style={{ transform: `rotate(${-rotation}deg)` }}
                       />
                     </div>
-                    <div className="flex flex-col">
-                      <h3 className="font-semibold text-gray-900 mb-4 font-poppins sm:text-2xl text-xl leading-[1.2] tracking-normal font-poppins">
+                    <div className="flex flex-col !ml-0">
+                      <h3 className="font-semibold text-gray-900 mb-2 font-poppins sm:text-2xl text-xl leading-[1.2] tracking-normal font-poppins">
                         {card.title || ""}
                       </h3>
                       <p className="text-sm text-gray-600 font-poppins font-normal text-[15px] leading-[1.4] tracking-normal">
