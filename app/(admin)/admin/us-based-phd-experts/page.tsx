@@ -14,7 +14,7 @@ export default function UsBasedPhdExpertsAdmin() {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
-        
+
         setPageData(data && Object.keys(data).length > 0 ? {
           ...data,
           pageType: data.id || data.pageType || 'us-based-phd-experts'
@@ -28,7 +28,7 @@ export default function UsBasedPhdExpertsAdmin() {
           expertContent: { mainHeading: '', description: '' },
           chooseExpertSection: { mainHeading: '', description: '' },
           whyScholalrySlider: { mainHeading: '', description: '' },
-          academicPartners: { mainHeading: '', description: '', defaultCard: [] },
+          academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
       } catch (error) {
@@ -43,7 +43,7 @@ export default function UsBasedPhdExpertsAdmin() {
           expertContent: { mainHeading: '', description: '' },
           chooseExpertSection: { mainHeading: '', description: '' },
           whyScholalrySlider: { mainHeading: '', description: '' },
-          academicPartners: { mainHeading: '', description: '', defaultCard: [] },
+          academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
       } finally {
@@ -323,6 +323,15 @@ export default function UsBasedPhdExpertsAdmin() {
               />
             </div>
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <input
+                type="text"
+                value={pageData.academicPartners?.ctaButton?.text || ''}
+                onChange={(e) => updatePageData('academicPartners.ctaButton.text', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-4">Cards</label>
               {(pageData.academicPartners?.defaultCard || []).map((card: any, index: number) => (
                 <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
@@ -457,6 +466,6 @@ export default function UsBasedPhdExpertsAdmin() {
       </div>
       {renderPageForm()}
     </div>
-    );
+  );
 }
 

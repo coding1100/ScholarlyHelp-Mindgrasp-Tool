@@ -14,7 +14,7 @@ export default function AcademicToolsAdmin() {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
-        
+
         setPageData(data && Object.keys(data).length > 0 ? {
           ...data,
           pageType: data.id || data.pageType || 'academic-tools'
@@ -27,7 +27,7 @@ export default function AcademicToolsAdmin() {
           academicTools: { heading1: '', description1: '', heading2: '', description2: '', tools: [] },
           whyTools: { heading: '', qualities: [] },
           whyScholalrySlider: { mainHeading: '', description: '' },
-          academicPartners: { mainHeading: '', description: '', defaultCard: [] },
+          academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
       } catch (error) {
@@ -41,7 +41,7 @@ export default function AcademicToolsAdmin() {
           academicTools: { heading1: '', description1: '', heading2: '', description2: '', tools: [] },
           whyTools: { heading: '', qualities: [] },
           whyScholalrySlider: { mainHeading: '', description: '' },
-          academicPartners: { mainHeading: '', description: '', defaultCard: [] },
+          academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
       } finally {
@@ -426,6 +426,15 @@ export default function AcademicToolsAdmin() {
                 rows={3}
                 value={pageData.academicPartners?.description || ''}
                 onChange={(e) => updatePageData('academicPartners.description', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <input
+                type="text"
+                value={pageData.academicPartners?.ctaButton?.text || ''}
+                onChange={(e) => updatePageData('academicPartners.ctaButton.text', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
