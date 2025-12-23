@@ -38,7 +38,7 @@ export const MainAiLanding = {
       "Professional tools crafted to give you clarity, structure, and accuracy.",
     tools: [
       {
-        title: "AI Essay Generator",
+        title: "AI Essay Generator sdadsd",
         description:
           "Create structured, high-quality essays in minutes with our intelligent essay builder. Our AI Essay Generator helps you:",
         list: [
@@ -51,7 +51,7 @@ export const MainAiLanding = {
         ],
         text: "Perfect for: essays, reflections, responses, coursework writing, and academic practice tasks.",
         btnText: "Generate Your Essay Now",
-        btnUrl: "/",
+        btnUrl: "/ai-essay-generator",
       },
       {
         title: "AI Paraphraser",
@@ -67,7 +67,7 @@ export const MainAiLanding = {
         ],
         text: "Ideal for: assignments, reports, notes, research writing, chapter rewrites, and study materials.",
         btnText: "Paraphrase Your Text Instantly",
-        btnUrl: "/",
+        btnUrl: "/ai-paraphraser",
       },
       {
         title: "AI Summarizer",
@@ -83,7 +83,7 @@ export const MainAiLanding = {
         ],
         text: "Perfect for: study notes, article reviews, quick revisions, and exam preparation.",
         btnText: "Summarize Any Text",
-        btnUrl: "/",
+        btnUrl: "/ai-summarizer",
       },
       {
         title: "AI Thesis Generator",
@@ -99,7 +99,7 @@ export const MainAiLanding = {
         ],
         text: "Perfect for: research papers, essays, proposals, and major writing assignments.",
         btnText: "Generate Your Thesis Statement",
-        btnUrl: "/",
+        btnUrl: "/ai-thesis-generator",
       },
     ],
   },
