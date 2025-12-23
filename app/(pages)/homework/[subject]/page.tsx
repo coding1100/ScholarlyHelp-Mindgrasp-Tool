@@ -38,10 +38,10 @@ async function fetchPageData(slug: string) {
     const client = new MongoClient(databaseUrl);
     await client.connect();
     const db = client.db('scholarly_help');
-    
+
     // Handle different slug formats
     let slugVariations = [slug];
-    
+
     // If slug is like "homework_english", also try "english"
     if (slug.startsWith('homework_')) {
       slugVariations.push(slug.replace('homework_', ''));
@@ -49,7 +49,7 @@ async function fetchPageData(slug: string) {
       // If slug is like "english", also try "homework_english"
       slugVariations.push(`homework_${slug}`);
     }
-    
+
     // Build query to match any variation
     const orConditions = [];
     for (const variation of slugVariations) {
@@ -57,7 +57,7 @@ async function fetchPageData(slug: string) {
       orConditions.push({ id: variation });
     }
     const query = { $or: orConditions };
-    
+
     const content = await db.collection('homework').findOne(query);
     await client.close();
 
@@ -92,11 +92,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
       processSection: { mainHeading: '', description: '', steps: [] },
       success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+      academicPartners: { mainHeading: '', description: '', cards: undefined, ctaButton: { text: '' } },
       getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
       faq: { mainHeading: '', faqs: [] }
     };
-    
+
     return (
       <HomeworkDataProvider data={defaultPageData}>
         <MainLayout>
@@ -162,30 +162,30 @@ export async function generateMetadata({ params }: { params: { subject: string }
       const client = new MongoClient(databaseUrl);
       await client.connect();
       const db = client.db('scholarly_help');
-      
+
       let slugVariations: string[] = [params.subject];
       if (params.subject.startsWith('homework_')) {
         slugVariations.push(params.subject.replace('homework_', ''));
       } else {
         slugVariations.push(`homework_${params.subject}`);
       }
-      
+
       const orConditions = [];
       for (const variation of slugVariations) {
         orConditions.push({ slug: variation });
         orConditions.push({ id: variation });
       }
       const query = { $or: orConditions, status: { $ne: 'draft' } };
-      
+
       const pageData: any = await db.collection('homework').findOne(query);
       await client.close();
-      
+
       if (pageData) {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
         const metaTitle = pageData.meta?.title || `${params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, " ")} Homework Help`;
         const metaDescription = pageData.meta?.description || `Get expert help with your ${params.subject.replace(/-/g, " ")} homework.`;
         const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/homework/${params.subject}`;
-        
+
         return {
           title: metaTitle,
           description: metaDescription,

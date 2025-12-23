@@ -29,14 +29,14 @@ async function fetchPageData() {
     });
     await client.connect();
     const db = client.db('scholarly_help');
-    
+
     // Query for guarantee-anonymity page by id
-    const query = { 
+    const query = {
       id: "guarantee-anonymity"
     };
-    
+
     const content = await db.collection('pages').findOne(query);
-    
+
     await client.close();
 
     return content as any;
@@ -50,22 +50,23 @@ const Home: NextPage = async () => {
   const pageData = await fetchPageData();
 
   // Use MongoDB data if available, otherwise fallback to static content
-  const heroContent = pageData?.heroSection 
+  const heroContent = pageData?.heroSection
     ? { ...pageData.heroSection, formBackImg2: guaranteeAnonymityContent.heroContent.formBackImg2 }
     : guaranteeAnonymityContent.heroContent;
-  
+
   // Merge privacyContent - keep static images from Content
   const privacyContent = pageData?.privacyContent
     ? {
-        ...pageData.privacyContent,
-        steps: pageData.privacyContent.steps?.map((step: any, index: number) => ({
-          ...step,
-          img: guaranteeAnonymityContent.privacyContent.steps[index]?.img || step.img // Use static image if available
-        })) || guaranteeAnonymityContent.privacyContent.steps
-      }
+      ...pageData.privacyContent,
+      steps: pageData.privacyContent.steps?.map((step: any, index: number) => ({
+        ...step,
+        img: guaranteeAnonymityContent.privacyContent.steps[index]?.img || step.img // Use static image if available
+      })) || guaranteeAnonymityContent.privacyContent.steps
+    }
     : guaranteeAnonymityContent.privacyContent;
-  
+
   const whyScholarlySlider = pageData?.whyScholarlySlider || guaranteeAnonymityContent.whyScholalrySlider;
+  const academicPartners = pageData?.academicPartners || undefined;
 
   return (
     <div>
@@ -76,7 +77,7 @@ const Home: NextPage = async () => {
           <WhySlider whyData={whyScholarlySlider} />
         </div>
         <CustomerReviews />
-        <AcademicPartners />
+        <AcademicPartners content={academicPartners} />
         <Faq />
       </MainLayout>
     </div>
@@ -89,7 +90,7 @@ export async function generateMetadata() {
   const pageData = await fetchPageData();
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}guarantee-anonymity`;
-  
+
   return {
     title: pageData?.meta?.title || "100% Anonymity Guaranteed | Secure & Confidential Help",
     description: pageData?.meta?.description || "Experience fully private, secure, and confidential academic support. Your identity stays protected with strict privacy measures at every step.",

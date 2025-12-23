@@ -164,7 +164,7 @@ export default function SubjectsSection() {
               onClick={scrollToQuote}
               className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
             >
-              Take my online class
+              {subjectsData?.ctaText || "Take my online class"}
             </button>
           ) : (
             <Link href="/#quote-form">
@@ -172,7 +172,7 @@ export default function SubjectsSection() {
                 type="button"
                 className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
               >
-                Take my online class
+                {subjectsData?.ctaText || "Take my online class"}
               </button>
             </Link>
           )}

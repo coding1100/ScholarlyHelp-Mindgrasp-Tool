@@ -14,7 +14,7 @@ export default function AcademicToolsAdmin() {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
-        
+
         setPageData(data && Object.keys(data).length > 0 ? {
           ...data,
           pageType: data.id || data.pageType || 'academic-tools'
@@ -23,11 +23,11 @@ export default function AcademicToolsAdmin() {
           pageType: 'academic-tools',
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
-          heroSection: { mainHeading: '', subHeading: '', description: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
           academicTools: { heading1: '', description1: '', heading2: '', description2: '', tools: [] },
           whyTools: { heading: '', qualities: [] },
           whyScholalrySlider: { mainHeading: '', description: '' },
-          academicPartners: { mainHeading: '', description: '', defaultCard: [] },
+          academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
       } catch (error) {
@@ -37,11 +37,11 @@ export default function AcademicToolsAdmin() {
           pageType: 'academic-tools',
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
-          heroSection: { mainHeading: '', subHeading: '', description: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
           academicTools: { heading1: '', description1: '', heading2: '', description2: '', tools: [] },
           whyTools: { heading: '', qualities: [] },
           whyScholalrySlider: { mainHeading: '', description: '' },
-          academicPartners: { mainHeading: '', description: '', defaultCard: [] },
+          academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
       } finally {
@@ -203,6 +203,28 @@ export default function AcademicToolsAdmin() {
                 onChange={(e) => updatePageData('heroSection.description', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 1 Text</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn1 || ''}
+                  onChange={(e) => updatePageData('heroSection.btn1', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Default: Take My Full Class"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 2 Text</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn2 || ''}
+                  onChange={(e) => updatePageData('heroSection.btn2', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Default: Pass My Exam"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -426,6 +448,15 @@ export default function AcademicToolsAdmin() {
                 rows={3}
                 value={pageData.academicPartners?.description || ''}
                 onChange={(e) => updatePageData('academicPartners.description', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <input
+                type="text"
+                value={pageData.academicPartners?.ctaButton?.text || ''}
+                onChange={(e) => updatePageData('academicPartners.ctaButton.text', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>

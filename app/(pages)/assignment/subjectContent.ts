@@ -147,7 +147,7 @@ export const defaultAssignmentContent: AssignmentContent = {
       { id: 4, icon: "LiveChat", title: "Support", description: "24/7 customer support." },
     ],
   },
-  excellenceProofContent: [ { img: Proof1 }, { img: Proof2 }, { img: Proof3 }, { img: Proof4 }, { img: Proof5 }, { img: Proof6 } ],
+  excellenceProofContent: [{ img: Proof1 }, { img: Proof2 }, { img: Proof3 }, { img: Proof4 }, { img: Proof5 }, { img: Proof6 }],
   subjects: {
     mainHeading: "Subjects We Cover",
     subjectsContent: [
@@ -155,6 +155,7 @@ export const defaultAssignmentContent: AssignmentContent = {
       { title: "Economics", url: "/assignment/economics" },
       { title: "Engineering", url: "/assignment/engineering" },
       { title: "Math", url: "/assignment/math" },
+      { title: "Psychology", url: "/assignment/psychology" },
     ],
   },
   faqContent: [
@@ -185,6 +186,7 @@ export const assignmentSubjects = [
   "operation-management",
   "organizational-behavior",
   "philosophy",
+  "psychology",
   "statistics",
 ] as const;
 
