@@ -199,7 +199,7 @@ export default function Header() {
     },
     {
       title: "Tools",
-      href: "/tools",
+      href: "/academic-tools",
     },
   ];
 

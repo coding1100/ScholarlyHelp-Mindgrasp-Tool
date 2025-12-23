@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC } from "react";
 import RoundCheckIcon from "@/app/assets/Icons/roundCheck.png";
-import { Link } from "lucide-react";
+import Link from "next/link";
 
 interface AcademicToolsProps {
   content: {
@@ -15,7 +15,7 @@ interface AcademicToolsProps {
       list: string[];
       text: string;
       btnText: string;
-      btnUrl: string;
+      btnUrl?: string;
     }[];
   };
 }
@@ -63,9 +63,15 @@ const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
             <div className="px-9 py-5 bg-[#EDEFFE] rounded-[5px] mb-[17px]">
               <p className="text-[15px] text-[#263238]">{tool.text}</p>
             </div>
-            <button className="bg-[#9F92EC] text-center w-full rounded-md px-5 py-3 sm:text-lg text-sm font-medium text-white shadow-sm transition-colors">
+            <Link href={
+              tool.btnText === "Generate Your Essay Now" ? "/ai-essay-generator" :
+              tool.btnText === "Paraphrase Your Text Instantly" ? "/ai-paraphraser" :
+              tool.btnText === "Summarize Any Text" ? "/ai-summarizer" :
+              tool.btnText === "Generate Your Thesis Statement" ? "/ai-thesis-generator" :
+              tool.btnUrl || ''
+            } className="bg-[#9F92EC] text-center block !w-full rounded-md px-5 py-3 sm:text-lg text-sm font-medium text-white shadow-sm transition-colors">
               {tool.btnText}
-            </button>
+            </Link>
           </div>
         ))}
       </div>

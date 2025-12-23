@@ -30,7 +30,8 @@
           "Generate complete essays instantly"
         ],
         "text": "Perfect for: essays, reflections, responses, coursework writing, and academic practice tasks.",
-        "btnText": "Generate Your Essay Now"
+        "btnText": "Generate Your Essay Now",
+        "btnUrl": "/ai-essay-generator"
       },
       {
         "title": "AI Paraphraser",
@@ -44,7 +45,8 @@
           "Reduce similarity in rewritten content"
         ],
         "text": "Ideal for: assignments, reports, notes, research writing, chapter rewrites, and study materials.",
-        "btnText": "Paraphrase Your Text Instantly"
+        "btnText": "Paraphrase Your Text Instantly",
+        "btnUrl": "/ai-paraphraser"
       },
       {
         "title": "AI Summarizer",
@@ -58,7 +60,9 @@
           "Improve understanding with simplified summaries"
         ],
         "text": "Perfect for: study notes, article reviews, quick revisions, and exam preparation.",
-        "btnText": "Summarize Any Text"
+        "btnText": "Summarize Any Text",
+        "btnUrl": "/ai-summarizer"
+        
       },
       {
         "title": "AI Thesis Generator",
@@ -72,7 +76,8 @@
           "Enhance clarity and academic depth"
         ],
         "text": "Perfect for: research papers, essays, proposals, and major writing assignments.",
-        "btnText": "Generate Your Thesis Statement"
+        "btnText": "Generate Your Thesis Statement",
+        "btnUrl": "/ai-thesis-generator"
       }
     ]
   },
