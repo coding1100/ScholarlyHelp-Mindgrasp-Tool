@@ -19,6 +19,9 @@ interface AcademicPartnersProps {
       title: string;
       description: string;
     }[];
+    ctaButton?: {
+      text: string;
+    };
   };
 }
 
@@ -110,7 +113,7 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content: propsContent }) 
               onClick={scrollToQuote}
               className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-52"
             >
-              Take my online class
+              {content?.ctaButton?.text || "Take my online class"}
             </button>
           </div>
         </div>
@@ -124,8 +127,8 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content: propsContent }) 
             className="absolute top-[135px] left-[-100px] w-[120%] max-w-none max-[1450px]:hidden"
           />
 
-          {/* Cards from MongoDB */}
-          {(content?.cards ?? content?.defaultCard ?? defaultCards).map(
+          {/* Cards from MongoDB - Fallback to default if array is missing or empty */}
+          {((content?.cards?.length ? content.cards : null) ?? (content?.defaultCard?.length ? content.defaultCard : null) ?? defaultCards).map(
             (card: CardType, index: number) => {
               const rotations = isMobile ? [0, 0, 0, 0, 0] : [3, -9, 6, -6, 0];
               const positions: Position[] = [
