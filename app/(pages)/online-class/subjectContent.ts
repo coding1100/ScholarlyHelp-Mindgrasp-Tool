@@ -839,6 +839,104 @@ export const subjectContent: Record<string, SubjectContent> = {
       },
     ],
   },
+  psychology: {
+    btnText: "Take My Online Psychology Class",
+    heroContent: {
+      mainHeading: "Expert Help for Your\\nOnline Psychology\\nClass",
+      description: "Get professional assistance with your psychology courses from experienced tutors.",
+    },
+    academic: {
+      mainheading: "Psychology Services",
+      mainDescription: "Comprehensive support for all your psychology course needs.",
+      academicContent: [
+        {
+          icon: Homework,
+          title: "Assignments",
+          description: "Expert help with psychology assignments, research papers, and case studies.",
+        },
+        {
+          icon: Write,
+          title: "Homework",
+          description: "Professional assistance with psychology homework and study materials.",
+        },
+        {
+          icon: Grades,
+          title: "Final Exam",
+          description: "Thorough exam preparation and support for all psychology subjects.",
+        },
+        {
+          isLast: true,
+          icon: GirlWithBoard,
+        },
+      ],
+    },
+    whyScholarly: {
+      mainHeading: "Why Choose Us for Psychology?",
+      mainDescription: "Learn from experienced psychology professionals and educators.",
+      whyScholarlyContent: [
+        {
+          id: 1,
+          icon: "Idea",
+          title: "Expert Psychologists",
+          description: "Our tutors have advanced degrees in psychology and years of teaching experience.",
+        },
+        {
+          id: 2,
+          icon: "Bulb",
+          title: "Research Support",
+          description: "Get help with psychological research, data analysis, and interpretation.",
+        },
+        {
+          id: 3,
+          icon: "Content",
+          title: "Comprehensive Coverage",
+          description: "Support for all areas of psychology from introductory to advanced topics.",
+        },
+        {
+          id: 4,
+          icon: "LiveChat",
+          title: "24/7 Assistance",
+          description: "Round-the-clock support for all your psychology course needs.",
+        },
+      ],
+    },
+    excellenceProofContent: [
+      { img: Proof1 },
+      { img: Proof2 },
+      { img: Proof3 },
+      { img: Proof4 },
+      { img: Proof5 },
+      { img: Proof6 },
+    ],
+    subjects: {
+      mainHeading: "Psychology Topics We Cover",
+      subjectsContent: [
+        { title: "General Psychology" },
+        { title: "Developmental Psychology" },
+        { title: "Social Psychology" },
+        { title: "Cognitive Psychology" },
+        { title: "Abnormal Psychology" },
+        { title: "Clinical Psychology" },
+      ],
+    },
+    faqContent: [
+      {
+        id: 1,
+        question: "Can you help with my online psychology class?",
+        answer: "Yes, our expert psychology tutors can help you with your entire online psychology class, including assignments, homework, research papers, and exams.",
+      },
+      {
+        id: 2,
+        question: "What psychology topics do you cover?",
+        answer: "We cover all areas of psychology including general psychology, developmental, social, cognitive, abnormal, and clinical psychology.",
+      },
+      {
+        id: 3,
+        question: "Do you help with psychology research papers?",
+        answer: "Yes, we provide comprehensive support for psychology research papers, including literature review, methodology, data analysis, and writing.",
+      },
+    ],
+  },
 };
 
 // Default content to use as fallback
@@ -975,6 +1073,7 @@ export const subjects = [
   "operation-management",
   "organizational-behavior",
   "philosophy",
+  "psychology",
   "statistics",
 ] as const;
 
