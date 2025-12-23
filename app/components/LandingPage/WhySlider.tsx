@@ -134,27 +134,27 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
       mongoItems.length > 0
         ? mongoItems
         : [
-            {
-              icon: icon1,
-              text: "Highly-Skilled Subject Experts",
-              alt: "Experts",
-            },
-            {
-              icon: icon2,
-              text: "Highly Affordable Rates",
-              alt: "Affordable Rates",
-            },
-            {
-              icon: icon1,
-              text: "100% User Confidentiality",
-              alt: "Confidentiality",
-            },
-            {
-              icon: icon3,
-              text: "24/7 Support",
-              alt: "Support",
-            },
-          ],
+          {
+            icon: icon1,
+            text: "Highly-Skilled Subject Experts",
+            alt: "Experts",
+          },
+          {
+            icon: icon2,
+            text: "Highly Affordable Rates",
+            alt: "Affordable Rates",
+          },
+          {
+            icon: icon1,
+            text: "100% User Confidentiality",
+            alt: "Confidentiality",
+          },
+          {
+            icon: icon3,
+            text: "24/7 Support",
+            alt: "Support",
+          },
+        ],
     [mongoItems]
   );
 
@@ -167,12 +167,12 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
     <section className="w-full overflow-hidden  pb-[30px] bg-white">
       <div className="w-full px-6 pb-10 scale-[1.03]">
         <div className="py-10 ">
-          <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] mb-3 font-bold text-center text-[#171717]">
+          <h2 className="text-[42px] mb-3 font-bold text-center text-[#171717]">
             {whyData?.mainHeading
               ? whyData.mainHeading
               : "Why choose Scholarly"}
           </h2>
-          <p className="sm:text-[18px] text-sm text-center text-[#171717] max-w-[970px] mx-auto">
+          <p className="sm:text-lg text-sm text-gray-600 max-w-3xl mx-auto text-center">
             {whyData?.description
               ? whyData.description
               : "Scholarly Help offers plenty of services through skilled online class helpers and various subject experts."}
