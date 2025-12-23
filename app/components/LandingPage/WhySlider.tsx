@@ -5,6 +5,12 @@ import HeroWhySliderCard from "@/app/components/reusable/HeroWhySliderCard";
 import icon1 from "@/app/assets/Icons/icon-1.svg";
 import icon2 from "@/app/assets/Icons/icon-2.png";
 import icon3 from "@/app/assets/Icons/icon-3.png";
+import icon4 from "@/app/assets/Icons/icon-4.png";
+import icon5 from "@/app/assets/Icons/icon-5.png";
+import icon6 from "@/app/assets/Icons/icon-6.png";
+import icon7 from "@/app/assets/Icons/icon-7.png";
+import icon8 from "@/app/assets/Icons/icon-8.png";
+
 import boxShadow from "@/app/assets/Images/center-box-shadow.svg";
 import Image from "next/image";
 import { usePageData } from "./usePageData";
@@ -135,24 +141,44 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
         ? mongoItems
         : [
           {
-            icon: icon1,
-            text: "Highly-Skilled Subject Experts",
-            alt: "Experts",
-          },
-          {
             icon: icon2,
-            text: "Highly Affordable Rates",
-            alt: "Affordable Rates",
+            text: "Highly-Skilled Subject Experts",
+            alt: "",
           },
           {
             icon: icon1,
-            text: "100% User Confidentiality",
-            alt: "Confidentiality",
+            text: "Highly Affordable Rates",
+            alt: "",
           },
           {
             icon: icon3,
-            text: "24/7 Support",
-            alt: "Support",
+            text: "100% User Confidentiality",
+            alt: "",
+          },
+          {
+            icon: icon4,
+            text: "Deliver Resourceful Solutions",
+            alt: "",
+          },
+          {
+            icon: icon5,
+            text: "Produce Premium Content",
+            alt: "",
+          },
+          {
+            icon: icon6,
+            text: "Zero Grammatical Mistakes",
+            alt: "",
+          },
+          {
+            icon: icon7,
+            text: "Non-Plagiarized Content",
+            alt: "",
+          },
+          {
+            icon: icon8,
+            text: "Live Chat Support Availability",
+            alt: "",
           },
         ],
     [mongoItems]
