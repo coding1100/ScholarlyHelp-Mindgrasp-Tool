@@ -84,6 +84,7 @@ export default function Header() {
             { name: "Take My Economics Exam", href: "/exams/economics" },
             { name: "Take My Accounting  Exam", href: "/exams/accounting" },
             { name: "Take My English Exam", href: "/exams/english" },
+            { name: "Take My Psychology Exam", href: "/exams/psychology" },
           ],
           button: [{ name: "See All Subjects", href: "/exams" }],
         },
@@ -142,6 +143,10 @@ export default function Header() {
               name: "Accounting Assignment Help",
               href: "/assignment/accounting",
             },
+            {
+              name: "Psychology Assignment Help",
+              href: "/assignment/psychology",
+            },
           ],
           button: [{ name: "See All Subjects", href: "/assignment" }],
         },
@@ -179,6 +184,10 @@ export default function Header() {
             {
               name: "Computer science Homework Help",
               href: "/homework/computer-science",
+            },
+            {
+              name: "Psychology Homework Help",
+              href: "/homework/psychology",
             },
           ],
           button: [{ name: "See All Subjects", href: "/homework" }],
