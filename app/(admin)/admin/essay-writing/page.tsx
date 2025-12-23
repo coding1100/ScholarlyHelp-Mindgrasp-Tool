@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { essaySubjects } from "@/app/(pages)/essay-writing/subjectContent";
 
 export default function EssayWritingAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
@@ -79,6 +80,21 @@ export default function EssayWritingAdmin() {
 
           // Convert map to array
           const pages = Array.from(pagesMap.values());
+
+          // Add any missing subjects from essaySubjects
+          essaySubjects.forEach(subject => {
+            if (subject === 'generic') return;
+            const id = `essay_writing_${subject}`;
+            if (!pagesMap.has(id)) {
+              // Format title
+              const title = `Essay Writing ${subject.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
+              pages.push({
+                id: id,
+                slug: subject,
+                title: title
+              });
+            }
+          });
 
           // Ensure essay_writing_page is in the list
           const hasEssayWritingPage = pages.some((p: any) => p.id === 'essay_writing_page');

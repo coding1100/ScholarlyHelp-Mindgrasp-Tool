@@ -1029,8 +1029,10 @@ export const defaultContent: SubjectContent = {
       { title: "Marketing", url: "/online-class/marketing" },
       { title: "Mathematics", url: "/online-class/math" },
       { title: "Nursing", url: "/online-class/nursing" },
+      { title: "Nutrition", url: "/online-class/nutrition" },
       { title: "Operation Management", url: "/online-class/operation-management" },
-      { title: "Organizational Behavior", url: "/online-class/organizational-behavior" }
+      { title: "Organizational Behavior", url: "/online-class/organizational-behavior" },
+      { title: "Physics", url: "/online-class/physics" }
     ],
   },
   faqContent: [
@@ -1070,9 +1072,11 @@ export const subjects = [
   "marketing",
   "math",
   "nursing",
+  "nutrition",
   "operation-management",
   "organizational-behavior",
   "philosophy",
+  "physics",
   "psychology",
   "statistics",
 ] as const;

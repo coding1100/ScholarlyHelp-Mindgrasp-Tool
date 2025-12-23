@@ -200,11 +200,11 @@ export default function Header() {
         {
           title: "Subjects",
           links: [
-            { name: "Statistics Assignment Help", href: "" },
-            { name: "Finance Assignment Help", href: "" },
-            { name: "Marketing Assignment Help", href: "" },
-            { name: "Computer Science Assignment Help", href: "" },
-            { name: "Law Assignment Help", href: "" },
+            { name: "Law essay writing service", href: "/essay-writing/law" },
+            { name: "History essay writing service", href: "/essay-writing/history" },
+            { name: "Nursing essay writing service", href: "/essay-writing/nursing" },
+            { name: "Psychology essay writing service", href: "/essay-writing/psychology" },
+            { name: "Economics essay writing service", href: "/essay-writing/economics" },
           ],
           button: [{ name: "See All Subjects", href: "/essay-writing" }],
         },

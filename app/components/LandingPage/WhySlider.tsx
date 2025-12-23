@@ -5,6 +5,12 @@ import HeroWhySliderCard from "@/app/components/reusable/HeroWhySliderCard";
 import icon1 from "@/app/assets/Icons/icon-1.svg";
 import icon2 from "@/app/assets/Icons/icon-2.png";
 import icon3 from "@/app/assets/Icons/icon-3.png";
+import icon4 from "@/app/assets/Icons/icon-4.png";
+import icon5 from "@/app/assets/Icons/icon-5.png";
+import icon6 from "@/app/assets/Icons/icon-6.png";
+import icon7 from "@/app/assets/Icons/icon-7.png";
+import icon8 from "@/app/assets/Icons/icon-8.png";
+
 import boxShadow from "@/app/assets/Images/center-box-shadow.svg";
 import Image from "next/image";
 import { usePageData } from "./usePageData";
@@ -134,27 +140,47 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
       mongoItems.length > 0
         ? mongoItems
         : [
-            {
-              icon: icon1,
-              text: "Highly-Skilled Subject Experts",
-              alt: "Experts",
-            },
-            {
-              icon: icon2,
-              text: "Highly Affordable Rates",
-              alt: "Affordable Rates",
-            },
-            {
-              icon: icon1,
-              text: "100% User Confidentiality",
-              alt: "Confidentiality",
-            },
-            {
-              icon: icon3,
-              text: "24/7 Support",
-              alt: "Support",
-            },
-          ],
+          {
+            icon: icon2,
+            text: "Highly-Skilled Subject Experts",
+            alt: "",
+          },
+          {
+            icon: icon1,
+            text: "Highly Affordable Rates",
+            alt: "",
+          },
+          {
+            icon: icon3,
+            text: "100% User Confidentiality",
+            alt: "",
+          },
+          {
+            icon: icon4,
+            text: "Deliver Resourceful Solutions",
+            alt: "",
+          },
+          {
+            icon: icon5,
+            text: "Produce Premium Content",
+            alt: "",
+          },
+          {
+            icon: icon6,
+            text: "Zero Grammatical Mistakes",
+            alt: "",
+          },
+          {
+            icon: icon7,
+            text: "Non-Plagiarized Content",
+            alt: "",
+          },
+          {
+            icon: icon8,
+            text: "Live Chat Support Availability",
+            alt: "",
+          },
+        ],
     [mongoItems]
   );
 
@@ -167,12 +193,12 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
     <section className="w-full overflow-hidden  pb-[30px] bg-white">
       <div className="w-full px-6 pb-10 scale-[1.03]">
         <div className="py-10 ">
-          <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[50px] mb-3 font-bold text-center text-[#171717]">
+          <h2 className="text-[42px] mb-3 font-bold text-center text-[#171717]">
             {whyData?.mainHeading
               ? whyData.mainHeading
               : "Why choose Scholarly"}
           </h2>
-          <p className="sm:text-[18px] text-sm text-center text-[#171717] max-w-[970px] mx-auto">
+          <p className="sm:text-lg text-sm text-gray-600 max-w-3xl mx-auto text-center">
             {whyData?.description
               ? whyData.description
               : "Scholarly Help offers plenty of services through skilled online class helpers and various subject experts."}
