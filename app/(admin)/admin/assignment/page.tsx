@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { assignmentSubjects } from "@/app/(pages)/assignment/subjectContent";
 
 export default function AssignmentAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
@@ -56,20 +57,34 @@ export default function AssignmentAdmin() {
             };
           }).filter((p: any) => p.id);
 
-          // Ensure assignment_page is in the list
-          const hasAssignmentPage = pages.some((p: any) => p.id === 'assignment_page');
-          if (!hasAssignmentPage) {
-            pages.unshift({ id: 'assignment_page', slug: 'assignment_page', title: 'Assignment' });
-          }
+          // Convert to Map for easier merging
+          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+          pages.forEach((p: any) => pagesMap.set(p.id, p));
+
+          // Add any missing subjects from assignmentSubjects
+          assignmentSubjects.forEach(subject => {
+            const id = `assignment_${subject}`;
+            if (!pagesMap.has(id)) {
+              const title = `Assignment ${subject.replace(/-/g, ' ').charAt(0).toUpperCase() + subject.replace(/-/g, ' ').slice(1)}`;
+              pagesMap.set(id, {
+                id: id,
+                slug: subject,
+                title: title
+              });
+            }
+          });
+
+          // Convert back to array
+          const finalPages = Array.from(pagesMap.values());
 
           // Sort: assignment_page first, then alphabetically
-          pages.sort((a: any, b: any) => {
+          finalPages.sort((a: any, b: any) => {
             if (a.id === 'assignment_page') return -1;
             if (b.id === 'assignment_page') return 1;
             return a.title.localeCompare(b.title);
           });
 
-          setAvailablePages(pages);
+          setAvailablePages(finalPages);
         } else {
           // Default pages if none found
           setAvailablePages([
