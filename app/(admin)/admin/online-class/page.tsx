@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { subjects } from "@/app/(pages)/online-class/subjectContent";
 
 export default function OnlineClassAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
@@ -72,6 +73,25 @@ export default function OnlineClassAdmin() {
               pagesMap.set(pageId, {
                 id: pageId,
                 slug: slug,
+                title: title
+              });
+            }
+          });
+
+          // Add any missing subjects from subjects
+          subjects.forEach(subject => {
+            const id = `online_class_${subject}`;
+            if (!pagesMap.has(id)) {
+              // Format title
+              let subjectName = subject.replace(/-/g, ' ');
+              subjectName = subjectName.split(' ').map((word: string) =>
+                word.charAt(0).toUpperCase() + word.slice(1)
+              ).join(' ');
+              const title = `Online Class ${subjectName}`;
+
+              pagesMap.set(id, {
+                id: id,
+                slug: subject,
                 title: title
               });
             }

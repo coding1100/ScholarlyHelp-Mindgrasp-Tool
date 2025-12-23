@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { homeworkSubjects } from "@/app/(pages)/homework/subjectContent";
 
 export default function HomeworkAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
@@ -62,6 +63,20 @@ export default function HomeworkAdmin() {
               pagesMap.set(pageId, {
                 id: pageId,
                 slug: slug,
+                title: title
+              });
+            }
+          });
+
+          // Add any missing subjects from homeworkSubjects
+          homeworkSubjects.forEach(subject => {
+            const id = `homework_${subject}`;
+            if (!pagesMap.has(id)) {
+              // Format title
+              const title = `Homework ${subject.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
+              pagesMap.set(id, {
+                id: id,
+                slug: subject,
                 title: title
               });
             }

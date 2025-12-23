@@ -152,10 +152,15 @@ export const defaultAssignmentContent: AssignmentContent = {
     mainHeading: "Subjects We Cover",
     subjectsContent: [
       { title: "Accounting", url: "/assignment/accounting" },
+      { title: "Art", url: "/assignment/art" },
       { title: "Economics", url: "/assignment/economics" },
       { title: "Engineering", url: "/assignment/engineering" },
+      { title: "Geography", url: "/assignment/geography" },
       { title: "Math", url: "/assignment/math" },
+      { title: "Pharmacology", url: "/assignment/pharmacology" },
+      { title: "Physics", url: "/assignment/physics" },
       { title: "Psychology", url: "/assignment/psychology" },
+      { title: "Sociology", url: "/assignment/sociology" },
     ],
   },
   faqContent: [
@@ -169,6 +174,7 @@ export const assignmentSubjects = [
   "accounting",
   "anatomy",
   "architecture",
+  "art",
   "biology",
   "chemistry",
   "computer-science",
@@ -176,6 +182,7 @@ export const assignmentSubjects = [
   "engineering",
   "english",
   "finance",
+  "geography",
   "history",
   "human-resource",
   "law",
@@ -185,8 +192,11 @@ export const assignmentSubjects = [
   "nursing",
   "operation-management",
   "organizational-behavior",
+  "pharmacology",
   "philosophy",
+  "physics",
   "psychology",
+  "sociology",
   "statistics",
 ] as const;
 

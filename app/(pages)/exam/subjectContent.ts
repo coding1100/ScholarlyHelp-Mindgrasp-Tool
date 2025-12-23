@@ -16,9 +16,12 @@ export const examSubjects = [
   "marketing",
   "math",
   "nursing",
+  "nutrition",
   "operation-management",
   "organizational-behavior",
   "philosophy",
+  "physics",
+  "sociology",
   "statistics",
 ] as const;
 

@@ -208,11 +208,16 @@ export const defaultHomeworkContent: HomeworkContent = {
     subjectsContent: [
       { title: "Accounting", url: "/homework/accounting" },
       { title: "Anatomy", url: "/homework/anatomy" },
+      { title: "Art", url: "/homework/art" },
       { title: "Biology", url: "/homework/biology" },
       { title: "Chemistry", url: "/homework/chemistry" },
-      { title: "Math", url: "/homework/math" },
       { title: "Computer Science", url: "/homework/computer-science" },
+      { title: "Geography", url: "/homework/geography" },
+      { title: "Math", url: "/homework/math" },
+      { title: "Pharmacology", url: "/homework/pharmacology" },
+      { title: "Physics", url: "/homework/physics" },
       { title: "Psychology", url: "/homework/psychology" },
+      { title: "Sociology", url: "/homework/sociology" },
     ],
   },
   faqContent: [
@@ -225,6 +230,7 @@ export const defaultHomeworkContent: HomeworkContent = {
 export const homeworkSubjects = [
   "accounting",
   "anatomy",
+  "art",
   "biology",
   "chemistry",
   "computer-science",
@@ -232,13 +238,17 @@ export const homeworkSubjects = [
   "engineering",
   "english",
   "finance",
+  "geography",
   "history",
   "human-resource",
   "marketing",
   "math",
   "operation-management",
+  "pharmacology",
   "philosophy",
+  "physics",
   "psychology",
+  "sociology",
   "statistics",
 ] as const;
 

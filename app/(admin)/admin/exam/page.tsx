@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { examSubjects } from "@/app/(pages)/exam/subjectContent";
 
 export default function ExamAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
@@ -62,6 +63,20 @@ export default function ExamAdmin() {
               pagesMap.set(pageId, {
                 id: pageId,
                 slug: slug,
+                title: title
+              });
+            }
+          });
+
+          // Add any missing subjects from examSubjects
+          examSubjects.forEach(subject => {
+            const id = `exam_${subject}`;
+            if (!pagesMap.has(id)) {
+              // Format title
+              const title = `Exam ${subject.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
+              pagesMap.set(id, {
+                id: id,
+                slug: subject,
                 title: title
               });
             }
