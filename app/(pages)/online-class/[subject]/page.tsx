@@ -42,13 +42,13 @@ async function fetchPageData(slug: string) {
       serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 10000,
     });
-    
+
     await client.connect();
     const db = client.db('scholarly_help');
-    
+
     // Handle different slug formats
     let slugVariations = [slug];
-    
+
     // If slug is like "online_class_english", also try "english"
     if (slug.startsWith('online_class_')) {
       slugVariations.push(slug.replace('online_class_', ''));
@@ -56,7 +56,7 @@ async function fetchPageData(slug: string) {
       // If slug is like "english", also try "online_class_english"
       slugVariations.push(`online_class_${slug}`);
     }
-    
+
     // Build query to match any variation
     const orConditions = [];
     for (const variation of slugVariations) {
@@ -64,17 +64,17 @@ async function fetchPageData(slug: string) {
       orConditions.push({ id: variation });
     }
     const query = { $or: orConditions };
-    
+
     console.log(`Querying online_classes with slug: ${slug}, query:`, JSON.stringify(query));
     const content = await db.collection('online_classes').findOne(query);
     console.log('Found content:', content ? 'Yes' : 'No');
-    
+
     // If no content found, try to see what's in the collection
     if (!content) {
       const allDocs = await db.collection('online_classes').find({ slug: slug }).limit(5).toArray();
       console.log('Sample documents matching slug:', allDocs.map(d => ({ id: d.id, slug: d.slug })));
     }
-    
+
     await client.close();
 
     return content as any;
@@ -109,11 +109,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
       processSection: { mainHeading: '', description: '', steps: [] },
       success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+      academicPartners: { mainHeading: '', description: '', cards: undefined, ctaButton: { text: '' } },
       getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
       faq: { mainHeading: '', faqs: [] }
     };
-    
+
     return (
       <OnlineClassDataProvider data={defaultPageData}>
         <MainLayout>
@@ -184,30 +184,30 @@ export async function generateMetadata({ params }: { params: { subject: string }
       const client = new MongoClient(databaseUrl);
       await client.connect();
       const db = client.db('scholarly_help');
-      
+
       let slugVariations: string[] = [params.subject];
       if (params.subject.startsWith('online_class_')) {
         slugVariations.push(params.subject.replace('online_class_', ''));
       } else {
         slugVariations.push(`online_class_${params.subject}`);
       }
-      
+
       const orConditions = [];
       for (const variation of slugVariations) {
         orConditions.push({ slug: variation });
         orConditions.push({ id: variation });
       }
       const query = { $or: orConditions, status: { $ne: 'draft' } };
-      
+
       const pageData: any = await db.collection('online_classes').findOne(query);
       await client.close();
-      
+
       if (pageData) {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
         const metaTitle = pageData.meta?.title || `${params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, " ")} Online Class Help`;
         const metaDescription = pageData.meta?.description || `Get expert help with your ${params.subject.replace(/-/g, " ")} online classes.`;
         const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/online-class/${params.subject}`;
-        
+
         return {
           title: metaTitle,
           description: metaDescription,
@@ -223,7 +223,7 @@ export async function generateMetadata({ params }: { params: { subject: string }
   const subjectTitle = params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, ' ');
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}online-class/${params.subject}`;
-  
+
   return {
     title: `${subjectTitle} Online Class Help - Professional Assistance`,
     description: `Get expert help with your ${params.subject.replace(/-/g, ' ')} online classes.`,

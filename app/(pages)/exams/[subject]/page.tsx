@@ -38,10 +38,10 @@ async function fetchPageData(slug: string) {
     const client = new MongoClient(databaseUrl);
     await client.connect();
     const db = client.db('scholarly_help');
-    
+
     // Handle different slug formats
     let slugVariations = [slug];
-    
+
     // If slug is like "exam_english", also try "english"
     if (slug.startsWith('exam_')) {
       slugVariations.push(slug.replace('exam_', ''));
@@ -49,7 +49,7 @@ async function fetchPageData(slug: string) {
       // If slug is like "english", also try "exam_english"
       slugVariations.push(`exam_${slug}`);
     }
-    
+
     // Build query to match any variation
     const orConditions = [];
     for (const variation of slugVariations) {
@@ -57,7 +57,7 @@ async function fetchPageData(slug: string) {
       orConditions.push({ id: variation });
     }
     const query = { $or: orConditions };
-    
+
     const content = await db.collection('exam').findOne(query);
     await client.close();
 
@@ -92,11 +92,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
       processSection: { mainHeading: '', description: '', steps: [] },
       success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+      academicPartners: { mainHeading: '', description: '', cards: undefined, ctaButton: { text: '' } },
       getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
       faq: { mainHeading: '', faqs: [] }
     };
-    
+
     return (
       <ExamDataProvider data={defaultPageData}>
         <MainLayout>
@@ -164,30 +164,30 @@ export async function generateMetadata({ params }: PageProps) {
       const client = new MongoClient(databaseUrl);
       await client.connect();
       const db = client.db('scholarly_help');
-      
+
       let slugVariations: string[] = [params.subject];
       if (params.subject.startsWith('exam_')) {
         slugVariations.push(params.subject.replace('exam_', ''));
       } else {
         slugVariations.push(`exam_${params.subject}`);
       }
-      
+
       const orConditions = [];
       for (const variation of slugVariations) {
         orConditions.push({ slug: variation });
         orConditions.push({ id: variation });
       }
       const query = { $or: orConditions, status: { $ne: 'draft' } };
-      
+
       const pageData: any = await db.collection('exam').findOne(query);
       await client.close();
-      
+
       if (pageData) {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
         const metaTitle = pageData.meta?.title || `Take My ${params.subject} Exam | Professional ${params.subject} Exam Help`;
         const metaDescription = pageData.meta?.description || `Get expert help with your ${params.subject} exams. Professional ${params.subject} exam assistance for better grades.`;
         const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/exams/${params.subject}`;
-        
+
         return {
           title: metaTitle,
           description: metaDescription,
@@ -202,7 +202,7 @@ export async function generateMetadata({ params }: PageProps) {
   // Fallback metadata
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}exams/${params.subject}`;
-  
+
   return {
     title: `Take My ${params.subject} Exam | Professional ${params.subject} Exam Help`,
     description: `Get expert help with your ${params.subject} exams. Professional ${params.subject} exam assistance for better grades.`,
