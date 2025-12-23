@@ -21,7 +21,7 @@ export default function HomeAdmin() {
           console.error('API error:', data.error);
           throw new Error(data.error);
         }
-        
+
         setPageData(data && Object.keys(data).length > 0 ? {
           ...data,
           pageType: data.id || data.pageType || 'home_page'
@@ -29,7 +29,7 @@ export default function HomeAdmin() {
           id: 'home_page',
           pageType: 'home_page',
           meta: { title: '', description: '', canonicalUrl: '' },
-          heroSection: { mainHeading: '', subHeading: '', description: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
           whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
           cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
           description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
@@ -46,7 +46,7 @@ export default function HomeAdmin() {
           id: 'home_page',
           pageType: 'home_page',
           meta: { title: '', description: '', canonicalUrl: '' },
-          heroSection: { mainHeading: '', subHeading: '', description: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
           whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
           cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
           description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
@@ -153,7 +153,7 @@ export default function HomeAdmin() {
   const renderPageForm = () => {
     if (!pageData) return null;
 
-  return (
+    return (
       <form onSubmit={(e) => { e.preventDefault(); handlePageSave(); }} className="space-y-8">
         {/* Meta Section */}
         <div className="bg-white shadow rounded-lg p-6">
@@ -167,14 +167,14 @@ export default function HomeAdmin() {
                 onChange={(e) => updatePageData('meta.title', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
-      </div>
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
               <textarea
                 rows={3}
                 value={pageData.meta?.description || ''}
                 onChange={(e) => updatePageData('meta.description', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -186,14 +186,14 @@ export default function HomeAdmin() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-      </div>
+          </div>
         </div>
 
-          {/* Hero Section */}
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Hero Section</h2>
-            <div className="grid grid-cols-1 gap-6">
-              <div>
+        {/* Hero Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Hero Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
               <textarea
                 rows={3}
@@ -203,7 +203,7 @@ export default function HomeAdmin() {
                 placeholder="Use &lt;br/&gt; for line breaks"
               />
             </div>
-            <div className="hidden">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Sub Heading</label>
               <input
                 type="text"
@@ -220,6 +220,28 @@ export default function HomeAdmin() {
                 onChange={(e) => updatePageData('heroSection.description', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 1 Text</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn1 || ''}
+                  onChange={(e) => updatePageData('heroSection.btn1', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Default: Take My Full Class"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 2 Text</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn2 || ''}
+                  onChange={(e) => updatePageData('heroSection.btn2', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Default: Pass My Exam"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -264,8 +286,8 @@ export default function HomeAdmin() {
           <div className="grid grid-cols-1 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
-                <input
-                  type="text"
+              <input
+                type="text"
                 value={pageData.cardCarousel?.mainHeading || ''}
                 onChange={(e) => updatePageData('cardCarousel.mainHeading', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -277,9 +299,9 @@ export default function HomeAdmin() {
                 rows={3}
                 value={pageData.cardCarousel?.description || ''}
                 onChange={(e) => updatePageData('cardCarousel.description', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
               <input
@@ -296,19 +318,19 @@ export default function HomeAdmin() {
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Description Section</h2>
           <div className="grid grid-cols-1 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
-                <input
-                  type="text"
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <input
+                type="text"
                 value={pageData.description?.mainHeading || ''}
                 onChange={(e) => updatePageData('description.mainHeading', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                <textarea
-                  rows={4}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea
+                rows={4}
                 value={pageData.description?.description || ''}
                 onChange={(e) => updatePageData('description.description', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -396,7 +418,7 @@ export default function HomeAdmin() {
                 rows={3}
                 value={pageData.guaranteedBlock?.description || ''}
                 onChange={(e) => updatePageData('guaranteedBlock.description', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -406,33 +428,33 @@ export default function HomeAdmin() {
                 value={pageData.guaranteedBlock?.ctaButton?.text || ''}
                 onChange={(e) => updatePageData('guaranteedBlock.ctaButton.text', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
+              />
             </div>
           </div>
+        </div>
 
         {/* Process Section */}
-          <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Process Section</h2>
           <div className="grid grid-cols-1 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
-                <input
-                  type="text"
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <input
+                type="text"
                 value={pageData.processSection?.mainHeading || ''}
                 onChange={(e) => updatePageData('processSection.mainHeading', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                <textarea
-                  rows={3}
+              <textarea
+                rows={3}
                 value={pageData.processSection?.description || ''}
                 onChange={(e) => updatePageData('processSection.description', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-4">Process Steps</label>
               {(pageData.processSection?.steps || []).map((step: any, index: number) => (
@@ -479,27 +501,27 @@ export default function HomeAdmin() {
               >
                 + Add Step
               </button>
-              </div>
             </div>
           </div>
+        </div>
 
         {/* Success Section */}
-          <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Success Section</h2>
           <div className="grid grid-cols-1 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
-                <input
-                  type="text"
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <input
+                type="text"
                 value={pageData.success?.mainHeading || ''}
                 onChange={(e) => updatePageData('success.mainHeading', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                <textarea
-                  rows={3}
+              <textarea
+                rows={3}
                 value={pageData.success?.description || ''}
                 onChange={(e) => updatePageData('success.description', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -511,9 +533,9 @@ export default function HomeAdmin() {
                 type="text"
                 value={pageData.success?.ctaButton?.text || ''}
                 onChange={(e) => updatePageData('success.ctaButton.text', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-4">Success Slides</label>
               {(pageData.success?.slides || []).map((slide: any, index: number) => (
@@ -546,12 +568,12 @@ export default function HomeAdmin() {
               >
                 + Add Slide
               </button>
-              </div>
             </div>
           </div>
+        </div>
 
         {/* Academic Partners Section */}
-          <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Academic Partners Section</h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
@@ -621,32 +643,32 @@ export default function HomeAdmin() {
                 + Add Card
               </button>
             </div>
-            </div>
           </div>
+        </div>
 
         {/* Get Quote Section */}
-          <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Get Quote Section</h2>
-            <div className="grid grid-cols-1 gap-6">
-              <div>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
-                <input
-                  type="text"
+              <input
+                type="text"
                 value={pageData.getQuote?.mainHeading || ''}
                 onChange={(e) => updatePageData('getQuote.mainHeading', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                <textarea
-                  rows={3}
+              <textarea
+                rows={3}
                 value={pageData.getQuote?.description || ''}
                 onChange={(e) => updatePageData('getQuote.description', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
               <input
                 type="text"
@@ -668,7 +690,7 @@ export default function HomeAdmin() {
                 type="text"
                 value={pageData.faq?.mainHeading || ''}
                 onChange={(e) => updatePageData('faq.mainHeading', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -710,31 +732,31 @@ export default function HomeAdmin() {
               >
                 + Add FAQ
               </button>
-              </div>
             </div>
           </div>
+        </div>
 
-          {/* Save Button */}
+        {/* Save Button */}
         <div className="flex justify-end gap-4">
-            <button
-              type="submit"
-              disabled={pageLoading}
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {pageLoading ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Saving...
-                </>
-              ) : (
-                'Save Changes'
-              )}
-            </button>
-          </div>
-        </form>
+          <button
+            type="submit"
+            disabled={pageLoading}
+            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {pageLoading ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Saving...
+              </>
+            ) : (
+              'Save Changes'
+            )}
+          </button>
+        </div>
+      </form>
     );
   };
 

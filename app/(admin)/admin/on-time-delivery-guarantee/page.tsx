@@ -23,7 +23,7 @@ export default function OnTimeDeliveryGuaranteeAdmin() {
           pageType: 'on-time-delivery-guarantee',
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
-          heroSection: { mainHeading: '', subHeading: '', description: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
           whyGuarantee: { mainHeading: '', description: '', heading2: '' },
           whyGuaranteeContent: { details: { title: '', description: '', list: [], text: '' } },
           HowGuaranteeWorks: { mainHeading: '', steps: [] },
@@ -38,7 +38,7 @@ export default function OnTimeDeliveryGuaranteeAdmin() {
           pageType: 'on-time-delivery-guarantee',
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
-          heroSection: { mainHeading: '', subHeading: '', description: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
           whyGuarantee: { mainHeading: '', description: '', heading2: '' },
           whyGuaranteeContent: { details: { title: '', description: '', list: [], text: '' } },
           HowGuaranteeWorks: { mainHeading: '', steps: [] },
@@ -205,6 +205,28 @@ export default function OnTimeDeliveryGuaranteeAdmin() {
                 onChange={(e) => updatePageData('heroSection.description', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 1 Text</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn1 || ''}
+                  onChange={(e) => updatePageData('heroSection.btn1', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Default: Take My Full Class"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 2 Text</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn2 || ''}
+                  onChange={(e) => updatePageData('heroSection.btn2', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Default: Pass My Exam"
+                />
+              </div>
             </div>
           </div>
         </div>
