@@ -20,8 +20,8 @@ import { AssignmentDataProvider } from "../AssignmentDataProvider";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-interface PageProps { 
-  params: { subject: string; }; 
+interface PageProps {
+  params: { subject: string; };
 }
 
 async function fetchPageData(slug: string) {
@@ -36,10 +36,10 @@ async function fetchPageData(slug: string) {
     const client = new MongoClient(databaseUrl);
     await client.connect();
     const db = client.db('scholarly_help');
-    
+
     // Handle different slug formats
     let slugVariations = [slug];
-    
+
     // If slug is like "assignment_english", also try "english"
     if (slug.startsWith('assignment_')) {
       slugVariations.push(slug.replace('assignment_', ''));
@@ -47,7 +47,7 @@ async function fetchPageData(slug: string) {
       // If slug is like "english", also try "assignment_english"
       slugVariations.push(`assignment_${slug}`);
     }
-    
+
     // Build query to match any variation
     const orConditions = [];
     for (const variation of slugVariations) {
@@ -55,7 +55,7 @@ async function fetchPageData(slug: string) {
       orConditions.push({ id: variation });
     }
     const query = { $or: orConditions };
-    
+
     const content = await db.collection('assignments').findOne(query);
     await client.close();
 
@@ -68,7 +68,7 @@ async function fetchPageData(slug: string) {
 
 const Page: React.FC<PageProps> = async ({ params }) => {
   const { subject } = params;
-  
+
   if (!isValidAssignmentSubject(subject)) {
     notFound();
   }
@@ -92,11 +92,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
       processSection: { mainHeading: '', description: '', steps: [] },
       success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+      academicPartners: { mainHeading: '', description: '', cards: undefined, ctaButton: { text: '' } },
       getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
       faq: { mainHeading: '', faqs: [] }
     };
-    
+
     return (
       <AssignmentDataProvider data={defaultPageData}>
         <MainLayout>
@@ -149,8 +149,8 @@ export default Page;
 export function generateStaticParams() { return assignmentSubjects.map((subject) => ({ subject })); }
 
 export async function generateMetadata({ params }: { params: { subject: string } }) {
-  if (!isValidAssignmentSubject(params.subject)) { 
-    return { title: "Not Found", description: "The page you are looking for does not exist." }; 
+  if (!isValidAssignmentSubject(params.subject)) {
+    return { title: "Not Found", description: "The page you are looking for does not exist." };
   }
 
   try {
@@ -160,30 +160,30 @@ export async function generateMetadata({ params }: { params: { subject: string }
       const client = new MongoClient(databaseUrl);
       await client.connect();
       const db = client.db('scholarly_help');
-      
+
       let slugVariations: string[] = [params.subject];
       if (params.subject.startsWith('assignment_')) {
         slugVariations.push(params.subject.replace('assignment_', ''));
       } else {
         slugVariations.push(`assignment_${params.subject}`);
       }
-      
+
       const orConditions = [];
       for (const variation of slugVariations) {
         orConditions.push({ slug: variation });
         orConditions.push({ id: variation });
       }
       const query = { $or: orConditions, status: { $ne: 'draft' } };
-      
+
       const pageData: any = await db.collection('assignments').findOne(query);
       await client.close();
-      
+
       if (pageData) {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
         const metaTitle = pageData.meta?.title || `${params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, " ")} Assignment Help`;
         const metaDescription = pageData.meta?.description || `Get expert help with your ${params.subject.replace(/-/g, " ")} assignment.`;
         const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/assignment/${params.subject}`;
-        
+
         return {
           title: metaTitle,
           description: metaDescription,

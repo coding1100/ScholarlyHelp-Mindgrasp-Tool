@@ -212,6 +212,7 @@ export const defaultHomeworkContent: HomeworkContent = {
       { title: "Chemistry", url: "/homework/chemistry" },
       { title: "Math", url: "/homework/math" },
       { title: "Computer Science", url: "/homework/computer-science" },
+      { title: "Psychology", url: "/homework/psychology" },
     ],
   },
   faqContent: [
