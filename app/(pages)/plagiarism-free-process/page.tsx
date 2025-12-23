@@ -29,14 +29,14 @@ async function fetchPageData() {
     });
     await client.connect();
     const db = client.db('scholarly_help');
-    
+
     // Query for plagiarism-free-process page by id
-    const query = { 
+    const query = {
       id: "plagiarism-free-process"
     };
-    
+
     const content = await db.collection('pages').findOne(query);
-    
+
     await client.close();
 
     return content as any;
@@ -51,20 +51,21 @@ const Home: NextPage = async () => {
 
   // Use MongoDB data if available, otherwise fallback to static content
   const heroContent = pageData?.heroSection || plagiarismFreeContent.heroContent;
-  
+
   // Merge originalityContent - keep static images from Content
   const originalityContent = pageData?.originalityContent
     ? {
-        ...pageData.originalityContent,
-        steps: pageData.originalityContent.steps?.map((step: any, index: number) => ({
-          ...step,
-          img: plagiarismFreeContent.originalityContent.steps[index]?.img || step.img // Use static image if available
-        })) || plagiarismFreeContent.originalityContent.steps,
-        tags: pageData.originalityContent.tags || plagiarismFreeContent.originalityContent.tags
-      }
+      ...pageData.originalityContent,
+      steps: pageData.originalityContent.steps?.map((step: any, index: number) => ({
+        ...step,
+        img: plagiarismFreeContent.originalityContent.steps[index]?.img || step.img // Use static image if available
+      })) || plagiarismFreeContent.originalityContent.steps,
+      tags: pageData.originalityContent.tags || plagiarismFreeContent.originalityContent.tags
+    }
     : plagiarismFreeContent.originalityContent;
-  
+
   const whyScholarlySlider = pageData?.whyScholarlySlider || plagiarismFreeContent.whyScholalrySlider;
+  const academicPartners = pageData?.academicPartners || undefined;
 
   return (
     <div>
@@ -84,7 +85,7 @@ const Home: NextPage = async () => {
           <WhySlider whyData={whyScholarlySlider} />
         </div>
         <CustomerReviews />
-        <AcademicPartners />
+        <AcademicPartners content={academicPartners} />
         <Faq />
       </MainLayout>
     </div>
@@ -97,7 +98,7 @@ export async function generateMetadata() {
   const pageData = await fetchPageData();
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}plagiarism-free-process`;
-  
+
   return {
     title: pageData?.meta?.title || "Plagiarism-Free Academic Work | Original & Verified Content",
     description: pageData?.meta?.description || "Get authentic, plagiarism-free academic work created from scratch. Our verified process ensures originality, accuracy, and trusted quality every time.",
