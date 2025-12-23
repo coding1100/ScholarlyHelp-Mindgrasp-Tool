@@ -138,6 +138,7 @@ export default function HomeworkAdmin() {
             processSection: { mainHeading: '', description: '', steps: [] },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -155,6 +156,7 @@ export default function HomeworkAdmin() {
             processSection: { mainHeading: '', description: '', steps: [] },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -203,6 +205,7 @@ export default function HomeworkAdmin() {
             processSection: { mainHeading: '', description: '', steps: [] },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -231,6 +234,7 @@ export default function HomeworkAdmin() {
             processSection: { mainHeading: '', description: '', steps: [] },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -250,6 +254,7 @@ export default function HomeworkAdmin() {
             processSection: { mainHeading: '', description: '', steps: [] },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -271,6 +276,7 @@ export default function HomeworkAdmin() {
             processSection: { mainHeading: '', description: '', steps: [] },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -932,6 +938,97 @@ export default function HomeworkAdmin() {
               >
                 + Add Slide
               </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Subjects Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Subjects & Majors We Cover Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <input
+                type="text"
+                value={pageData.subjects?.mainHeading || ''}
+                onChange={(e) => updatePageData('subjects.mainHeading', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea
+                rows={3}
+                value={pageData.subjects?.description || ''}
+                onChange={(e) => updatePageData('subjects.description', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <input
+                type="text"
+                value={pageData.subjects?.ctaText || ''}
+                onChange={(e) => updatePageData('subjects.ctaText', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Default: Take my online class"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Subject Cards</label>
+              {(pageData.subjects?.subjectsContent || []).map((subject: any, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Subject {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('subjects.subjectsContent', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">Title</label>
+                      <input
+                        type="text"
+                        value={subject.title || ''}
+                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'title', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="e.g., English"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">URL (relative path)</label>
+                      <input
+                        type="text"
+                        value={subject.url || ''}
+                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'url', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="e.g., /english"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs text-gray-500 mb-1">Icon Path</label>
+                      <input
+                        type="text"
+                        value={subject.icon || ''}
+                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'icon', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="e.g., /assets/Icon/english.png"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {/* <button
+                type="button"
+                onClick={() => addArrayItem('subjects.subjectsContent', { title: '', icon: '', url: '' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Subject Card
+              </button> */}
             </div>
           </div>
         </div>
