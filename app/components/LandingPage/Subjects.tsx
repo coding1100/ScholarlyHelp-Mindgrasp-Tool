@@ -74,14 +74,14 @@ export default function SubjectsSection() {
       label: "Marketing",
       url: `${basePath}/marketing`,
     },
-    { src: "/assets/Icon/psychology.png", label: "Psychology", url: `` },
+    { src: "/assets/Icon/psychology.png", label: "Psychology", url: `${basePath}/psychology` },
     {
       src: "/assets/Icon/philosophy.png",
       label: "Philosophy",
       url: `${basePath}/philosophy`,
     },
   ];
-  
+
   // Use MongoDB subjects if available, otherwise use default
   const subjects = useMemo(() => {
     if (subjectsData?.subjectsContent && Array.isArray(subjectsData.subjectsContent) && subjectsData.subjectsContent.length > 0) {
@@ -95,7 +95,7 @@ export default function SubjectsSection() {
           const slug = item.title.toLowerCase().replace(/\s+/g, '-');
           url = `${basePath}/${slug}`;
         }
-        
+
         return {
           src: item.icon || "/assets/Icon/english.png",
           label: item.title || '',
@@ -106,7 +106,7 @@ export default function SubjectsSection() {
     return defaultSubjects;
   }, [subjectsData, basePath]);
 
-  return ( 
+  return (
     <section className="pt-[86px] pb-16 bg-[#ECECFC] text-[#2B1C51]">
       <div className="max-w-7xl mx-auto max-[1320px]:px-8 text-center">
         <h2 className="text-[42px] text-[#000] font-bold mb-3">

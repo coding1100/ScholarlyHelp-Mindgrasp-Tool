@@ -33,6 +33,10 @@ export default function Header() {
               name: "Take My Statistics Class",
               href: "/online-class/statistics",
             },
+            {
+              name: "Take My Psychology Class",
+              href: "/online-class/psychology",
+            },
           ],
           button: [{ name: "See All Subjects", href: "/online-class" }],
         },
@@ -199,7 +203,7 @@ export default function Header() {
     },
     {
       title: "Tools",
-      href: "/academic-tools" 
+      href: "/academic-tools"
     },
   ];
 
@@ -247,9 +251,8 @@ export default function Header() {
                 {item.submenu && (
                   <ChevronDown
                     size={16}
-                    className={`transition ${
-                      activeMenu === index ? "rotate-180" : ""
-                    }`}
+                    className={`transition ${activeMenu === index ? "rotate-180" : ""
+                      }`}
                   />
                 )}
               </Link>
