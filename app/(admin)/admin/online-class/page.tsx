@@ -161,12 +161,25 @@ export default function OnlineClassAdmin() {
             id: 'online_class_page',
             pageType: 'online_class_page',
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
+            whySlider: {
+              mainHeading: 'Why choose Scholarly',
+              description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
+              ctaButton: { text: 'Take my online class' }
+            },
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -179,12 +192,25 @@ export default function OnlineClassAdmin() {
             id: 'online_class_page',
             pageType: 'online_class_page',
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
+            whySlider: {
+              mainHeading: 'Why choose Scholarly',
+              description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
+              ctaButton: { text: 'Take my online class' }
+            },
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -237,12 +263,25 @@ export default function OnlineClassAdmin() {
             id: 'online_class_page',
             pageType: 'online_class_page',
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
+            whySlider: {
+              mainHeading: 'Why choose Scholarly',
+              description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
+              ctaButton: { text: 'Take my online class' }
+            },
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -266,12 +305,25 @@ export default function OnlineClassAdmin() {
             slug: extractedSlug,
             pageType: pageId,
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
+            whySlider: {
+              mainHeading: 'Why choose Scholarly',
+              description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
+              ctaButton: { text: 'Take my online class' }
+            },
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -286,12 +338,25 @@ export default function OnlineClassAdmin() {
             id: 'online_class_page',
             pageType: 'online_class_page',
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
+            whySlider: {
+              mainHeading: 'Why choose Scholarly',
+              description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
+              ctaButton: { text: 'Take my online class' }
+            },
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -308,12 +373,25 @@ export default function OnlineClassAdmin() {
             slug: extractedSlug,
             pageType: pageId,
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
+            whySlider: {
+              mainHeading: 'Why choose Scholarly',
+              description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
+              ctaButton: { text: 'Take my online class' }
+            },
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -672,6 +750,26 @@ export default function OnlineClassAdmin() {
                   placeholder="Default: Pass My Exam"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 1 URL</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn1Url || ''}
+                  onChange={(e) => updatePageData('heroSection.btn1Url', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., /contact-us or https://..."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 2 URL</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn2Url || ''}
+                  onChange={(e) => updatePageData('heroSection.btn2Url', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., /contact-us or https://..."
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -927,7 +1025,7 @@ export default function OnlineClassAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('processSection.steps', { stepNumber: (pageData.processSection?.steps?.length || 0) + 1, title: '', description: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Step
               </button>
@@ -994,7 +1092,7 @@ export default function OnlineClassAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('success.slides', { id: Date.now(), image: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Slide
               </button>
