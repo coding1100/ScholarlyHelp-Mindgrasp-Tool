@@ -31,20 +31,27 @@ export default function HomeworkAdmin() {
             let pageId = page.id || page.slug || '';
             let slug = page.slug || page.id || '';
 
-            // Normalize "main" to "homework_page"
+            // 1. Normalize to lowercase
+            pageId = pageId.toLowerCase();
+
+            // 2. Normalize "main" to "homework_page"
             if (pageId === 'main') {
               pageId = 'homework_page';
             }
 
-            // Normalize IDs: if it's a subject page without homework_ prefix, add it
+            // 3. Ensure "homework_" prefix for subject pages
             if (pageId && pageId !== 'homework_page' && !pageId.startsWith('homework_')) {
-              // If it's a subject slug like "english", make it "homework_english"
               pageId = `homework_${pageId}`;
             }
 
-            // Extract slug from homework_ prefixed IDs
+            // 4. Normalize subject part (replace underscores with hyphens in the suffix only)
             if (pageId.startsWith('homework_') && pageId !== 'homework_page') {
-              slug = pageId.replace('homework_', '');
+              // Split prefix and suffix to avoid replacing the underscore in 'homework_'
+              const suffix = pageId.slice('homework_'.length).replace(/_/g, '-');
+              pageId = `homework_${suffix}`;
+
+              // Update slug based on normalized ID
+              slug = suffix;
             }
 
             // Format title
