@@ -3,6 +3,108 @@
 import { useState, useEffect } from "react";
 import { examSubjects } from "@/app/(pages)/exam/subjectContent";
 
+const processPages = (rawPages: any[]) => {
+  // Use a Map to deduplicate by normalized ID
+  const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+
+  rawPages.forEach((page: any) => {
+    let pageId = (page.id || page.slug || '').toLowerCase();
+
+    // Normalize "main" to "exam_page"
+    if (pageId === 'main') {
+      pageId = 'exam_page';
+    }
+
+    // Normalize IDs: if it's a subject page without exam_ prefix, add it
+    if (pageId && pageId !== 'exam_page' && !pageId.startsWith('exam_')) {
+      // If it's a subject slug like "english", make it "exam_english"
+      pageId = `exam_${pageId}`;
+    }
+
+    // Determine normalized key for deduplication (replace _ with - in slug part)
+    let normalizationKey = pageId;
+    if (pageId.startsWith('exam_') && pageId !== 'exam_page') {
+      // Keep 'exam_' prefix intact, normalize the rest
+      const suffix = pageId.substring(5).replace(/_/g, '-');
+      normalizationKey = `exam_${suffix}`;
+    }
+
+    // Extract slug from exam_ prefixed IDs
+    let slug = pageId;
+    if (pageId.startsWith('exam_') && pageId !== 'exam_page') {
+      slug = pageId.replace('exam_', '');
+    }
+
+    // Format title
+    let title = '';
+    if (pageId === 'exam_page') {
+      title = 'Exam';
+    } else if (pageId.startsWith('exam_')) {
+      // Normalize subject name for title: replace _ and - with space
+      const subjectName = pageId.replace('exam_', '').replace(/[_-]/g, ' ');
+      title = `Exam ${subjectName.split(' ').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
+    } else {
+      title = page.title || page.meta?.title || pageId.replace(/[_-]/g, ' ');
+    }
+
+    // Add to map. If duplication, prioritize the "cleaner" ID (kebab-case) if the new one is cleaner.
+    // Or just overwrite if the new one matches the normalized key exactly (meaning it's the canonical one).
+    const existing = pagesMap.get(normalizationKey);
+
+    const newItem = {
+      id: pageId,
+      slug: slug,
+      title: title
+    };
+
+    if (!existing) {
+      pagesMap.set(normalizationKey, newItem);
+    } else {
+      // If we already have an entry, check if the new one is "better"
+      // "Better" criteria: 
+      // 1. Matches normalizationKey exactly (standard kebab-case)
+      // 2. Or if current one doesn't match and new one doesn't either, maybe just keep existing
+      if (pageId === normalizationKey && existing.id !== normalizationKey) {
+        pagesMap.set(normalizationKey, newItem);
+      }
+    }
+  });
+
+  // Add any missing subjects from examSubjects
+  examSubjects.forEach(subject => {
+    const id = `exam_${subject}`; // Canonical ID (kebab-case)
+    const normalizationKey = id; // Since subject comes from canonical list, it is already normalized
+
+    if (!pagesMap.has(normalizationKey)) {
+      // Format title
+      const title = `Exam ${subject.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
+      pagesMap.set(id, {
+        id: id,
+        slug: subject,
+        title: title
+      });
+    }
+  });
+
+  // Convert map to array
+  const pages = Array.from(pagesMap.values());
+
+  // Ensure exam_page is in the list
+  const hasExamPage = pages.some((p: any) => p.id === 'exam_page');
+  if (!hasExamPage) {
+    pages.unshift({ id: 'exam_page', slug: 'exam_page', title: 'Exam' });
+  }
+
+  // Sort: exam_page first, then alphabetically by TITLE
+  pages.sort((a: any, b: any) => {
+    if (a.id === 'exam_page') return -1;
+    if (b.id === 'exam_page') return 1;
+    return a.title.localeCompare(b.title);
+  });
+
+  return pages;
+};
+
 export default function ExamAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
   const [selectedPage, setSelectedPage] = useState<string>('exam_page');
@@ -24,81 +126,7 @@ export default function ExamAdmin() {
           throw new Error(data.error);
         }
         if (data.pages && Array.isArray(data.pages)) {
-          // Use a Map to deduplicate by normalized ID
-          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
-
-          data.pages.forEach((page: any) => {
-            let pageId = page.id || page.slug || '';
-            let slug = page.slug || page.id || '';
-
-            // Normalize "main" to "exam_page"
-            if (pageId === 'main') {
-              pageId = 'exam_page';
-            }
-
-            // Normalize IDs: if it's a subject page without exam_ prefix, add it
-            if (pageId && pageId !== 'exam_page' && !pageId.startsWith('exam_')) {
-              // If it's a subject slug like "english", make it "exam_english"
-              pageId = `exam_${pageId}`;
-            }
-
-            // Extract slug from exam_ prefixed IDs
-            if (pageId.startsWith('exam_') && pageId !== 'exam_page') {
-              slug = pageId.replace('exam_', '');
-            }
-
-            // Format title
-            let title = '';
-            if (pageId === 'exam_page') {
-              title = 'Exam';
-            } else if (pageId.startsWith('exam_')) {
-              const subjectName = pageId.replace('exam_', '').replace(/-/g, ' ');
-              title = `Exam ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
-            } else {
-              title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
-            }
-
-            // Only add if ID is valid and not already in map
-            if (pageId && !pagesMap.has(pageId)) {
-              pagesMap.set(pageId, {
-                id: pageId,
-                slug: slug,
-                title: title
-              });
-            }
-          });
-
-          // Add any missing subjects from examSubjects
-          examSubjects.forEach(subject => {
-            const id = `exam_${subject}`;
-            if (!pagesMap.has(id)) {
-              // Format title
-              const title = `Exam ${subject.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
-              pagesMap.set(id, {
-                id: id,
-                slug: subject,
-                title: title
-              });
-            }
-          });
-
-          // Convert map to array
-          const pages = Array.from(pagesMap.values());
-
-          // Ensure exam_page is in the list
-          const hasExamPage = pages.some((p: any) => p.id === 'exam_page');
-          if (!hasExamPage) {
-            pages.unshift({ id: 'exam_page', slug: 'exam_page', title: 'Exam' });
-          }
-
-          // Sort: exam_page first, then alphabetically
-          pages.sort((a: any, b: any) => {
-            if (a.id === 'exam_page') return -1;
-            if (b.id === 'exam_page') return 1;
-            return a.title.localeCompare(b.title);
-          });
-
-          setAvailablePages(pages);
+          setAvailablePages(processPages(data.pages));
         } else {
           // Default pages if none found
           setAvailablePages([
@@ -320,65 +348,7 @@ export default function ExamAdmin() {
         const res = await fetch('/api/admin/exam?list=all');
         const data = await res.json();
         if (data.pages && Array.isArray(data.pages)) {
-          // Use a Map to deduplicate by normalized ID
-          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
-
-          data.pages.forEach((page: any) => {
-            let pageId = page.id || page.slug || '';
-            let slug = page.slug || page.id || '';
-
-            // Normalize "main" to "exam_page"
-            if (pageId === 'main') {
-              pageId = 'exam_page';
-            }
-
-            // Normalize IDs: if it's a subject page without exam_ prefix, add it
-            if (pageId && pageId !== 'exam_page' && !pageId.startsWith('exam_')) {
-              pageId = `exam_${pageId}`;
-            }
-
-            // Extract slug from exam_ prefixed IDs
-            if (pageId.startsWith('exam_') && pageId !== 'exam_page') {
-              slug = pageId.replace('exam_', '');
-            }
-
-            // Format title
-            let title = '';
-            if (pageId === 'exam_page') {
-              title = 'Exam';
-            } else if (pageId.startsWith('exam_')) {
-              const subjectName = pageId.replace('exam_', '').replace(/-/g, ' ');
-              title = `Exam ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
-            } else {
-              title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
-            }
-
-            // Only add if ID is valid and not already in map
-            if (pageId && !pagesMap.has(pageId)) {
-              pagesMap.set(pageId, {
-                id: pageId,
-                slug: slug,
-                title: title
-              });
-            }
-          });
-
-          // Convert map to array
-          const pages = Array.from(pagesMap.values());
-
-          const hasExamPage = pages.some((p: any) => p.id === 'exam_page');
-          if (!hasExamPage) {
-            pages.unshift({ id: 'exam_page', slug: 'exam_page', title: 'Exam' });
-          }
-
-          // Sort: exam_page first, then alphabetically
-          pages.sort((a: any, b: any) => {
-            if (a.id === 'exam_page') return -1;
-            if (b.id === 'exam_page') return 1;
-            return a.title.localeCompare(b.title);
-          });
-
-          setAvailablePages(pages);
+          setAvailablePages(processPages(data.pages));
         }
       } else {
         alert('Error saving page');
@@ -416,65 +386,7 @@ export default function ExamAdmin() {
         const res = await fetch('/api/admin/exam?list=all');
         const data = await res.json();
         if (data.pages && Array.isArray(data.pages)) {
-          // Use a Map to deduplicate by normalized ID
-          const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
-
-          data.pages.forEach((page: any) => {
-            let pageId = page.id || page.slug || '';
-            let slug = page.slug || page.id || '';
-
-            // Normalize "main" to "exam_page"
-            if (pageId === 'main') {
-              pageId = 'exam_page';
-            }
-
-            // Normalize IDs: if it's a subject page without exam_ prefix, add it
-            if (pageId && pageId !== 'exam_page' && !pageId.startsWith('exam_')) {
-              pageId = `exam_${pageId}`;
-            }
-
-            // Extract slug from exam_ prefixed IDs
-            if (pageId.startsWith('exam_') && pageId !== 'exam_page') {
-              slug = pageId.replace('exam_', '');
-            }
-
-            // Format title
-            let title = '';
-            if (pageId === 'exam_page') {
-              title = 'Exam';
-            } else if (pageId.startsWith('exam_')) {
-              const subjectName = pageId.replace('exam_', '').replace(/-/g, ' ');
-              title = `Exam ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}`;
-            } else {
-              title = page.title || page.meta?.title || pageId.replace(/-/g, ' ');
-            }
-
-            // Only add if ID is valid and not already in map
-            if (pageId && !pagesMap.has(pageId)) {
-              pagesMap.set(pageId, {
-                id: pageId,
-                slug: slug,
-                title: title
-              });
-            }
-          });
-
-          // Convert map to array
-          const pages = Array.from(pagesMap.values());
-
-          const hasExamPage = pages.some((p: any) => p.id === 'exam_page');
-          if (!hasExamPage) {
-            pages.unshift({ id: 'exam_page', slug: 'exam_page', title: 'Exam' });
-          }
-
-          // Sort: exam_page first, then alphabetically
-          pages.sort((a: any, b: any) => {
-            if (a.id === 'exam_page') return -1;
-            if (b.id === 'exam_page') return 1;
-            return a.title.localeCompare(b.title);
-          });
-
-          setAvailablePages(pages);
+          setAvailablePages(processPages(data.pages));
         }
       } else {
         alert('Error deleting page');
