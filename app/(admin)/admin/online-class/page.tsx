@@ -161,7 +161,7 @@ export default function OnlineClassAdmin() {
             id: 'online_class_page',
             pageType: 'online_class_page',
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
@@ -192,7 +192,7 @@ export default function OnlineClassAdmin() {
             id: 'online_class_page',
             pageType: 'online_class_page',
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
@@ -263,7 +263,7 @@ export default function OnlineClassAdmin() {
             id: 'online_class_page',
             pageType: 'online_class_page',
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
@@ -305,7 +305,7 @@ export default function OnlineClassAdmin() {
             slug: extractedSlug,
             pageType: pageId,
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
@@ -338,7 +338,7 @@ export default function OnlineClassAdmin() {
             id: 'online_class_page',
             pageType: 'online_class_page',
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
@@ -373,7 +373,7 @@ export default function OnlineClassAdmin() {
             slug: extractedSlug,
             pageType: pageId,
             meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
+            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
@@ -748,6 +748,26 @@ export default function OnlineClassAdmin() {
                   onChange={(e) => updatePageData('heroSection.btn2', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Default: Pass My Exam"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 1 URL</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn1Url || ''}
+                  onChange={(e) => updatePageData('heroSection.btn1Url', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., /contact-us or https://..."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 2 URL</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn2Url || ''}
+                  onChange={(e) => updatePageData('heroSection.btn2Url', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., /contact-us or https://..."
                 />
               </div>
             </div>

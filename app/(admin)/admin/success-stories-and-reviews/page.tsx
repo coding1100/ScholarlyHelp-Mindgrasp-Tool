@@ -30,7 +30,7 @@ export default function SuccessStoriesAndReviewsAdmin() {
           pageType: 'success-stories-and-reviews',
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
-          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
           featuredStories: { heading: '', stories: [] },
           whyScholalrySlider: { mainHeading: '', description: '' },
           successLookLike: { mainHeading: '', description: '' },
@@ -44,7 +44,7 @@ export default function SuccessStoriesAndReviewsAdmin() {
           pageType: 'success-stories-and-reviews',
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
-          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
+          heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
           featuredStories: { heading: '', stories: [] },
           whyScholalrySlider: { mainHeading: '', description: '' },
           successLookLike: { mainHeading: '', description: '' },
@@ -234,6 +234,26 @@ export default function SuccessStoriesAndReviewsAdmin() {
                   onChange={(e) => updatePageData('heroSection.btn2', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Default: Pass My Exam"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 1 URL</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn1Url || ''}
+                  onChange={(e) => updatePageData('heroSection.btn1Url', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., /contact-us or https://..."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Button 2 URL</label>
+                <input
+                  type="text"
+                  value={pageData.heroSection?.btn2Url || ''}
+                  onChange={(e) => updatePageData('heroSection.btn2Url', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., /contact-us or https://..."
                 />
               </div>
             </div>
