@@ -860,7 +860,7 @@ export default function AssignmentAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('processSection.steps', { stepNumber: (pageData.processSection?.steps?.length || 0) + 1, title: '', description: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Step
               </button>
