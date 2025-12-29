@@ -1257,7 +1257,7 @@ export default function OnlineClassAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('academicPartners.cards', { id: Date.now(), title: '', description: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Card
               </button>
