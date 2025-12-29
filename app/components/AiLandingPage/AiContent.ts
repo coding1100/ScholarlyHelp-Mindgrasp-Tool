@@ -287,7 +287,7 @@ export const AiSummarizerContent = {
     description:
       "Scholarly AI is your all-in-one academic writing assistant designed to simplify and elevate your work. Its powerful AI summarizer and summary generator make it easy to condense lengthy research papers, articles, or essays into clear, concise insights. With Scholarly AI, you can focus more on your analysis while it handles the heavy lifting of summarization—helping you write smarter, faster, and with confidence.",
     buttonText: "Start writing",
-    buttonUrl: "/tools/summarizer-tool",
+    buttonUrl: "/sign-in?returnUrl=/tools/summarizer-tool",
   },
   imgSection: {
     img: AiDashboard,
@@ -427,7 +427,7 @@ export const AiParahrasingContent = {
     description:
       "Struggling to express your ideas clearly? Scholarly AI is your intelligent writing partner. Our advanced AI paraphrasing tool helps you reword academic content effortlessly, enhancing clarity, fluency, and originality while preserving your true meaning.",
     buttonText: "Start writing",
-    buttonUrl: "/tools/paraphraser-tool",
+    buttonUrl: "/sign-in?returnUrl=/tools/paraphraser-tool",
   },
   imgSection: {
     img: AiDashboard,
@@ -573,7 +573,7 @@ export const AiEssayContent = {
     description:
       "Having trouble organizing your thoughts into a clear, structured essay? Scholarly AI is your intelligent writing companion—designed to help you create well-crafted outlines that bring structure, clarity, and focus to your academic work.",
     buttonText: "Start writing",
-    buttonUrl: "/tools/essay-outline-tool",
+    buttonUrl: "/sign-in?returnUrl=/tools/essay-outline-tool",
   },
   imgSection: {
     img: AiDashboard,
@@ -707,7 +707,7 @@ export const AiThesisContent = {
     description:
       "Scholarly Help's Thesis Statement Generator is a sophisticated AI-powered writing assistant designed to help students and researchers craft compelling, focused thesis statements that form the backbone of exceptional academic essays. Whether you're developing an argumentative position, formulating an analytical interpretation, or articulating an expository claim, our intelligent thesis statement maker transforms your ideas into clear, specific, and arguable statements that capture your essay's central argument. By analyzing your topic, essay type, and perspective, our tool generates multiple high-quality thesis options complete with proper scope, logical structure, and academic rigor. Scholarly Help empowers you to articulate your arguments with clarity and confidence—we provide the framework that helps your original thinking shine, never replacing your intellectual contribution with automated content.",
     buttonText: "Make Your Thesis Statement Free",
-    buttonUrl: "/tools/thesis-generator-tool",
+    buttonUrl: "/sign-in?returnUrl=/tools/thesis-generator-tool",
   },
   imgSection: {
     img: AiDashboard,
