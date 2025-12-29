@@ -1,25 +1,22 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import dynamic from "next/dynamic";
+import { Suspense, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
 import SummarizerTool from "@/app/components/AiTools/summarizer-tool";
 import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
-// const ToolsLayout = dynamic(
-//   () => import("@/app/components/ToolLayout/ToolsLayout"),
-//   {
-//     loading: () => <div className="animate-pulse bg-gray-200 h-72" />,
-//   }
-// );
-// const SummarizerTool = dynamic(
-//   () => import("@/app/components/WritelyAi/summarizer-tool"),
-//   {
-//     loading: () => <div className="animate-pulse bg-gray-200 h-72" />,
-//   }
-// );
-export default function ParaphraserPage() {
+export default function SummarizerPage() {
   const [flag, setFlag] = useState<boolean>(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("access_token");
+    if (!isAuthenticated) {
+      router.replace("/sign-in?returnUrl=/tools/summarizer-tool");
+    }
+  }, [router]);
+
   return (
     <Suspense fallback={<div className="animate-pulse bg-gray-200 h-72" />}>
       <ThemeToggle top="top-12" />
