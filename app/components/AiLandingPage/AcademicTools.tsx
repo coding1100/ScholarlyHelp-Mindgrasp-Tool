@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { FC } from "react";
 import RoundCheckIcon from "@/app/assets/Icons/roundCheck.png";
@@ -21,6 +23,20 @@ interface AcademicToolsProps {
 }
 
 const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
+  const getToolUrl = (btnText: string, btnUrl?: string) => {
+    switch (btnText) {
+      case "Generate Your Essay Now":
+        return "/ai-essay-generator";
+      case "Paraphrase Your Text Instantly":
+        return "/ai-paraphraser";
+      case "Summarize Any Text":
+        return "/ai-summarizer";
+      case "Generate Your Thesis Statement":
+        return "/ai-thesis-generator";
+      default:
+        return btnUrl || '';
+    }
+  };
   return (
     <section className="w-full bg-white py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8">
       {/* Header Section */}
@@ -63,13 +79,10 @@ const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
             <div className="px-9 py-5 bg-[#EDEFFE] rounded-[5px] mb-[17px]">
               <p className="text-[15px] text-[#263238]">{tool.text}</p>
             </div>
-            <Link href={
-              tool.btnText === "Generate Your Essay Now" ? "/ai-essay-generator" :
-              tool.btnText === "Paraphrase Your Text Instantly" ? "/ai-paraphraser" :
-              tool.btnText === "Summarize Any Text" ? "/ai-summarizer" :
-              tool.btnText === "Generate Your Thesis Statement" ? "/ai-thesis-generator" :
-              tool.btnUrl || ''
-            } className="bg-[#9F92EC] text-center block !w-full rounded-md px-5 py-3 sm:text-lg text-sm font-medium text-white shadow-sm transition-colors">
+            <Link 
+              href={getToolUrl(tool.btnText, tool.btnUrl)}
+              className="bg-[#9F92EC] text-center block !w-full rounded-md px-5 py-3 sm:text-lg text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#8B7EE8] focus:outline-none focus:ring-2 focus:ring-[#9F92EC] focus:ring-offset-2"
+            >
               {tool.btnText}
             </Link>
           </div>

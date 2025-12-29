@@ -5,8 +5,8 @@ import { FC, FormEvent, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import dynamic from "next/dynamic";
 
-interface LoginProps {}
-const Login: FC<LoginProps> = ({}) => {
+interface LoginProps { }
+const Login: FC<LoginProps> = ({ }) => {
   const { setAuthToken, setIsAuthenticated } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

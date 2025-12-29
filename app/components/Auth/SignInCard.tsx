@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdOutlineEmail } from "react-icons/md";
 import { FiEye, FiEyeOff, FiLock } from "react-icons/fi";
 import { FaArrowRight, FaApple, FaMicrosoft } from "react-icons/fa";
@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import Logo from "@/app/assets/Images/logo.png";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CgRename } from "react-icons/cg";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
@@ -20,10 +20,30 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 const SignInCard = () => {
   const route = useRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get('returnUrl');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Check if user is already authenticated
+  useEffect(() => {
+    console.log('SignInCard - returnUrl:', returnUrl);
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      // Set cookie for middleware if not already set
+      document.cookie = `access_token=${token}; path=/; max-age=86400`;
+      
+      if (returnUrl) {
+        console.log('Redirecting to:', returnUrl);
+        // Small delay to ensure cookie is set before redirect
+        setTimeout(() => {
+          route.replace(returnUrl);
+        }, 100);
+      }
+    }
+  }, [returnUrl, route]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +66,17 @@ const SignInCard = () => {
       localStorage.setItem("user_id", res.data.user.user_id);
       localStorage.setItem("user_name", res.data.user.name);
       localStorage.setItem("package_type", res.data.user.package_type);
-      route.push("/tools/paraphraser-tool/");
+      
+      // Also set token in cookies for middleware
+      document.cookie = `access_token=${res.data.access_token}; path=/; max-age=86400`;
+      
+      // Small delay to ensure cookie is set before redirect
+      setTimeout(() => {
+        // Redirect to returnUrl if provided, otherwise default to paraphraser tool
+        const redirectUrl = returnUrl || "/tools/paraphraser-tool/";
+        console.log('After sign-in, redirecting to:', redirectUrl);
+        route.replace(redirectUrl);
+      }, 100);
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Something went wrong.");
     } finally {
