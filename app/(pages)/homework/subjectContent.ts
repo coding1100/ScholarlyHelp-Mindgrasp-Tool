@@ -231,6 +231,7 @@ export const defaultHomeworkContent: HomeworkContent = {
 export const homeworkSubjects = [
   "accounting",
   "anatomy",
+  "architecture",
   "art",
   "biology",
   "chemistry",
