@@ -29,14 +29,18 @@ const SignInCard = () => {
 
   // Check if user is already authenticated
   useEffect(() => {
+    console.log('SignInCard - returnUrl:', returnUrl);
     const token = localStorage.getItem("access_token");
     if (token) {
       // Set cookie for middleware if not already set
       document.cookie = `access_token=${token}; path=/; max-age=86400`;
       
       if (returnUrl) {
-        // User is already authenticated, redirect to the tool page
-        route.replace(returnUrl);
+        console.log('Redirecting to:', returnUrl);
+        // Small delay to ensure cookie is set before redirect
+        setTimeout(() => {
+          route.replace(returnUrl);
+        }, 100);
       }
     }
   }, [returnUrl, route]);
@@ -66,9 +70,13 @@ const SignInCard = () => {
       // Also set token in cookies for middleware
       document.cookie = `access_token=${res.data.access_token}; path=/; max-age=86400`;
       
-      // Redirect to returnUrl if provided, otherwise default to paraphraser tool
-      const redirectUrl = returnUrl || "/tools/paraphraser-tool/";
-      route.replace(redirectUrl);
+      // Small delay to ensure cookie is set before redirect
+      setTimeout(() => {
+        // Redirect to returnUrl if provided, otherwise default to paraphraser tool
+        const redirectUrl = returnUrl || "/tools/paraphraser-tool/";
+        console.log('After sign-in, redirecting to:', redirectUrl);
+        route.replace(redirectUrl);
+      }, 100);
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Something went wrong.");
     } finally {
