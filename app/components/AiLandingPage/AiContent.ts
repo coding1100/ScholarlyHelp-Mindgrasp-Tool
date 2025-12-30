@@ -595,7 +595,7 @@ export const AiEssayContent = {
         description:
           "Turn your essay topic into a structured outline within seconds. Scholarly AI analyzes your subject and generates a detailed roadmap to guide your writing journey.",
         linkText: "Get Started",
-        url: "/tools/essay-outline-generator",
+        url: "/sign-in?returnUrl=/tools/essay-outline-tool",
         img: effortless,
       },
       {
@@ -603,7 +603,7 @@ export const AiEssayContent = {
         description:
           "Let Scholarly AI handle the structure while you concentrate on expressing your ideas and building compelling arguments that stand out.",
         linkText: "Get Started",
-        url: "/tools/essay-outline-generator",
+        url: "/sign-in?returnUrl=/tools/essay-outline-tool",
         img: interactive,
       },
       {
@@ -611,7 +611,7 @@ export const AiEssayContent = {
         description:
           "Say goodbye to writer’s block. Scholarly AI provides an intuitive outline that helps you stay organized and makes the writing process smoother from start to finish.",
         linkText: "Get Started",
-        url: "/tools/essay-outline-generator",
+        url: "/sign-in?returnUrl=/tools/essay-outline-tool",
         img: learning,
       },
     ],
@@ -622,7 +622,7 @@ export const AiEssayContent = {
     description:
       "At Scholarly AI, we believe great writing starts with great structure. Our mission is to support your learning and creativity—not replace it. The essay outline generator helps you plan with clarity, ensuring your writing reflects both originality and academic honesty.",
     buttonText: "Get Started",
-    buttonUrl: "/tools/essay-outline-tool",
+    buttonUrl: "/sign-in?returnUrl=/tools/essay-outline-tool",
   },
   guideSection: {
     subTitle: "GUIDE",
@@ -697,7 +697,7 @@ export const AiEssayContent = {
     description:
       "Experience how Scholarly AI simplifies academic writing. Sign up for a free account today and see how our AI-powered outline generator helps you plan, structure, and write smarter.",
     buttonText: "Start writing",
-    buttonUrl: "/sign-up",
+    buttonUrl: "/sign-in?returnUrl=/tools/essay-outline-tool",
   },
 };
 
