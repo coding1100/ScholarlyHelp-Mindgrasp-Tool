@@ -21,55 +21,59 @@ export default function Header() {
           links: [
             {
               name: "Take My Chemistry Class",
-              href: "/online-class/chemistry",
+              href: "/online-class/chemistry/",
             },
-            { name: "Take My Biology Class", href: "/online-class/biology/" },
-            { name: "Take My Math Class", href: "/online-class/math" },
+            { name: "Take My Biology Class", 
+              href: "/online-class/biology/" },
             {
-              name: "Take My Accounting Class",
-              href: "/online-class/accounting",
+              name: "Take My Economics Class",
+              href: "/online-class/economics/",
             },
+            { name: "Take My Math Class", 
+              href: "/online-class/math" },
             {
-              name: "Take My Statistics Class",
-              href: "/online-class/statistics",
+              name: "Take My Law Class",
+              href: "/online-class/law/",
             },
-            {
-              name: "Take My Psychology Class",
-              href: "/online-class/psychology",
-            },
+            
           ],
-          button: [{ name: "See All Subjects", href: "/online-class" }],
-        },
-        {
-          title: "The Stress We Solve",
-          links: [
-            { name: "Struggling to manage online classes?", href: "" },
-            { name: "No time for discussions or quizzes?", href: "" },
-            { name: "Need guaranteed grades for your class?", href: "" },
-            { name: "Balancing work, study, and life?", href: "" },
-            { name: "Computer Science & IT", href: "" },
-            { name: "This Prerequisite is Tanking My GPA", href: "" },
-          ],
-          button: [{ name: "Find Your Solution", href: "" }],
+          button: [{ name: "See All Subjects", href: "/online-class/" }],
         },
         {
           title: "How It Works & Proof",
           links: [
-            {
-              name: "How We Guarantee 100% Anonymity",
-              href: "/guarantee-anonymity",
-            },
-            {
-              name: "Our Plagiarism-Free Process",
-              href: "/plagiarism-free-process",
-            },
-            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts" },
-            {
-              name: "Success Stories & Reviews",
-              href: "/success-stories-and-reviews",
-            },
+            { name: "100% Confidentiality Pact", href: "/guarantee-anonymity/" },
+            { name: "0% Plagiarism Guarantee", href: "/plagiarism-free-process/" },
+            { name: "A or B Grade Guarantee", href: "/a-or-b-grade-guarantee/" },
+            { name: "On-Time Delivery Guarantee", href: "/on-time-delivery-guarantee/" },
+            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts/" },
           ],
-          button: [{ name: "See Success Stories", href: "#" }],
+          button: [{ name: "Success Stories & Reviews", href: "/success-stories-and-reviews/" }],
+        },
+        {
+          title: "Online Class Support",
+          links: [
+            {
+              name: "Improve Your Grades",
+              href: "https://scholarlyhelp.com/blog/how-to-get-better-grades/",
+            },
+            {
+              name: "Time Management Help",
+              href: "https://scholarlyhelp.com/blog/time-management-for-students/",
+            },
+            { name: "Work–Study Balance", 
+              href: "https://scholarlyhelp.com/blog/how-to-balance-work-and-study/" },
+            {
+              name: "Study Tips & Productivity",
+              href: "https://scholarlyhelp.com/blog/15-study-tips-for-students/",
+            },
+            {
+              name: "Tough Math & Study Help",
+              href: "https://scholarlyhelp.com/blog/hardest-math-class-in-high-school/",
+            },
+            
+          ],
+          button: [{ name: "Ask for Class Help", href: "/online-class/" }],
         },
       ],
     },
@@ -79,47 +83,47 @@ export default function Header() {
         {
           title: "Subjects",
           links: [
-            { name: "Take My Nursing Exam", href: "/exams/nursing" },
-            { name: "Take My Statistics Exam", href: "/exams/statistics" },
-            { name: "Take My Economics Exam", href: "/exams/economics" },
-            { name: "Take My Accounting  Exam", href: "/exams/accounting" },
-            { name: "Take My English Exam", href: "/exams/english" },
-            { name: "Take My Psychology Exam", href: "/exams/psychology" },
+            { name: "Take My History Exam", href: "/exams/history/" },
+            { name: "Take My Philosophy Exam", href: "/exams/philosophy/" },
+            { name: "Take My Finance Exam", href: "/exams/finance/" },
+            { name: "Take My Nursing Exam", href: "/exams/nursing/" },
+            { name: "Take My Math Exam", href: "/exams/math/" },
           ],
-          button: [{ name: "See All Subjects", href: "/exams" }],
-        },
-        {
-          title: "Our Guarantees",
-          links: [
-            { name: "Our Promise (Risk-Free)", href: "" },
-            { name: "A or B Grade Guarantee", href: "/a-or-b-grade-guarantee" },
-            { name: "100% Confidentiality Pact", href: "" },
-            { name: "0% Plagiarism Guarantee", href: "" },
-            {
-              name: "On-Time Delivery Guarantee",
-              href: "/on-time-delivery-guarantee",
-            },
-          ],
-          button: [{ name: "Find Your Solution", href: "" }],
+          button: [{ name: "See All Subjects", href: "/exams/" }],
         },
         {
           title: "How It Works & Proof",
           links: [
+            { name: "100% Confidentiality Pact", href: "/guarantee-anonymity/" },
+            { name: "0% Plagiarism Guarantee", href: "/plagiarism-free-process/" },
+            { name: "A or B Grade Guarantee", href: "/a-or-b-grade-guarantee/" },
+            { name: "On-Time Delivery Guarantee", href: "/on-time-delivery-guarantee/" },
+            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts/" },
+          ],
+          button: [{ name: "Success Stories & Reviews", href: "/success-stories-and-reviews/" }],
+        },
+        {
+          title: "Exam Help Center",
+          links: [
             {
-              name: "How We Guarantee 100% Anonymity",
-              href: "/guarantee-anonymity",
+              name: "Math Exam Preparation",
+              href: "https://scholarlyhelp.com/blog/how-to-prepare-for-maths-exam/",
             },
             {
-              name: "Our Plagiarism-Free Process",
-              href: "/plagiarism-free-process",
+              name: "Exam Passing Tips",
+              href: "https://scholarlyhelp.com/blog/how-to-prepare-for-maths-exam/",
             },
-            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts" },
+            { name: "Bonus Questions Strategy", href: "https://scholarlyhelp.com/blog/bonus-questions-in-exam/" },
             {
-              name: "Success Stories & Reviews",
-              href: "/success-stories-and-reviews",
+              name: "Edgenuity Cumulative Exam Help",
+              href: "https://scholarlyhelp.com/blog/edgenuity-cumulative-exam/",
+            },
+            {
+              name: "ATI Nutrition Proctored Exam",
+              href: "https://scholarlyhelp.com/blog/ati-nutrition-proctored-exam/",
             },
           ],
-          button: [{ name: "See Success Stories", href: "" }],
+          button: [{ name: "Get Expert Exam Help", href: "/exams/" }],
         },
       ],
     },
@@ -131,43 +135,33 @@ export default function Header() {
           links: [
             {
               name: "Statistics Assignment Help",
-              href: "/assignment/statistics",
+              href: "/assignment/statistics/",
             },
-            { name: "Finance Assignment Help", href: "/assignment/finance" },
+            { name: "Finance Assignment Help", 
+              href: "/assignment/finance/" },
             {
               name: "Marketing Assignment Help",
-              href: "/assignment/marketing",
+              href: "/assignment/marketing/",
             },
-            { name: "Math Assignment Help", href: "/assignment/math" },
+            { name: "Math Assignment Help", 
+              href: "/assignment/math/" },
             {
               name: "Accounting Assignment Help",
-              href: "/assignment/accounting",
-            },
-            {
-              name: "Psychology Assignment Help",
-              href: "/assignment/psychology",
+              href: "/assignment/accounting/",
             },
           ],
-          button: [{ name: "See All Subjects", href: "/assignment" }],
+          button: [{ name: "See All Subjects", href: "/assignment/" }],
         },
         {
           title: "How It Works & Proof",
           links: [
-            {
-              name: "How We Guarantee 100% Anonymity",
-              href: "/guarantee-anonymity",
-            },
-            {
-              name: "Our Plagiarism-Free Process",
-              href: "/plagiarism-free-process",
-            },
-            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts" },
-            {
-              name: "Success Stories & Reviews",
-              href: "/success-stories-and-reviews",
-            },
+            { name: "100% Confidentiality Pact", href: "/guarantee-anonymity/" },
+            { name: "0% Plagiarism Guarantee", href: "/plagiarism-free-process/" },
+            { name: "A or B Grade Guarantee", href: "/a-or-b-grade-guarantee/" },
+            { name: "On-Time Delivery Guarantee", href: "/on-time-delivery-guarantee/" },
+            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts/" },
           ],
-          button: [{ name: "Find Your Solution", href: "" }],
+          button: [{ name: "Success Stories & Reviews", href: "/success-stories-and-reviews/" }],
         },
       ],
     },
@@ -177,20 +171,16 @@ export default function Header() {
         {
           title: "Subjects",
           links: [
-            { name: "Math Homework Help", href: "/homework/math" },
-            { name: "Statistics Homework Help", href: "/homework/statistics" },
-            { name: "Chemistry Homework Help", href: "/homework/chemistry" },
-            { name: "Accounting Homework Help", href: "/homework/accounting" },
+            { name: "Math Homework Help", href: "/homework/math/" },
+            { name: "Statistics Homework Help", href: "/homework/statistics/" },
+            { name: "Chemistry Homework Help", href: "/homework/chemistry/" },
+            { name: "Accounting Homework Help", href: "/homework/accounting/" },
             {
               name: "Computer science Homework Help",
-              href: "/homework/computer-science",
-            },
-            {
-              name: "Psychology Homework Help",
-              href: "/homework/psychology",
-            },
+              href: "/homework/computer-science/",
+            }
           ],
-          button: [{ name: "See All Subjects", href: "/homework" }],
+          button: [{ name: "See All Subjects", href: "/homework/" }],
         },
       ],
     },
@@ -200,19 +190,19 @@ export default function Header() {
         {
           title: "Subjects",
           links: [
-            { name: "Law essay writing service", href: "/essay-writing/law" },
-            { name: "History essay writing service", href: "/essay-writing/history" },
-            { name: "Nursing essay writing service", href: "/essay-writing/nursing" },
-            { name: "Psychology essay writing service", href: "/essay-writing/psychology" },
-            { name: "Economics essay writing service", href: "/essay-writing/economics" },
+            { name: "Law essay writing", href: "/essay-writing/law/" },
+            { name: "History essay writing", href: "/essay-writing/history/" },
+            { name: "Nursing essay writing", href: "/essay-writing/nursing/" },
+            { name: "Psychology essay writing", href: "/essay-writing/psychology/" },
+            { name: "Economics essay writing", href: "/essay-writing/economics/" },
           ],
-          button: [{ name: "See All Subjects", href: "/essay-writing" }],
+          button: [{ name: "See All Subjects", href: "/essay-writing/" }],
         },
       ],
     },
     {
       title: "Tools",
-      href: "/academic-tools"
+      href: "/academic-tools/"
     },
   ];
 
@@ -276,9 +266,9 @@ export default function Header() {
                       {item.submenu.map((sub, idx) => (
                         <div
                           key={idx}
-                          className="flex flex-col justify-between shadow-[0px_0px_31.8px_0px_#00000012] p-[30px] rounded-[5px] w-[350px]"
+                          className="flex flex-col justify-between shadow-[0px_0px_31.8px_0px_#00000012] p-[25px] rounded-[5px] w-[350px]"
                         >
-                          {/* <h3 className="text-gray-900 mb-2 font-semibold">{sub.title}</h3> */}
+                          <h3 className="text-gray-900 mb-2 font-semibold">{sub.title}</h3>
                           {sub.links.map((link, linkIdx) => (
                             <Link
                               key={linkIdx}
