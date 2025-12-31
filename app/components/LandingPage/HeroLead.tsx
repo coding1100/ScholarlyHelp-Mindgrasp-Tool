@@ -53,9 +53,23 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
     '/guarantee-anonymity',
     '/plagiarism-free-process',
     '/us-based-phd-experts',
+    '/take-my-class',
+    '/take-my-class/',
+    '/take-my-exam',
+    '/take-my-exam/',
   ];
 
   const shouldHideBadges = hiddenRoutes.includes(pathname || '');
+
+  // Routes where buttons should be hidden
+  const buttonHiddenRoutes = [
+    '/take-my-class',
+    '/take-my-class/',
+    '/take-my-exam',
+    '/take-my-exam/',
+  ];
+
+  const shouldHideButtons = buttonHiddenRoutes.includes(pathname || '');
 
   return (
     <div className="max-w-2xl">
@@ -121,43 +135,45 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
         />
       )}
 
-      <div className="mt-6 flex gap-4">
-        {heroContent?.btn1Url ? (
-          <Link
-            href={heroContent.btn1Url}
-            className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
-            style={{ backgroundColor: PRIMARY_BG }}
-          >
-            {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
-          </Link>
-        ) : (
-          <button
-            type="button"
-            className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
-            style={{ backgroundColor: PRIMARY_BG }}
-          >
-            {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
-          </button>
-        )}
+      {!shouldHideButtons && (
+        <div className="mt-6 flex gap-4">
+          {heroContent?.btn1Url ? (
+            <Link
+              href={heroContent.btn1Url}
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
+              style={{ backgroundColor: PRIMARY_BG }}
+            >
+              {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
+              style={{ backgroundColor: PRIMARY_BG }}
+            >
+              {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
+            </button>
+          )}
 
-        {heroContent?.btn2Url ? (
-          <Link
-            href={heroContent.btn2Url}
-            className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
-            style={{ backgroundColor: SECONDARY_BG }}
-          >
-            {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-          </Link>
-        ) : (
-          <button
-            type="button"
-            className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
-            style={{ backgroundColor: SECONDARY_BG }}
-          >
-            {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-          </button>
-        )}
-      </div>
+          {heroContent?.btn2Url ? (
+            <Link
+              href={heroContent.btn2Url}
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
+              style={{ backgroundColor: SECONDARY_BG }}
+            >
+              {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
+              style={{ backgroundColor: SECONDARY_BG }}
+            >
+              {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
