@@ -31,29 +31,29 @@ async function fetchPageData() {
     await client.connect();
     const db = client.db('scholarly_help');
     
-    // Query for tools page by id
+    // Query for academic-tools page by id (using existing MongoDB data)
     // Try exact match first
-    let content = await db.collection('pages').findOne({ id: "tools" });
+    let content = await db.collection('pages').findOne({ id: "academic-tools" });
     
     // If not found, try with regex to handle potential whitespace or trailing characters
     if (!content) {
       content = await db.collection('pages').findOne({ 
-        id: { $regex: /^tools/i } 
+        id: { $regex: /^academic-tools/i } 
       });
     }
     
     // If still not found, try pageType
     if (!content) {
-      content = await db.collection('pages').findOne({ pageType: "tools" });
+      content = await db.collection('pages').findOne({ pageType: "academic-tools" });
     }
     
     if (!content) {
-      console.log('No content found for tools in pages collection');
+      console.log('No content found for academic-tools in pages collection');
       // Debug: Check what documents exist in pages collection
       const allPages = await db.collection('pages').find({}).limit(10).toArray();
       console.log('Available page IDs in pages collection:', allPages.map(p => ({ id: p.id, pageType: p.pageType })));
     } else {
-      console.log('Successfully fetched tools data from MongoDB');
+      console.log('Successfully fetched academic-tools data from MongoDB');
       console.log('Content keys:', Object.keys(content));
       console.log('Content id:', content.id);
       console.log('Content pageType:', content.pageType);
@@ -63,7 +63,7 @@ async function fetchPageData() {
 
     return content as any;
   } catch (error) {
-    console.error('Error fetching tools data:', error);
+    console.error('Error fetching academic-tools data:', error);
     return null;
   }
 }

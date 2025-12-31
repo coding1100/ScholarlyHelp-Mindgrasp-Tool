@@ -17,10 +17,10 @@ export default function ToolsAdmin() {
 
         setPageData(data && Object.keys(data).length > 0 ? {
           ...data,
-          pageType: data.id || data.pageType || 'tools'
+          pageType: data.id || data.pageType || 'academic-tools'
         } : {
-          id: 'tools',
-          pageType: 'tools',
+          id: 'academic-tools',
+          pageType: 'academic-tools',
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
           heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
@@ -33,8 +33,8 @@ export default function ToolsAdmin() {
       } catch (error) {
         console.error('Error fetching page:', error);
         setPageData({
-          id: 'tools',
-          pageType: 'tools',
+          id: 'academic-tools',
+          pageType: 'academic-tools',
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
           heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },

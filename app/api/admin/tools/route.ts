@@ -31,9 +31,9 @@ export async function GET(request: NextRequest) {
     await client.connect();
     const db = client.db('scholarly_help');
     
-    // Query for tools page by id
+    // Query for academic-tools page by id (using existing MongoDB data)
     const query = { 
-      id: "tools"
+      id: "academic-tools"
     };
     
     console.log('Querying pages collection, query:', JSON.stringify(query));
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('POST /api/admin/tools - Starting save operation');
+    console.log('POST /api/admin/tools - Starting save operation (using academic-tools data)');
 
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
@@ -105,15 +105,15 @@ export async function POST(request: NextRequest) {
     const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
-    // For tools page, always use tools as id
+    // For tools page, use academic-tools as id to use existing MongoDB data
     const query = { 
-      id: "tools"
+      id: "academic-tools"
     };
     
     const dataToSave = { 
       ...cleanedData, 
-      id: "tools", 
-      pageType: "tools" 
+      id: "academic-tools", 
+      pageType: "academic-tools" 
     };
     
     const result = await db.collection('pages').replaceOne(query, dataToSave, { upsert: true });
