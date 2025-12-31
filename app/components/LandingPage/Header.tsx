@@ -274,7 +274,7 @@ export default function Header() {
                           key={idx}
                           className="flex flex-col justify-between shadow-[0px_0px_31.8px_0px_#00000012] p-[25px] rounded-[5px] w-[350px]"
                         >
-                          <h3 className="text-gray-900 mb-2 font-semibold">{sub.title}</h3>
+                          <div className="text-gray-900 mb-2 font-semibold">{sub.title}</div>
                           {sub.links.map((link, linkIdx) => (
                             <Link
                               key={linkIdx}
