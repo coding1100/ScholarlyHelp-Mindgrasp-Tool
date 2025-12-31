@@ -4,6 +4,7 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import { Poppins } from "next/font/google";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
+import { useEffect } from "react";
 import { hideTalktoModule } from "./components/HideLinks/HideLinks";
 import Schemas from "./faqSchemaContent.json";
 import "./globals.css";
@@ -15,6 +16,19 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
+declare global {
+  interface Window {
+    LiveChatWidget?: {
+      call: (method: string, ...args: any[]) => void;
+    };
+    __lc?: {
+      license: number;
+      integration_name: string;
+      product_name: string;
+    };
+  }
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,6 +36,97 @@ export default function RootLayout({
 }>) {
   const currentPage = usePathname();
   const hideTalkTo = hideTalktoModule.includes(currentPage);
+  const isThankYouPage = currentPage === "/thank-you" || currentPage === "/thank-you/";
+
+  // Hide/show LiveChat widget based on current page
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const hideLiveChatWidget = () => {
+      // Hide using API if available
+      if (window.LiveChatWidget) {
+        try {
+          window.LiveChatWidget.call("hide");
+        } catch (error) {
+          // Silently fail if widget not ready
+        }
+      }
+      
+      // Hide all LiveChat DOM elements
+      const selectors = [
+        '#livechat-container',
+        '[id*="livechat"]',
+        '[class*="livechat"]',
+        '[id*="LiveChat"]',
+        '[class*="LiveChat"]',
+        'iframe[src*="livechatinc.com"]',
+        'iframe[src*="livechat"]'
+      ];
+      
+      selectors.forEach(selector => {
+        try {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach((el) => {
+            if (el instanceof HTMLElement) {
+              el.style.display = "none";
+              el.style.visibility = "hidden";
+            }
+          });
+        } catch (e) {
+          // Ignore selector errors
+        }
+      });
+    };
+
+    const showLiveChatWidget = () => {
+      // Show using API if available
+      if (window.LiveChatWidget) {
+        try {
+          // Widget will show automatically when on thank-you page
+          // We don't need to explicitly show it unless user clicks
+        } catch (error) {
+          // Silently fail if widget not ready
+        }
+      }
+      
+      // Show LiveChat DOM elements
+      const selectors = [
+        '#livechat-container',
+        '[id*="livechat"]',
+        '[class*="livechat"]',
+        '[id*="LiveChat"]',
+        '[class*="LiveChat"]'
+      ];
+      
+      selectors.forEach(selector => {
+        try {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach((el) => {
+            if (el instanceof HTMLElement) {
+              el.style.display = "";
+              el.style.visibility = "";
+            }
+          });
+        } catch (e) {
+          // Ignore selector errors
+        }
+      });
+    };
+
+    if (!isThankYouPage) {
+      // Hide widget when not on thank-you page
+      hideLiveChatWidget();
+      // Also set up an interval to catch any late-loading elements
+      const interval = setInterval(() => {
+        hideLiveChatWidget();
+      }, 500);
+      
+      return () => clearInterval(interval);
+    } else {
+      // Show widget when on thank-you page
+      showLiveChatWidget();
+    }
+  }, [currentPage, isThankYouPage]);
 
   function faqSchemaJsonLd(url: string) {
     const schema = Schemas[url as keyof typeof Schemas] || {};
@@ -63,9 +168,12 @@ export default function RootLayout({
         />
 
         {/* Start of LiveChat (www.livechat.com) code - only on /thank-you/ route */}
-        {(currentPage === "/thank-you" || currentPage === "/thank-you/") && (
+        {isThankYouPage && (
           <>
-            <Script id="livechat-script" strategy="afterInteractive">
+            <Script
+              id="livechat-script"
+              strategy="afterInteractive"
+            >
               {`
             window.__lc = window.__lc || {};
             window.__lc.license = 19303287;
