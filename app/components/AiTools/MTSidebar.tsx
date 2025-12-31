@@ -30,6 +30,8 @@ const MTSidebar = ({
 }: SidebarProps) => {
   const currentRoute = usePathname();
   const router = useRouter();
+  // Normalize route by removing trailing slash for consistent comparison
+  const normalizedRoute = currentRoute?.endsWith('/') ? currentRoute.slice(0, -1) : currentRoute;
   const tools = [
     { name: "Paraphraser Tool", href: "/tools/paraphraser-tool" },
     { name: "Summarizer Tool", href: "/tools/summarizer-tool" },
@@ -232,7 +234,7 @@ const MTSidebar = ({
               key={index}
               href={tool.href}
               className={` py-1 px-2 text-sm rounded-md transition-colors ${
-                currentRoute === tool.href
+                normalizedRoute === tool.href
                   ? "font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
                   : " hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
               }`}
