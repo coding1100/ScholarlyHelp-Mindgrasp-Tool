@@ -18,6 +18,14 @@ import axios from "axios";
 import BgThankYou from "@/app/assets/Images/thankYouBg.png";
 import CustomerReviews from "../CustomerReviews/CustomerReviews";
 
+declare global {
+  interface Window {
+    LiveChatWidget?: {
+      call: (method: string, ...args: any[]) => void;
+    };
+  }
+}
+
 type ThankYouProps = {};
 
 const ThankYou: FC<ThankYouProps> = ({}) => {
@@ -188,7 +196,15 @@ const ThankYou: FC<ThankYouProps> = ({}) => {
               Need Urgent Help?
             </p>
             <div className="flex flex-col gap-6 mb-8">
-              <a href="javascript:void(Tawk_API.toggle())">
+              <a
+                href=""
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (typeof window !== "undefined" && window.LiveChatWidget) {
+                    window.LiveChatWidget.call("maximize");
+                  }
+                }}
+              >
                 <Button className="bg-primary-500 w-full text-xl">
                   Live Chat Now
                 </Button>
