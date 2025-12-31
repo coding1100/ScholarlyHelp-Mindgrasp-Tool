@@ -88,7 +88,7 @@ const Page: NextPage = async () => {
           icon: MainAiLanding.whyScholalrySlider.sliderItems[index]?.icon || item.icon // Use static icon if available
         }))
       }
-    : MainAiLanding.whyScholarlySlider;
+    : MainAiLanding.whyScholalrySlider;
   
   const academicPartners = pageData?.academicPartners || MainAiLanding.academicPartners;
   const faq = pageData?.faq || MainAiLanding.faq;
