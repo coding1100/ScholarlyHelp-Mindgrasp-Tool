@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     await client.connect();
     const db = client.db('scholarly_help');
     
-    // Query for academic-tools page by id
+    // Query for academic-tools page by id (using existing MongoDB data)
     const query = { 
       id: "academic-tools"
     };
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('POST /api/admin/academic-tools - Starting save operation');
+    console.log('POST /api/admin/tools - Starting save operation (using academic-tools data)');
 
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
     const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
-    // For academic-tools page, always use academic-tools as id
+    // For tools page, use academic-tools as id to use existing MongoDB data
     const query = { 
       id: "academic-tools"
     };
@@ -136,4 +136,3 @@ export async function POST(request: NextRequest) {
     }, { status: 500, headers: corsHeaders });
   }
 }
-

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-export default function AcademicToolsAdmin() {
+export default function ToolsAdmin() {
   const [pageData, setPageData] = useState<any>(null);
   const [pageLoading, setPageLoading] = useState(false);
 
@@ -10,7 +10,7 @@ export default function AcademicToolsAdmin() {
     const loadPage = async () => {
       setPageLoading(true);
       try {
-        const res = await fetch(`/api/admin/academic-tools`);
+        const res = await fetch(`/api/admin/tools`);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
@@ -114,7 +114,7 @@ export default function AcademicToolsAdmin() {
     if (!pageData) return;
     setPageLoading(true);
     try {
-      const response = await fetch('/api/admin/academic-tools', {
+      const response = await fetch('/api/admin/tools', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(pageData),
@@ -610,11 +610,10 @@ export default function AcademicToolsAdmin() {
   return (
     <div className="p-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Edit Academic Tools Page</h1>
-        <p className="mt-2 text-sm text-gray-600">Update the content for the Academic Tools page</p>
+        <h1 className="text-3xl font-bold text-gray-900">Edit Tools Page</h1>
+        <p className="mt-2 text-sm text-gray-600">Update the content for the Tools page</p>
       </div>
       {renderPageForm()}
     </div>
   );
 }
-

@@ -1,52 +1,126 @@
 import MainLayout from "@/app/MainLayout";
-import Hero from "@/app/components/Hero/Hero";
-import ToolsGrid from "@/app/components/ToolsGrid/ToolsGrid";
-import { FC } from "react";
-import { content } from "./content";
-import { MetaData } from "@/app/metadata/metadata";
+import type { NextPage } from "next";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
-import Ratings from "@/app/components/LandingPage/Ratings";
+import WhySlider from "@/app/components/LandingPage/WhySlider";
+import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
+import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
+import Faq from "@/app/components/LandingPage/Faq";
+import AcademicTools from "@/app/components/AiLandingPage/AcademicTools";
+import WhyTools from "@/app/components/AiLandingPage/WhyTools";
+import { MainAiLanding } from "@/app/components/AiLandingPage/AiContent";
 
-interface PageProps {}
-const Page: FC<PageProps> = ({}) => {
+// Force dynamic rendering to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+async function fetchPageData() {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      console.error('Database URL not configured');
+      return null;
+    }
+
+    const { MongoClient } = await import('mongodb');
+    const client = new MongoClient(databaseUrl, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+      maxPoolSize: 1,
+      readPreference: 'primary',
+    });
+    await client.connect();
+    const db = client.db('scholarly_help');
+    
+    // Query for academic-tools page by id (using existing MongoDB data)
+    // Try exact match first
+    let content = await db.collection('pages').findOne({ id: "academic-tools" });
+    
+    // If not found, try with regex to handle potential whitespace or trailing characters
+    if (!content) {
+      content = await db.collection('pages').findOne({ 
+        id: { $regex: /^academic-tools/i } 
+      });
+    }
+    
+    // If still not found, try pageType
+    if (!content) {
+      content = await db.collection('pages').findOne({ pageType: "academic-tools" });
+    }
+    
+    if (!content) {
+      console.log('No content found for academic-tools in pages collection');
+      // Debug: Check what documents exist in pages collection
+      const allPages = await db.collection('pages').find({}).limit(10).toArray();
+      console.log('Available page IDs in pages collection:', allPages.map(p => ({ id: p.id, pageType: p.pageType })));
+    } else {
+      console.log('Successfully fetched academic-tools data from MongoDB');
+      console.log('Content keys:', Object.keys(content));
+      console.log('Content id:', content.id);
+      console.log('Content pageType:', content.pageType);
+    }
+    
+    await client.close();
+
+    return content as any;
+  } catch (error) {
+    console.error('Error fetching academic-tools data:', error);
+    return null;
+  }
+}
+
+const Page: NextPage = async () => {
+  const pageData = await fetchPageData();
+
+  // Use MongoDB data if available, otherwise fallback to static content
+  const heroContent = pageData?.heroSection 
+    ? { ...pageData.heroSection, formBackImg2: MainAiLanding.heroContent.formBackImg2 }
+    : MainAiLanding.heroContent;
+  const academicTools = pageData?.academicTools || MainAiLanding.academicTools;
+  const whyTools = pageData?.whyTools || MainAiLanding.whyTools;
+  
+  // Merge whyScholarlySlider - keep static icons from MainAiLanding
+  // Note: JSON uses whyScholalrySlider (with typo) to match static content
+  const whyScholarlySlider = pageData?.whyScholalrySlider || pageData?.whyScholarlySlider
+    ? {
+        ...(pageData?.whyScholalrySlider || pageData?.whyScholarlySlider),
+        sliderItems: (pageData?.whyScholalrySlider?.sliderItems || pageData?.whyScholarlySlider?.sliderItems || []).map((item: any, index: number) => ({
+          ...item,
+          icon: MainAiLanding.whyScholalrySlider.sliderItems[index]?.icon || item.icon // Use static icon if available
+        }))
+      }
+    : MainAiLanding.whyScholarlySlider;
+  
+  const academicPartners = pageData?.academicPartners || MainAiLanding.academicPartners;
+  const faq = pageData?.faq || MainAiLanding.faq;
+
   return (
-    <MainLayout>
-      <HeroSection />
-      <Ratings />
-      <ToolsGrid
-        mainHeading={content.conversionTools.mainheading}
-        content={content.conversionTools.toolsContent}
-      />
-      <ToolsGrid
-        mainHeading={content.algebraTools.mainheading}
-        content={content.algebraTools.toolsContent}
-      />
-      <ToolsGrid
-        mainHeading={content.physicsTools.mainheading}
-        content={content.physicsTools.toolsContent}
-      />
-      <ToolsGrid
-        mainHeading={content.chemistryTools.mainheading}
-        content={content.chemistryTools.toolsContent}
-      />
-      <ToolsGrid
-        mainHeading={content.writingTools.mainheading}
-        content={content.writingTools.toolsContent}
-      />
-    </MainLayout>
+    <div>
+      <MainLayout>
+        <HeroSection heroContent={heroContent} />
+        <AcademicTools content={academicTools} />
+        <WhyTools whyToolsContent={whyTools} />
+        <WhySlider whyData={whyScholarlySlider} />
+        <CustomerReviews />
+        <AcademicPartners content={academicPartners} />
+        <Faq content={faq} />
+      </MainLayout>
+    </div>
   );
 };
+
 export default Page;
 
-export function generateMetadata({}) {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}${MetaData.tools.url}`;
+export async function generateMetadata() {
+  const pageData = await fetchPageData();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
+  const canonicalUrl = `${baseUrl}tools`;
+  
   return {
-    title: `${MetaData.tools.title}`,
-    description: `${MetaData.tools.description}`,
+    title: pageData?.meta?.title || "Free Academic Tools | Essay, Paraphraser, Summary & Thesis",
+    description: pageData?.meta?.description || "Use our free AI academic tools to write essays, paraphrase content, summarize text, and create thesis statements. Fast, accurate, student-friendly support.",
     alternates: {
-      canonical: canonicalUrl,
+      canonical: pageData?.meta?.canonicalUrl || canonicalUrl,
     },
   };
 }
+

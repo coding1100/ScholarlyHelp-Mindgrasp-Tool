@@ -49,7 +49,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
     '/a-or-b-grade-guarantee',
     '/on-time-delivery-guarantee',
     '/success-stories-and-reviews',
-    '/academic-tools',
+    '/tools',
     '/guarantee-anonymity',
     '/plagiarism-free-process',
     '/us-based-phd-experts',

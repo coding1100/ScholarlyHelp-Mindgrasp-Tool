@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     await client.connect();
     const db = client.db('scholarly_help');
     
-    // Query for academic-tools page by id
+    // Query for academic-tools page by id (using existing MongoDB data)
     // Try exact match first
     let content = await db.collection('pages').findOne({ id: "academic-tools" });
     
@@ -72,4 +72,3 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500, headers: corsHeaders });
   }
 }
-
