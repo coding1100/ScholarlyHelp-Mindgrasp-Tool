@@ -7,6 +7,9 @@ import { usePathname } from "next/navigation";
 const ToolHeader: React.FC = () => {
   const [showPricing, setShowPricing] = useState(false);
   const currentPath = usePathname();
+  
+  // Normalize path by removing trailing slash for consistent comparison
+  const normalizedPath = currentPath?.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
 
   return (
     <header className="relative flex h-[8vh] items-center justify-between px-4 bg-white dark:bg-gray-900 border-b dark:border-gray-700 transition-colors duration-300">
@@ -14,13 +17,13 @@ const ToolHeader: React.FC = () => {
       {/* Centered Title */}
 
       <h1 className="md:text-xl font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300">
-        {currentPath === "/tools/paraphraser-tool/"
+        {normalizedPath === "/tools/paraphraser-tool"
           ? "AI Paraphraser Tool"
-          : currentPath === "/tools/summarizer-tool/"
+          : normalizedPath === "/tools/summarizer-tool"
           ? "AI summarizer Tool"
-          : currentPath === "/tools/thesis-generator-tool/"
+          : normalizedPath === "/tools/thesis-generator-tool"
           ? "AI Thesis Generator Tool"
-          : currentPath === "/tools/essay-outline-tool/"
+          : normalizedPath === "/tools/essay-outline-tool"
           ? "AI Essay Outline Tool"
           : ""}
       </h1>
