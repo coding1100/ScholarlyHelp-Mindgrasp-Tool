@@ -55,7 +55,7 @@ const navigation = [
   { name: 'Edit Online Class', href: '/admin/online-class', icon: AcademicIcon },
   { name: 'Edit Essay Writing', href: '/admin/essay-writing', icon: EssayWritingIcon },
   { name: 'Edit A/B Grade Guarantee', href: '/admin/a-or-b-grade-guarantee', icon: GradeGuaranteeIcon },
-  { name: 'Edit Academic Tools', href: '/admin/academic-tools', icon: ToolsIcon },
+  { name: 'Edit Academic Tools', href: '/admin/tools', icon: ToolsIcon },
   { name: 'Edit Guarantee Anonymity', href: '/admin/guarantee-anonymity', icon: PrivacyIcon },
   { name: 'Edit US-Based PhD Experts', href: '/admin/us-based-phd-experts', icon: ExpertIcon },
   { name: 'Edit Success Stories', href: '/admin/success-stories-and-reviews', icon: SuccessStoriesIcon },
