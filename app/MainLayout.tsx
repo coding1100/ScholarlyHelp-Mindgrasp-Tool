@@ -6,6 +6,7 @@ import Footer from "./components/Footer/Footer";
 import type { Metadata } from "next";
 import AuthProvider from "./context/auth/AuthProvider";
 import ExitPopUp from "./components/PopUpModal/ExitPopup";
+import { usePathname } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "ScholarlyHelp",
@@ -17,6 +18,18 @@ interface MainLayoutProps {
 }
 
 const MainLayout: FC<MainLayoutProps> = ({ children }) => {
+  const pathname = usePathname();
+  
+  // Routes where header and footer should be hidden
+  const hideHeaderFooterRoutes = [
+    '/take-my-class',
+    '/take-my-class/',
+    '/take-my-exam',
+    '/take-my-exam/',
+  ];
+  
+  const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(pathname || '');
+
   // const [openExitPopup, setOpenExitPopup] = useState<boolean>(false);
   // const [userInteracted, setUserInteracted] = useState<boolean>(false);
 
@@ -48,9 +61,9 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         onInput={handleUserInteraction}
         onMouseLeave={handleMouseLeave}
       > */}
-      <AppNav />
+      {!shouldHideHeaderFooter && <AppNav />}
       {children}
-      <Footer />
+      {!shouldHideHeaderFooter && <Footer />}
       {/* <ExitPopUp
           open={openExitPopup}
           handleClose={() => setOpenExitPopup(false)}
