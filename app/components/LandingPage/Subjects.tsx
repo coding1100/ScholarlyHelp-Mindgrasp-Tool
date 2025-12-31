@@ -158,24 +158,13 @@ export default function SubjectsSection() {
         </div>
 
         <div className="flex justify-center mt-[60px]">
-          {isHomePage ? (
-            <button
+        <button
               type="button"
               onClick={scrollToQuote}
               className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
             >
               {subjectsData?.ctaText || "Take my online class"}
             </button>
-          ) : (
-            <Link href="/#quote-form">
-              <button
-                type="button"
-                className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
-              >
-                {subjectsData?.ctaText || "Take my online class"}
-              </button>
-            </Link>
-          )}
         </div>
       </div>
     </section>
