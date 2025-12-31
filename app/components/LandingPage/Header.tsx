@@ -29,8 +29,8 @@ export default function Header() {
               name: "Take My Economics Class",
               href: "/online-class/economics/",
             },
-            { name: "Take My Math Class", 
-              href: "/online-class/math" },
+            { name: "Take My Math Class",
+              href: "/online-class/math/" },
             {
               name: "Take My Law Class",
               href: "/online-class/law/",
@@ -76,6 +76,7 @@ export default function Header() {
           button: [{ name: "Ask for Class Help", href: "/online-class/" }],
         },
       ],
+      href: "/online-class/",
     },
     {
       title: "Exam Help",
@@ -126,6 +127,7 @@ export default function Header() {
           button: [{ name: "Get Expert Exam Help", href: "/exams/" }],
         },
       ],
+      href: "/exams/",
     },
     {
       title: "Assignment Help",
@@ -164,6 +166,8 @@ export default function Header() {
           button: [{ name: "Success Stories & Reviews", href: "/success-stories-and-reviews/" }],
         },
       ],
+      href: "/assignment/",
+      
     },
     {
       title: "Homework",
@@ -183,6 +187,7 @@ export default function Header() {
           button: [{ name: "See All Subjects", href: "/homework/" }],
         },
       ],
+      href: "/homework/",
     },
     {
       title: "Essay Writing",
@@ -199,6 +204,7 @@ export default function Header() {
           button: [{ name: "See All Subjects", href: "/essay-writing/" }],
         },
       ],
+      href: "/essay-writing/",
     },
     {
       title: "Tools",
