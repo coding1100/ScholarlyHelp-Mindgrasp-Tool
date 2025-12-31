@@ -77,13 +77,14 @@ const Page = async () => {
   );
 };
 export default Page;
-export function generateMetadata({}): Metadata {
+export async function generateMetadata({}): Promise<Metadata> {
+  const pageData = await fetchTakeMyExamData();
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}${MetaData.takeMyExam.url}`;
+  const canonicalUrl = pageData?.meta?.canonicalUrl || `${baseUrl}${MetaData.takeMyExam.url}`;
   return {
-    title: `${MetaData.takeMyExam.title}`,
-    description: `${MetaData.takeMyExam.description}`,
+    title: pageData?.meta?.title || MetaData.takeMyExam.title,
+    description: pageData?.meta?.description || MetaData.takeMyExam.description,
     alternates: {
       canonical: canonicalUrl,
     },
