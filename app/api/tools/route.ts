@@ -30,24 +30,24 @@ export async function GET(request: NextRequest) {
     await client.connect();
     const db = client.db('scholarly_help');
     
-    // Query for academic-tools page by id
+    // Query for tools page by id
     // Try exact match first
-    let content = await db.collection('pages').findOne({ id: "academic-tools" });
+    let content = await db.collection('pages').findOne({ id: "tools" });
     
     // If not found, try with regex to handle potential whitespace or trailing characters
     if (!content) {
       content = await db.collection('pages').findOne({ 
-        id: { $regex: /^academic-tools/i } 
+        id: { $regex: /^tools/i } 
       });
     }
     
     // If still not found, try pageType
     if (!content) {
-      content = await db.collection('pages').findOne({ pageType: "academic-tools" });
+      content = await db.collection('pages').findOne({ pageType: "tools" });
     }
     
     if (!content) {
-      console.log('No content found for academic-tools in pages collection');
+      console.log('No content found for tools in pages collection');
       // Debug: Check what documents exist in pages collection
       const allPages = await db.collection('pages').find({}).limit(10).toArray();
       console.log('Available page IDs in pages collection:', allPages.map(p => ({ id: p.id, pageType: p.pageType })));
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Page not found' }, { status: 404, headers: corsHeaders });
     }
     
-    console.log('Found academic-tools content, id:', content.id, 'pageType:', content.pageType);
+    console.log('Found tools content, id:', content.id, 'pageType:', content.pageType);
     await client.close();
 
     // Add cache control headers to prevent caching
@@ -72,4 +72,3 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500, headers: corsHeaders });
   }
 }
-
