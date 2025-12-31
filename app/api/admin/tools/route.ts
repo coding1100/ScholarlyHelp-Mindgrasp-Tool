@@ -31,9 +31,9 @@ export async function GET(request: NextRequest) {
     await client.connect();
     const db = client.db('scholarly_help');
     
-    // Query for academic-tools page by id
+    // Query for tools page by id
     const query = { 
-      id: "academic-tools"
+      id: "tools"
     };
     
     console.log('Querying pages collection, query:', JSON.stringify(query));
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('POST /api/admin/academic-tools - Starting save operation');
+    console.log('POST /api/admin/tools - Starting save operation');
 
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
@@ -105,15 +105,15 @@ export async function POST(request: NextRequest) {
     const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
-    // For academic-tools page, always use academic-tools as id
+    // For tools page, always use tools as id
     const query = { 
-      id: "academic-tools"
+      id: "tools"
     };
     
     const dataToSave = { 
       ...cleanedData, 
-      id: "academic-tools", 
-      pageType: "academic-tools" 
+      id: "tools", 
+      pageType: "tools" 
     };
     
     const result = await db.collection('pages').replaceOne(query, dataToSave, { upsert: true });
@@ -136,4 +136,3 @@ export async function POST(request: NextRequest) {
     }, { status: 500, headers: corsHeaders });
   }
 }
-
