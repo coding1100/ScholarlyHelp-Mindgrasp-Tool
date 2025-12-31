@@ -78,13 +78,14 @@ const Page = async () => {
 };
 export default Page;
 
-export function generateMetadata({}): Metadata {
+export async function generateMetadata({}): Promise<Metadata> {
+  const pageData = await fetchTakeMyClassData();
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}${MetaData.takeMyClass.url}`;
+  const canonicalUrl = pageData?.meta?.canonicalUrl || `${baseUrl}${MetaData.takeMyClass.url}`;
   return {
-    title: `${MetaData.takeMyClass.title}`,
-    description: `${MetaData.takeMyClass.description}`,
+    title: pageData?.meta?.title || MetaData.takeMyClass.title,
+    description: pageData?.meta?.description || MetaData.takeMyClass.description,
     alternates: {
       canonical: canonicalUrl,
     },
