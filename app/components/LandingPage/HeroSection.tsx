@@ -59,7 +59,7 @@ const HeroSection: FC<HeroSectionProps> = ({
           <div className="mid:col-span-4 md:col-span-6">
             <HeroRight formBackImg2={heroContent?.formBackImg2} />
           </div>
-          <div className="mid:col-span-3 md:col-span-6 md:self-end relative z-20">
+          <div className="mid:col-span-3 md:col-span-6 md:self-end relative z-20 -bottom-[35px]">
             <div className="hidden md:flex flex-col gap-5">
               <div className="flex max-w-xs flex-col gap-2">
                 <div className="flex items-center gap-1">
@@ -85,7 +85,7 @@ const HeroSection: FC<HeroSectionProps> = ({
                     />
                   </span>
                   <div className="text-[12px] text-[#6A6F7A]">
-                    <div>Tom Q.</div>
+                    <div>T.</div>
                     <div>Engineering Student, Devry University</div>
                   </div>
                 </div>
