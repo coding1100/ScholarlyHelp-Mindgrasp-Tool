@@ -105,16 +105,16 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
           Scholarly has taken 100% of the stress I usually deal with when...
         </p>
         <div className="mt-2 flex items-center gap-2">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A]">
+          {/* <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A]">
             <Image
               src={TomIcon}
               alt="Tom Icon"
               className="max:w-[31px] min-w-[28px]"
             />
-          </span>
+          </span> */}
           <div className="text-[12px] text-[#6A6F7A]">
-            <div>Tom Q.</div>
-            <div>Engineering Student, Devry University</div>
+            <div></div>
+            <div><span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A] border border-[#c7c7c7] mr-[5px] bg-[#eee]">T</span> Engineering Student, Devry University</div>
           </div>
         </div>
       </div>
