@@ -61,6 +61,7 @@ const navigation = [
   { name: 'Edit Success Stories', href: '/admin/success-stories-and-reviews', icon: SuccessStoriesIcon },
   { name: 'Edit Plagiarism-Free Process', href: '/admin/plagiarism-free-process', icon: PlagiarismIcon },
   { name: 'Edit On-Time Delivery', href: '/admin/on-time-delivery-guarantee', icon: DeliveryIcon },
+  { name: 'Edit Take My Class 2', href: '/admin/take-my-class-2', icon: HomeIcon },
   // { name: 'Edit FAQ', href: '/admin/faq', icon: FaqIcon },
 ];
 
