@@ -12,7 +12,7 @@ import { usePageData } from "./usePageData";
 import Trustpilot from "@/app/assets/Images/Trustpilot.webp";
 import StarGroup from "@/app/assets/Images/starGroup.png";
 
-import Verifiend from "@/app/assets/Images/reviews/verified.png";
+import Verifiend from "@/app/assets/Images/reviews/verified.svg";
 
 // Desktop Reviews
 // import Review1 from "@/app/assets/Images/reviews/1.png";
@@ -178,447 +178,550 @@ const reviews = [
     title: "My experience has been nothing short of great",
     description:
       "My experience has been nothing short of great. When I need assistance and support with different subjects. Scholar Help...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Best service ever, trust me 🙏",
     description:
       "I had a great team walk me through the process of how everything was going to work. They were fast at communicating and one of the best parts is that I got...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I received excellent assistance with my economics exam",
     description:
       "I received excellent assistance with my economics exam through this platform. The expert was extremely helpful, going...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I cannot express my gratitude to these tutors",
     description:
       "I cannot express my gratitude to these tutors and their expertise. If you have any doubts as I did, I contest they were...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Exceptional Academic Support That Exceeds Expectations!",
     description:
       "I recently had the opportunity to use scholarly help.com for assistance with my Accounting class, and I was thoroughly...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Incredible and Reliable",
     description:
       "Scholarly Help has been an incredible resource that greatly contributed to my success in passing my class. Their team is outstanding, always providing timely...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Very great service and reliable",
     description: "Very great service and reliable",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I don't even know where to start",
     description:
       "I don't even know where to start. I don't even know the words to use for this people because they are the best and amazing .They came to my rescue for my classes...",
+    image: "/images/fivestar.svg",
   },
+  
   {
     title: "Excellent service/communication",
     description:
       "Definitely one of the best services I ever received pertaining school work. Was in a rush & needed to pass & they helped me! Not only did I pass my exam with...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "This service has been great helped me",
     description:
       "This service has been great helped me through my math class with ease thank you guys for your hard work.",
+    image: "/images/fivestar.svg",
+  },
+  {
+    title: "Convenient",
+    description:
+      "Convenient, fast, & reasonable price. Idk y I never knew about this but save me today!",
+    image: "/images/fourstar.svg",
   },
   {
     title: "was a great help and communicated",
     description: "was a great help and communicated throughout the process.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Great advising and service.",
     description:
       "Great advising and service. completed my assignments essays homework's effectively.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They have been great and very helpful",
     description:
       "They have been great and very helpful deserving more of 5 stars.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Great work am very happy they do a",
     description: "Great work am very happy they do a great job.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "This is 100% real",
     description:
       "This is 100% real. They saved me just in time! 10/10 recommend.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Let me first start off by saying I AM A",
     description:
       "Let me first start off by saying I AM A REAL CUSTOMER !!! Nothing promoted this way or no funny business here! SCHOLARLY is the...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They are always there for me",
     description:
       "They are always there for me, very reliable, and they are very smart.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Thank You!",
     description:
       "I thought it was a scam tbh, but these guys helped me pass my exam! 🙏",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Amazing Work",
     description:
       "Was having a panic attack but they help me pass with flying colors i appreciate you guys so much an thank you for all of your help even with short notice they got...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They are a lifesaver no joke",
     description:
       "They are a lifesaver no joke, they communicate everything before the and after the day of the exam. The day of the exam everything went so smoothly...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Life Saver",
     description:
       "They are a life saver. Everything they do is legitimate. The prices are great, and affordable. I would recommend this to anyone struggling in a class...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They were fantastic",
     description:
       "They were fantastic! They were able to get me the results I wanted in a timely manner. They were with me every step of the way and were in reach whenever I needed...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Highly recommended",
     description:
       "Highly recommended! I was skeptical at first but someone always communicated with me about everything. A's on all assignments/essay with no plagiarism...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Highly recommend!",
     description:
       "Highly recommend!! I was nervous using one of these services but I am so grateful that I can fully trust them. I was talked to and kept in the loop the whole time...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Very reliable and trustworthy",
     description:
       "Very reliable and trustworthy! Great communication and helped me with my assignments! Looking forward on booking for future assignments",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I could not be happier with my results",
     description:
       "I could not be happier with my results 'Quick service & very trustworthy'",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Great job",
     description:
       "They were very professional and responsive. Got every task done in a timely and accurate manner",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I had a great experience",
     description:
       "I had a great experience! Scholarly help landed me a 97% in my statistics class. I am forever grateful and will be using their services again very soon.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Very fast and quick help on an exam",
     description:
       "Very fast and quick help on an exam. Great communication and tutor knew the content helping me get a high B...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "These guys are legit..they delivered as",
     description:
       "These guys are legit.. they delivered as promised based on the agreed upon timelines. Excellent work and will use....",
+    image: "/images/fivestar.svg",
   },
   {
     title: "So my experience with Scholary was",
     description:
       "So my experience with Scholary was amazing. The responses was really quick and the work was done quickly! 100/100",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They saved me from failing",
     description:
       "They completed all my assignments on time with precision I will definitely be using them again",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Let Scholarly Help.. Help You!!!",
     description:
       "First let me just start off by saying Thank You! Scholarly Help has really helped me on this journey to get my degree. I've used them sooooo many times...",
+    image: "/images/fivestar.svg",
+  },
+  {
+    title: "They are amazing and very fast at…",
+    description:
+      "They are amazing and very fast at responding to any questions I had",
+    image: "/images/fourstar.svg",
   },
   {
     title: "I will be totally honest I was very",
     description:
       "I will be totally honest I was very skeptical about finding services to help with school work, but I must say Scholarly...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "If it was possible to give 6 stars I",
     description:
       "If it was possible to give 6 stars I would! The tutors help and expertise were evident from the start and they helped me handle all complicated coursework...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Great Help!",
     description:
       "I am very glad I came across this company. They helped tremendously with my class due to I had two other strenuous classes I was taking at the same time...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Business Statistics Online Exam: Earned an A on exam!!!",
     description:
       "I had a great experience in which Scholarly Help assisted me with a score of 126/140 (90%) on my final exam. Very professional...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Not a scam!!",
     description:
       "Let me start off by saying they are 100% real and not a scam like we all think at first. Best choice I've ever made took so much stress off of me and they are fast...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Excellent team, great support Fast responses",
     description:
       "Oh wow they jumped in, helped me clear an exam I was dredding and woop got a 96% on it. Totally nice folks, really easy...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "If I could rate higher I would",
     description:
       "If I could rate higher I would! They are so effective and so amazing truly their team is the best if you need any courses done. I work two jobs and work more than 90+...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Score for Scholarly Help",
     description:
       "Hi, to whom it may regard. Scholarly Help is available for responding quickly and punctually. I love how they do what's best on my end but confirm before they do it...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "100 percent legit",
     description:
       "100 percent legit. I was really nervous because I didn't want so be scammed but, they were nice enough to help ease my mind. They were patient and...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Genuine & Affordable!",
     description:
       "I have tried their exam services for the second time. I have to say that they are genuine. My friend, who orders them frequently, told me about their services...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I try so many education helper",
     description:
       "I try so many education helper. Most of them are scam. This one is not. They are very professional and helpful to get job done by due. If you are someone...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Great experience and service!",
     description:
       "I was unsure about this service but decided to use anyways and had an amazing experience! Experts were available, reliable, and super helpful. I'm super grateful! Thank you!!!",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Paid only 150$ for my exam and they got",
     description:
       "Paid only 150$ for my exam and they got me a B+ after only 2 days notice. Can't complain. Very easy to deal with as they answer quick and they do take paypal.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They helped with two math assignments I",
     description:
       "They helped with two math assignments I have and received 100 on both. Thanks for the help Awesome service.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "my favs",
     description:
       "Very nice and reliable and quick responses, gets the job done. Grateful for everything they do. I recommend to anyone needing some work done.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Great experience",
     description:
       "Got 100% on an assignment that worth 10% of my grade in such a short notice, very flexible, kept me updated. Will definitely not be my last thing with them",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Very Responsive",
     description:
       "Scholarly is very responsive, helpful, reliable and professional. I recommend them for the services they provide. They give you that peace of mind 👋👋👋👋",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They do a great job",
     description:
       "They do a great job! Assignments are done correctly and on time. 10/10 would recommend.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Top-tier service",
     description:
       "Top-tier service. I highly recommend. Very professional as well. Thank you so much. I will be using this service very frequently.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "This service is amazing",
     description:
       "This service is amazing! They were friendly and very helpful! Helped me pass my math! Thank you so much 🤍",
+    image: "/images/fivestar.svg",
   },
   {
     title: "last moment savers",
     description:
       "they saved me on last moment. i was stuck in exam, failed it twice, their experts got B+ in first attempt.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Very easy company to work with",
     description:
       "Very easy company to work with, replied promptly and finished task before due date. Would work with them again.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Very helpful and very quick with any",
     description:
       "Very helpful and very quick with any questions I had I will be looking to use in the future.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I messaged them the last minute and",
     description:
       "I messaged them the last minute and they completed everything on time and they were very helpful! I highly recommend",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Life savers!",
     description:
       "They have helped me multiple times! They are quick to respond and are the best! I will definitely be using them for any additional help.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Reliable and always do a great job",
     description:
       "Reliable and always do a great job. I really appreciate their responsiveness and professionalism.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Amazing Customer Service",
     description:
       "Amazing customer support everything was fast and accurate. I am so impressed and wish that I could give 10 stars.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Hard workers",
     description:
       "They took on my class and did a great Job. Everything was done on time and good to go thank you for the hard work.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Very helpful and trustworthy",
     description:
       "Very helpful and trustworthy. I would definitely recommend their service.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "The best company to work with",
     description: "The best company to work with. Will use it again.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Dear ScholarlyHelp Team,",
     description:
       "I am writing to express my profound gratitude for the outstanding assistance you provided with my college coursework during a particularly demanding period...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I Got 'A' Grade in my online course",
     description:
       "I Got 'A' Grade in my online course. Thank you Scholarly Help for your valuable services. I highly Recommend them.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Awesome they helped me so much and",
     description:
       "Awesome they helped me so much and finished within my deadline",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I love this experience at first I was",
     description:
       "I love this experience at first I was skeptical now that they did my work. I feel stress-free and I'm happy that I joined.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "helped pass my exam to get in my dream",
     description:
       "helped pass my exam to get in my dream course. Got my certification. everything worked out.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "5 Star Experience",
     description:
       "Scholarly help is not a scam. They have helped me complete several assignments and completed both with excellent grades. Would recommend to anyone!",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I wasn't confident about the exam",
     description:
       "I wasn't confident about the exam, but thanks to the tutor's help, I was able to achieve good results. I highly recommend using this company.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Legit service with quality work",
     description:
       "Legit service with quality work. Life was getting hard to balance but Scholarly helped take a good chunk of that stress away, I am forever thankful. Thank you so much.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Amazing tutor",
     description:
       "Amazing tutor! Helped me ace my CS course with patience & expert guidance. Grateful for the knowledge and confidence gained. Highly recommend!",
+    image: "/images/fivestar.svg",
   },
   {
     title: "scholarlyhelp.com has the best experts",
     description:
       "scholarlyhelp.com has the best experts to help with anyone's assignments. They are complete geniuses, and I would definitely use them again.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "The people and tutors related to",
     description:
       "The people and tutors related to scholarly are excellent. I would refer them to anyone needing class and studying help",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Was skeptical at first but I am so glad",
     description:
       "Was skeptical at first but I am so glad I trusted this company I received a 88 score on my exam will use again :)",
+    image: "/images/fivestar.svg",
   },
   {
     title: "This is such a great service",
     description:
       "This is such a great service. Very helpful, very quick to respond and provide quality original work.",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Highly recommended",
     description:
       "Highly recommended, they have the best experts who can help out with exams, assignments and essays. They are always on time and I got very good grades...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Wasn't sure how legit this was but they",
     description:
       "Wasn't sure how legit this was but they know what they're doing! You get a guaranteed B or higher...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Scholarly help is the real deal",
     description:
       "Scholarly help is the real deal. They provided me with an excellent professional service. Trust me these folks will guarantee have you pass any quiz...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "EXCEPTIONAL SERVICE DELIVERED",
     description:
       "I am so grateful that I came across this service! Their communication and service is EXCEPTIONAL! Initially, I did not know what to expect, but they delivered and I got A+...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Had a very positive experience with",
     description:
       "Had a very positive experience with them. Dedicated work professional staff. With their help I could improve my grade",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They Actually Delivered...",
     description:
       "At first I was sketchy about this service, but I can never be more wrong. They deliver exemplary results as promised on their website and communicated effectively...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Excellent Service",
     description:
       "Exceptional service! I achieved high-quality grades in my Chemistry course, scoring an A on my finals. Whenever I needed assistance, I could turn here for guidance...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "When I say they not only communicated",
     description:
       "When I say they not only communicated fast and often they would get me high remarks on my grades from my professor...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Great Communication.",
     description:
       "I was skeptical at first because it was my first time using this service and they were very helpful and communicative. They handled everything very professionally...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "I highly recommend their services",
     description:
       "I highly recommend their services, they deliver 100% and always available to answer any questions. They have the best team for every field of study. I really do recommend..",
+    image: "/images/fivestar.svg",
   },
   {
     title: "Employment Assessment",
     description:
       "I needed assistance with an assessment for a promotion. I have not received the results yet, but I feel confident that I will be placed in a high band and considered...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They helped me so much I was able to",
     description:
       "They helped me so much I was able to graduate. Amazing people great communication and would recommend to anyone that needs help with there classes...",
+    image: "/images/fivestar.svg",
   },
   {
     title: "They will work on your assignments with",
     description:
       "They will work on your assignments with swiftness and accuracy. I was skeptical at first but the team really treated my work as their own and put the petal to the metal..",
+    image: "/images/fivestar.svg",
   },
   {
     title: "It's legit",
     description:
       "Yall! They're the truth I was sooo worried they were not going to come through but they did! Trust the process! I would definitely highly recommend...",
+    image: "/images/fivestar.svg",
   },
 ];
 
@@ -638,6 +741,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     id?: number | string;
     title: string;
     description: string;
+    image?: string;
   };
 
   // Use MongoDB reviews if available
@@ -651,6 +755,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         id: review.id || index + 1,
         title: review.title || "",
         description: review.description || "",
+        image: review.image || "/images/fivestar.svg",
       }));
     }
     return null;
@@ -685,8 +790,14 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
       return true;
     });
 
+    // Add image field to all reviews that don't have it
+    const reviewsWithImages = uniqueReviews.map((review) => ({
+      ...review,
+      image: review.image || "/images/fivestar.svg",
+    }));
+
     // Return all unique reviews (no limit, let slider handle display)
-    return uniqueReviews;
+    return reviewsWithImages;
   };
 
   const displayedReviews = mongoReviews || getUniqueReviews();
@@ -757,7 +868,19 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
                   {group.map((review: ReviewType, index: number) => (
                     <div key={index}>
                       <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
-                        <Image src={Verifiend} alt="Review" />
+                        
+                        {review.image && (
+                          <div className="my-2 flex space-x-2">
+                            <Image 
+                              src={review.image} 
+                              alt="Rating" 
+                              width={150} 
+                              height={40}
+                              className="object-contain w-[150px] h-[40px]"
+                            />
+                            <Image src={Verifiend} alt="Review" />
+                          </div>
+                        )}
                         <p className="text-xl font-bold text-black my-[10px]">
                           {review.title}
                         </p>
@@ -778,6 +901,17 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
               <div key={index} className="px-2">
                 <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
                   <Image src={Verifiend} alt="Review" />
+                  {review.image && (
+                    <div className="my-2">
+                      <Image 
+                        src={review.image} 
+                        alt="Rating" 
+                        width={100} 
+                        height={20}
+                        className="object-contain"
+                      />
+                    </div>
+                  )}
                   <p className="text-xl font-bold text-black mb-[10px]">
                     {review.title}
                   </p>
