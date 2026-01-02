@@ -24,8 +24,8 @@ export default function PlagiarismFreeProcessAdmin() {
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
           heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
-          originalityContent: { mainHeading: '', description: '', tags: [] },
-          whyScholalrySlider: { mainHeading: '', description: '' },
+          originalityContent: { mainHeading: '', description: '', tags: [], steps: [] },
+          whyScholalrySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
           academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
@@ -37,8 +37,8 @@ export default function PlagiarismFreeProcessAdmin() {
           status: 'published',
           meta: { title: '', description: '', canonicalUrl: '' },
           heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
-          originalityContent: { mainHeading: '', description: '', tags: [] },
-          whyScholalrySlider: { mainHeading: '', description: '' },
+          originalityContent: { mainHeading: '', description: '', tags: [], steps: [] },
+          whyScholalrySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
           academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
@@ -280,6 +280,50 @@ export default function PlagiarismFreeProcessAdmin() {
                 placeholder="Tag 1&#10;Tag 2&#10;Tag 3"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Steps</label>
+              {(pageData.originalityContent?.steps || []).map((step: any, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Step {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('originalityContent.steps', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <div>
+                      <label className="block text-xs text-gray-600 mb-1">Title (Sub Heading)</label>
+                      <input
+                        type="text"
+                        value={step.title || ''}
+                        onChange={(e) => updateArrayItem('originalityContent.steps', index, 'title', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-600 mb-1">Description (Sub Description)</label>
+                      <textarea
+                        rows={3}
+                        value={step.description || ''}
+                        onChange={(e) => updateArrayItem('originalityContent.steps', index, 'description', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('originalityContent.steps', { title: '', description: '' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Step
+              </button>
+            </div>
           </div>
         </div>
 
@@ -302,6 +346,15 @@ export default function PlagiarismFreeProcessAdmin() {
                 rows={3}
                 value={pageData.whyScholalrySlider?.description || pageData.whyScholarlySlider?.description || ''}
                 onChange={(e) => updatePageData('whyScholalrySlider.description', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <input
+                type="text"
+                value={pageData.whyScholalrySlider?.ctaButton?.text || pageData.whyScholarlySlider?.ctaButton?.text || ''}
+                onChange={(e) => updatePageData('whyScholalrySlider.ctaButton.text', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
