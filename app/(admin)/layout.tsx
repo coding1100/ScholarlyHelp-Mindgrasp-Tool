@@ -149,6 +149,7 @@ const pagesNavigation = [
   { name: 'Edit Plagiarism-Free Process', href: '/admin/plagiarism-free-process', icon: PlagiarismIcon },
   { name: 'Edit On-Time Delivery', href: '/admin/on-time-delivery-guarantee', icon: DeliveryIcon },
   { name: 'Edit Take My Class', href: '/admin/take-my-class', icon: TakeMyClassIcon },
+  { name: 'Edit Take My Class 2', href: '/admin/take-my-class-2', icon: TakeMyClassIcon },
   { name: 'Edit Take My Exam', href: '/admin/take-my-exam', icon: TakeMyExamIcon },
 ];
 
