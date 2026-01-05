@@ -31,8 +31,11 @@ const MTSidebar = ({
   const currentRoute = usePathname();
   const router = useRouter();
   // Normalize route by removing trailing slash for consistent comparison
-  const normalizedRoute = currentRoute?.endsWith('/') ? currentRoute.slice(0, -1) : currentRoute;
+  const normalizedRoute = currentRoute?.endsWith("/")
+    ? currentRoute.slice(0, -1)
+    : currentRoute;
   const tools = [
+    { name: "Main Tool", href: "/tools/main-tool" },
     { name: "Paraphraser Tool", href: "/tools/paraphraser-tool" },
     { name: "Summarizer Tool", href: "/tools/summarizer-tool" },
     { name: "Thesis Generator Tool", href: "/tools/thesis-generator-tool" },
