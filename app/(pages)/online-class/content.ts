@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 
 export async function getOnlineClassContent() {
   // Return static content for public pages to avoid API dependency
@@ -311,3 +312,128 @@ export const content = {
     },
   ],
 };
+
+export const onlineClassSubjects = [
+  {
+    src: "/assets/Icon/chemistry.png",
+    label: "Chemistry",
+    url: "/online-class/chemistry/",
+  },
+  {
+    src: "/assets/Icon/biology.png",
+    label: "Biology",
+    url: "/online-class/biology/",
+  },
+  {
+    src: "/assets/Icon/economics.png",
+    label: "Economics",
+    url: "/online-class/economics/",
+  },
+  { src: "/assets/Icon/math.png", label: "Math", url: "/online-class/math/" },
+  {
+    src: "/assets/Icon/law.png",
+    label: "Law",
+    url: "/online-class/law/",
+  },
+  {
+    src: "/assets/Icon/accounting.png",
+    label: "Accounting",
+    url: "/online-class/accounting/",
+  },
+  {
+    src: "/assets/Icon/statistics.png",
+    label: "Statistics",
+    url: "/online-class/statistics/",
+  },
+  {
+    src: "/assets/Icon/operationmanagement.png",
+    label: "Operation Management",
+    url: "/online-class/operation-management/",
+  },
+  {
+    src: "/assets/Icon/physics.png",
+    label: "Physics",
+    url: "/online-class/physics/",
+  },
+  {
+    src: "/assets/Icon/finance.png",
+    label: "Finance",
+    url: "/online-class/finance/",
+  },
+  {
+    src: "/assets/Icon/nursing.png",
+    label: "Nursing",
+    url: "/online-class/nursing/",
+  },
+  {
+    src: "/assets/Icon/english.png",
+    label: "English",
+    url: "/online-class/english/",
+  },
+  {
+    src: "/assets/Icon/history.png",
+    label: "History",
+    url: "/online-class/history/",
+  },
+  {
+    src: "/assets/Icon/marketing.png",
+    label: "Marketing",
+    url: "/online-class/marketing/",
+  },
+  {
+    src: "/assets/Icon/engineering.png",
+    label: "Engineering",
+    url: "/online-class/engineering/",
+  },
+  {
+    src: "/assets/Icon/computerscience.png",
+    label: "Computer Science",
+    url: "/online-class/computer-science/",
+  },
+  {
+    src: "/assets/Icon/anatomyandphysiology.png",
+    label: "Anatomy and Physiology",
+    url: "/online-class/anatomy/",
+  },
+
+  // {
+  //   src: "/assets/Icon/hrmclass.png",
+  //   label: "HRM Class",
+  //   url: "/online-class/human-resource",
+  // },
+  // {
+  //   src: "/assets/Icon/psychology.png",
+  //   label: "Psychology",
+  //   url: "/online-class/psychology",
+  // },
+  // {
+  //   src: "/assets/Icon/philosophy.png",
+  //   label: "Philosophy",
+  //   url: "/online-class/philosophy",
+  // },
+  // {
+  //   src: "/assets/Icon/linguistics.png",
+  //   label: "Linguistics",
+  //   url: "/online-class/linguistics",
+  // },
+  // {
+  //   src: "/assets/Icon/architecture.png",
+  //   label: "Architecture",
+  //   url: "/online-class/architecture",
+  // },
+  // {
+  //   src: "/assets/Icon/pharmacology.png",
+  //   label: "Pharmacology",
+  //   url: "/online-class/pharmacology",
+  // },
+  // {
+  //   src: "/assets/Icon/organizational-behavior.png",
+  //   label: "Organizational Behavior",
+  //   url: "/online-class/organizational-behavior",
+  // },
+  // {
+  //   src: "/assets/Icon/sociology.png",
+  //   label: "Sociology",
+  //   url: "/online-class/sociology",
+  // },
+];
