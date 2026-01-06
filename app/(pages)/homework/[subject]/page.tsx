@@ -15,9 +15,10 @@ import Subjects from "@/app/components/LandingPage/Subjects";
 import { homeworkSubjects, isValidHomeworkSubject } from "../subjectContent";
 import { notFound } from "next/navigation";
 import { HomeworkDataProvider } from "../HomeworkDataProvider";
+import { homeworkSubject } from "../content";
 
 // Force dynamic rendering to prevent caching
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 interface PageProps {
@@ -30,21 +31,21 @@ async function fetchPageData(slug: string) {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
-      console.error('Database URL not configured');
+      console.error("Database URL not configured");
       return null;
     }
 
-    const { MongoClient } = await import('mongodb');
+    const { MongoClient } = await import("mongodb");
     const client = new MongoClient(databaseUrl);
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db("scholarly_help");
 
     // Handle different slug formats
     let slugVariations = [slug];
 
     // If slug is like "homework_english", also try "english"
-    if (slug.startsWith('homework_')) {
-      slugVariations.push(slug.replace('homework_', ''));
+    if (slug.startsWith("homework_")) {
+      slugVariations.push(slug.replace("homework_", ""));
     } else {
       // If slug is like "english", also try "homework_english"
       slugVariations.push(`homework_${slug}`);
@@ -58,12 +59,12 @@ async function fetchPageData(slug: string) {
     }
     const query = { $or: orConditions };
 
-    const content = await db.collection('homework').findOne(query);
+    const content = await db.collection("homework").findOne(query);
     await client.close();
 
     return content as any;
   } catch (error) {
-    console.error('Error fetching page data:', error);
+    console.error("Error fetching page data:", error);
     return null;
   }
 }
@@ -83,18 +84,37 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       id: `homework_${params.subject}`,
       slug: params.subject,
       pageType: `homework_${params.subject}`,
-      status: 'published',
-      meta: { title: '', description: '' },
-      heroSection: { mainHeading: '', subHeading: '', description: '' },
-      whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-      guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      processSection: { mainHeading: '', description: '', steps: [] },
-      success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      academicPartners: { mainHeading: '', description: '', cards: undefined, ctaButton: { text: '' } },
-      getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      faq: { mainHeading: '', faqs: [] }
+      status: "published",
+      meta: { title: "", description: "" },
+      heroSection: { mainHeading: "", subHeading: "", description: "" },
+      whySlider: { mainHeading: "", description: "", ctaButton: { text: "" } },
+      cardCarousel: {
+        mainHeading: "",
+        description: "",
+        ctaButton: { text: "" },
+      },
+      description: {
+        mainHeading: "",
+        description: "",
+        services: [],
+        badges: [],
+        ctaButton: { text: "" },
+      },
+      guaranteedBlock: {
+        mainHeading: "",
+        description: "",
+        ctaButton: { text: "" },
+      },
+      processSection: { mainHeading: "", description: "", steps: [] },
+      success: { mainHeading: "", description: "", ctaButton: { text: "" } },
+      academicPartners: {
+        mainHeading: "",
+        description: "",
+        cards: undefined,
+        ctaButton: { text: "" },
+      },
+      getQuote: { mainHeading: "", description: "", ctaButton: { text: "" } },
+      faq: { mainHeading: "", faqs: [] },
     };
 
     return (
@@ -109,7 +129,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
           <CustomerReviews />
           <ProcessSection />
           <Success />
-          <Subjects />
+          <Subjects defaultSubjects={homeworkSubject} />
           <AcademicPartners />
           <GetQoute />
           <Faq />
@@ -119,7 +139,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   }
 
   // Only return 404 if status is explicitly set to something other than published
-  if (pageData.status && pageData.status !== 'published' && pageData.status !== 'draft') {
+  if (
+    pageData.status &&
+    pageData.status !== "published" &&
+    pageData.status !== "draft"
+  ) {
     notFound();
   }
 
@@ -135,7 +159,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
         <CustomerReviews />
         <ProcessSection />
         <Success />
-        <Subjects />
+        <Subjects defaultSubjects={homeworkSubject} />
         <AcademicPartners />
         <GetQoute />
         <Faq />
@@ -150,22 +174,29 @@ export function generateStaticParams() {
   return homeworkSubjects.map((subject) => ({ subject }));
 }
 
-export async function generateMetadata({ params }: { params: { subject: string } }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { subject: string };
+}) {
   if (!isValidHomeworkSubject(params.subject)) {
-    return { title: "Not Found", description: "The page you are looking for does not exist." };
+    return {
+      title: "Not Found",
+      description: "The page you are looking for does not exist.",
+    };
   }
 
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (databaseUrl) {
-      const { MongoClient } = await import('mongodb');
+      const { MongoClient } = await import("mongodb");
       const client = new MongoClient(databaseUrl);
       await client.connect();
-      const db = client.db('scholarly_help');
+      const db = client.db("scholarly_help");
 
       let slugVariations: string[] = [params.subject];
-      if (params.subject.startsWith('homework_')) {
-        slugVariations.push(params.subject.replace('homework_', ''));
+      if (params.subject.startsWith("homework_")) {
+        slugVariations.push(params.subject.replace("homework_", ""));
       } else {
         slugVariations.push(`homework_${params.subject}`);
       }
@@ -175,16 +206,29 @@ export async function generateMetadata({ params }: { params: { subject: string }
         orConditions.push({ slug: variation });
         orConditions.push({ id: variation });
       }
-      const query = { $or: orConditions, status: { $ne: 'draft' } };
+      const query = { $or: orConditions, status: { $ne: "draft" } };
 
-      const pageData: any = await db.collection('homework').findOne(query);
+      const pageData: any = await db.collection("homework").findOne(query);
       await client.close();
 
       if (pageData) {
-        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
-        const metaTitle = pageData.meta?.title || `${params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, " ")} Homework Help`;
-        const metaDescription = pageData.meta?.description || `Get expert help with your ${params.subject.replace(/-/g, " ")} homework.`;
-        const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/homework/${params.subject}`;
+        const baseUrl =
+          process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+        const metaTitle =
+          pageData.meta?.title ||
+          `${
+            params.subject.charAt(0).toUpperCase() +
+            params.subject.slice(1).replace(/-/g, " ")
+          } Homework Help`;
+        const metaDescription =
+          pageData.meta?.description ||
+          `Get expert help with your ${params.subject.replace(
+            /-/g,
+            " "
+          )} homework.`;
+        const canonicalUrl =
+          pageData.meta?.canonicalUrl ||
+          `${baseUrl}/homework/${params.subject}`;
 
         return {
           title: metaTitle,
@@ -194,17 +238,23 @@ export async function generateMetadata({ params }: { params: { subject: string }
       }
     }
   } catch (error) {
-    console.error('Error fetching metadata:', error);
+    console.error("Error fetching metadata:", error);
   }
 
   // Fallback metadata
-  const subjectTitle = params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, " ");
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
+  const subjectTitle =
+    params.subject.charAt(0).toUpperCase() +
+    params.subject.slice(1).replace(/-/g, " ");
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}homework/${params.subject}`;
 
   return {
     title: `${subjectTitle} Homework Help - Professional Assistance`,
-    description: `Get expert help with your ${params.subject.replace(/-/g, " ")} homework.`,
+    description: `Get expert help with your ${params.subject.replace(
+      /-/g,
+      " "
+    )} homework.`,
     alternates: { canonical: canonicalUrl },
   };
 }

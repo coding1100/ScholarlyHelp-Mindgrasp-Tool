@@ -367,3 +367,129 @@ export const content = {
     },
   ],
 };
+
+export const examsSubjects = [
+  {
+    src: "/assets/Icon/history.png",
+    label: "History",
+    url: "/exams/history/",
+  },
+  {
+    src: "/assets/Icon/philosophy.png",
+    label: "Philosophy",
+    url: "/exams/philosophy/",
+  },
+  {
+    src: "/assets/Icon/finance.png",
+    label: "Finance",
+    url: "/exams/finance/",
+  },
+  {
+    src: "/assets/Icon/nursing.png",
+    label: "Nursing",
+    url: "/exams/nursing/",
+  },
+  { src: "/assets/Icon/math.png", label: "Math", url: "/exams/math/" },
+  {
+    src: "/assets/Icon/statistics.png",
+    label: "Statistics",
+    url: "/exams/statistics/",
+  },
+  {
+    src: "/assets/Icon/chemistry.png",
+    label: "Chemistry",
+    url: "/exams/chemistry/",
+  },
+  {
+    src: "/assets/Icon/biology.png",
+    label: "Biology",
+    url: "/exams/biology/",
+  },
+  {
+    src: "/assets/Icon/economics.png",
+    label: "Economics",
+    url: "/exams/economics/",
+  },
+  {
+    src: "/assets/Icon/physics.png",
+    label: "Physics",
+    url: "/exams/physics/",
+  },
+  {
+    src: "/assets/Icon/accounting.png",
+    label: "Accounting",
+    url: "/exams/accounting/",
+  },
+
+  {
+    src: "/assets/Icon/anatomyandphysiology.png",
+    label: "Anatomy and Physiology",
+    url: "/exams/anatomy/",
+  },
+  {
+    src: "/assets/Icon/law.png",
+    label: "Law",
+    url: "/exams/law/",
+  },
+  {
+    src: "/assets/Icon/sociology.png",
+    label: "Sociology",
+    url: "/exams/sociology/",
+  },
+  {
+    src: "/assets/Icon/computerscience.png",
+    label: "Computer Science",
+    url: "/exams/computer-science/",
+  },
+  {
+    src: "/assets/Icon/english.png",
+    label: "English",
+    url: "/exams/english/",
+  },
+  {
+    src: "/assets/Icon/operationmanagement.png",
+    label: "Operation Management",
+    url: "/exams/operation-management/",
+  },
+  {
+    src: "/assets/Icon/hrmclass.png",
+    label: "HRM Class",
+    url: "/exams/human-resource/",
+  },
+  {
+    src: "/assets/Icon/marketing.png",
+    label: "Marketing",
+    url: "/exams/marketing/",
+  },
+  // Nutrition does not exist in icons, so we leave it out. If needed, add it later when asset is available.
+  {
+    src: "/assets/Icon/psychology.png",
+    label: "Psychology",
+    url: "/exams/psychology/",
+  },
+  // {
+  //   src: "/assets/Icon/engineering.png",
+  //   label: "Engineering",
+  //   url: "/exams/engineering/",
+  // },
+  // {
+  //   src: "/assets/Icon/linguistics.png",
+  //   label: "Linguistics",
+  //   url: "/exams/linguistics/",
+  // },
+  // {
+  //   src: "/assets/Icon/architecture.png",
+  //   label: "Architecture",
+  //   url: "/exams/architecture/",
+  // },
+  // {
+  //   src: "/assets/Icon/pharmacology.png",
+  //   label: "Pharmacology",
+  //   url: "/exams/pharmacology/",
+  // },
+  // {
+  //   src: "/assets/Icon/organizational-behavior.png",
+  //   label: "Organizational Behavior",
+  //   url: "/exams/organizational-behavior/",
+  // },
+];

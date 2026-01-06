@@ -12,7 +12,7 @@ import Proof5 from "@/app/assets/Images/proof-5.webp";
 import Proof6 from "@/app/assets/Images/proof-6.webp";
 
 export const content = {
-  btnText:"Pay to do homework",
+  btnText: "Pay to do homework",
   heroContent: {
     // heading1: "",
     mainHeading: `Pay Someone to Do\nMy Homework: Hire\nUs & Live Stress-Free!`,
@@ -314,3 +314,124 @@ export const content = {
     },
   ],
 };
+
+export const homeworkSubject = [
+  { src: "/assets/Icon/math.png", label: "Math", url: "/homework/math/" },
+  {
+    src: "/assets/Icon/statistics.png",
+    label: "Statistics",
+    url: "/homework/statistics/",
+  },
+  {
+    src: "/assets/Icon/chemistry.png",
+    label: "Chemistry",
+    url: "/homework/chemistry/",
+  },
+  {
+    src: "/assets/Icon/accounting.png",
+    label: "Accounting",
+    url: "/homework/accounting/",
+  },
+  {
+    src: "/assets/Icon/computerscience.png",
+    label: "Computer Science",
+    url: "/homework/computer-science/",
+  },
+  {
+    src: "/assets/Icon/finance.png",
+    label: "Finance",
+    url: "/homework/finance/",
+  },
+  {
+    src: "/assets/Icon/physics.png",
+    label: "Physics",
+    url: "/homework/physics/",
+  },
+  {
+    src: "/assets/Icon/biology.png",
+    label: "Biology",
+    url: "/homework/biology/",
+  },
+  {
+    src: "/assets/Icon/history.png",
+    label: "History",
+    url: "/homework/history/",
+  },
+  {
+    src: "/assets/Icon/english.png",
+    label: "English",
+    url: "/homework/english/",
+  },
+  {
+    src: "/assets/Icon/operationmanagement.png",
+    label: "Operation Management",
+    url: "/homework/operation-management/",
+  },
+  {
+    src: "/assets/Icon/philosophy.png",
+    label: "Philosophy",
+    url: "/homework/philosophy/",
+  },
+  { src: "/assets/Icon/law.png", label: "Law", url: "/homework/law/" },
+  {
+    src: "/assets/Icon/engineering.png",
+    label: "Engineering",
+    url: "/homework/engineering/",
+  },
+  {
+    src: "/assets/Icon/psychology.png",
+    label: "Psychology",
+    url: "/homework/psychology/",
+  },
+  {
+    src: "/assets/Icon/nursing.png",
+    label: "Nursing",
+    url: "/homework/nursing/",
+  },
+  {
+    src: "/assets/Icon/sociology.png",
+    label: "Sociology",
+    url: "/homework/sociology/",
+  },
+  {
+    src: "/assets/Icon/geography.png",
+    label: "Geography",
+    url: "/homework/geography/",
+  },
+  {
+    src: "/assets/Icon/art.png",
+    label: "Art",
+    url: "/homework/art/",
+  },
+  {
+    src: "/assets/Icon/architecture.png",
+    label: "Architecture",
+    url: "/homework/architecture/",
+  },
+  {
+    src: "/assets/Icon/marketing.png",
+    label: "Marketing",
+    url: "/homework/marketing/",
+  },
+  {
+    src: "/assets/Icon/economics.png",
+    label: "Economics",
+    url: "/homework/economics/",
+  },
+
+  {
+    src: "/assets/Icon/hrmclass.png",
+    label: "HRM Class",
+    url: "/homework/human-resources/",
+  },
+  {
+    src: "/assets/Icon/pharmacology.png",
+    label: "Pharmacology",
+    url: "/homework/pharmacology/",
+  },
+  {
+    src: "/assets/Icon/linguistics.png",
+    label: "Linguistics",
+    url: "/homework/linguistics/",
+  },
+];
