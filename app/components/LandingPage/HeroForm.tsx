@@ -28,6 +28,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   const [selectedDeadline, setSelectedDeadline] = useState<string>("");
   const [otherSubjectDescription, setOtherSubjectDescription] = useState<string>("");
+  const [otherDeadlineDescription, setOtherDeadlineDescription] = useState<string>("");
   const [formData, setFormData] = useState({
     Email: "",
     Last_Name: "DefaultLastName",
@@ -54,10 +55,9 @@ const HeroForm: FC<ZohoForm2Props> = ({
   ];
 
   const deadlines = [
-    { emoji: "🔥", label: "Urgent (Within 24 Hours)" },
-    { emoji: "📅", label: "Within 3 Days" },
+    { emoji: "🔥", label: "Urgent" },
     { emoji: "🗓️", label: "This Week" },
-    { emoji: "📆", label: "Later" },
+    { emoji: "📝", label: "Other" },
   ];
 
   useEffect(() => {
@@ -155,6 +155,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
 
   const handleDeadlineSelect = (deadline: string) => {
     setSelectedDeadline(deadline);
+    // Clear other deadline description if not "Other"
+    if (deadline !== "Other") {
+      setOtherDeadlineDescription("");
+    }
   };
 
   const handleNext = () => {
@@ -166,6 +170,11 @@ const HeroForm: FC<ZohoForm2Props> = ({
       }
       setCurrentStep(2);
     } else if (currentStep === 2 && selectedDeadline) {
+      // If "Other" is selected, require description
+      if (selectedDeadline === "Other" && !otherDeadlineDescription.trim()) {
+        alert("Please specify your deadline.");
+        return;
+      }
       setCurrentStep(3);
     }
   };
@@ -193,7 +202,13 @@ const HeroForm: FC<ZohoForm2Props> = ({
       }
       description += `\n`;
     }
-    if (selectedDeadline) description += `Deadline: ${selectedDeadline}\n`;
+    if (selectedDeadline) {
+      description += `Deadline: ${selectedDeadline}`;
+      if (selectedDeadline === "Other" && otherDeadlineDescription.trim()) {
+        description += ` - ${otherDeadlineDescription.trim()}`;
+      }
+      description += `\n`;
+    }
     if (formData.Description) description += `Additional Info: ${formData.Description}`;
     if (description) fd.append("instructions", description);
 
@@ -209,6 +224,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
       setSelectedSubject("");
       setSelectedDeadline("");
       setOtherSubjectDescription("");
+      setOtherDeadlineDescription("");
       setCurrentStep(1);
       setLoading(false);
       router.push("/thank-you");
@@ -352,12 +368,26 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   </button>
                 ))}
               </div>
+
+              {/* Textarea for "Other" deadline */}
+              {selectedDeadline === "Other" && (
+                <div className="mb-4">
+                  <textarea
+                    value={otherDeadlineDescription}
+                    onChange={(e) => setOtherDeadlineDescription(e.target.value)}
+                    placeholder="Please specify your deadline"
+                    rows={4}
+                    className="w-full px-4 py-3 border-2 border-[#E3E5F3] rounded-md bg-[#EDEFFE] text-black outline-none resize-none text-sm placeholder-[#9CA3AF] focus:border-[#ff641a] transition-all duration-200"
+                  />
+                </div>
+              )}
+
               <button
                 type="button"
                 onClick={handleNext}
-                disabled={!selectedDeadline}
+                disabled={!selectedDeadline || (selectedDeadline === "Other" && !otherDeadlineDescription.trim())}
                 className={`rounded-md px-3 cursor-pointer border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center h-[54px] w-full ${
-                  selectedDeadline
+                  selectedDeadline && (selectedDeadline !== "Other" || otherDeadlineDescription.trim())
                     ? "bg-[#ff641a] text-white hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a]"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
