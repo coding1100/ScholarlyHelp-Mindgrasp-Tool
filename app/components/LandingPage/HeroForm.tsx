@@ -142,7 +142,16 @@ const HeroForm: FC<ZohoForm2Props> = ({
       alert("Last Name cannot be empty.");
       return false;
     }
-    return validateEmail();
+    const email = formData.Email.trim();
+    const phone = formData.Phone.trim();
+    if (!email && !phone) {
+      alert("Please provide either an email address or a phone number.");
+      return false;
+    }
+    if (email && !validateEmail()) {
+      return false;
+    }
+    return true;
   };
 
   const handleSubjectSelect = (subject: string) => {
@@ -191,7 +200,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
     if (FBCLID) fd.append("fbclid", FBCLID);
     if (GCLID) fd.append("gclid", GCLID);
     fd.append("url", wholeUrl);
-    fd.append("email", formData.Email);
+    if (formData.Email) fd.append("email", formData.Email);
     if (formData.Phone) fd.append("phone_number", formData.Phone);
     // Include subject and deadline in description
     let description = "";
@@ -413,7 +422,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   placeholder="Email Address"
                   value={formData.Email}
                   onChange={handleChange}
-                  required
                   className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
                 />
                 <IoIosMail className="text-[#6B7280] text-xl" />
@@ -429,7 +437,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   value={formData.Phone}
                   onChange={handleChange}
                   maxLength={30}
-                  required
                   className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
                 />
                 <MdPhoneInTalk className="text-[#6B7280] text-xl" />
@@ -438,8 +445,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={loading}
-                className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] w-full"
+                disabled={loading || (!formData.Email.trim() && !formData.Phone.trim())}
+                className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] w-full disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:text-gray-500 disabled:hover:border-transparent"
               >
                 {loading ? (
                   <ClipLoader color="#fff" size={22} />
