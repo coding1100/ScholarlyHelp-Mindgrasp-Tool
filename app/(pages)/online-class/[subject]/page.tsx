@@ -16,11 +16,15 @@ import { subjects, SubjectType } from "../subjectContent";
 import { notFound } from "next/navigation";
 import { OnlineClassDataProvider } from "../OnlineClassDataProvider";
 import dynamicImport from "next/dynamic";
+import { onlineClassSubjects } from "../content";
 
-const GetQouteDynamic = dynamicImport(() => import("@/app/components/LandingPage/GetQoute"), { ssr: false });
+const GetQouteDynamic = dynamicImport(
+  () => import("@/app/components/LandingPage/GetQoute"),
+  { ssr: false }
+);
 
 // Force dynamic rendering to prevent caching
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 interface PageProps {
@@ -33,25 +37,25 @@ async function fetchPageData(slug: string) {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
-      console.error('Database URL not configured');
+      console.error("Database URL not configured");
       return null;
     }
 
-    const { MongoClient } = await import('mongodb');
+    const { MongoClient } = await import("mongodb");
     const client = new MongoClient(databaseUrl, {
       serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 10000,
     });
 
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db("scholarly_help");
 
     // Handle different slug formats
     let slugVariations = [slug];
 
     // If slug is like "online_class_english", also try "english"
-    if (slug.startsWith('online_class_')) {
-      slugVariations.push(slug.replace('online_class_', ''));
+    if (slug.startsWith("online_class_")) {
+      slugVariations.push(slug.replace("online_class_", ""));
     } else {
       // If slug is like "english", also try "online_class_english"
       slugVariations.push(`online_class_${slug}`);
@@ -65,21 +69,31 @@ async function fetchPageData(slug: string) {
     }
     const query = { $or: orConditions };
 
-    console.log(`Querying online_classes with slug: ${slug}, query:`, JSON.stringify(query));
-    const content = await db.collection('online_classes').findOne(query);
-    console.log('Found content:', content ? 'Yes' : 'No');
+    console.log(
+      `Querying online_classes with slug: ${slug}, query:`,
+      JSON.stringify(query)
+    );
+    const content = await db.collection("online_classes").findOne(query);
+    console.log("Found content:", content ? "Yes" : "No");
 
     // If no content found, try to see what's in the collection
     if (!content) {
-      const allDocs = await db.collection('online_classes').find({ slug: slug }).limit(5).toArray();
-      console.log('Sample documents matching slug:', allDocs.map(d => ({ id: d.id, slug: d.slug })));
+      const allDocs = await db
+        .collection("online_classes")
+        .find({ slug: slug })
+        .limit(5)
+        .toArray();
+      console.log(
+        "Sample documents matching slug:",
+        allDocs.map((d) => ({ id: d.id, slug: d.slug }))
+      );
     }
 
     await client.close();
 
     return content as any;
   } catch (error) {
-    console.error('Error fetching page data:', error);
+    console.error("Error fetching page data:", error);
     return null;
   }
 }
@@ -100,18 +114,37 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       id: `online_class_${params.subject}`,
       slug: params.subject,
       pageType: `online_class_${params.subject}`,
-      status: 'published',
-      meta: { title: '', description: '' },
-      heroSection: { mainHeading: '', subHeading: '', description: '' },
-      whySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-      guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      processSection: { mainHeading: '', description: '', steps: [] },
-      success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      academicPartners: { mainHeading: '', description: '', cards: undefined, ctaButton: { text: '' } },
-      getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-      faq: { mainHeading: '', faqs: [] }
+      status: "published",
+      meta: { title: "", description: "" },
+      heroSection: { mainHeading: "", subHeading: "", description: "" },
+      whySlider: { mainHeading: "", description: "", ctaButton: { text: "" } },
+      cardCarousel: {
+        mainHeading: "",
+        description: "",
+        ctaButton: { text: "" },
+      },
+      description: {
+        mainHeading: "",
+        description: "",
+        services: [],
+        badges: [],
+        ctaButton: { text: "" },
+      },
+      guaranteedBlock: {
+        mainHeading: "",
+        description: "",
+        ctaButton: { text: "" },
+      },
+      processSection: { mainHeading: "", description: "", steps: [] },
+      success: { mainHeading: "", description: "", ctaButton: { text: "" } },
+      academicPartners: {
+        mainHeading: "",
+        description: "",
+        cards: undefined,
+        ctaButton: { text: "" },
+      },
+      getQuote: { mainHeading: "", description: "", ctaButton: { text: "" } },
+      faq: { mainHeading: "", faqs: [] },
     };
 
     return (
@@ -126,7 +159,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
           <CustomerReviews />
           <ProcessSection />
           <Success />
-          <Subjects />
+          <Subjects defaultSubjects={onlineClassSubjects} />
           <AcademicPartners />
           <GetQouteDynamic />
           <Faq />
@@ -136,7 +169,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   }
 
   // Only return 404 if status is explicitly set to something other than published
-  if (pageData.status && pageData.status !== 'published' && pageData.status !== 'draft') {
+  if (
+    pageData.status &&
+    pageData.status !== "published" &&
+    pageData.status !== "draft"
+  ) {
     notFound();
   }
 
@@ -152,7 +189,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
         <CustomerReviews />
         <ProcessSection />
         <Success />
-        <Subjects />
+        <Subjects defaultSubjects={onlineClassSubjects} />
         <AcademicPartners />
         <GetQouteDynamic />
         <Faq />
@@ -165,29 +202,33 @@ export default Page;
 
 export function generateStaticParams() {
   return subjects.map((subject) => ({
-    subject: subject
+    subject: subject,
   }));
 }
 
-export async function generateMetadata({ params }: { params: { subject: string } }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { subject: string };
+}) {
   if (!subjects.includes(params.subject as SubjectType)) {
     return {
-      title: 'Not Found',
-      description: 'The page you are looking for does not exist.'
+      title: "Not Found",
+      description: "The page you are looking for does not exist.",
     };
   }
 
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (databaseUrl) {
-      const { MongoClient } = await import('mongodb');
+      const { MongoClient } = await import("mongodb");
       const client = new MongoClient(databaseUrl);
       await client.connect();
-      const db = client.db('scholarly_help');
+      const db = client.db("scholarly_help");
 
       let slugVariations: string[] = [params.subject];
-      if (params.subject.startsWith('online_class_')) {
-        slugVariations.push(params.subject.replace('online_class_', ''));
+      if (params.subject.startsWith("online_class_")) {
+        slugVariations.push(params.subject.replace("online_class_", ""));
       } else {
         slugVariations.push(`online_class_${params.subject}`);
       }
@@ -197,16 +238,31 @@ export async function generateMetadata({ params }: { params: { subject: string }
         orConditions.push({ slug: variation });
         orConditions.push({ id: variation });
       }
-      const query = { $or: orConditions, status: { $ne: 'draft' } };
+      const query = { $or: orConditions, status: { $ne: "draft" } };
 
-      const pageData: any = await db.collection('online_classes').findOne(query);
+      const pageData: any = await db
+        .collection("online_classes")
+        .findOne(query);
       await client.close();
 
       if (pageData) {
-        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
-        const metaTitle = pageData.meta?.title || `${params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, " ")} Online Class Help`;
-        const metaDescription = pageData.meta?.description || `Get expert help with your ${params.subject.replace(/-/g, " ")} online classes.`;
-        const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/online-class/${params.subject}`;
+        const baseUrl =
+          process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+        const metaTitle =
+          pageData.meta?.title ||
+          `${
+            params.subject.charAt(0).toUpperCase() +
+            params.subject.slice(1).replace(/-/g, " ")
+          } Online Class Help`;
+        const metaDescription =
+          pageData.meta?.description ||
+          `Get expert help with your ${params.subject.replace(
+            /-/g,
+            " "
+          )} online classes.`;
+        const canonicalUrl =
+          pageData.meta?.canonicalUrl ||
+          `${baseUrl}/online-class/${params.subject}`;
 
         return {
           title: metaTitle,
@@ -216,17 +272,23 @@ export async function generateMetadata({ params }: { params: { subject: string }
       }
     }
   } catch (error) {
-    console.error('Error fetching metadata:', error);
+    console.error("Error fetching metadata:", error);
   }
 
   // Fallback metadata
-  const subjectTitle = params.subject.charAt(0).toUpperCase() + params.subject.slice(1).replace(/-/g, ' ');
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
+  const subjectTitle =
+    params.subject.charAt(0).toUpperCase() +
+    params.subject.slice(1).replace(/-/g, " ");
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}online-class/${params.subject}`;
 
   return {
     title: `${subjectTitle} Online Class Help - Professional Assistance`,
-    description: `Get expert help with your ${params.subject.replace(/-/g, ' ')} online classes.`,
+    description: `Get expert help with your ${params.subject.replace(
+      /-/g,
+      " "
+    )} online classes.`,
     alternates: {
       canonical: canonicalUrl,
     },

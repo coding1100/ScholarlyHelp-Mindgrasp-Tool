@@ -216,3 +216,31 @@ export const content = {
     },
   ],
 };
+
+export const essayWritingSubjects = [
+  {
+    src: "/assets/Icon/law.png",
+    label: "Law",
+    url: "/essay-writing/law/",
+  },
+  {
+    src: "/assets/Icon/history.png",
+    label: "History",
+    url: "/essay-writing/history/",
+  },
+  {
+    src: "/assets/Icon/nursing.png",
+    label: "Nursing",
+    url: "/essay-writing/nursing/",
+  },
+  {
+    src: "/assets/Icon/psychology.png",
+    label: "Psychology",
+    url: "/essay-writing/psychology/",
+  },
+  {
+    src: "/assets/Icon/economics.png",
+    label: "Economics",
+    url: "/essay-writing/economics/",
+  },
+];
