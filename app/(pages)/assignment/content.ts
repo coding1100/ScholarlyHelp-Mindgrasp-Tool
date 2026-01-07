@@ -415,7 +415,7 @@ export const assignmentSubject = [
     url: "/assignment/philosophy/",
   },
   {
-    src: "/assets/Icon/organizational_behavior.png",
+    src: "/assets/Icon/organizational-behavior.png",
     label: "Organizational Behavior",
     url: "/assignment/organizational-behavior/",
   },
