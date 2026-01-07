@@ -13,6 +13,7 @@ import GetQoute from "@/app/components/LandingPage/GetQoute";
 import Faq from "@/app/components/LandingPage/Faq";
 import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import { MetaData } from "@/app/metadata/metadata";
+import { assignmentSubject } from "../assignment/content";
 // import type { Metadata } from "next";
 
 // export const metadata: Metadata = {
@@ -30,7 +31,7 @@ const Page = () => {
       <CustomerReviews />
       <ProcessSection />
       <Success />
-      <Subjects />
+      <Subjects defaultSubjects={assignmentSubject} />
       <AcademicPartners />
       <GetQoute />
       <Faq />

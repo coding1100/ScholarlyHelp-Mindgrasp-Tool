@@ -72,11 +72,14 @@ const Home: NextPage = async () => {
       }
     : Content.expertContent;
 
-  // Merge chooseExpertSection - keep static steps/icons from Content
+  // Merge chooseExpertSection - keep static icons from Content
   const chooseExpertSection = pageData?.chooseExpertSection
     ? {
         ...pageData.chooseExpertSection,
-        steps: Content.chooseExpertSection.steps // Use static steps with icons
+        steps: pageData.chooseExpertSection.steps?.map((step: any, index: number) => ({
+          ...step,
+          icon: Content.chooseExpertSection.steps[index]?.icon || step.icon // Use static icon if available
+        })) || Content.chooseExpertSection.steps
       }
     : Content.chooseExpertSection;
 
