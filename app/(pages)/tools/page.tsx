@@ -99,8 +99,8 @@ const Page: NextPage = async () => {
         <HeroSection heroContent={heroContent} />
         <AcademicTools content={academicTools} />
         <WhyTools whyToolsContent={whyTools} />
-        <WhySlider whyData={whyScholarlySlider} />
-        <CustomerReviews />
+        {/* <WhySlider whyData={whyScholarlySlider} /> */}
+        {/* <CustomerReviews /> */}
         <AcademicPartners content={academicPartners} />
         <Faq content={faq} />
       </MainLayout>

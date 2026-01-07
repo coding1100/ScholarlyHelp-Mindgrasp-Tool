@@ -43,7 +43,7 @@ const Hero: FC<HeroProps> = ({ content }) => {
 
   if (currentPage === "/samples/") {
     return (
-      <div className="bg-primary-300 pt-16 pb-16 lg:flex justify-center">
+      <header className="bg-primary-300 pt-16 pb-16 lg:flex justify-center">
         <div className="xl:container sm:pl-10 pl-5 xl:pr-10 sm:pr-0 pr-5">
           <div className="grid grid-cols-12">
             <div className="xl:col-span-6 lg:col-span-7 col-span-12">
@@ -92,41 +92,38 @@ const Hero: FC<HeroProps> = ({ content }) => {
             </div>
           </div>
         </div>
-      </div>
+      </header>
     );
   }
 
   return (
     <div className={`bg-primary-300 ${currentPage === "/tools" && "mb-20"}`}>
       <div
-        className={`xl:flex justify-center bg-contain bg-no-repeat bg-right-bottom px-10 ${
-          currentPage === "/tools"
-            ? "lg:none"
-            : `${isMobile ? "none" : `bg-heroImage`}`
-        }`}
-        // style={{
-        //   backgroundImage: `${
-        //     currentPage === "/tools"
-        //       ? "lg:none"
-        //       : `${isMobile ? "none" : `url(${BgHeroBoyGirl.src})`}`
-        //   }`,
-        //   // backgroundSize: "550px",
-        // }}
+        className={`xl:flex justify-center bg-contain bg-no-repeat bg-right-bottom px-10 ${currentPage === "/tools"
+          ? "lg:none"
+          : `${isMobile ? "none" : `bg-heroImage`}`
+          }`}
+      // style={{
+      //   backgroundImage: `${
+      //     currentPage === "/tools"
+      //       ? "lg:none"
+      //       : `${isMobile ? "none" : `url(${BgHeroBoyGirl.src})`}`
+      //   }`,
+      //   // backgroundSize: "550px",
+      // }}
       >
         <div className="xl:container xl:px-10 grid lg:grid-cols-2">
           <div
-            className={`xl:py-12 lg:pt-20 lg:pb-4 lg:w-full ${
-              !isMobile && "w-[400px]"
-            } mb-9`}
+            className={`xl:py-12 lg:pt-20 lg:pb-4 lg:w-full ${!isMobile && "w-[400px]"
+              } mb-9`}
           >
             {content.heading1 && (
               <div className="w-auto flex">
                 <p
-                  className={`text-[#000] font-bold ${
-                    currentPage !== "/"
-                      ? "md:text-5xl text-3xl mb-4"
-                      : "md:text-3xl text-xl"
-                  } mt-2 mr-2`}
+                  className={`text-[#000] font-bold ${currentPage !== "/"
+                    ? "md:text-5xl text-3xl mb-4"
+                    : "md:text-3xl text-xl"
+                    } mt-2 mr-2`}
                 >
                   {content.heading1}
                 </p>
@@ -143,11 +140,10 @@ const Hero: FC<HeroProps> = ({ content }) => {
               )}
               {content.heading2 && (
                 <p
-                  className={`text-[#000] font-bold ${
-                    currentPage !== "/"
-                      ? "md:text-5xl text-3xl mt-4"
-                      : "md:text-3xl text-xl"
-                  }`}
+                  className={`text-[#000] font-bold ${currentPage !== "/"
+                    ? "md:text-5xl text-3xl mt-4"
+                    : "md:text-3xl text-xl"
+                    }`}
                 >
                   {content.heading2}
                 </p>
@@ -167,22 +163,20 @@ const Hero: FC<HeroProps> = ({ content }) => {
           </div>
 
           <div
-            className={`${
-              currentPage === "/tools"
-                ? "flex lg:justify-start justify-center"
-                : "hidden"
-            }`}
+            className={`${currentPage === "/tools"
+              ? "flex lg:justify-start justify-center"
+              : "hidden"
+              }`}
           >
             <div className="lg:w-full md:w-[200px]">
               <Image src={CalculatorImg} alt="image" />
             </div>
           </div>
           <div
-            className={`${
-              currentPage === "/tools"
-                ? "hidden"
-                : ` ${!isMobile ? "hidden" : "flex justify-center"}`
-            }`}
+            className={`${currentPage === "/tools"
+              ? "hidden"
+              : ` ${!isMobile ? "hidden" : "flex justify-center"}`
+              }`}
           >
             <Image src={BgHeroBoyGirl} alt="image" />
           </div>

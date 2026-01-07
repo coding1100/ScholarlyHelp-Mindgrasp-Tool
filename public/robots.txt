@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Add paths you want to ignore below
+
+
+Disallow: /sign-in/?returnUrl=/tools/essay-outline-tool
+Disallow: /sign-in/?returnUrl=/tools/paraphraser-tool
+Disallow: /sign-in/?returnUrl=/tools/summarizer-tool
+Disallow: /sign-in/?returnUrl=/tools/thesis-generator-tool
+Disallow: /take-my-proctored-exam-for-me/
+

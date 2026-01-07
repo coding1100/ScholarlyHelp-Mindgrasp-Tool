@@ -25,7 +25,7 @@ export default function GuaranteeAnonymityAdmin() {
           meta: { title: '', description: '', canonicalUrl: '' },
           heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
           privacyContent: { mainHeading: '', subHeading: '', description: '', steps: [] },
-          whyScholalrySlider: { mainHeading: '', description: '' },
+          whyScholalrySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
           academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
@@ -38,7 +38,7 @@ export default function GuaranteeAnonymityAdmin() {
           meta: { title: '', description: '', canonicalUrl: '' },
           heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
           privacyContent: { mainHeading: '', subHeading: '', description: '', steps: [] },
-          whyScholalrySlider: { mainHeading: '', description: '' },
+          whyScholalrySlider: { mainHeading: '', description: '', ctaButton: { text: '' } },
           academicPartners: { mainHeading: '', description: '', defaultCard: [], ctaButton: { text: '' } },
           faq: []
         });
@@ -345,6 +345,15 @@ export default function GuaranteeAnonymityAdmin() {
                 rows={3}
                 value={pageData.whyScholalrySlider?.description || pageData.whyScholarlySlider?.description || ''}
                 onChange={(e) => updatePageData('whyScholalrySlider.description', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <input
+                type="text"
+                value={pageData.whyScholalrySlider?.ctaButton?.text || pageData.whyScholarlySlider?.ctaButton?.text || ''}
+                onChange={(e) => updatePageData('whyScholalrySlider.ctaButton.text', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>

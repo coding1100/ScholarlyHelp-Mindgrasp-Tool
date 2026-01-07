@@ -1,11 +1,10 @@
-
 export async function getAssignmentContent() {
   // Return static content for public pages to avoid API dependency
   return content;
 }
 
 export const content = {
-  btnText:"Do my assignment for me tttttttttttttttttttt",
+  btnText: "Do my assignment for me tttttttttttttttttttt",
   heroContent: {
     // heading1: "",
     mainHeading: `Do My Assignment:\n100% Results with\nZero Stress!`,
@@ -311,4 +310,133 @@ export const content = {
         "Plagiarism is strictly prohibited at Scholarly Help. We have a rigorous quality control process that includes plagiarism checks to ensure originality.",
     },
   ],
-}; 
+};
+
+export const assignmentSubject = [
+  {
+    src: "/assets/Icon/statistics.png",
+    label: "Statistics",
+    url: "/assignment/statistics/",
+  },
+  {
+    src: "/assets/Icon/finance.png",
+    label: "Finance",
+    url: "/assignment/finance/",
+  },
+  {
+    src: "/assets/Icon/marketing.png",
+    label: "Marketing",
+    url: "/assignment/marketing/",
+  },
+  {
+    src: "/assets/Icon/math.png",
+    label: "Math",
+    url: "/assignment/math/",
+  },
+  {
+    src: "/assets/Icon/computerscience.png",
+    label: "Computer Science",
+    url: "/assignment/computer-science/",
+  },
+  {
+    src: "/assets/Icon/accounting.png",
+    label: "Accounting",
+    url: "/assignment/accounting/",
+  },
+  {
+    src: "/assets/Icon/law.png",
+    label: "Law",
+    url: "/assignment/law/",
+  },
+  {
+    src: "/assets/Icon/nursing.png",
+    label: "Nursing",
+    url: "/assignment/nursing/",
+  },
+  {
+    src: "/assets/Icon/english.png",
+    label: "English",
+    url: "/assignment/english/",
+  },
+  {
+    src: "/assets/Icon/economics.png",
+    label: "Economics",
+    url: "/assignment/economics/",
+  },
+  {
+    src: "/assets/Icon/engineering.png",
+    label: "Engineering",
+    url: "/assignment/engineering/",
+  },
+  {
+    src: "/assets/Icon/psychology.png",
+    label: "Psychology",
+    url: "/assignment/psychology/",
+  },
+  {
+    src: "/assets/Icon/biology.png",
+    label: "Biology",
+    url: "/assignment/biology/",
+  },
+  {
+    src: "/assets/Icon/chemistry.png",
+    label: "Chemistry",
+    url: "/assignment/chemistry/",
+  },
+  {
+    src: "/assets/Icon/architecture.png",
+    label: "Architecture",
+    url: "/assignment/architecture/",
+  },
+  {
+    src: "/assets/Icon/history.png",
+    label: "History",
+    url: "/assignment/history/",
+  },
+  {
+    src: "/assets/Icon/physics.png",
+    label: "Physics",
+    url: "/assignment/physics/",
+  },
+  {
+    src: "/assets/Icon/hrmclass.png",
+    label: "HRM Class",
+    url: "/assignment/human-resource/",
+  },
+
+  {
+    src: "/assets/Icon/sociology.png",
+    label: "Sociology",
+    url: "/assignment/sociology/",
+  },
+  {
+    src: "/assets/Icon/philosophy.png",
+    label: "Philosophy",
+    url: "/assignment/philosophy/",
+  },
+  {
+    src: "/assets/Icon/organizational-behavior.png",
+    label: "Organizational Behavior",
+    url: "/assignment/organizational-behavior/",
+  },
+  {
+    src: "/assets/Icon/anatomyandphysiology.png",
+    label: "Anatomy and Physiology",
+    url: "/assignment/anatomy/",
+  },
+  {
+    src: "/assets/Icon/linguistics.png",
+    label: "Linguistics",
+    url: "/assignment/linguistics/",
+  },
+  {
+    src: "/assets/Icon/operationmanagement.png",
+    label: "Operation Management",
+    url: "/assignment/operation-management/",
+  },
+  {
+    src: "/assets/Icon/pharmacology.png",
+    label: "Pharmacology",
+    url: "/assignment/pharmacology/",
+  },
+];

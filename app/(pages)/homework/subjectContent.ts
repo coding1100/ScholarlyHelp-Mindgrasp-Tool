@@ -151,6 +151,28 @@ export const homeworkContent: Record<string, HomeworkContent> = {
       },
     ],
   },
+  "human-resources": {
+    btnText: "Get HR Homework Help",
+    heroContent: {
+      mainHeading: "Help With Human\nResources Homework",
+      description: "Expert assistance for your HR assignments and projects.",
+    },
+    academic: {
+      mainheading: "HR Homework Services",
+      academicContent: [],
+    },
+    whyScholarly: {
+      mainHeading: "Why Choose Us?",
+      mainDescription: "Quality HR homework help.",
+      whyScholarlyContent: [],
+    },
+    excellenceProofContent: [],
+    subjects: {
+      mainHeading: "HR Topics",
+      subjectsContent: [],
+    },
+    faqContent: [],
+  },
 };
 
 // Default content and subjects list (reused from online-class conventions)
@@ -255,6 +277,7 @@ export const homeworkSubjects = [
   "psychology",
   "sociology",
   "statistics",
+  "human-resources",
 ] as const;
 
 export type HomeworkSubject = typeof homeworkSubjects[number];

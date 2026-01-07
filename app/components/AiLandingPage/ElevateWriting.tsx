@@ -48,27 +48,24 @@ const ElevateWriting: FC<ElevateWritingProps> = ({ elevateSection }) => {
       </div>
 
       <div className="relative mx-auto flex w-full flex-col pb-24 px-5 sm:px-10 xl:container xl:px-10">
-        <h1
-          className={`mb-6 text-center text-[32px] font-medium leading-[40px] text-[#101828] dark:text-gray-100 sm:text-[36px] sm:leading-[44px] lg:mb-[31px] lg:text-[40px] lg:leading-tight transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+        <h2
+          className={`mb-6 text-center text-[32px] font-medium leading-[40px] text-[#101828] dark:text-gray-100 sm:text-[36px] sm:leading-[44px] lg:mb-[31px] lg:text-[40px] lg:leading-tight transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           dangerouslySetInnerHTML={{
             __html: elevateSection.heading,
           }}
         />
         <div
-          className={`mx-auto mb-10 max-w-[600px] text-center transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mx-auto mb-10 max-w-[600px] text-center transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <p className="text-base text-[#333333] dark:text-gray-300 sm:text-lg leading-relaxed">
             {elevateSection.description}
           </p>
         </div>
         <div
-          className={`flex flex-col items-center transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`flex flex-col items-center transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <Link
             href={elevateSection.buttonUrl}
