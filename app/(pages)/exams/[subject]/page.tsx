@@ -210,8 +210,9 @@ export async function generateMetadata({ params }: PageProps) {
       await client.close();
 
       if (pageData) {
-        const baseUrl =
-          process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+        const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+        const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+
         const metaTitle =
           pageData.meta?.title ||
           `Take My ${params.subject} Exam | Professional ${params.subject} Exam Help`;
@@ -235,7 +236,11 @@ export async function generateMetadata({ params }: PageProps) {
   // Fallback metadata
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}exams/${params.subject}`;
+
+  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const safeBaseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+
+  const canonicalUrl = `${safeBaseUrl}/exams/${params.subject}`;
 
   return {
     title: `Take My ${params.subject} Exam | Professional ${params.subject} Exam Help`,

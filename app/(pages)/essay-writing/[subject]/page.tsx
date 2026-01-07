@@ -258,13 +258,13 @@ export async function generateMetadata({
       await client.close();
 
       if (pageData) {
-        const baseUrl =
-          process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+        const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+        const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+
         const metaTitle =
           pageData.meta?.title ||
-          `${
-            params.subject.charAt(0).toUpperCase() +
-            params.subject.slice(1).replace(/-/g, " ")
+          `${params.subject.charAt(0).toUpperCase() +
+          params.subject.slice(1).replace(/-/g, " ")
           } Essay Writing Help`;
         const metaDescription =
           pageData.meta?.description ||
@@ -291,9 +291,11 @@ export async function generateMetadata({
   const subjectTitle =
     params.subject.charAt(0).toUpperCase() +
     params.subject.slice(1).replace(/-/g, " ");
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}essay-writing/${params.subject}`;
+
+  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+
+  const canonicalUrl = `${baseUrl}/essay-writing/${params.subject}`;
 
   return {
     title: `${subjectTitle} Essay Writing Help - Professional Assistance`,
