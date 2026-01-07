@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import Image from "next/image";
 
-const DownArrow = "/assets/Images/faqDropdown.webp";
+const DownArrow = "/assets/Icon/faqDropdown.webp";
 
 type Content = {
   id?: number;
