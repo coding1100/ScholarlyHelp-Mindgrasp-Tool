@@ -9,7 +9,14 @@ import { RxCross2 } from "react-icons/rx";
 import { useContext, useState, useEffect, useRef } from "react";
 import { WordCountContext, EditorContext } from "./MainToolLayout";
 import { CiViewTable } from "react-icons/ci";
-
+import {
+  MdOutlineTextFields,
+  MdOutlineTitle,
+  MdFormatListNumbered,
+  MdFormatListBulleted,
+  MdTableChart,
+} from "react-icons/md";
+import { FaChevronDown } from "react-icons/fa6";
 const FooterBar = () => {
   const { wordCount } = useContext(WordCountContext);
   const { editor } = useContext(EditorContext);
@@ -21,8 +28,11 @@ const FooterBar = () => {
     col: number;
   } | null>(null);
   const tablePickerRef = useRef<HTMLDivElement>(null);
+  const [showBlockDropdown, setShowBlockDropdown] = useState(false);
+  const [currentBlockType, setCurrentBlockType] = useState<string>("text");
+  const blockDropdownRef = useRef<HTMLDivElement>(null);
 
-  // Update undo/redo button states
+  // Update undo/redo button states and current block type
   useEffect(() => {
     if (!editor) {
       setCanUndo(false);
@@ -35,9 +45,36 @@ const FooterBar = () => {
       setCanRedo(editor.can().redo());
     };
 
+    const updateBlockType = () => {
+      if (editor.isActive("heading", { level: 1 })) {
+        setCurrentBlockType("h1");
+      } else if (editor.isActive("heading", { level: 2 })) {
+        setCurrentBlockType("h2");
+      } else if (editor.isActive("heading", { level: 3 })) {
+        setCurrentBlockType("h3");
+      } else if (editor.isActive("bulletList")) {
+        setCurrentBlockType("bulletList");
+      } else if (editor.isActive("orderedList")) {
+        setCurrentBlockType("numberedList");
+      } else if (editor.isActive("blockquote")) {
+        setCurrentBlockType("blockquote");
+      } else if (editor.isActive("table")) {
+        setCurrentBlockType("table");
+      } else {
+        setCurrentBlockType("text");
+      }
+    };
+
     updateUndoRedoState();
-    editor.on("update", updateUndoRedoState);
-    editor.on("selectionUpdate", updateUndoRedoState);
+    updateBlockType();
+    editor.on("update", () => {
+      updateUndoRedoState();
+      updateBlockType();
+    });
+    editor.on("selectionUpdate", () => {
+      updateUndoRedoState();
+      updateBlockType();
+    });
 
     return () => {
       editor.off("update", updateUndoRedoState);
@@ -65,6 +102,90 @@ const FooterBar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showTablePicker]);
+
+  // Close block dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        blockDropdownRef.current &&
+        !blockDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowBlockDropdown(false);
+      }
+    };
+
+    if (showBlockDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showBlockDropdown]);
+
+  // Get label for current block type
+  const getBlockTypeLabel = (blockType: string): string => {
+    switch (blockType) {
+      case "h1":
+        return "Heading 1";
+      case "h2":
+        return "Heading 2";
+      case "h3":
+        return "Heading 3";
+      case "numberedList":
+        return "Numbered List";
+      case "bulletList":
+        return "Bulleted List";
+      case "table":
+        return "Table";
+      case "blockquote":
+        return "Block Quote";
+      default:
+        return "Text";
+    }
+  };
+
+  // Handle block type change
+  const handleBlockTypeChange = (blockType: string) => {
+    if (!editor) return;
+
+    editor.chain().focus().run();
+
+    switch (blockType) {
+      case "text":
+        editor.chain().focus().setParagraph().run();
+        break;
+      case "h1":
+        editor.chain().focus().setHeading({ level: 1 }).run();
+        break;
+      case "h2":
+        editor.chain().focus().setHeading({ level: 2 }).run();
+        break;
+      case "h3":
+        editor.chain().focus().setHeading({ level: 3 }).run();
+        break;
+      case "numberedList":
+        editor.chain().focus().toggleOrderedList().run();
+        break;
+      case "bulletList":
+        editor.chain().focus().toggleBulletList().run();
+        break;
+      case "table":
+        editor
+          .chain()
+          .focus()
+          .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+          .run();
+        break;
+      case "blockquote":
+        editor.chain().focus().toggleBlockquote().run();
+        break;
+      default:
+        break;
+    }
+
+    setShowBlockDropdown(false);
+  };
 
   const handleInsertTable = (rows: number, cols: number) => {
     if (!editor) {
@@ -130,19 +251,88 @@ const FooterBar = () => {
     <div className="flex justify-between items-center px-2 py-1 border-t border-gray-300 bg-white w-full mt-8 text-black">
       {/* Center buttons */}
       <div className="flex items-center gap-2 mx-auto">
-        <button className="text-gray-700 text-lg hover:text-blue-600">
+        {/* <button className="text-gray-700 text-lg hover:text-blue-600">
           <PiTextAaBold />
-        </button>
+        </button> */}
 
         <span className="border-l h-5 border-gray-300"></span>
 
-        <button className="text-sm text-gray-800 font-normal">T</button>
+        <div className="relative" ref={blockDropdownRef}>
+          <button
+            className="text-sm text-gray-800 font-normal flex items-center gap-1 hover:text-gray-600"
+            onClick={() => setShowBlockDropdown(!showBlockDropdown)}
+          >
+            <span>{getBlockTypeLabel(currentBlockType)}</span>
+            <span className="text-xs text-gray-500">
+              <FaChevronDown />
+            </span>
+          </button>
 
-        <select className="text-sm border-none bg-transparent focus:outline-none cursor-pointer">
-          <option>Text</option>
-          <option>Heading</option>
-          <option>Title</option>
-        </select>
+          {showBlockDropdown && (
+            <div className="absolute bottom-full left-0 mb-2 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-[180px] py-1">
+              {[
+                {
+                  value: "text",
+                  label: "Text",
+                  icon: <span className="text-base font-medium">T</span>,
+                },
+                {
+                  value: "h1",
+                  label: "Heading 1",
+                  icon: <span className="text-sm font-semibold">H1</span>,
+                },
+                {
+                  value: "h2",
+                  label: "Heading 2",
+                  icon: <span className="text-sm font-semibold">H2</span>,
+                },
+                {
+                  value: "h3",
+                  label: "Heading 3",
+                  icon: <span className="text-sm font-semibold">H3</span>,
+                },
+                {
+                  value: "numberedList",
+                  label: "Numbered List",
+                  icon: <MdFormatListNumbered className="text-lg" />,
+                },
+                {
+                  value: "bulletList",
+                  label: "Bulleted List",
+                  icon: <MdFormatListBulleted className="text-lg" />,
+                },
+                {
+                  value: "table",
+                  label: "Table",
+                  icon: <MdTableChart className="text-lg" />,
+                },
+                {
+                  value: "blockquote",
+                  label: "Block Quote",
+                  icon: <MdFormatQuote className="text-lg" />,
+                },
+              ].map((option) => {
+                const isSelected = currentBlockType === option.value;
+                return (
+                  <button
+                    key={option.value}
+                    onClick={() => handleBlockTypeChange(option.value)}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm text-left transition-colors ${
+                      isSelected
+                        ? "bg-purple-600 text-white hover:bg-purple-700"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    <span className="flex-shrink-0 w-5 flex items-center justify-center">
+                      {option.icon}
+                    </span>
+                    <span className="flex-1">{option.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
 
         <span className="border-l h-5 border-gray-300"></span>
 
@@ -158,13 +348,13 @@ const FooterBar = () => {
         {/* <button className="text-gray-600 hover:text-black">
           <RxCross2 className="text-lg" />
         </button> */}
-        <div className="relative" ref={tablePickerRef}>
+        <div className="relative mt-1.5" ref={tablePickerRef}>
           <button
             className="text-gray-600 hover:text-black"
             onClick={() => setShowTablePicker(!showTablePicker)}
             title="Insert table"
           >
-            <CiViewTable />
+            <CiViewTable className="text-lg" />
           </button>
 
           {showTablePicker && (

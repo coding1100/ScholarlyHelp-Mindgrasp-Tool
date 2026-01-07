@@ -106,14 +106,14 @@ const MTHeader = ({
                 />
               )}
             </div>
+            <button className="hover:bg-gray-200 rounded-lg p-2">
+              <HiMiniClock className="h-6 w-6 cursor-pointer " />
+            </button>
             <button
               className="hover:bg-gray-200 rounded-lg p-2"
               onClick={() => onToggleSettings && onToggleSettings()}
             >
               <RiSettings5Fill className="h-5 w-5" />
-            </button>
-            <button className="hover:bg-gray-200 rounded-lg p-2">
-              <HiMiniClock className="h-6 w-6 cursor-pointer " />
             </button>
           </div>
         </div>

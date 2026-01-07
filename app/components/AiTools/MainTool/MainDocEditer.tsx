@@ -5,12 +5,16 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Paragraph from "@tiptap/extension-paragraph";
 import Underline from "@tiptap/extension-underline";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
 import { FiEdit2 } from "react-icons/fi";
 import { BsFileEarmarkText } from "react-icons/bs";
 // import { SiMicrosoftword } from "react-icons/si";
 import { Extension } from "@tiptap/core";
 // import PromptModal from "../PopModal/PromptModal";
-import { TitleContext } from "./MainToolLayout";
+import { TitleContext, EditorContext } from "./MainToolLayout";
 import ParagraphToolbar from "./ParagraphToolbar";
 import PromptModal from "../PromptModal";
 // import ParagraphToolbar from "../../Paragraph-tool/ParagraphToolbar";
@@ -44,6 +48,7 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { title, setTitle } = useContext(TitleContext);
+  const { setEditor: setEditorContext } = useContext(EditorContext);
   const [showStarterOptions, setShowStarterOptions] = useState(true);
   const [isTypingTitle, setIsTypingTitle] = useState(false);
   const [isPromptModalOpen, setPromptModalOpen] = useState(false);
@@ -59,16 +64,45 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
       Paragraph,
       BackspaceBehavior,
       Underline,
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          style: "border-collapse: collapse; width: 100%; margin: 16px 0;",
+        },
+      }),
+      TableRow,
+      TableHeader.configure({
+        HTMLAttributes: {
+          style:
+            "border: 1px solid #ddd; padding: 12px; text-align: left; background-color: #f8f9fa; font-weight: 600; min-width: 100px;",
+        },
+      }),
+      TableCell.configure({
+        HTMLAttributes: {
+          style: "border: 1px solid #ddd; padding: 12px; min-width: 100px;",
+        },
+      }),
     ],
     immediatelyRender: false,
     content: "",
     editorProps: {
       attributes: {
         class:
-          "prose focus:outline-none min-h-[200px] max-w-full px-4 py-2 cursor-text",
+          "prose focus:outline-none focus:ring-0 focus:border-none min-h-[200px] max-w-full px-4 py-2 cursor-text border-none outline-none",
+        style: "border: none !important; outline: none !important;",
       },
     },
   });
+
+  // Share editor instance with context for FooterBar table insertion
+  useEffect(() => {
+    if (editor) {
+      setEditorContext(editor);
+    }
+    return () => {
+      setEditorContext(null);
+    };
+  }, [editor, setEditorContext]);
 
   // Enter key on title
   const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -333,7 +367,10 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
               />
             </div>
           )}
-          <EditorContent editor={editor} />
+          <EditorContent
+            editor={editor}
+            className="outline-none border-none focus:outline-none focus:ring-0 focus:border-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:border-none [&_.ProseMirror]:focus:outline-none [&_.ProseMirror]:focus:ring-0 [&_.ProseMirror]:focus:border-none"
+          />
         </div>
       )}
 
