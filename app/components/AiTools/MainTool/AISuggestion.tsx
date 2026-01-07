@@ -14,7 +14,7 @@ const AISuggestion: React.FC<AISuggestionProps> = ({
   onTryAgain,
 }) => (
   <div
-    className="absolute z-20 bg-transparent"
+    className=" z-20 bg-transparent"
     style={{ top: position.top, left: position.left }}
   >
     <span className="text-gray-400">{suggestion}</span>

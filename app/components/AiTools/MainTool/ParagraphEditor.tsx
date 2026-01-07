@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  useContext,
+} from "react";
 import {
   EditorContent,
   useEditor,
@@ -14,12 +20,20 @@ import Heading from "@tiptap/extension-heading";
 import Paragraph from "@tiptap/extension-paragraph";
 import CodeBlock from "@tiptap/extension-code-block";
 import Underline from "@tiptap/extension-underline";
-import AISuggestion from "./AISuggestion";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { Extension } from "@tiptap/core";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { Decoration, DecorationSet } from "@tiptap/pm/view";
+import { Transaction } from "@tiptap/pm/state";
 import BlockMenu from "./BlockMenu";
 import BlockToolbar from "./BlockToolbar";
 import ParagraphToolbar from "./ParagraphToolbar";
 import axios from "axios";
 import { MdOutlineDragIndicator, MdAdd } from "react-icons/md";
+import { WordCountContext, EditorContext } from "./MainToolLayout";
 
 // Custom node views by extending built-in nodes
 const CustomHeading = Heading.extend({
@@ -193,32 +207,140 @@ const NodeWithControls: React.FC<NodeViewProps> = (props) => {
   );
 };
 
+// AI Suggestion Plugin Key
+const suggestionPluginKey = new PluginKey("aiSuggestion");
+
+// Create AI Suggestion Extension
+const AISuggestionExtension = Extension.create({
+  name: "aiSuggestion",
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: suggestionPluginKey,
+        state: {
+          init() {
+            return DecorationSet.empty;
+          },
+          apply(tr, set) {
+            set = set.map(tr.mapping, tr.doc);
+            const action = tr.getMeta(suggestionPluginKey);
+            if (action?.type === "addSuggestion") {
+              const { pos, text } = action;
+              const decoration = Decoration.widget(
+                pos,
+                () => {
+                  const span = document.createElement("span");
+                  span.className = "text-gray-400 pointer-events-none";
+                  span.textContent = text;
+                  span.setAttribute("data-suggestion", "true");
+                  return span;
+                },
+                { side: 1 }
+              );
+              return DecorationSet.create(tr.doc, [decoration]);
+            } else if (action?.type === "clearSuggestion") {
+              return DecorationSet.empty;
+            }
+            return set;
+          },
+        },
+        props: {
+          decorations(state) {
+            return this.getState(state);
+          },
+        },
+      }),
+    ];
+  },
+
+  addCommands() {
+    return {
+      addAISuggestion:
+        (pos: number, text: string) =>
+        ({
+          tr,
+          dispatch,
+        }: {
+          tr: Transaction;
+          dispatch?: (tr: Transaction) => void;
+        }) => {
+          if (dispatch) {
+            tr.setMeta(suggestionPluginKey, {
+              type: "addSuggestion",
+              pos,
+              text,
+            });
+          }
+          return true;
+        },
+      clearAISuggestion:
+        () =>
+        ({
+          tr,
+          dispatch,
+        }: {
+          tr: Transaction;
+          dispatch?: (tr: Transaction) => void;
+        }) => {
+          if (dispatch) {
+            tr.setMeta(suggestionPluginKey, { type: "clearSuggestion" });
+          }
+          return true;
+        },
+      acceptAISuggestion:
+        (pos: number, text: string) =>
+        ({
+          tr,
+          dispatch,
+        }: {
+          tr: Transaction;
+          dispatch?: (tr: Transaction) => void;
+        }) => {
+          if (dispatch) {
+            tr.insertText(text, pos);
+            tr.setMeta(suggestionPluginKey, { type: "clearSuggestion" });
+          }
+          return true;
+        },
+    } as any;
+  },
+});
+
 // Main ParagraphEditor component
 interface ParagraphEditorProps {
   aiApiUrl?: string;
   outlineResponse: string[];
 }
 
-const fetchAISuggestion = async (text: string, apiUrl: string) => {
+const fetchAISuggestion = async (
+  payload: {
+    topic: string;
+    headings: string[];
+    current_section: string;
+    content_sofar: string;
+  },
+  apiUrl: string
+) => {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
-  const res = await axios.post(
-    apiUrl,
-    { prompt: text },
-    {
-      headers: {
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  return res.data.content as string;
+  const res = await axios.post(apiUrl, payload, {
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      "Content-Type": "application/json",
+    },
+  });
+  console.log("API Response:", res.data);
+  return res.data.section_content as string;
 };
 
 const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
   aiApiUrl = `${process.env.NEXT_PUBLIC_NGROX_URL}/tools/paragraph-generator`,
   outlineResponse,
 }) => {
+  const { setWordCount } = useContext(WordCountContext);
+  const { setEditor: setEditorContext } = useContext(EditorContext);
+
   // Generate content from outlineResponse
   const initialContent = useMemo(() => {
     if (!outlineResponse || outlineResponse.length === 0) {
@@ -228,10 +350,8 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     let content = "";
     outlineResponse.forEach((item, index) => {
       if (index === 0) {
-        // First item is h1
         content += `<h1>${item}</h1><p></p>`;
       } else {
-        // All other items are h2
         content += `<h2>${item}</h2><p></p>`;
       }
     });
@@ -250,6 +370,25 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       CustomParagraph,
       CustomCodeBlock,
       Underline,
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          style: "border-collapse: collapse; width: 100%; margin: 16px 0;",
+        },
+      }),
+      TableRow,
+      TableHeader.configure({
+        HTMLAttributes: {
+          style:
+            "border: 1px solid #ddd; padding: 12px; text-align: left; background-color: #f8f9fa; font-weight: 600; min-width: 100px;",
+        },
+      }),
+      TableCell.configure({
+        HTMLAttributes: {
+          style: "border: 1px solid #ddd; padding: 12px; min-width: 100px;",
+        },
+      }),
+      AISuggestionExtension,
     ],
     content: initialContent,
     autofocus: false,
@@ -257,8 +396,10 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
   });
 
   const [aiSuggestion, setAISuggestion] = useState<string>("");
-  const [showSuggestion, setShowSuggestion] = useState(false);
-  const [suggestionPos, setSuggestionPos] = useState<{
+  const [suggestionCursorPos, setSuggestionCursorPos] = useState<number | null>(
+    null
+  );
+  const [suggestionButtonPos, setSuggestionButtonPos] = useState<{
     top: number;
     left: number;
   }>({ top: 0, left: 0 });
@@ -268,24 +409,128 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     left: number;
   }>({ top: 0, left: 0 });
 
+  // Helper function to extract all headings from the document
+  const getAllHeadings = useCallback((): string[] => {
+    if (!editor) return [];
+    const doc = editor.state.doc;
+    const headings: string[] = [];
+
+    doc.descendants((node, pos) => {
+      if (node.type.name === "heading") {
+        const headingText = node.textContent.trim();
+        if (headingText) {
+          headings.push(headingText);
+        }
+      }
+    });
+
+    return headings;
+  }, [editor]);
+
+  // Helper function to get the first h1 heading (topic)
+  const getTopic = useCallback((): string => {
+    if (!editor) return "Main Topic";
+    const doc = editor.state.doc;
+
+    let firstH1: string | null = null;
+    doc.descendants((node) => {
+      if (node.type.name === "heading" && node.attrs.level === 1) {
+        const headingText = node.textContent.trim();
+        if (headingText && !firstH1) {
+          firstH1 = headingText;
+        }
+      }
+    });
+
+    return firstH1 || "Main Topic";
+  }, [editor]);
+
+  // Helper function to determine current section based on cursor position
+  const getCurrentSection = useCallback(
+    (cursorPos: number): string => {
+      if (!editor) return "Introduction";
+
+      const doc = editor.state.doc;
+      let currentSection = "Introduction";
+
+      for (let i = cursorPos; i >= 0; i--) {
+        const node = doc.nodeAt(i);
+        if (node && node.type.name === "heading") {
+          const headingText = node.textContent.trim();
+          if (headingText) {
+            currentSection = headingText;
+            break;
+          }
+        }
+      }
+
+      return currentSection;
+    },
+    [editor]
+  );
+
+  // Helper function to get content under current section
+  const getContentUnderCurrentSection = useCallback(
+    (cursorPos: number): string => {
+      if (!editor) return "";
+
+      const doc = editor.state.doc;
+      let sectionStartPos = 0;
+      let foundCurrentHeading = false;
+
+      for (let i = cursorPos; i >= 0; i--) {
+        const node = doc.nodeAt(i);
+        if (node && node.type.name === "heading") {
+          sectionStartPos = i + node.nodeSize;
+          foundCurrentHeading = true;
+          break;
+        }
+      }
+
+      if (!foundCurrentHeading) {
+        return "";
+      }
+
+      const content = doc.textBetween(sectionStartPos, cursorPos, " ");
+      return content.trim();
+    },
+    [editor]
+  );
+
   useEffect(() => {
     if (!editor) return;
     const updateSuggestion = async () => {
       const pos = editor.state.selection.from;
-      const textBefore = editor.state.doc.textBetween(0, pos, " ");
-      if (textBefore.trim().length === 0) {
-        setAISuggestion("");
-        setShowSuggestion(false);
-        return;
-      }
-      const suggestion = await fetchAISuggestion(textBefore, aiApiUrl);
-      setAISuggestion(suggestion);
-      console.log(suggestion);
-      setShowSuggestion(true);
+
+      // Build payload from document content
+      const topic = getTopic();
+      const headings = getAllHeadings();
+      const current_section = getCurrentSection(pos);
+      const content_sofar = getContentUnderCurrentSection(pos);
+
+      const payload = {
+        topic,
+        headings,
+        current_section,
+        content_sofar: content_sofar || "",
+      };
+
+      const suggestion = await fetchAISuggestion(payload, aiApiUrl);
+      const plainText = suggestion.replace(/<[^>]*>/g, "");
+
+      setAISuggestion(plainText);
+      setSuggestionCursorPos(pos);
+
+      // Clear previous suggestion and add new one
+      const commands = editor.commands as any;
+      commands.clearAISuggestion();
+      commands.addAISuggestion(pos, plainText);
+
+      // Position the buttons near the cursor
       const dom = editor.view.domAtPos(pos);
       if (dom.node instanceof HTMLElement) {
         const rect = dom.node.getBoundingClientRect();
-        setSuggestionPos({
+        setSuggestionButtonPos({
           top: rect.bottom + window.scrollY,
           left: rect.left + window.scrollX,
         });
@@ -295,7 +540,52 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     return () => {
       editor.off("selectionUpdate", updateSuggestion);
     };
-  }, [editor, aiApiUrl]);
+  }, [
+    editor,
+    aiApiUrl,
+    getTopic,
+    getAllHeadings,
+    getCurrentSection,
+    getContentUnderCurrentSection,
+  ]);
+
+  // Share editor instance with context for FooterBar undo/redo
+  useEffect(() => {
+    if (editor) {
+      setEditorContext(editor);
+    }
+    return () => {
+      setEditorContext(null);
+    };
+  }, [editor, setEditorContext]);
+
+  // Calculate and update word count
+  useEffect(() => {
+    if (!editor) return;
+
+    const updateWordCount = () => {
+      const text = editor.state.doc.textContent;
+      // Count words (split by whitespace and filter empty strings)
+      const words = text
+        .trim()
+        .split(/\s+/)
+        .filter((word) => word.length > 0);
+      const count = words.length;
+      setWordCount(count);
+    };
+
+    // Update on initial load
+    updateWordCount();
+
+    // Update on editor changes
+    editor.on("update", updateWordCount);
+    editor.on("selectionUpdate", updateWordCount);
+
+    return () => {
+      editor.off("update", updateWordCount);
+      editor.off("selectionUpdate", updateWordCount);
+    };
+  }, [editor, setWordCount]);
 
   useEffect(() => {
     if (!editor) return;
@@ -333,21 +623,64 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
   }, [editor]);
 
   const handleAccept = useCallback(() => {
-    if (editor && aiSuggestion) {
-      editor.commands.insertContent(aiSuggestion);
+    if (editor && aiSuggestion && suggestionCursorPos !== null) {
+      const commands = editor.commands as any;
+      commands.acceptAISuggestion(suggestionCursorPos, aiSuggestion);
       setAISuggestion("");
-      setShowSuggestion(false);
+      setSuggestionCursorPos(null);
     }
-  }, [editor, aiSuggestion]);
+  }, [editor, aiSuggestion, suggestionCursorPos]);
 
   const handleTryAgain = useCallback(async () => {
     if (!editor) return;
     const pos = editor.state.selection.from;
-    const textBefore = editor.state.doc.textBetween(0, pos, " ");
-    const suggestion = await fetchAISuggestion(textBefore, aiApiUrl);
-    setAISuggestion(suggestion);
-    setShowSuggestion(true);
-  }, [editor, aiApiUrl]);
+
+    const topic = getTopic();
+    const headings = getAllHeadings();
+    const current_section = getCurrentSection(pos);
+    const content_sofar = getContentUnderCurrentSection(pos);
+
+    const payload = {
+      topic,
+      headings,
+      current_section,
+      content_sofar: content_sofar || "",
+    };
+
+    const suggestion = await fetchAISuggestion(payload, aiApiUrl);
+    const plainText = suggestion.replace(/<[^>]*>/g, "");
+
+    setAISuggestion(plainText);
+    setSuggestionCursorPos(pos);
+
+    const commands = editor.commands as any;
+    commands.clearAISuggestion();
+    commands.addAISuggestion(pos, plainText);
+  }, [
+    editor,
+    aiApiUrl,
+    getTopic,
+    getAllHeadings,
+    getCurrentSection,
+    getContentUnderCurrentSection,
+  ]);
+
+  // Handle keyboard shortcut for Accept (Shift + →)
+  useEffect(() => {
+    if (!editor) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.shiftKey && event.key === "ArrowRight" && aiSuggestion) {
+        event.preventDefault();
+        handleAccept();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [editor, aiSuggestion, handleAccept]);
 
   return (
     <div className="relative">
@@ -451,13 +784,27 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
         editor={editor}
         className="min-h-[300px] outline-none border-none"
       />
-      {showSuggestion && aiSuggestion && (
-        <AISuggestion
-          suggestion={aiSuggestion}
-          position={suggestionPos}
-          onAccept={handleAccept}
-          onTryAgain={handleTryAgain}
-        />
+      {aiSuggestion && suggestionCursorPos !== null && (
+        <div
+          className="absolute z-20 flex gap-2 items-center mt-1 p-1 bg-white rounded-md shadow-md border border-gray-300"
+          style={{
+            top: suggestionButtonPos.top,
+            left: suggestionButtonPos.left,
+          }}
+        >
+          <button
+            className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 w-max"
+            onClick={handleAccept}
+          >
+            Accept <span className="ml-1 text-[10px]">(Shift + →)</span>
+          </button>
+          <button
+            className="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs hover:bg-gray-300 w-max"
+            onClick={handleTryAgain}
+          >
+            Try Again
+          </button>
+        </div>
       )}
     </div>
   );
