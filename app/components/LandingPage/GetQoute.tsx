@@ -11,13 +11,16 @@ const HeroForm = dynamic(() => import("./HeroForm"), { ssr: false });
 export default function GetQuote() {
   const data = usePageData();
   const getQuote = data?.getQuote;
-  
+
   // Debug: Log the getQuote data to see what we're receiving
-  if (typeof window !== 'undefined') {
-    console.log('GetQuote component - getQuote data:', getQuote);
-    console.log('GetQuote component - ctaButton.text:', getQuote?.ctaButton?.text);
+  if (typeof window !== "undefined") {
+    console.log("GetQuote component - getQuote data:", getQuote);
+    console.log(
+      "GetQuote component - ctaButton.text:",
+      getQuote?.ctaButton?.text
+    );
   }
-  
+
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
@@ -154,7 +157,7 @@ export default function GetQuote() {
                     />
                     <span className="absolute right-6 top-8.5 text-gray-400">
                       <Image
-                        src="/assets/Icon/phone.png"
+                        src="/assets/Icon/phone.svg"
                         alt=""
                         width={20}
                         height={20}
@@ -177,7 +180,7 @@ export default function GetQuote() {
                     />
                     <span className="absolute right-6 top-8.5 text-gray-400">
                       <Image
-                        src="/assets/Icon/msg.png"
+                        src="/assets/Icon/msg.svg"
                         alt=""
                         width={20}
                         height={20}
@@ -192,7 +195,8 @@ export default function GetQuote() {
                   onClick={scrollToQuote}
                   className="w-full mt-8 rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
                 >
-                  {getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"}
+                  {getQuote?.ctaButton?.text ||
+                    "Get My Free, Confidential Quote"}
                 </button>
               </form>
             </div>
@@ -200,10 +204,12 @@ export default function GetQuote() {
         </div>
         <div className="w-[30%] p-4 bg-gray-100 max-[1080px]:w-[100%] max-[1080px]:mb-20">
           <h3 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-            {getQuote?.mainHeading || "Stop Sacrificing Your Time, We'll Handle Your Classes"}
+            {getQuote?.mainHeading ||
+              "Stop Sacrificing Your Time, We'll Handle Your Classes"}
           </h3>
           <p className="text-gray-600 mt-4 text-sm md:text-base">
-            {getQuote?.description || "From exams and essays to full‑class management, we handle it all so you don't have to."}
+            {getQuote?.description ||
+              "From exams and essays to full‑class management, we handle it all so you don't have to."}
           </p>
         </div>
       </div>
