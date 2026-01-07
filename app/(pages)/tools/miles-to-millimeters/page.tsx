@@ -1,6 +1,5 @@
-"use client";
-
 import { FC } from "react";
+import { Metadata } from "next";
 import { content } from "./content";
 import MainLayout from "@/app/MainLayout";
 import Hero from "@/app/components/Hero/Hero";
@@ -21,13 +20,13 @@ import BreadCrumbs from "@/app/components/BreadCrumbs/BreadCrumbs";
 // import ExamType from "@/app/components/ExamType/ExamType";
 // import VariousName from "@/app/components/VariousName/VariousName";
 
-interface PageProps {}
-const Page: FC<PageProps> = ({}) => {
+interface PageProps { }
+const Page: FC<PageProps> = ({ }) => {
   // return <div>test</div>
   return (
     <MainLayout>
       {/* <BreadCrumbs /> */}
-      <BreadCrumbs pageName="Miles to Millimeters"/>
+      <BreadCrumbs pageName="Miles to Millimeters" />
       <ToolsHero content={content.heroContent} />
       {/* <Hero content={content.heroContent} /> */}
       {/* <ToolsGrid
@@ -64,3 +63,17 @@ const Page: FC<PageProps> = ({}) => {
   );
 };
 export default Page;
+
+export function generateMetadata(): Metadata {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const canonicalUrl = `${normalizedBaseUrl}/tools/miles-to-millimeters`;
+
+  return {
+    title: "Miles to Millimeters Converter | Free Academic Conversion Tool",
+    description: "Convert miles to millimeters accurately with our free academic conversion tool. Quick and easy distance conversions for students and researchers.",
+    alternates: {
+      canonical: canonicalUrl,
+    },
+  };
+}
