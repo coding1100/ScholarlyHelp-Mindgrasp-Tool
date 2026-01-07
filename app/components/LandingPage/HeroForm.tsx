@@ -45,9 +45,18 @@ const HeroForm: FC<ZohoForm2Props> = ({
   }, [currentPage]);
 
   useEffect(() => {
-    const href = window?.location?.href ?? "";
-    if (href.includes("fbclid=")) setFBCLID(href);
-    if (href.includes("gclid=")) setGCLID(href);
+    const searchParams = new URLSearchParams(window.location.search);
+    const fbclid = searchParams.get("fbclid");
+    const gclid = searchParams.get("gclid");
+
+    if (fbclid) {
+      setFBCLID(fbclid);
+      console.log("Captured FBCLID:", fbclid);
+    }
+    if (gclid) {
+      setGCLID(gclid);
+      console.log("Captured GCLID:", gclid);
+    }
   }, []);
 
   useEffect(() => {
@@ -140,6 +149,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
     fd.append("email", formData.Email);
     if (formData.Phone) fd.append("phone_number", formData.Phone);
     if (formData.Description) fd.append("instructions", formData.Description);
+
+    console.log("Submitting Form with FBCLID:", FBCLID);
 
     try {
       await axiosInstance.post(`/order/quote`, fd);
