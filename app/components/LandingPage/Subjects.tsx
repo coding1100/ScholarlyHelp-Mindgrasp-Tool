@@ -20,7 +20,8 @@ export default function SubjectsSection({
   const data = usePageData();
   const subjectsData = data?.subjects;
   const currentPage = usePathname();
-  const basePath = currentPage.split("/").slice(0, 2).join("/");
+  const rawBasePath = currentPage.split("/").slice(0, 2).join("/");
+  const basePath = rawBasePath === "/" ? "" : rawBasePath;
 
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
