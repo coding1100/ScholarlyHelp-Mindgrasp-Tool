@@ -37,7 +37,7 @@ const SamplesAssignments: FC<SamplesAssignmentsProps> = ({ content }) => {
     setFilteredSubject(filterSubject);
   };
   return (
-    <div className="flex justify-center py-10">
+    <section className="flex justify-center py-10" aria-label="Samples">
       <div className="container px-10">
         <div>
           <p className="text-lg">
@@ -78,7 +78,7 @@ const SamplesAssignments: FC<SamplesAssignmentsProps> = ({ content }) => {
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
