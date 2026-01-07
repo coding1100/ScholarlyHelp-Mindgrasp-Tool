@@ -14,6 +14,8 @@ import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import Subjects from "@/app/components/LandingPage/Subjects";
 import { examSubjects, isValidExamSubject } from "../examSubjectContent";
 import { notFound } from "next/navigation";
+import clientPromise from "@/app/lib/mongodb";
+import { Metadata } from "next";
 import { ExamDataProvider } from "../../exam/ExamDataProvider";
 import { examsSubjects } from "../content";
 
@@ -27,17 +29,11 @@ interface PageProps {
   };
 }
 
+
+
 async function fetchPageData(slug: string) {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error("Database URL not configured");
-      return null;
-    }
-
-    const { MongoClient } = await import("mongodb");
-    const client = new MongoClient(databaseUrl);
-    await client.connect();
+    const client = await clientPromise;
     const db = client.db("scholarly_help");
 
     // Handle different slug formats
@@ -60,7 +56,7 @@ async function fetchPageData(slug: string) {
     const query = { $or: orConditions };
 
     const content = await db.collection("exam").findOne(query);
-    await client.close();
+    // Do not close shared client
 
     return content as any;
   } catch (error) {
@@ -176,7 +172,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { subject: string };
+}): Promise<Metadata> {
   if (!isValidExamSubject(params.subject)) {
     return {
       title: "Not Found",
@@ -185,49 +185,44 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (databaseUrl) {
-      const { MongoClient } = await import("mongodb");
-      const client = new MongoClient(databaseUrl);
-      await client.connect();
-      const db = client.db("scholarly_help");
+    const client = await clientPromise;
+    const db = client.db("scholarly_help");
 
-      let slugVariations: string[] = [params.subject];
-      if (params.subject.startsWith("exam_")) {
-        slugVariations.push(params.subject.replace("exam_", ""));
-      } else {
-        slugVariations.push(`exam_${params.subject}`);
-      }
+    let slugVariations: string[] = [params.subject];
+    if (params.subject.startsWith("exam_")) {
+      slugVariations.push(params.subject.replace("exam_", ""));
+    } else {
+      slugVariations.push(`exam_${params.subject}`);
+    }
 
-      const orConditions = [];
-      for (const variation of slugVariations) {
-        orConditions.push({ slug: variation });
-        orConditions.push({ id: variation });
-      }
-      const query = { $or: orConditions, status: { $ne: "draft" } };
+    const orConditions = [];
+    for (const variation of slugVariations) {
+      orConditions.push({ slug: variation });
+      orConditions.push({ id: variation });
+    }
+    const query = { $or: orConditions, status: { $ne: "draft" } };
 
-      const pageData: any = await db.collection("exam").findOne(query);
-      await client.close();
+    const pageData: any = await db.collection("exam").findOne(query);
+    // Do not close shared client
 
-      if (pageData) {
-        const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-        const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+    if (pageData) {
+      const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
 
-        const metaTitle =
-          pageData.meta?.title ||
-          `Take My ${params.subject} Exam | Professional ${params.subject} Exam Help`;
-        const metaDescription =
-          pageData.meta?.description ||
-          `Get expert help with your ${params.subject} exams. Professional ${params.subject} exam assistance for better grades.`;
-        const canonicalUrl =
-          pageData.meta?.canonicalUrl || `${baseUrl}/exams/${params.subject}`;
+      const metaTitle =
+        pageData.meta?.title ||
+        `Take My ${params.subject} Exam | Professional ${params.subject} Exam Help`;
+      const metaDescription =
+        pageData.meta?.description ||
+        `Get expert help with your ${params.subject} exams. Professional ${params.subject} exam assistance for better grades.`;
+      const canonicalUrl =
+        pageData.meta?.canonicalUrl || `${baseUrl}/exams/${params.subject}`;
 
-        return {
-          title: metaTitle,
-          description: metaDescription,
-          alternates: { canonical: canonicalUrl },
-        };
-      }
+      return {
+        title: metaTitle,
+        description: metaDescription,
+        alternates: { canonical: canonicalUrl },
+      };
     }
   } catch (error) {
     console.error("Error fetching metadata:", error);

@@ -19,6 +19,7 @@ import {
 import { notFound } from "next/navigation";
 import { AssignmentDataProvider } from "../AssignmentDataProvider";
 import { assignmentSubject } from "../content";
+import { Metadata } from "next";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -28,17 +29,11 @@ interface PageProps {
   params: { subject: string };
 }
 
+import clientPromise from "@/app/lib/mongodb";
+
 async function fetchPageData(slug: string) {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error("Database URL not configured");
-      return null;
-    }
-
-    const { MongoClient } = await import("mongodb");
-    const client = new MongoClient(databaseUrl);
-    await client.connect();
+    const client = await clientPromise;
     const db = client.db("scholarly_help");
 
     // Handle different slug formats
@@ -61,7 +56,7 @@ async function fetchPageData(slug: string) {
     const query = { $or: orConditions };
 
     const content = await db.collection("assignments").findOne(query);
-    await client.close();
+    // Do not close shared client
 
     return content as any;
   } catch (error) {
@@ -181,7 +176,7 @@ export async function generateMetadata({
   params,
 }: {
   params: { subject: string };
-}) {
+}): Promise<Metadata> {
   if (!isValidAssignmentSubject(params.subject)) {
     return {
       title: "Not Found",
@@ -190,55 +185,50 @@ export async function generateMetadata({
   }
 
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (databaseUrl) {
-      const { MongoClient } = await import("mongodb");
-      const client = new MongoClient(databaseUrl);
-      await client.connect();
-      const db = client.db("scholarly_help");
+    const client = await clientPromise;
+    const db = client.db("scholarly_help");
 
-      let slugVariations: string[] = [params.subject];
-      if (params.subject.startsWith("assignment_")) {
-        slugVariations.push(params.subject.replace("assignment_", ""));
-      } else {
-        slugVariations.push(`assignment_${params.subject}`);
-      }
+    let slugVariations: string[] = [params.subject];
+    if (params.subject.startsWith("assignment_")) {
+      slugVariations.push(params.subject.replace("assignment_", ""));
+    } else {
+      slugVariations.push(`assignment_${params.subject}`);
+    }
 
-      const orConditions = [];
-      for (const variation of slugVariations) {
-        orConditions.push({ slug: variation });
-        orConditions.push({ id: variation });
-      }
-      const query = { $or: orConditions, status: { $ne: "draft" } };
+    const orConditions = [];
+    for (const variation of slugVariations) {
+      orConditions.push({ slug: variation });
+      orConditions.push({ id: variation });
+    }
+    const query = { $or: orConditions, status: { $ne: "draft" } };
 
-      const pageData: any = await db.collection("assignments").findOne(query);
-      await client.close();
+    const pageData: any = await db.collection("assignments").findOne(query);
+    // Do not close shared client
 
-      if (pageData) {
-        const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-        const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+    if (pageData) {
+      const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
 
-        const metaTitle =
-          pageData.meta?.title ||
-          `${params.subject.charAt(0).toUpperCase() +
-          params.subject.slice(1).replace(/-/g, " ")
-          } Assignment Help`;
-        const metaDescription =
-          pageData.meta?.description ||
-          `Get expert help with your ${params.subject.replace(
-            /-/g,
-            " "
-          )} assignment.`;
-        const canonicalUrl =
-          pageData.meta?.canonicalUrl ||
-          `${baseUrl}/assignment/${params.subject}`;
+      const metaTitle =
+        pageData.meta?.title ||
+        `${params.subject.charAt(0).toUpperCase() +
+        params.subject.slice(1).replace(/-/g, " ")
+        } Assignment Help`;
+      const metaDescription =
+        pageData.meta?.description ||
+        `Get expert help with your ${params.subject.replace(
+          /-/g,
+          " "
+        )} assignment.`;
+      const canonicalUrl =
+        pageData.meta?.canonicalUrl ||
+        `${baseUrl}/assignment/${params.subject}`;
 
-        return {
-          title: metaTitle,
-          description: metaDescription,
-          alternates: { canonical: canonicalUrl },
-        };
-      }
+      return {
+        title: metaTitle,
+        description: metaDescription,
+        alternates: { canonical: canonicalUrl },
+      };
     }
   } catch (error) {
     console.error("Error fetching metadata:", error);
