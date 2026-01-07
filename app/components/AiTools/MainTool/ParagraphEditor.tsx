@@ -393,6 +393,12 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     content: initialContent,
     autofocus: false,
     immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        class: "focus:outline-none focus:ring-0 focus:border-none border-none outline-none",
+        style: "border: none !important; outline: none !important;",
+      },
+    },
   });
 
   const [aiSuggestion, setAISuggestion] = useState<string>("");
@@ -782,7 +788,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       )}
       <EditorContent
         editor={editor}
-        className="min-h-[300px] outline-none border-none"
+        className="min-h-[300px] outline-none border-none focus:outline-none focus:ring-0 focus:border-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:border-none [&_.ProseMirror]:focus:outline-none [&_.ProseMirror]:focus:ring-0 [&_.ProseMirror]:focus:border-none"
       />
       {aiSuggestion && suggestionCursorPos !== null && (
         <div
