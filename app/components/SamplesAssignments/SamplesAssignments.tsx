@@ -67,12 +67,14 @@ const SamplesAssignments: FC<SamplesAssignmentsProps> = ({ content }) => {
               <SubjectAssignments
                 key={i}
                 mainTitle={item.mainTitle}
+                description={item.description}
                 subjectContent={item.assignments}
               />
             ))
           ) : (
             <SubjectAssignments
               mainTitle={filteredSubject.mainTitle}
+              description={filteredSubject.description}
               subjectContent={filteredSubject.assignments}
             />
           )}

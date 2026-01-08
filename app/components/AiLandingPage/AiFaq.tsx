@@ -68,16 +68,14 @@ const AiFaq: FC<AiFaqProps> = ({ FaqSestion }) => {
     <section ref={sectionRef} className="bg-white dark:bg-[#0a0a0f] pt-20 transition-colors duration-300">
       <div className="mx-auto pb-24 px-5 sm:px-10 xl:container xl:px-10">
         <p
-          className={`text-[#8953e6] dark:text-[#a78bfa] text-xs text-center uppercase tracking-[4px] font-semibold mb-4 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#8953e6] dark:text-[#a78bfa] text-xs text-center uppercase tracking-[4px] font-semibold mb-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           {FaqSestion.subTitle}
         </p>
         <p
-          className={`text-[40px] leading-[48px] font-medium text-[#1e2938] dark:text-gray-100 text-center mb-4 transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[40px] leading-[48px] font-medium text-[#1e2938] dark:text-gray-100 text-center mb-4 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           dangerouslySetInnerHTML={{
             __html: FaqSestion.heading,
           }}
@@ -91,15 +89,13 @@ const AiFaq: FC<AiFaqProps> = ({ FaqSestion }) => {
                 ref={(el) => {
                   faqRefs.current[index] = el;
                 }}
-                className={`group rounded-2xl bg-white dark:bg-[#1a1a2e] shadow-[0px_12px_24px_rgba(30,41,56,0.06)] dark:shadow-[0px_12px_24px_rgba(0,0,0,0.3)] transition-all duration-500 hover:shadow-[0px_16px_32px_rgba(30,41,56,0.12)] dark:hover:shadow-[0px_16px_32px_rgba(137,83,230,0.2)] hover:-translate-y-1 ${
-                  visibleFaqs.has(index)
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                } ${
-                  isOpen
+                className={`group rounded-2xl bg-white dark:bg-[#1a1a2e] shadow-[0px_12px_24px_rgba(30,41,56,0.06)] dark:shadow-[0px_12px_24px_rgba(0,0,0,0.3)] transition-all duration-500 hover:shadow-[0px_16px_32px_rgba(30,41,56,0.12)] dark:hover:shadow-[0px_16px_32px_rgba(137,83,230,0.2)] hover:-translate-y-1 ${visibleFaqs.has(index)
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+                  } ${isOpen
                     ? "ring-2 ring-[#8953e6]/20 dark:ring-[#a78bfa]/30 shadow-[0px_16px_32px_rgba(137,83,230,0.15)] dark:shadow-[0px_16px_32px_rgba(167,139,250,0.25)]"
                     : ""
-                }`}
+                  }`}
                 style={{
                   transitionDelay: `${index * 50}ms`,
                 }}
@@ -115,11 +111,10 @@ const AiFaq: FC<AiFaqProps> = ({ FaqSestion }) => {
                     {faq.question}
                   </span>
                   <span
-                    className={`flex h-9 w-9 items-center justify-center rounded-full border border-[#E4E7EC] dark:border-gray-700 text-[#8953e6] dark:text-[#a78bfa] transition-all duration-300 ease-in-out group-hover:bg-[#8953e6] dark:group-hover:bg-[#a78bfa] group-hover:text-white group-hover:border-[#8953e6] dark:group-hover:border-[#a78bfa] ${
-                      isOpen
-                        ? "rotate-180 bg-[#8953e6] dark:bg-[#a78bfa] text-white border-[#8953e6] dark:border-[#a78bfa]"
-                        : ""
-                    }`}
+                    className={`flex h-9 w-9 items-center justify-center rounded-full border border-[#E4E7EC] dark:border-gray-700 text-[#8953e6] dark:text-[#a78bfa] transition-all duration-300 ease-in-out group-hover:bg-[#8953e6] dark:group-hover:bg-[#a78bfa] group-hover:text-white group-hover:border-[#8953e6] dark:group-hover:border-[#a78bfa] ${isOpen
+                      ? "rotate-180 bg-[#8953e6] dark:bg-[#a78bfa] text-white border-[#8953e6] dark:border-[#a78bfa]"
+                      : ""
+                      }`}
                   >
                     <svg
                       width="16"
@@ -141,13 +136,13 @@ const AiFaq: FC<AiFaqProps> = ({ FaqSestion }) => {
                 </button>
                 <div
                   id={`faq-panel-${index}`}
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+                    }`}
                 >
-                  <div className="px-6 pb-6 text-base leading-7 text-[#4B5563] dark:text-gray-300 animate-fade-in">
-                    {faq.answer}
-                  </div>
+                  <div
+                    className="px-6 pb-6 text-base leading-7 text-[#4B5563] dark:text-gray-300 animate-fade-in"
+                    dangerouslySetInnerHTML={{ __html: faq.answer }}
+                  />
                 </div>
               </div>
             );

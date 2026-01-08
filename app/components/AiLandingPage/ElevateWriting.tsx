@@ -59,9 +59,10 @@ const ElevateWriting: FC<ElevateWritingProps> = ({ elevateSection }) => {
           className={`mx-auto mb-10 max-w-[600px] text-center transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
-          <p className="text-base text-[#333333] dark:text-gray-300 sm:text-lg leading-relaxed">
-            {elevateSection.description}
-          </p>
+          <p
+            className="text-base text-[#333333] dark:text-gray-300 sm:text-lg leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: elevateSection.description }}
+          />
         </div>
         <div
           className={`flex flex-col items-center transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
