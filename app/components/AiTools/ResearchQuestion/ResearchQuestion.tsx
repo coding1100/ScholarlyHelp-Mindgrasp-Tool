@@ -5,32 +5,32 @@ import { FaChevronDown, FaRegCopy, FaSyncAlt } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-interface EssayTitleProps {
+interface ResearchQuestionProps {
   setFlag: (value: boolean) => void;
 }
 
-interface TitleResponse {
+interface QuestionResponse {
   status: string;
   topic: string | null;
   keywords: string | null;
-  tone: "formal" | "creative" | "research-based";
+  research_type: "qualitative" | "quantitative" | "mixed";
   requested_count: number;
-  titles: string[];
+  questions: string[];
   raw_output: string;
   llm_used: string;
   tokens_used: number;
 }
 
-const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
+const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
   const [token, setToken] = useState<string | null>(null);
   const [topic, setTopic] = useState<string>("");
   const [keywords, setKeywords] = useState<string>("");
-  const [tone, setTone] = useState<"formal" | "creative" | "research-based">(
-    "formal"
-  );
+  const [researchType, setResearchType] = useState<
+    "qualitative" | "quantitative" | "mixed"
+  >("mixed");
   const [count, setCount] = useState<number>(5);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [titles, setTitles] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
@@ -42,9 +42,9 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
   const handleClear = () => {
     setTopic("");
     setKeywords("");
-    setTone("formal");
+    setResearchType("mixed");
     setCount(5);
-    setTitles([]);
+    setQuestions([]);
     setError("");
   };
 
@@ -58,13 +58,13 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
 
     setIsSubmitting(true);
     setError("");
-    setTitles([]);
+    setQuestions([]);
 
     try {
       const payload: {
         topic?: string;
         keywords?: string;
-        tone?: "formal" | "creative" | "research-based";
+        research_type?: "qualitative" | "quantitative" | "mixed";
         count?: number;
       } = {};
 
@@ -74,15 +74,15 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
       if (keywords.trim()) {
         payload.keywords = keywords.trim();
       }
-      if (tone) {
-        payload.tone = tone;
+      if (researchType) {
+        payload.research_type = researchType;
       }
       if (count) {
         payload.count = count;
       }
 
-      const response = await axios.post<TitleResponse>(
-        `${process.env.NEXT_PUBLIC_NGROX_URL}/tools/essay-title-generator`,
+      const response = await axios.post<QuestionResponse>(
+        `${process.env.NEXT_PUBLIC_NGROX_URL}/tools/research-question-generator`,
         payload,
         {
           headers: {
@@ -94,16 +94,16 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
 
       console.log("Response:", response.data);
 
-      if (response.data.status === "success" && response.data.titles) {
-        setTitles(response.data.titles);
+      if (response.data.status === "success" && response.data.questions) {
+        setQuestions(response.data.questions);
         setFlag(true);
-        toast.success("Titles generated successfully!");
+        toast.success("Research questions generated successfully!");
       } else {
-        setError("Failed to generate titles. Please try again.");
-        toast.error("Failed to generate titles.");
+        setError("Failed to generate research questions. Please try again.");
+        toast.error("Failed to generate research questions.");
       }
     } catch (error: any) {
-      console.error("Error generating titles:", error);
+      console.error("Error generating research questions:", error);
       const errorMessage =
         error?.response?.data?.message ||
         error?.message ||
@@ -115,13 +115,13 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
     }
   };
 
-  const handleCopyTitle = async (title: string) => {
+  const handleCopyQuestion = async (question: string) => {
     try {
-      await navigator.clipboard.writeText(title);
-      toast.success("Title copied to clipboard!");
+      await navigator.clipboard.writeText(question);
+      toast.success("Question copied to clipboard!");
     } catch (err) {
       console.error("Failed to copy:", err);
-      toast.error("Failed to copy title.");
+      toast.error("Failed to copy question.");
     }
   };
 
@@ -136,8 +136,8 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
       <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 overflow-hidden transition-colors duration-300">
         {/* Main Overview Section */}
         <div className="pt-6 ">
-          <h2 className="text-2xl text-center font-bold text-gray-800 dark:text-gray-100 mb-3 transition-colors duration-300">
-            Essay Title Generator
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3 transition-colors duration-300 text-center">
+            Research Question Generator
           </h2>
         </div>
 
@@ -156,7 +156,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                 id="topic"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                placeholder="Enter your essay topic here..."
+                placeholder="Enter your research topic here..."
                 className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
               />
             </div>
@@ -173,7 +173,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                 id="keywords"
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
-                placeholder="Enter keywords separated by commas (e.g., renewable energy, sustainability, solar power)..."
+                placeholder="Enter keywords separated by commas (e.g., climate change, policy, adaptation strategies)..."
                 className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
               />
             </div>
@@ -194,31 +194,31 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
 
             {/* Options Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Tone Selector */}
+              {/* Research Type Selector */}
               <div>
                 <label
-                  htmlFor="tone"
+                  htmlFor="research_type"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
                 >
-                  Tone:
+                  Research Type:
                 </label>
                 <div className="relative">
                   <select
-                    id="tone"
-                    value={tone}
+                    id="research_type"
+                    value={researchType}
                     onChange={(e) =>
-                      setTone(
+                      setResearchType(
                         e.target.value as
-                          | "formal"
-                          | "creative"
-                          | "research-based"
+                          | "qualitative"
+                          | "quantitative"
+                          | "mixed"
                       )
                     }
                     className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
-                    <option value="formal">Formal</option>
-                    <option value="creative">Creative</option>
-                    <option value="research-based">Research-based</option>
+                    <option value="qualitative">Qualitative</option>
+                    <option value="quantitative">Quantitative</option>
+                    <option value="mixed">Mixed</option>
                   </select>
                   <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
                     <FaChevronDown className="w-3 h-3" />
@@ -232,7 +232,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                   htmlFor="count"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
                 >
-                  Number of Titles (1-10):
+                  Number of Questions (1-10):
                 </label>
                 <div className="relative">
                   <select
@@ -265,10 +265,10 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                     : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                 }`}
               >
-                {isSubmitting ? "Generating..." : "Generate Titles"}
+                {isSubmitting ? "Generating..." : "Generate Questions"}
               </button>
 
-              {titles.length > 0 && (
+              {questions.length > 0 && (
                 <button
                   onClick={handleRegenerate}
                   disabled={isSubmitting}
@@ -291,26 +291,26 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
         </div>
 
         {/* Results Section */}
-        {titles.length > 0 && (
+        {questions.length > 0 && (
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 transition-colors duration-300">
-                Generated Titles ({titles.length})
+                Generated Research Questions ({questions.length})
               </h2>
             </div>
             <div className="space-y-3">
-              {titles.map((title, index) => (
+              {questions.map((question, index) => (
                 <div
                   key={index}
                   className="flex items-start justify-between p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300"
                 >
                   <p className="flex-1 text-gray-800 dark:text-gray-100 pr-4 transition-colors duration-300">
-                    {index + 1}. {title}
+                    {index + 1}. {question}
                   </p>
                   <button
-                    onClick={() => handleCopyTitle(title)}
+                    onClick={() => handleCopyQuestion(question)}
                     className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
-                    title="Copy title"
+                    title="Copy question"
                   >
                     <FaRegCopy />
                     Copy
@@ -322,11 +322,11 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
         )}
 
         {/* Loading State */}
-        {isSubmitting && titles.length === 0 && (
+        {isSubmitting && questions.length === 0 && (
           <div className="p-6 text-center">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
             <p className="mt-2 text-gray-600 dark:text-gray-400">
-              Generating titles...
+              Generating research questions...
             </p>
           </div>
         )}
@@ -335,14 +335,15 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
       {/* Footer Quote */}
       <div className="text-sm font-serif text-center pt-8 text-gray-500 dark:text-gray-400 transition-colors duration-300">
         <q>
-          Struggling to find the perfect essay title? ScholarlyHelp's AI-powered
-          Essay Title Generator creates compelling, academic-appropriate titles
-          that capture your topic's essence and engage your readers from the
-          start.
+          Need well-structured research questions for your academic project?
+          ScholarlyHelp's AI-powered Research Question Generator creates
+          methodologically sound questions tailored to qualitative,
+          quantitative, or mixed methods research—helping you build a strong
+          foundation for your study.
         </q>
       </div>
     </div>
   );
 };
 
-export default EssayTitle;
+export default ResearchQuestion;
