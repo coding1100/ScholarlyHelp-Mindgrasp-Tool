@@ -42,6 +42,7 @@ const MTSidebar = ({
     { name: "Essay Outline Tool", href: "/tools/essay-outline-tool" },
     { name: "Essay Title Generator", href: "/tools/essay-title" },
     { name: "Research Question Generator", href: "/tools/research-question" },
+    { name: "Pythagoras Equation Solver", href: "/tools/pythagoras-solver" },
 
     // { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
   ];
