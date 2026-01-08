@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
 import AIParaphraser from "@/app/components/AiTools/AIParaphraser-tool";
-import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
+// import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
 export default function ParaphraserPage() {
   const [flag, setFlag] = useState<boolean>(false);
@@ -23,7 +23,7 @@ export default function ParaphraserPage() {
         <div className="animate-pulse bg-gray-200 dark:bg-gray-800 h-72" />
       }
     >
-      <ThemeToggle top="top-12" />
+      {/* <ThemeToggle top="top-12" /> */}
       <ToolsLayout setFlag={setFlag} flag={flag}>
         <AIParaphraser setFlag={setFlag} />
       </ToolsLayout>
