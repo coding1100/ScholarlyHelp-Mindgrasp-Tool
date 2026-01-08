@@ -40,6 +40,8 @@ const MTSidebar = ({
     { name: "Summarizer Tool", href: "/tools/summarizer-tool" },
     { name: "Thesis Generator Tool", href: "/tools/thesis-generator-tool" },
     { name: "Essay Outline Tool", href: "/tools/essay-outline-tool" },
+    { name: "Essay Title Generator", href: "/tools/essay-title" },
+
     // { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
   ];
   const [showTools, setShowTools] = useState(false);
