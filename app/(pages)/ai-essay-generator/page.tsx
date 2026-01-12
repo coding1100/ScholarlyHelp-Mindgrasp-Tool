@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Metadata } from "next";
 import { MetaData } from "@/app/metadata/metadata";
 import AiHero from "@/app/components/AiLandingPage/AiHero";
 import AiTrust from "@/app/components/AiLandingPage/AITrust";
@@ -9,8 +10,8 @@ import ElevateWriting from "@/app/components/AiLandingPage/ElevateWriting";
 import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 import { AiEssayContent } from "@/app/components/AiLandingPage/AiContent";
 
-interface PageProps {}
-const Page: FC<PageProps> = ({}) => {
+interface PageProps { }
+const Page: FC<PageProps> = ({ }) => {
   // return <div>test</div>
   return (
     <>
@@ -32,13 +33,14 @@ const Page: FC<PageProps> = ({}) => {
 };
 export default Page;
 
-export function generateMetadata({}) {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}${MetaData.aboutUs.url}`;
+export function generateMetadata(): Metadata {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const canonicalUrl = `${normalizedBaseUrl}/ai-essay-generator`;
+
   return {
-    title: `${MetaData.aboutUs.title}`,
-    description: `${MetaData.aboutUs.description}`,
+    title: "Free AI Essay Generator | Write High-Quality Essays Instantly",
+    description: "Create structured, high-quality essays in minutes with our intelligent AI essay builder. Perfect for academic practice, reflections, and coursework assignments.",
     alternates: {
       canonical: canonicalUrl,
     },

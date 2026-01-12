@@ -88,27 +88,23 @@ const AiMission: FC<AiMissionProps> = ({ missionSection, guideSection }) => {
     >
       <div className="mx-auto flex w-full flex-col pb-24 px-5 sm:px-10 xl:container xl:px-10">
         <p
-          className={`mb-4 text-center text-xs font-semibold uppercase tracking-[4px] text-[#8953e6] dark:text-[#a78bfa] transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-4 text-center text-xs font-semibold uppercase tracking-[4px] text-[#8953e6] dark:text-[#a78bfa] transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           {missionSection.subTitle}
         </p>
         <p
-          className={`mb-4 text-center text-[32px] font-medium leading-[40px] text-[#1e2938] dark:text-gray-100 sm:text-[36px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-4 text-center text-[32px] font-medium leading-[40px] text-[#1e2938] dark:text-gray-100 sm:text-[36px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           dangerouslySetInnerHTML={{
             __html: missionSection.heading,
           }}
         />
         <p
-          className={`mx-auto mb-10 max-w-[922px] text-center text-base text-[#364153] dark:text-gray-300 sm:text-lg transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          {missionSection.description}
-        </p>
+          className={`mx-auto mb-10 max-w-[922px] text-center text-base text-[#364153] dark:text-gray-300 sm:text-lg transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          dangerouslySetInnerHTML={{ __html: missionSection.description }}
+        />
 
         <div className="mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
           {guideSection.steps.map((step, index) => (
@@ -117,11 +113,10 @@ const AiMission: FC<AiMissionProps> = ({ missionSection, guideSection }) => {
               ref={(el) => {
                 stepRefs.current[index] = el;
               }}
-              className={`group space-y-2 rounded-xl px-6 py-6 bg-white dark:bg-[#1a1a2e] transition-all duration-500 hover:shadow-2xl dark:hover:shadow-[#8953e6]/20 hover:-translate-y-2 ${
-                visibleSteps.has(index)
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`group space-y-2 rounded-xl px-6 py-6 bg-white dark:bg-[#1a1a2e] transition-all duration-500 hover:shadow-2xl dark:hover:shadow-[#8953e6]/20 hover:-translate-y-2 ${visibleSteps.has(index)
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
               style={{
                 boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                 transitionDelay: `${index * 100}ms`,
@@ -139,16 +134,16 @@ const AiMission: FC<AiMissionProps> = ({ missionSection, guideSection }) => {
               <p className="text-xl font-medium text-[#1E2938] dark:text-gray-100 sm:text-2xl transition-colors duration-300 group-hover:text-[#535ced] dark:group-hover:text-[#a78bfa]">
                 {step.title}
               </p>
-              <p className="text-sm text-[#697282] dark:text-gray-400 sm:text-base leading-relaxed">
-                {step.description}
-              </p>
+              <p
+                className="text-sm text-[#697282] dark:text-gray-400 sm:text-base leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: step.description }}
+              />
             </div>
           ))}
         </div>
         <div
-          className={`flex flex-col items-center transition-all duration-1000 delay-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`flex flex-col items-center transition-all duration-1000 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <Link
             href={missionSection.buttonUrl}

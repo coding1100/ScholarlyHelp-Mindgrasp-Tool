@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Metadata } from "next";
 import { MetaData } from "@/app/metadata/metadata";
 import AiHero from "@/app/components/AiLandingPage/AiHero";
 import AiTrust from "@/app/components/AiLandingPage/AITrust";
@@ -9,8 +10,8 @@ import ElevateWriting from "@/app/components/AiLandingPage/ElevateWriting";
 import { AiSummarizerContent } from "@/app/components/AiLandingPage/AiContent";
 import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
-interface PageProps {}
-const Page: FC<PageProps> = ({}) => {
+interface PageProps { }
+const Page: FC<PageProps> = ({ }) => {
   // return <div>test</div>
   return (
     <>
@@ -33,13 +34,14 @@ const Page: FC<PageProps> = ({}) => {
 };
 export default Page;
 
-export function generateMetadata({}) {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}${MetaData.aboutUs.url}`;
+export function generateMetadata(): Metadata {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const canonicalUrl = `${normalizedBaseUrl}/ai-summarizer`;
+
   return {
-    title: `${MetaData.aboutUs.title}`,
-    description: `${MetaData.aboutUs.description}`,
+    title: "AI Summarizer Tool | Condense Articles & Research Papers Instantly",
+    description: "Turn long chapters, PDFs, notes, or articles into clear, concise summaries. Save study time and capture main ideas quickly with our intelligent AI summarizer.",
     alternates: {
       canonical: canonicalUrl,
     },

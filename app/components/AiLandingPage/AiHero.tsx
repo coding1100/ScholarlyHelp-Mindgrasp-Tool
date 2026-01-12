@@ -64,26 +64,24 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
     >
       <div className="mx-auto flex w-full flex-col pb-24 px-5 sm:px-10 xl:container xl:px-10">
         <h1
-          className={`mb-[31px] text-center text-4xl font-medium leading-tight text-[#101828] dark:text-gray-100 sm:text-5xl lg:text-[62px] lg:leading-[1.05] transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-[31px] text-center text-4xl font-medium leading-tight text-[#101828] dark:text-gray-100 sm:text-5xl lg:text-[62px] lg:leading-[1.05] transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           dangerouslySetInnerHTML={{
             __html: heroContent.mainHeading,
           }}
         />
         <div
-          className={`mx-auto mb-10 max-w-[1038px] text-center transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mx-auto mb-10 max-w-[1038px] text-center transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
-          <p className="text-base text-[#333333] dark:text-gray-300 sm:text-lg">
-            {heroContent.description}
-          </p>
+          <p
+            className="text-base text-[#333333] dark:text-gray-300 sm:text-lg"
+            dangerouslySetInnerHTML={{ __html: heroContent.description }}
+          />
         </div>
         <div
-          className={`flex flex-col items-center transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`flex flex-col items-center transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <Link
             href={heroContent.buttonUrl}
