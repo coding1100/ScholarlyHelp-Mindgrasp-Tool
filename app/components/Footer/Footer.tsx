@@ -32,8 +32,8 @@ import axios from "axios";
 import { FaSnapchat } from "react-icons/fa";
 import { SiYoutubemusic } from "react-icons/si";
 
-interface FooterProps {}
-const Footer: FC<FooterProps> = ({}) => {
+interface FooterProps { }
+const Footer: FC<FooterProps> = ({ }) => {
   const currentPage = usePathname();
   const hideWhatsapp = hideWhatsappModule.includes(currentPage);
   const hidelinksfooter = hideFooterLinks.includes(currentPage);
@@ -340,11 +340,20 @@ const Footer: FC<FooterProps> = ({}) => {
                     <div>
                       <Link
                         className="hover:font-normal hover:underline "
+                        href="/samples/"
+                      >
+                        <p>Samples</p>
+                      </Link>
+                    </div>
+                    <div>
+                      <Link
+                        className="hover:font-normal hover:underline "
                         href="https://scholarlyhelp.com/blog/"
                       >
                         <p>Blog</p>
                       </Link>
                     </div>
+
                   </div>
                 </div>
 

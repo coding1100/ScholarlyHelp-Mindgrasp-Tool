@@ -614,7 +614,7 @@ export const MetaData = {
   samples: {
     title: "Explore Assignment Samples | High-Quality Work Examples",
     description:
-      "Scholarly Help’s academic writing services are both affordable and high-quality. We are reliable online tutors. For higher scores on your tests, homework, and assignments, rely on our subject specialists. We can also assist you with writing an essay.Check out high-quality assignment samples by Scholarly Help. View examples of essays, research, and projects we’ve successfully delivered.",
+      "See how academic work is structured before you proceed. Browse subject-specific samples and writing examples provided by Scholarly Help for clarity and confidence.",
     url: "samples/",
   },
   // MetaData for Save My Time Page

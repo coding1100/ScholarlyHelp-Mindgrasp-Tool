@@ -87,23 +87,20 @@ const AiTrust: FC<AiTrustProps> = ({ trustSection }) => {
     >
       <div className="mx-auto flex w-full flex-col pb-24 px-5 text-center sm:px-10 xl:container xl:px-10">
         <p
-          className={`mb-4 text-xl font-medium text-[#1e2938] dark:text-gray-100 sm:text-2xl transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-4 text-xl font-medium text-[#1e2938] dark:text-gray-100 sm:text-2xl transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           {trustSection.heading}
         </p>
         <p
-          className={`mb-9 text-sm text-[#333333] dark:text-gray-300 sm:text-base lg:text-lg transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-9 text-sm text-[#333333] dark:text-gray-300 sm:text-base lg:text-lg transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           {trustSection.description}
         </p>
         <div
-          className={`mx-auto mt-10 w-full max-w-[900px] transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mx-auto mt-10 w-full max-w-[900px] transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
