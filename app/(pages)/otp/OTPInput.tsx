@@ -10,19 +10,23 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onChange }) => {
   const inputs = Array.from({ length });
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    idx: number
+  ) => {
     const val = e.target.value.replace(/\D/g, ""); // Only numbers
     if (val.length > 1) return;
     e.target.value = val;
-    onChange(
-      inputRefs.current.map((input) => input?.value || "").join("")
-    );
+    onChange(inputRefs.current.map((input) => input?.value || "").join(""));
     if (val && idx < length - 1) {
       inputRefs.current[idx + 1]?.focus();
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, idx: number) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    idx: number
+  ) => {
     if (e.key === "Backspace" && !inputRefs.current[idx]?.value && idx > 0) {
       inputRefs.current[idx - 1]?.focus();
     }
@@ -37,7 +41,9 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onChange }) => {
           inputMode="numeric"
           maxLength={1}
           className="w-12 h-16 border-2 border-gray-300 rounded-lg text-center text-2xl focus:outline-none focus:border-blue-500 transition-all"
-          ref={(el) => (inputRefs.current[idx] = el)}
+          ref={(el) => {
+            inputRefs.current[idx] = el;
+          }}
           onChange={(e) => handleChange(e, idx)}
           onKeyDown={(e) => handleKeyDown(e, idx)}
         />
