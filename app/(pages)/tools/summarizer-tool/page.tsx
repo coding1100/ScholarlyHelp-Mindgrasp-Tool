@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
 import SummarizerTool from "@/app/components/AiTools/summarizer-tool";
-import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
+// import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
 export default function SummarizerPage() {
   const [flag, setFlag] = useState<boolean>(false);
@@ -19,7 +19,7 @@ export default function SummarizerPage() {
 
   return (
     <Suspense fallback={<div className="animate-pulse bg-gray-200 h-72" />}>
-      <ThemeToggle top="top-12" />
+      {/* <ThemeToggle top="top-12" /> */}
       <ToolsLayout setFlag={setFlag} flag={flag}>
         <SummarizerTool />
       </ToolsLayout>
