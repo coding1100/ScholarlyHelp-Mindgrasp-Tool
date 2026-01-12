@@ -7,15 +7,15 @@ import KeyFeatures from "@/app/components/AiLandingPage/KeyFeatures";
 import AiMission from "@/app/components/AiLandingPage/AiMission";
 import AiFaq from "@/app/components/AiLandingPage/AiFaq";
 import ElevateWriting from "@/app/components/AiLandingPage/ElevateWriting";
-import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
+// import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 import { AiEssayContent } from "@/app/components/AiLandingPage/AiContent";
 
-interface PageProps { }
-const Page: FC<PageProps> = ({ }) => {
+interface PageProps {}
+const Page: FC<PageProps> = ({}) => {
   // return <div>test</div>
   return (
     <>
-      <ThemeToggle />
+      {/* <ThemeToggle /> */}
       <AiHero
         heroContent={AiEssayContent.heroContent}
         imgSection={AiEssayContent.imgSection}
@@ -34,13 +34,17 @@ const Page: FC<PageProps> = ({ }) => {
 export default Page;
 
 export function generateMetadata(): Metadata {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const normalizedBaseUrl = baseUrl.endsWith("/")
+    ? baseUrl.slice(0, -1)
+    : baseUrl;
   const canonicalUrl = `${normalizedBaseUrl}/ai-essay-generator`;
 
   return {
     title: "Free AI Essay Generator | Write High-Quality Essays Instantly",
-    description: "Create structured, high-quality essays in minutes with our intelligent AI essay builder. Perfect for academic practice, reflections, and coursework assignments.",
+    description:
+      "Create structured, high-quality essays in minutes with our intelligent AI essay builder. Perfect for academic practice, reflections, and coursework assignments.",
     alternates: {
       canonical: canonicalUrl,
     },
