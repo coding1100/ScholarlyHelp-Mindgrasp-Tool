@@ -113,7 +113,7 @@ export default function GetQuote() {
               }}
             />
             <div className="sm:w-[450px] formtwo">
-              <HeroForm />
+              <HeroForm showStickyOnMobile={false} />
             </div>
             <div className="hidden">
               <form
