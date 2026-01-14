@@ -218,7 +218,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3"
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200  min-[768px]:hidden"></div>
-            <IoIosMail className="text-[#6B7280] text-xl" />
+            <IoIosMail className="text-[#6B7280] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
           </div>
 
           {/* Phone Field */}
@@ -235,7 +235,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
-            <MdPhoneInTalk className="text-[#6B7280] text-xl" />
+            <MdPhoneInTalk className="text-[#6B7280] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
           </div>
 
           {/* Instructions Field */}
