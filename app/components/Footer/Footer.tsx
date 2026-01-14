@@ -210,7 +210,7 @@ const Footer: FC<FooterProps> = ({ }) => {
           <>
             {/* SMS module */}
             <div>
-              <button id="sms-chat" className="sms-chat">
+              <button id="sms-chat" className="sms-chat z-[100]">
                 <a
                   href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                   className="blantershow-sms"
@@ -224,7 +224,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                   <span className="sms-text">Send SMS</span>
                 </a>
               </button>
-              <button id="sms-chat2" className="sms-chat" onClick={apiCall}>
+              <button id="sms-chat2" className="sms-chat z-[100]" onClick={apiCall}>
                 <a
                   href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                   className="blantershow-sms2"
@@ -286,7 +286,7 @@ const Footer: FC<FooterProps> = ({ }) => {
     );
   } else {
     return (
-      <div>
+      <div className="z-[100] relative" >
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
             <div className="md:max-w-[372px]">
@@ -527,7 +527,7 @@ const Footer: FC<FooterProps> = ({ }) => {
         ) : (
           <div>
             {/* sms module */}
-            <button id="sms-chat" className="sms-chat">
+            <button id="sms-chat" className="sms-chat z-[100]">
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                 className="blantershow-sms"
@@ -542,7 +542,7 @@ const Footer: FC<FooterProps> = ({ }) => {
               </a>
             </button>
 
-            <button id="sms-chat2" className="sms-chat">
+            <button id="sms-chat2" className="sms-chat z-[100]">
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                 className="blantershow-sms2"
