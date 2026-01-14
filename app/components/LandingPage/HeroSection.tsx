@@ -49,7 +49,7 @@ const HeroSection: FC<HeroSectionProps> = ({
   return (
     <section
       id="hero-section"
-      className="w-full bg-[#F5F6FA] pb-[100px] max-[1320px]:px-8 max-[768px]:px-4"
+      className="w-full bg-[#F5F6FA] pb-[100px] max-[1320px]:px-8 max-[768px]:px-6"
     >
       <div className="mx-auto max-w-7xl py-10 !pt-[100px] md:py-14 max-[768px]:!pt-[50px]">
         <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-12 md:gap-12">

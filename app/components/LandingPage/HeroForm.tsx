@@ -197,7 +197,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
         />
       )}
-      <div className="max-w-[600px] mx-auto cus-div">
+      <div className="w-full mx-auto cus-div">
         <form
           ref={formRef}
           onSubmit={handleSubmit}
@@ -205,7 +205,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           id="quote-form"
         >
           {/* Email Field */}
-          <div className="flex items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-transparent border-[#E3E5F3] px-4 max-[768px]:relative
+          <div className="flex items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative
           ">
             <input
               type="email"
@@ -222,7 +222,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           </div>
 
           {/* Phone Field */}
-          <div className="flex text-black items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-transparent border-[#E3E5F3] px-4 max-[768px]:relative">
+          <div className="flex text-black items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative">
             <input
               type="text"
               id="Phone"
@@ -239,7 +239,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           </div>
 
           {/* Instructions Field */}
-          <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] max-[768px]:bg-transparent px-4 pt-3 pb-2 min-h-[150px] max-[768px]:relative">
+          <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] max-[768px]:bg-[#F5F6FA] px-4 pt-3 pb-2 min-h-[150px] max-[768px]:relative">
             <textarea
               id="Description"
               name="Description"
