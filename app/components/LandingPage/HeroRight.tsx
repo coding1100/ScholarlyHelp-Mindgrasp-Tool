@@ -37,7 +37,7 @@ interface HeroRightProps {
 const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
   return (
     <div className="flex w-full flex-col gap-6">
-      <div className="relative flex items-start gap-6">
+      <div className="relative flex items-start gap-6 z-[999]">
         {/* background decorative layer behind the form */}
         <div className="pointer-events-none absolute inset-0 z-0 hidden md:block">
           <Image
@@ -66,7 +66,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
         </div>
 
         {/* form sits above decorative layer */}
-        <div className="relative z-10 w-full">
+        <div className="relative z-[99] w-full">
           <HeroForm formBackImg2={formBackImg2} />
         </div>
 
