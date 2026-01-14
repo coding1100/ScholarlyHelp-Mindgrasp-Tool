@@ -12,7 +12,7 @@ import Tiktok from "@/app/assets/Images/tiktok.webp";
 import Visa from "@/app/assets/Images/visaIcon.webp";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import CopyRight from "./CopyRight";
 // import whatsappIconFooter from "@/app/assets/Images/whatsapp-icon.svg";
 import cellPhone from "@/app/assets/Images/cellphone.png";
@@ -41,6 +41,8 @@ const Footer: FC<FooterProps> = ({ }) => {
   const hideSMS = smsHide.includes(currentPage);
   const [GCLID, setGCLID] = useState("");
   const [url, setUrl] = useState("");
+  const [isFooterInView, setIsFooterInView] = useState(false);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window?.location?.href?.includes("gclid=")) {
@@ -48,6 +50,28 @@ const Footer: FC<FooterProps> = ({ }) => {
     }
 
     setUrl(window?.location?.href);
+  }, []);
+
+  useEffect(() => {
+    if (!footerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterInView(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+        // Start treating footer as "in view" a bit earlier (offset from bottom)
+        // so z-[999] drops before it fully reaches the viewport
+        rootMargin: "0px 0px 100px 0px",
+      }
+    );
+
+    observer.observe(footerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   const postUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/quote/whatsapp`;
@@ -78,7 +102,7 @@ const Footer: FC<FooterProps> = ({ }) => {
     return;
   } else if (hidelinksfooter) {
     return (
-      <div>
+      <div ref={footerRef} className={`${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-15 text-primary-600">
             <div className="md:max-w-[372px]">
@@ -286,7 +310,7 @@ const Footer: FC<FooterProps> = ({ }) => {
     );
   } else {
     return (
-      <div className="z-[100] relative" >
+      <div ref={footerRef} className={`relative ${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
             <div className="md:max-w-[372px]">
