@@ -94,7 +94,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
 
       {!shouldHideBadges && (
         <div className="mt-6 flex flex-col items-start gap-3 relative">
-          <div className="inline-flex items-center gap-2 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 max-[768px]:px-3 py-2 z-[9]">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border max-[768px]:bg-[#D3D4F7] border-[#E9E9F1] bg-white/80 px-4 max-[768px]:px-3 py-2 z-[9]">
             <div>
               <CheckBadge />
             </div>
@@ -102,7 +102,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
               Free Up 20+ Hours/week
             </span>
           </div>
-          <div className="inline-flex items-center gap-2 self-start rounded-full border border-[#E9E9F1] bg-white/80 max-[768px]:px-3 px-4 py-2 z-[9]">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border max-[768px]:bg-[#D3D4F7] border-[#E9E9F1] bg-white/80 max-[768px]:px-3 px-4 py-2 z-[9]">
             <div>
               <CheckBadge />
             </div>
@@ -111,7 +111,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
               24/7 support
             </span>
           </div>
-          <div className="inline-flex items-center gap-2 self-start rounded-full border border-[#E9E9F1] bg-white/80 max-[768px]:px-3 px-4 py-2 z-[9]">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border max-[768px]:bg-[#D3D4F7] border-[#E9E9F1] bg-white/80 max-[768px]:px-3 px-4 py-2 z-[9]">
             <div>
               <CheckBadge />
             </div>
