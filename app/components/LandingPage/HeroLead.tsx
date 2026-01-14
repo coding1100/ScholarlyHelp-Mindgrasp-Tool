@@ -2,9 +2,9 @@
 
 import React, { FC } from "react";
 import { usePathname } from "next/navigation";
-
+import respavatar from "@/app/assets/Images/resp-avatar.svg";
 import Link from "next/link";
-
+import Image from "next/image";
 const CHECK_BG = "#9F92EC";
 const PRIMARY_BG = "#9F92EC";
 const SECONDARY_BG = "#B0B0B0";
@@ -93,8 +93,8 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
       </h1>
 
       {!shouldHideBadges && (
-        <div className="mt-6 flex flex-col items-start gap-3">
-          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+        <div className="mt-6 flex flex-col items-start gap-3 relative">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border max-[768px]:bg-[#D3D4F7] border-[#E9E9F1] bg-white/80 px-4 max-[768px]:px-3 py-2 z-[9]">
             <div>
               <CheckBadge />
             </div>
@@ -102,7 +102,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
               Free Up 20+ Hours/week
             </span>
           </div>
-          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border max-[768px]:bg-[#D3D4F7] border-[#E9E9F1] bg-white/80 max-[768px]:px-3 px-4 py-2 z-[9]">
             <div>
               <CheckBadge />
             </div>
@@ -111,7 +111,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
               24/7 support
             </span>
           </div>
-          <div className="inline-flex items-center gap-3 self-start rounded-full border border-[#E9E9F1] bg-white/80 px-4 py-2">
+          <div className="inline-flex items-center gap-2 self-start rounded-full border max-[768px]:bg-[#D3D4F7] border-[#E9E9F1] bg-white/80 max-[768px]:px-3 px-4 py-2 z-[9]">
             <div>
               <CheckBadge />
             </div>
@@ -119,7 +119,15 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
               100% Confidential
             </span>
           </div>
+          <div className="min-[768px]:hidden"> 
+            <Image
+              src={respavatar}
+              alt=""
+              className="absolute right-0 top-0"
+            />
+          </div>
         </div>
+        
       )}
 
       {heroContent?.subHeading && shouldHideBadges && (
@@ -140,7 +148,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
           {heroContent?.btn1Url ? (
             <Link
               href={heroContent.btn1Url}
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
               style={{ backgroundColor: PRIMARY_BG }}
             >
               {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
@@ -148,7 +156,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
           ) : (
             <button
               type="button"
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
               style={{ backgroundColor: PRIMARY_BG }}
             >
               {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
@@ -158,7 +166,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
           {heroContent?.btn2Url ? (
             <Link
               href={heroContent.btn2Url}
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer"
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
               style={{ backgroundColor: SECONDARY_BG }}
             >
               {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}

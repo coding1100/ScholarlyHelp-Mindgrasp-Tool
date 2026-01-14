@@ -11,6 +11,7 @@ import Phone from "@/app/assets/Icons/phone.svg";
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
+  const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(null);
 
   const navItems = [
     {
@@ -217,6 +218,11 @@ export default function Header() {
       {/* Header Top Bar */}
       <div className="max-w-7xl mx-auto max-[1320px]:px-8 flex items-center justify-between pt-2 px-6">
         {/* Logo */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="min-[1200px]:hidden text-gray-700" >
+          {mobileOpen ? <X size={28} color="#3e42b3" /> : <Menu size={28} color="#3e42b3" />}
+        </button>
         <Link href="/">
           <Image
             src={LogoSmall}
@@ -232,12 +238,7 @@ export default function Header() {
         </Link>
 
         {/* Mobile Toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="min-[1200px]:hidden text-gray-700"
-        >
-          {mobileOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        
 
         {/* Desktop Navigation */}
         <nav className="hidden min-[1200px]:flex items-center font-medium text-gray-700 ">
@@ -332,14 +333,37 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation (absolute dropdown on mobile with outside click close) */}
+      {/* Backdrop to detect outside clicks */}
       {mobileOpen && (
-        <div className="min-[1200px]:hidden bg-white border-t shadow-inner max-h-[90vh] overflow-auto">
-          <ul className="flex flex-col divide-y ">
+        <div
+          className="min-[1200px]:hidden fixed inset-0 z-30"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+      <div
+        className={`min-[1200px]:hidden absolute inset-x-0 top-full bg-white border-t h-[400px] shadow-lg max-h-[calc(100vh-72px)] overflow-auto z-40 transition-all duration-300 ease-in-out ${
+          mobileOpen
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 -translate-y-4 pointer-events-none"
+        }`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {mobileOpen && (
+          <ul className="flex flex-col divide-y">
             {navItems.map((item, index) => (
               <li key={index} className="p-3 ">
                 {item.submenu ? (
-                  <details className="group">
+                  <details
+                    className="group"
+                    open={mobileActiveIndex === index}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMobileActiveIndex(
+                        mobileActiveIndex === index ? null : index
+                      );
+                    }}
+                  >
                     <summary className="flex justify-between items-center cursor-pointer font-medium">
                       {item.title}
                       <ChevronDown
@@ -382,8 +406,8 @@ export default function Header() {
               </li>
             ))}
           </ul>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }
