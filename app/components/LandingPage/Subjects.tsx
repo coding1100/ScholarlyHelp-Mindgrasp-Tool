@@ -196,7 +196,7 @@ export default function SubjectsSection({
 
   return (
     <section className="pt-[86px] pb-16 bg-[#ECECFC] text-[#2B1C51]">
-      <div className="max-w-7xl mx-auto max-[1320px]:px-8 text-center">
+      <div className="max-w-7xl mx-auto max-[1320px]:px-4 text-center">
         <h2 className="text-[42px] text-[#000] font-bold mb-3">
           {subjectsData?.mainHeading || "Subjects & Majors We Cover"}
         </h2>

@@ -66,7 +66,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
         </div>
 
         {/* form sits above decorative layer */}
-        <div className="relative z-10 w-full max-w-md">
+        <div className="relative z-10 w-full">
           <HeroForm formBackImg2={formBackImg2} />
         </div>
 

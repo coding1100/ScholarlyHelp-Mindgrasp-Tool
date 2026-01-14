@@ -58,7 +58,7 @@ export default function GetQuote() {
             alt=""
             width={580}
             height={600}
-            className="max-[768px]:hidden"
+            className="max-[900px]:hidden"
             style={{
               height: "auto",
               position: "absolute",
@@ -67,7 +67,7 @@ export default function GetQuote() {
             }}
           />
 
-          <div className="relative max-[768px]:mx-auto ">
+          <div className="relative max-[768px]:mx-auto  max-[900px]:w-full">
             <Image
               src="/assets/Icon/ag-1.png"
               alt=""
