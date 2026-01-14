@@ -219,8 +219,9 @@ export default function Header() {
       <div className="max-w-7xl mx-auto max-[1320px]:px-8 flex items-center justify-between pt-2 px-6">
         {/* Logo */}
         <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="min-[1200px]:hidden text-gray-700" >
+          onClick={() => setMobileOpen((prev) => !prev)}
+          className="min-[1200px]:hidden text-gray-700"
+        >
           {mobileOpen ? <X size={28} color="#3e42b3" /> : <Menu size={28} color="#3e42b3" />}
         </button>
         <Link href="/">
@@ -333,26 +334,25 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation (absolute dropdown on mobile with outside click close) */}
-      {/* Backdrop to detect outside clicks */}
-      {mobileOpen && (
-        <div
-          className="min-[1200px]:hidden fixed inset-0 z-30"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
+      {/* Mobile Navigation - full-width dropdown under header with smooth transition and outside click close */}
       <div
-        className={`min-[1200px]:hidden absolute inset-x-0 top-full bg-white border-t h-[400px] shadow-lg max-h-[calc(100vh-72px)] overflow-auto z-40 transition-all duration-300 ease-in-out ${
-          mobileOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 -translate-y-4 pointer-events-none"
+        className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
-        onClick={(e) => e.stopPropagation()}
+        onClick={() => {
+          setMobileOpen(false);
+          setMobileActiveIndex(null);
+        }}
       >
-        {mobileOpen && (
+        <div
+          className={`absolute inset-x-0 top-[60px] mx-auto max-w-7xl bg-white border-t shadow-lg rounded-b-2xl max-h-[70vh] overflow-auto transform transition-transform duration-300 ease-in-out ${
+            mobileOpen ? "translate-y-0" : "-translate-y-4"
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
           <ul className="flex flex-col divide-y">
             {navItems.map((item, index) => (
-              <li key={index} className="p-3 ">
+              <li key={index} className="p-3">
                 {item.submenu ? (
                   <details
                     className="group"
@@ -368,37 +368,47 @@ export default function Header() {
                       {item.title}
                       <ChevronDown
                         size={18}
-                        className="transition group-open:rotate-180"
+                        className="transition-transform duration-300 ease-in-out group-open:rotate-180"
                       />
                     </summary>
-                    <ul className="mt-2 pl-3 border-l border-gray-200 space-y-1">
-                      {item.submenu.map((sub, idx) => (
-                        <li key={idx}>
-                          <div className="mb-2">
-                            <span className="font-medium text-gray-800">
-                              {sub.title}
-                            </span>
-                            <ul className="ml-2 mt-1 space-y-1">
-                              {sub.links.map((link, linkIdx) => (
-                                <li key={linkIdx}>
-                                  <Link
-                                    href={link.href}
-                                    className="block text-gray-600 hover:text-blue-600 py-1"
-                                  >
-                                    {link.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="mt-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-open:max-h-[500px]">
+                      <ul className="pl-3 border-l border-gray-200 space-y-1">
+                        {item.submenu.map((sub, idx) => (
+                          <li key={idx}>
+                            <div className="mb-2">
+                              <span className="font-medium text-gray-800">
+                                {sub.title}
+                              </span>
+                              <ul className="ml-2 mt-1 space-y-1">
+                                {sub.links.map((link, linkIdx) => (
+                                  <li key={linkIdx}>
+                                    <Link
+                                      href={link.href}
+                                      className="block text-gray-600 hover:text-blue-600 py-1"
+                                      onClick={() => {
+                                        setMobileOpen(false);
+                                        setMobileActiveIndex(null);
+                                      }}
+                                    >
+                                      {link.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </details>
                 ) : (
                   <Link
                     href={item.href || "#"}
                     className="block text-gray-700 hover:text-blue-600"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      setMobileActiveIndex(null);
+                    }}
                   >
                     {item.title}
                   </Link>
@@ -406,7 +416,7 @@ export default function Header() {
               </li>
             ))}
           </ul>
-        )}
+        </div>
       </div>
     </header>
   );
