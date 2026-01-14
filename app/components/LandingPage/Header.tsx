@@ -371,7 +371,7 @@ export default function Header() {
                         className="transition-transform duration-300 ease-in-out group-open:rotate-180"
                       />
                     </summary>
-                    <div className="mt-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-open:max-h-[500px]">
+                    <div className="mt-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-open:max-h-fit">
                       <ul className="pl-3 border-l border-gray-200 space-y-1">
                         {item.submenu.map((sub, idx) => (
                           <li key={idx}>
