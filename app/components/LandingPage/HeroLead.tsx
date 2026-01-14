@@ -123,7 +123,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
             <Image
               src={respavatar}
               alt=""
-              className="absolute right-0 top-0"
+              className="absolute right-0 bottom-0 max-[430px]:w-[130px] max-[430px]:h-[130px]"
             />
           </div>
         </div>
