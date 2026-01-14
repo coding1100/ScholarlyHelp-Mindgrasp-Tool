@@ -133,7 +133,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
         <button
           type="button"
           onClick={scrollToQuote}
-          className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
+          className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] "
         >
           {success?.ctaButton?.text || "Take my online class"}
         </button>
