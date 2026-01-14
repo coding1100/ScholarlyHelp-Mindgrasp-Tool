@@ -126,3 +126,12 @@ body {
 body{
   background: #fff;
 }
+.lineAdded::after{
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #E9E9F1;
+  bottom: 0;
+  left: 0;
+}
