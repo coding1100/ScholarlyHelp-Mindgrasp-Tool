@@ -197,15 +197,16 @@ const HeroForm: FC<ZohoForm2Props> = ({
           className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
         />
       )}
-      <div className="max-w-[600px] mx-auto cus-div">
+      <div className="w-full mx-auto cus-div">
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className="bg-white rounded-lg shadow-sm p-6 flex flex-col gap-4 -z-[999]"
+          className="bg-white max-[768px]:bg-transparent max-[768px]:shadow-none max-[768px]:p-0 rounded-lg shadow-sm p-6 flex flex-col gap-4 -z-[999]"
           id="quote-form"
         >
           {/* Email Field */}
-          <div className="flex items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
+          <div className="flex items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative
+          ">
             <input
               type="email"
               id="Email"
@@ -214,13 +215,14 @@ const HeroForm: FC<ZohoForm2Props> = ({
               value={formData.Email}
               onChange={handleChange}
               required
-              className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
+              className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3"
             />
+            <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200  min-[768px]:hidden"></div>
             <IoIosMail className="text-[#6B7280] text-xl" />
           </div>
 
           {/* Phone Field */}
-          <div className="flex text-black items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
+          <div className="flex text-black items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative">
             <input
               type="text"
               id="Phone"
@@ -232,11 +234,12 @@ const HeroForm: FC<ZohoForm2Props> = ({
               required
               className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
             />
+            <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
             <MdPhoneInTalk className="text-[#6B7280] text-xl" />
           </div>
 
           {/* Instructions Field */}
-          <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4 pt-3 pb-2 min-h-[150px">
+          <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] max-[768px]:bg-[#F5F6FA] px-4 pt-3 pb-2 min-h-[150px] max-[768px]:relative">
             <textarea
               id="Description"
               name="Description"
@@ -247,6 +250,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               required
               className="flex-1 bg-transparent text-black outline-none resize-none text-sm placeholder-[#9CA3AF] pr-3 bg-[#EDEFFE] min-h-[150px]"
             />
+            <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
             <IoChatbubbles className="text-[#6B7280] text-xl mt-1 flex-shrink-0" />
           </div>
 
