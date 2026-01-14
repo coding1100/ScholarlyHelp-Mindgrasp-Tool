@@ -364,7 +364,7 @@ export default function Header() {
                       );
                     }}
                   >
-                    <summary className="flex justify-between items-center cursor-pointer font-medium">
+                    <summary className="flex justify-between items-center cursor-pointer font-medium text-[#1e1e1e]">
                       {item.title}
                       <ChevronDown
                         size={18}
