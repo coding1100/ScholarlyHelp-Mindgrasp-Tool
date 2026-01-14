@@ -15,12 +15,14 @@ interface ZohoForm2Props {
   nameValue?: string;
   textAreaRows?: number;
   formBackImg2?: StaticImageData;
+  showStickyOnMobile?: boolean;
 }
 
 const HeroForm: FC<ZohoForm2Props> = ({
   nameValue,
   textAreaRows = 4,
   formBackImg2,
+  showStickyOnMobile = true,
 }) => {
   const data = usePageData();
   const getQuote = data?.getQuote;
@@ -270,7 +272,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
       </div>
 
       {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
-      {isMobile && !isFormVisible ? (
+      {showStickyOnMobile && isMobile && !isFormVisible ? (
         <button
           type="button"
           onClick={scrollToForm}
