@@ -61,6 +61,7 @@ const navigation = [
   { name: 'Edit Success Stories', href: '/admin/success-stories-and-reviews', icon: SuccessStoriesIcon },
   { name: 'Edit Plagiarism-Free Process', href: '/admin/plagiarism-free-process', icon: PlagiarismIcon },
   { name: 'Edit On-Time Delivery', href: '/admin/on-time-delivery-guarantee', icon: DeliveryIcon },
+  { name: 'Edit Take My Class 1', href: '/admin/take-my-class-1', icon: HomeIcon },
   { name: 'Edit Take My Class 2', href: '/admin/take-my-class-2', icon: HomeIcon },
   // { name: 'Edit FAQ', href: '/admin/faq', icon: FaqIcon },
 ];
@@ -198,7 +199,7 @@ export default function AdminLayout({
                 </svg>
               </button>
             </div>
-            <nav className="flex-1 px-4 py-6 space-y-2">
+            <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
               {navigation.map((item) => {
                 const isActive = pathname === item.href;
                 return (
@@ -228,7 +229,7 @@ export default function AdminLayout({
           <div className="flex items-center p-6 border-b">
             <h2 className="text-xl font-bold text-gray-900">Admin Panel</h2>
           </div>
-          <nav className="flex-1 px-4 py-6 space-y-2">
+          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               return (
