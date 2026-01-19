@@ -4,7 +4,7 @@ import Image, { StaticImageData } from "next/image";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
+// slick-theme.css removed - loads heavy font file, styles in globals.css
 import "slick-carousel/slick/slick.css";
 
 interface AiTrustProps {

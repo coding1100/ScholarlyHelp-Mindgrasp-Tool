@@ -1,88 +1,72 @@
 import MainLayout from "./MainLayout";
 import HeroSection from "./components/LandingPage/HeroSection";
-import WhySlider from "./components/LandingPage/WhySlider";
-import ProcessSection from "./components/LandingPage/ProcessSection";
-import Success from "./components/LandingPage/Success";
-import Subjects from "./components/LandingPage/Subjects";
-import AcademicPartners from "./components/LandingPage/AcademicPartners";
-import GetQoute from "./components/LandingPage/GetQoute";
-import Faq from "./components/LandingPage/Faq";
-import CustomerReviews from "./components/LandingPage/CustomerReviews";
-import CardCarousel from "./components/LandingPage/CardCarousel";
-import GuaranteedBlock from "./components/LandingPage/GuaranteedBlock";
-import Description from "./components/LandingPage/Description";
 import Ratings from "./components/LandingPage/Ratings";
 import { HomeDataProvider } from "./(pages)/HomeDataProvider";
 import dynamicImport from "next/dynamic";
+import { getHomeData } from "./lib/mongodb";
 
-const GetQouteDynamic = dynamicImport(() => import("./components/LandingPage/GetQoute"), { ssr: false });
+// Skeleton component for loading states
+const LoadingSkeleton = ({ height = "400px" }: { height?: string }) => (
+  <div className="w-full animate-pulse bg-gray-100" style={{ minHeight: height }} />
+);
 
-// Force dynamic rendering to prevent caching
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// Lazy load ALL below-the-fold components to reduce initial JS
+const WhySlider = dynamicImport(() => import("./components/LandingPage/WhySlider"), {
+  loading: () => <LoadingSkeleton height="500px" />,
+  ssr: true, // Keep SSR for SEO but load JS lazily
+});
 
-async function fetchHomeData() {
-  try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error('Database URL not configured');
-      return null;
-    }
+const CardCarousel = dynamicImport(() => import("./components/LandingPage/CardCarousel"), {
+  loading: () => <LoadingSkeleton height="600px" />,
+  ssr: false, // Heavy slider - no SSR needed
+});
 
-    const { MongoClient } = await import('mongodb');
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-      // Force a new connection to avoid caching
-      maxPoolSize: 1,
-    });
-    
-    await client.connect();
-    const db = client.db('scholarly_help');
-    
-    // Query for main home page - try multiple variations
-    const query = { 
-      $or: [
-        { id: "home_page" }, 
-        { id: "home" },
-        { id: "main" },
-        { slug: "home_page" },
-        { slug: "home" },
-        { slug: "main" }
-      ]
-    };
-    
-    console.log('Querying home collection with query:', JSON.stringify(query));
-    // Use findOne with no caching
-    const content = await db.collection('home').findOne(query, {
-      // Disable any potential caching
-      readPreference: 'primary',
-    });
-    console.log('Found content:', content ? 'Yes' : 'No');
-    
-    // Debug: Log the heroSection data to verify it's being fetched correctly
-    if (content) {
-      console.log('Fetched home data - heroSection:', JSON.stringify(content.heroSection));
-      console.log('Fetched home data - heroSection.mainHeading:', content.heroSection?.mainHeading);
-    }
-    
-    // If no content found, try to see what's in the collection
-    if (!content) {
-      const allDocs = await db.collection('home').find({}).limit(5).toArray();
-      console.log('Sample documents in home:', allDocs.map(d => ({ id: d.id, slug: d.slug })));
-    }
-    
-    await client.close();
+const Description = dynamicImport(() => import("./components/LandingPage/Description"), {
+  loading: () => <LoadingSkeleton height="300px" />,
+  ssr: true,
+});
 
-    return content as any;
-  } catch (error) {
-    console.error('Error fetching home data:', error);
-    return null;
-  }
-}
+const GuaranteedBlock = dynamicImport(() => import("./components/LandingPage/GuaranteedBlock"), {
+  loading: () => <LoadingSkeleton height="400px" />,
+  ssr: true,
+});
+
+const CustomerReviews = dynamicImport(() => import("./components/LandingPage/CustomerReviews"), {
+  loading: () => <LoadingSkeleton height="500px" />,
+  ssr: false, // Heavy slider component
+});
+
+const ProcessSection = dynamicImport(() => import("./components/LandingPage/ProcessSection"), {
+  loading: () => <LoadingSkeleton height="400px" />,
+  ssr: true,
+});
+
+const Success = dynamicImport(() => import("./components/LandingPage/Success"), {
+  loading: () => <LoadingSkeleton height="300px" />,
+  ssr: true,
+});
+
+const AcademicPartners = dynamicImport(() => import("./components/LandingPage/AcademicPartners"), {
+  loading: () => <LoadingSkeleton height="200px" />,
+  ssr: true,
+});
+
+const GetQouteDynamic = dynamicImport(() => import("./components/LandingPage/GetQoute"), { 
+  ssr: false,
+  loading: () => <LoadingSkeleton height="400px" />
+});
+
+const Faq = dynamicImport(() => import("./components/LandingPage/Faq"), {
+  loading: () => <LoadingSkeleton height="400px" />,
+  ssr: true,
+});
+
+// Enable ISR with 60 second revalidation for fast TTFB
+export const revalidate = 60;
 
 const Home = async () => {
-  const pageData = await fetchHomeData();
+  // Use pooled connection - much faster TTFB
+  const pageData = await getHomeData();
   
   return (
     <HomeDataProvider data={pageData}>
@@ -96,7 +80,6 @@ const Home = async () => {
         <CustomerReviews />
         <ProcessSection />
         <Success />
-        {/* <Subjects /> */}
         <AcademicPartners />
         <GetQouteDynamic />
         <Faq />
@@ -108,56 +91,31 @@ const Home = async () => {
 export default Home;
 
 export async function generateMetadata() {
-  try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (databaseUrl) {
-      const { MongoClient } = await import('mongodb');
-      const client = new MongoClient(databaseUrl, {
-        serverSelectionTimeoutMS: 5000,
-        connectTimeoutMS: 10000,
-      });
-      
-      await client.connect();
-      const db = client.db('scholarly_help');
-      
-      const query = { 
-        $or: [
-          { id: "home_page" }, 
-          { id: "home" },
-          { id: "main" }
-        ]
-      };
-      
-      const pageData: any = await db.collection('home').findOne(query);
-      await client.close();
-      
-      if (pageData) {
-        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
-        const metaTitle = pageData.meta?.title || "Scholarly Help - Academic Writing Services For You";
-        const metaDescription = pageData.meta?.description || "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!";
-        const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}`;
-        
-        return {
-          title: metaTitle,
-          description: metaDescription,
-          alternates: {
-            canonical: canonicalUrl,
-          },
-        };
-      }
-    }
-  } catch (error) {
-    console.error('Error fetching metadata:', error);
+  // Reuse the same cached data - no duplicate DB call
+  const pageData = await getHomeData();
+  
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
+  
+  if (pageData) {
+    const metaTitle = pageData.meta?.title || "Scholarly Help - Academic Writing Services For You";
+    const metaDescription = pageData.meta?.description || "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!";
+    const canonicalUrl = pageData.meta?.canonicalUrl || baseUrl;
+    
+    return {
+      title: metaTitle,
+      description: metaDescription,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+    };
   }
   
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}`;
   return {
     title: "Scholarly Help - Academic Writing Services For You",
     description:
       "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!",
     alternates: {
-      canonical: canonicalUrl,
+      canonical: baseUrl,
     },
   };
 }

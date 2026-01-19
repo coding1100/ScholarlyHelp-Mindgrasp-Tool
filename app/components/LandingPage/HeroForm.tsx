@@ -294,14 +294,18 @@ const HeroForm: FC<ZohoForm2Props> = ({
         {formBackImg2 ? (
           <Image
             src={formBackImg2}
-            alt="bg1"
+            alt="Academic success illustration"
             className="min-[1200px]:max-w-[650px] max-w-[550px] cus-img absolute min-[1200px]:right-[-322px] min-[1200px]:top-[-148px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
+            priority
+            fetchPriority="high"
           />
         ) : (
           <Image
             src={FormBackImg}
-            alt="bg1"
+            alt="Academic success illustration"
             className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+            priority
+            fetchPriority="high"
           />
         )}
         <div className="max-w-[600px] mx-auto cus-div">
@@ -517,14 +521,18 @@ const HeroForm: FC<ZohoForm2Props> = ({
       {formBackImg2 ? (
         <Image
           src={formBackImg2}
-          alt="bg1"
+          alt="Academic success illustration"
           className="min-[1200px]:max-w-[650px] max-w-[550px] cus-img absolute min-[1200px]:right-[-322px] min-[1200px]:top-[-148px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
+          priority
+          fetchPriority="high"
         />
       ) : (
         <Image
           src={FormBackImg}
-          alt="bg1"
+          alt="Academic success illustration"
           className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+          priority
+          fetchPriority="high"
         />
       )}
       <div className="w-full mx-auto cus-div">

@@ -38,13 +38,6 @@ const HeroSection: FC<HeroSectionProps> = ({
 }) => {
   const data = usePageData();
   const heroContent = propHeroContent || data?.heroSection;
-  
-  // Debug: Log the heroSection data to see what we're receiving
-  if (typeof window !== 'undefined') {
-    console.log('HeroSection component - data:', data);
-    console.log('HeroSection component - heroSection:', data?.heroSection);
-    console.log('HeroSection component - mainHeading:', data?.heroSection?.mainHeading);
-  }
 
   return (
     <section
