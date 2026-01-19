@@ -127,24 +127,87 @@ body {
 .slick-dots {
   bottom: -60px;
 }
+.slick-dots {
+  position: absolute;
+  bottom: -30px;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+}
+.slick-dots li, .slick-dots li button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.slick-dots li {
+  position: relative;
+  display: inline-block;
+  margin: 0 5px;
+  padding: 0;
+}
+.slick-dots li {
+  width: 10px !important;
+}
+.slick-dots li {
+  margin: 0 !important;
+}
+.slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  padding: 5px;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
 
+.slick-dots li, .slick-dots li button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.slick-dots li button:before {
+  font-family: slick;
+  font-size: 6px;
+  line-height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  content: "•";
+  text-align: center;
+  opacity: .5;
+  color: #000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-dots li button:before {
+  width: 10px !important;
+  height: 10px !important;
+}
 .slick-dots li {
   margin: 0 !important;
   width: 10px !important;
 }
 
 .slick-dots li button:before {
-  width: 10px !important;
-  height: 10px !important;
+  width: 7px !important;
+  height: 7px !important;
   /* Use CSS instead of slick font icon */
   font-family: inherit !important;
   content: "" !important;
-  background-color: #ccc;
+  background-color: #bfbfbf !important;
   border-radius: 50%;
 }
 
 .slick-dots li.slick-active button:before {
-  background-color: #565add;
+  background-color: #000000 !important;
 }
 
 .slick-slider {
@@ -170,8 +233,8 @@ body {
   display: block;
   width: 12px;
   height: 12px;
-  border-left: 3px solid #333;
-  border-bottom: 3px solid #333;
+  border-left: 3px solid #1b1b1b;
+  border-bottom: 3px solid #1b1b1b;
   position: absolute;
   top: 50%;
   left: 50%;
