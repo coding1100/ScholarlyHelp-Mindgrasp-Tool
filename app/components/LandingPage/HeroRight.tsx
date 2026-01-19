@@ -2,10 +2,8 @@
 
 import React, { FC } from "react";
 import Image, { StaticImageData } from "next/image";
-import dynamic from "next/dynamic";
+import HeroForm from "./HeroForm"; // Direct import for LCP - no dynamic loading
 import Illustration from "@/app/assets/Images/Hero-Group-195.png";
-
-const HeroForm = dynamic(() => import("./HeroForm"), { ssr: false });
 import Bg1 from "@/app/assets/Images/Hero-b-1.png";
 import Bg2 from "@/app/assets/Images/Hero-b-2.png";
 import Bg3 from "@/app/assets/Images/Hero-b-3.png";
@@ -38,31 +36,32 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
   return (
     <div className="flex w-full flex-col gap-6">
       <div className="relative flex items-start gap-6 z-[999]">
-        {/* background decorative layer behind the form */}
+        {/* background decorative layer behind the form - lazy load decorative images */}
         <div className="pointer-events-none absolute inset-0 z-0 hidden md:block">
           <Image
             src={Bg1}
-            alt="bg1"
-            className="absolute  -left-[80px] top-[130px] opacity-50"
+            alt=""
+            className="absolute -left-[80px] top-[130px] opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg3}
-            alt="bg3"
+            alt=""
             className="absolute -left-[80px] -top-10 opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg2}
-            alt="bg2"
+            alt=""
             className="absolute -left-[80px] top-[300px] opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg4}
-            alt="bg4"
+            alt=""
             className="absolute left-28 -top-20 opacity-50"
+            loading="lazy"
           />
-          {/* <Image src={Heart} alt="heart" className="absolute right-[220px] top-8" /> */}
-          {/* <Image src={Update} alt="update" className="absolute right-20 top-10" /> */}
-          {/* <Image src={Discount} alt="discount" className="absolute right-[260px] top-56" /> */}
         </div>
 
         {/* form sits above decorative layer */}

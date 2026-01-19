@@ -5,7 +5,7 @@ import React from "react";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+// slick-theme.css removed - loads heavy font file, styles in globals.css
 import { usePageData } from "./usePageData";
 
 // Icons & Images

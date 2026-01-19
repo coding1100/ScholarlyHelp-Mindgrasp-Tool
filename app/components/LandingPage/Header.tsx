@@ -227,15 +227,20 @@ export default function Header() {
         <Link href="/">
           <Image
             src={LogoSmall}
-            alt="logo"
+            alt="Scholarly Help Logo"
             className="max-[480px]:block hidden max-w-[30px] min-w-[30px]"
+            width={30}
+            height={30}
+            priority
           />
           <Image
             src={LogoNormal}
-            alt=""
+            alt="Scholarly Help"
             className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
+            width={142}
+            height={40}
+            priority
           />
-          {/* <Logo /> */}
         </Link>
 
         {/* Mobile Toggle */}

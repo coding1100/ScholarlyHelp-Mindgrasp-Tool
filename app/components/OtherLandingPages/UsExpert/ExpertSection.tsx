@@ -3,7 +3,7 @@
 import Image, { StaticImageData } from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+// slick-theme.css removed - loads heavy font file, styles in globals.css
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, FC } from "react";
 
