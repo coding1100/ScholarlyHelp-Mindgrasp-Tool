@@ -1,4 +1,3 @@
-import { GoogleTagManager } from "@next/third-parties/google";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -53,19 +52,36 @@ export default function RootLayout({
       <body className={poppins.className} suppressHydrationWarning={true}>
         {children}
         
-        {/* Defer Google Sign-In script - load after page */}
+        {/* 
+         * PERFORMANCE: All scripts use lazyOnload to minimize main thread work
+         * This defers all non-critical scripts until after page is fully interactive
+         */}
+        
+        {/* Google Sign-In - lazy load */}
         <Script
           src="https://accounts.google.com/gsi/client"
           strategy="lazyOnload"
         />
         
-        {/* GTM - already optimized by Next.js */}
-        <GoogleTagManager gtmId="GTM-5ZHV46X" />
+        {/* GTM - use lazyOnload instead of default to reduce main thread work */}
+        <Script
+          id="gtm-script"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-5ZHV46X');
+            `,
+          }}
+        />
         
-        {/* Schema.org - use afterInteractive instead of beforeInteractive */}
+        {/* Schema.org - lazyOnload since it's not render-blocking */}
         <Script
           id="schema-org-main"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: `{
