@@ -24,11 +24,25 @@ const nextConfig = {
   // Optimize production builds
   swcMinify: true,
   
+  // Reduce JS bundle size
+  productionBrowserSourceMaps: false,
+  
   eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: false,
+  },
+  
+  // Modularize heavy imports - reduces unused JS significantly
+  modularizeImports: {
+    'react-icons/?(((\\w*)?/?)*)': {
+      transform: 'react-icons/{{ matches.[1] }}/{{ member }}',
+      skipDefaultConversion: true,
+    },
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{ kebabCase member }}',
+    },
   },
   
   // Enable experimental features for better performance
@@ -37,47 +51,37 @@ const nextConfig = {
     optimizePackageImports: [
       'lucide-react', 
       'react-icons',
+      'react-icons/io',
+      'react-icons/io5',
+      'react-icons/md',
+      'react-icons/gi',
+      'react-icons/fa',
+      'react-icons/si',
       'react-slick',
       'slick-carousel',
       '@szhsin/react-accordion',
       'react-spinners',
       'react-loader-spinner',
       'dayjs',
-      'moment',
     ],
   },
   
   // Webpack optimizations for smaller bundles
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Split vendor chunks for better caching
-      config.optimization.splitChunks = {
-        ...config.optimization.splitChunks,
-        cacheGroups: {
-          ...config.optimization.splitChunks?.cacheGroups,
-          // Separate heavy libraries into their own chunks
-          slick: {
-            test: /[\\/]node_modules[\\/](react-slick|slick-carousel)[\\/]/,
-            name: 'slick',
-            chunks: 'all',
-            priority: 30,
-          },
-          icons: {
-            test: /[\\/]node_modules[\\/](lucide-react|react-icons)[\\/]/,
-            name: 'icons',
-            chunks: 'all',
-            priority: 25,
-          },
-        },
+      // Replace moment with dayjs (much smaller) - safe alias
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'moment': 'dayjs',
       };
     }
     return config;
   },
   
-  // Headers for caching static assets - enable bfcache
+  // Headers for caching static assets and enabling bfcache
   async headers() {
     return [
-      // Security headers for all pages - upgrade HTTP to HTTPS
+      // Security headers for all pages
       {
         source: '/:path*',
         headers: [
@@ -99,6 +103,7 @@ const nextConfig = {
           },
         ],
       },
+      // Static assets - immutable cache
       {
         source: '/:all*(svg|jpg|png|webp|avif|ico|woff|woff2)',
         headers: [
@@ -108,6 +113,7 @@ const nextConfig = {
           },
         ],
       },
+      // JS/CSS chunks - immutable cache
       {
         source: '/_next/static/:path*',
         headers: [
@@ -117,13 +123,19 @@ const nextConfig = {
           },
         ],
       },
-      // Enable bfcache for pages
+      // HTML pages - enable bfcache by NOT setting no-store
+      // bfcache requires: no unload listeners, no Cache-Control: no-store
       {
         source: '/((?!api).*)',
         headers: [
           {
             key: 'Cache-Control',
             value: 'public, max-age=0, must-revalidate',
+          },
+          // Permissions-Policy to help with bfcache
+          {
+            key: 'Permissions-Policy',
+            value: 'unload=()',
           },
         ],
       },

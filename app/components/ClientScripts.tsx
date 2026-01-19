@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import Script from "next/script";
 import { hideTalktoModule } from "./HideLinks/HideLinks";
 
@@ -23,79 +23,90 @@ export default function ClientScripts() {
   const isThankYouPage = currentPage === "/thank-you" || currentPage === "/thank-you/";
   const isAboutPage = currentPage === "/about-us" || currentPage === "/about-us/";
 
+  // Memoize functions to prevent unnecessary re-renders
+  const hideLiveChatWidget = useCallback(() => {
+    if (typeof window === "undefined") return;
+    
+    if (window.LiveChatWidget) {
+      try {
+        window.LiveChatWidget.call("hide");
+      } catch (error) {
+        // Silently fail if widget not ready
+      }
+    }
+    
+    const selectors = [
+      '#livechat-container',
+      '[id*="livechat"]',
+      '[class*="livechat"]',
+      '[id*="LiveChat"]',
+      '[class*="LiveChat"]',
+      'iframe[src*="livechatinc.com"]',
+      'iframe[src*="livechat"]'
+    ];
+    
+    selectors.forEach(selector => {
+      try {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((el) => {
+          if (el instanceof HTMLElement) {
+            el.style.display = "none";
+            el.style.visibility = "hidden";
+          }
+        });
+      } catch (e) {
+        // Ignore selector errors
+      }
+    });
+  }, []);
+
+  const showLiveChatWidget = useCallback(() => {
+    if (typeof window === "undefined") return;
+    
+    const selectors = [
+      '#livechat-container',
+      '[id*="livechat"]',
+      '[class*="livechat"]',
+      '[id*="LiveChat"]',
+      '[class*="LiveChat"]'
+    ];
+    
+    selectors.forEach(selector => {
+      try {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((el) => {
+          if (el instanceof HTMLElement) {
+            el.style.display = "";
+            el.style.visibility = "";
+          }
+        });
+      } catch (e) {
+        // Ignore selector errors
+      }
+    });
+  }, []);
+
   // Hide/show LiveChat widget based on current page
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const hideLiveChatWidget = () => {
-      if (window.LiveChatWidget) {
-        try {
-          window.LiveChatWidget.call("hide");
-        } catch (error) {
-          // Silently fail if widget not ready
-        }
-      }
-      
-      const selectors = [
-        '#livechat-container',
-        '[id*="livechat"]',
-        '[class*="livechat"]',
-        '[id*="LiveChat"]',
-        '[class*="LiveChat"]',
-        'iframe[src*="livechatinc.com"]',
-        'iframe[src*="livechat"]'
-      ];
-      
-      selectors.forEach(selector => {
-        try {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach((el) => {
-            if (el instanceof HTMLElement) {
-              el.style.display = "none";
-              el.style.visibility = "hidden";
-            }
-          });
-        } catch (e) {
-          // Ignore selector errors
-        }
-      });
-    };
-
-    const showLiveChatWidget = () => {
-      const selectors = [
-        '#livechat-container',
-        '[id*="livechat"]',
-        '[class*="livechat"]',
-        '[id*="LiveChat"]',
-        '[class*="LiveChat"]'
-      ];
-      
-      selectors.forEach(selector => {
-        try {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach((el) => {
-            if (el instanceof HTMLElement) {
-              el.style.display = "";
-              el.style.visibility = "";
-            }
-          });
-        } catch (e) {
-          // Ignore selector errors
-        }
-      });
-    };
+    let intervalId: ReturnType<typeof setInterval> | null = null;
 
     if (!isThankYouPage) {
       hideLiveChatWidget();
-      const interval = setInterval(() => {
-        hideLiveChatWidget();
-      }, 500);
-      
-      return () => clearInterval(interval);
+      // Use longer interval to reduce main thread work
+      intervalId = setInterval(hideLiveChatWidget, 2000);
     } else {
       showLiveChatWidget();
     }
-  }, [currentPage, isThankYouPage]);
+    
+    // Clean up interval on unmount - important for bfcache
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [currentPage, isThankYouPage, hideLiveChatWidget, showLiveChatWidget]);
 
   return (
     <>

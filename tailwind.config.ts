@@ -2,16 +2,22 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: "class",
-  // Strict content paths for better CSS purging
+  // Strict content paths for better CSS purging - be specific to reduce unused CSS
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    // Exclude admin pages from initial bundle if not needed
+    "!./app/(admin)/**/*",
   ],
-  // Safelist essential classes that might be dynamically generated
+  // Only safelist classes that are ACTUALLY dynamically generated
   safelist: [
     'animate-pulse',
     'bg-gray-100',
+  ],
+  // Blocklist unused Tailwind utilities to reduce CSS bundle
+  blocklist: [
+    // Remove unused dark mode variants if not using dark mode on landing page
+    'dark',
   ],
   theme: {
     screens: {
@@ -52,10 +58,34 @@ const config: Config = {
       },
     },
   },
-  // Reduce unused CSS by disabling unused core plugins
+  // Disable unused core plugins to reduce CSS bundle size
   corePlugins: {
     preflight: true,
     container: true,
+    // Disable rarely used utilities on landing pages
+    aspectRatio: false,
+    backdropBlur: false,
+    backdropBrightness: false,
+    backdropContrast: false,
+    backdropGrayscale: false,
+    backdropHueRotate: false,
+    backdropInvert: false,
+    backdropOpacity: false,
+    backdropSaturate: false,
+    backdropSepia: false,
+    blur: false,
+    brightness: false,
+    contrast: false,
+    grayscale: false,
+    hueRotate: false,
+    invert: false,
+    saturate: false,
+    sepia: false,
+    touchAction: false,
+    willChange: false,
+    scrollSnapAlign: false,
+    scrollSnapStop: false,
+    scrollSnapType: false,
   },
   plugins: [require("tailwind-scrollbar-hide")],
 };
