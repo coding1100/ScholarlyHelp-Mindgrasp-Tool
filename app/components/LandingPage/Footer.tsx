@@ -102,7 +102,7 @@ const Footer: FC<FooterProps> = () => {
       <div className="bg-[#ececfb] md:flex justify-center py-14">
         <div className="max-w-screen-7xl xl:container md:flex justify-between gap-6 px-10 text-primary-600 max-[992px]:flex-col max-[992px]:w-[90%] ">
           {/* Logo & Description */}
-          <div className="md:max-w-[372px] mb-3">
+          <div className="md:max-w-[372px]">
           <Link href="/">
           
           <Image
@@ -114,10 +114,13 @@ const Footer: FC<FooterProps> = () => {
             priority
           />
         </Link>
-            <p className="leading-5">
+        <div className="mt-3">
+        <p className="leading-5">
               Scholarly Help delivers academic writing services. Our team of qualified subject experts can help you with your challenging online classes
               {!isDoMyClassPage && ", homework, assignments, quizzes, and exams"}.
             </p>
+        </div>
+            
           </div>
 
           {/* Navigation Links - Hidden on specific pages */}

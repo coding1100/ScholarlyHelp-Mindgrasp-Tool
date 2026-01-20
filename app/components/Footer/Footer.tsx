@@ -106,7 +106,7 @@ const Footer: FC<FooterProps> = ({ }) => {
       <div ref={footerRef} className={`${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-15 text-primary-600">
-            <div className="md:max-w-[372px] mb-3">
+            <div className="md:max-w-[372px]">
             <Link href="/">
           
           <Image
@@ -118,7 +118,7 @@ const Footer: FC<FooterProps> = ({ }) => {
             priority
           />
         </Link>
-              <div>
+              <div className="mt-3">
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
                   qualified subject experts can help you with your challenging
@@ -322,7 +322,7 @@ const Footer: FC<FooterProps> = ({ }) => {
       <div ref={footerRef} className={`relative ${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
-            <div className="md:max-w-[372px] mb-3">
+            <div className="md:max-w-[372px]">
             <Link href="/">
           
               <Image
@@ -334,7 +334,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                 priority
               />
             </Link>
-              <div>
+              <div className="mt-3">
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
                   qualified subject experts can help you with your challenging
