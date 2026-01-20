@@ -24,8 +24,8 @@ const Page = () => {
     <MainLayout>
       <HeroSection />
       <Ratings />
-      <WhySlider />
       <CardCarousel />
+      <WhySlider />
       <Description />
       <GuaranteedBlock />
       <CustomerReviews />
