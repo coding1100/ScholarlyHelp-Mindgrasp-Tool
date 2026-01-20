@@ -370,7 +370,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                       onChange={(e) => setOtherSubjectDescription(e.target.value)}
                       placeholder="What Subject You Need Help With?"
                       rows={4}
-                      className="w-full px-4 py-3 border-2 border-[#E3E5F3] rounded-md bg-[#EDEFFE] text-black outline-none resize-none text-sm placeholder-[#9CA3AF] focus:border-[#ff641a] transition-all duration-200"
+                      className="w-full px-4 py-3 border-2 border-[#E3E5F3] rounded-md bg-[#EDEFFE] text-black outline-none resize-none text-sm placeholder:text-[#6B7280] focus:border-[#ff641a] transition-all duration-200"
                     />
                   </div>
                 )}
@@ -420,7 +420,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                       onChange={(e) => setOtherDeadlineDescription(e.target.value)}
                       placeholder="Please specify your deadline"
                       rows={4}
-                      className="w-full px-4 py-3 border-2 border-[#E3E5F3] rounded-md bg-[#EDEFFE] text-black outline-none resize-none text-sm placeholder-[#9CA3AF] focus:border-[#ff641a] transition-all duration-200"
+                      className="w-full px-4 py-3 border-2 border-[#E3E5F3] rounded-md bg-[#EDEFFE] text-black outline-none resize-none text-sm placeholder:text-[#6B7280] focus:border-[#ff641a] transition-all duration-200"
                     />
                   </div>
                 )}
@@ -455,7 +455,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                     placeholder="Email Address"
                     value={formData.Email}
                     onChange={handleChange}
-                    className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
+                    className="flex-1 text-black bg-transparent outline-none text-sm placeholder:text-[#6B7280] pr-3 "
                   />
                   <IoIosMail className="text-[#6B7280] text-xl" />
                 </div>
@@ -470,7 +470,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                     value={formData.Phone}
                     onChange={handleChange}
                     maxLength={30}
-                    className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
+                    className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#6B7280] pr-3 "
                   />
                   <MdPhoneInTalk className="text-[#6B7280] text-xl" />
                 </div>
@@ -588,7 +588,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               value={formData.Description}
               onChange={handleChange}
               required
-              className="flex-1 bg-transparent text-black outline-none resize-none text-sm placeholder-[#9CA3AF] pr-3 bg-[#EDEFFE] min-h-[150px]"
+              className="flex-1 bg-transparent text-black outline-none resize-none text-sm placeholder:text-[#6B7280] pr-3 bg-[#EDEFFE] min-h-[150px]"
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
             <IoChatbubbles className="text-[#6B7280] text-xl mt-1 flex-shrink-0" />

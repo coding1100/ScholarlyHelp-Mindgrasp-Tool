@@ -173,19 +173,44 @@ const Footer: FC<FooterProps> = () => {
               {/* Social Icons */}
               <div className="flex my-2 space-x-1">
                 {[
-                  { href: "https://www.facebook.com/Scholarly.help", icon: <Image src={Facebook} alt="Facebook" /> },
-                  { href: "https://www.instagram.com/scholarlyhelp/", icon: <Image src={Instagram} alt="Instagram" /> },
-                  { href: "https://www.linkedin.com/company/scholarlyhelp/", icon: <Image src={Linkedin} alt="LinkedIn" /> },
-                  { href: "https://www.tiktok.com/@scholarlyhelp.com", icon: <Image src={Tiktok} alt="TikTok" /> },
-                  { href: "https://www.snapchat.com/add/helpscholarly", icon: <FaSnapchat className="text-[21px] text-[#000]" /> },
-                  { href: "https://www.youtube.com/@ScholarlyHelp/", icon: <SiYoutubemusic className="text-[21px] text-[#000]" /> },
+                  {
+                    href: "https://www.facebook.com/Scholarly.help",
+                    label: "Follow us on Facebook",
+                    icon: <Image src={Facebook} alt="Facebook" />,
+                  },
+                  {
+                    href: "https://www.instagram.com/scholarlyhelp/",
+                    label: "Follow us on Instagram",
+                    icon: <Image src={Instagram} alt="Instagram" />,
+                  },
+                  {
+                    href: "https://www.linkedin.com/company/scholarlyhelp/",
+                    label: "Follow us on LinkedIn",
+                    icon: <Image src={Linkedin} alt="LinkedIn" />,
+                  },
+                  {
+                    href: "https://www.tiktok.com/@scholarlyhelp.com",
+                    label: "Follow us on TikTok",
+                    icon: <Image src={Tiktok} alt="TikTok" />,
+                  },
+                  {
+                    href: "https://www.snapchat.com/add/helpscholarly",
+                    label: "Follow us on Snapchat",
+                    icon: <FaSnapchat className="text-[21px] text-[#000]" />,
+                  },
+                  {
+                    href: "https://www.youtube.com/@ScholarlyHelp/",
+                    label: "Visit our YouTube channel",
+                    icon: <SiYoutubemusic className="text-[21px] text-[#000]" />,
+                  },
                 ].map((social, i) => (
                   <a
                     key={i}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center w-11 h-11"
+                    aria-label={social.label}
+                    className="inline-flex items-center justify-center w-6 h-6"
                   >
                     {social.icon}
                   </a>
