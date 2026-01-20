@@ -61,7 +61,7 @@ const HowWeHelp: React.FC = () => {
     : ["Online Class Help", "Assignment Help", "Online Exam Help", "Essay Writing Services"];
 
   return (
-    <section className="pt-[84px] pb-5 bg-white text-[#171717]">
+    <section className="pt-[45px] pb-5 bg-white text-[#171717]">
       <div className="max-w-7xl mx-auto  max-[1320px]:px-8">
         {/* Header */}
         <div className="text-center mb-12">
