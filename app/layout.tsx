@@ -51,7 +51,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://script.crazyegg.com" />
       </head>
       <body className={poppins.className} suppressHydrationWarning={true}>
-        {children}
+        <main id="main-content">{children}</main>
 
         {/* 
          * PERFORMANCE: All scripts use lazyOnload to minimize main thread work
