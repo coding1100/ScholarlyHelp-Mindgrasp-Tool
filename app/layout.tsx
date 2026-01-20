@@ -1,19 +1,27 @@
-import { Poppins } from "next/font/google";
+import { Poppins, Roboto } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Metadata } from "next";
 import ClientScripts from "./components/ClientScripts";
 
 // Optimize font loading - next/font self-hosts fonts (NO CDN calls)
-// This downloads fonts at build time and serves them from your domain
 const poppins = Poppins({
   subsets: ["latin"],
-  display: "swap", // Shows fallback immediately, swaps when font loads
+  display: "swap",
   variable: "--font-poppins",
-  weight: ["400", "500", "600", "700"], // Only load weights you actually use
+  weight: ["400", "500", "600", "700"],
   preload: true,
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
-  adjustFontFallback: true, // Automatically adjusts fallback metrics to reduce CLS
+  adjustFontFallback: true,
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto",
+  weight: ["400", "500", "700", "900"],
+  preload: true,
+  fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -27,13 +35,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={poppins.variable}>
+    <html lang="en" className={`${poppins.variable} ${roboto.variable}`}>
       <head>
         {/* Force HTTPS for all resources in production only */}
         {process.env.NODE_ENV === "production" && (
           <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         )}
-        
+
         {/* CRITICAL: Preload LCP image to eliminate 4.6s resource load delay */}
         <link
           rel="preload"
@@ -42,10 +50,10 @@ export default function RootLayout({
           type="image/png"
           fetchPriority="high"
         />
-        
+
         {/* Preconnect only to non-font third-party domains */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        
+
         {/* DNS prefetch for resources loaded later */}
         <link rel="dns-prefetch" href="https://accounts.google.com" />
         <link rel="dns-prefetch" href="https://cdn.livechatinc.com" />
@@ -53,18 +61,18 @@ export default function RootLayout({
       </head>
       <body className={poppins.className} suppressHydrationWarning={true}>
         {children}
-        
+
         {/* 
          * PERFORMANCE: All scripts use lazyOnload to minimize main thread work
          * This defers all non-critical scripts until after page is fully interactive
          */}
-        
+
         {/* Google Sign-In - lazy load */}
         <Script
           src="https://accounts.google.com/gsi/client"
           strategy="lazyOnload"
         />
-        
+
         {/* GTM - use lazyOnload instead of default to reduce main thread work */}
         <Script
           id="gtm-script"
@@ -79,7 +87,7 @@ export default function RootLayout({
             `,
           }}
         />
-        
+
         {/* Schema.org - lazyOnload since it's not render-blocking */}
         <Script
           id="schema-org-main"
@@ -100,7 +108,7 @@ export default function RootLayout({
           }}
           key="product-jsonld"
         />
-        
+
         {/* Client-side scripts that need pathname */}
         <ClientScripts />
       </body>

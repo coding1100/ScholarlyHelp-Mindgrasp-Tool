@@ -9,36 +9,6 @@
 
 /* Critical styles - loaded immediately */
 
-/* Local Roboto Font */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/roboto/Roboto-Regular.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/roboto/Roboto-Medium.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/roboto/Roboto-Bold.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('/fonts/roboto/Roboto-Black.ttf') format('truetype');
-}
-
 body {
   background: #fff;
   color: var(--foreground);
@@ -50,6 +20,7 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -58,6 +29,7 @@ body {
 .formtwo .cus-img {
   display: none;
 }
+
 .formtwo .cus-div {
   z-index: 9;
   position: relative;
@@ -96,8 +68,13 @@ body {
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fade-in-up {
@@ -105,6 +82,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -116,6 +94,7 @@ body {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -127,6 +106,7 @@ body {
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -144,7 +124,8 @@ body {
    overrides the one in slick.css, pointing to a non-existent font */
 @font-face {
   font-family: 'slick';
-  src: local(''); /* Empty local - prevents network request */
+  src: local('');
+  /* Empty local - prevents network request */
   font-display: block;
 }
 
@@ -158,6 +139,7 @@ body {
 .slick-dots {
   bottom: -60px;
 }
+
 .slick-dots {
   position: absolute;
   bottom: -30px;
@@ -168,23 +150,29 @@ body {
   list-style: none;
   text-align: center;
 }
-.slick-dots li, .slick-dots li button {
+
+.slick-dots li,
+.slick-dots li button {
   width: 20px;
   height: 20px;
   cursor: pointer;
 }
+
 .slick-dots li {
   position: relative;
   display: inline-block;
   margin: 0 5px;
   padding: 0;
 }
+
 .slick-dots li {
   width: 10px !important;
 }
+
 .slick-dots li {
   margin: 0 !important;
 }
+
 .slick-dots li button {
   font-size: 0;
   line-height: 0;
@@ -196,11 +184,13 @@ body {
   background: transparent;
 }
 
-.slick-dots li, .slick-dots li button {
+.slick-dots li,
+.slick-dots li button {
   width: 20px;
   height: 20px;
   cursor: pointer;
 }
+
 .slick-dots li button:before {
   font-family: slick;
   font-size: 6px;
@@ -222,6 +212,7 @@ body {
   width: 10px !important;
   height: 10px !important;
 }
+
 .slick-dots li {
   margin: 0 !important;
   width: 10px !important;
