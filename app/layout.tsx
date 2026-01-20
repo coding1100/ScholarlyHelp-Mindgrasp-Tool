@@ -10,7 +10,7 @@ const poppins = Poppins({
   display: "swap",
   variable: "--font-poppins",
   weight: ["400", "500", "600", "700"],
-  preload: true,
+  preload: false,
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
   adjustFontFallback: true,
 });
