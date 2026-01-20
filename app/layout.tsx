@@ -29,8 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.variable}>
       <head>
-        {/* Force HTTPS for all resources */}
-        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        {/* Force HTTPS for all resources in production only */}
+        {process.env.NODE_ENV === "production" && (
+          <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        )}
         
         {/* CRITICAL: Preload LCP image to eliminate 4.6s resource load delay */}
         <link
