@@ -6,8 +6,6 @@ const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    // Exclude admin pages from initial bundle if not needed
-    "!./app/(admin)/**/*",
   ],
   // Only safelist classes that are ACTUALLY dynamically generated
   safelist: [
