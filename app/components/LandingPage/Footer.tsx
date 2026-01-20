@@ -13,6 +13,7 @@ import Visa from "@/public/assets/Icon/visaIcon.webp";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
+import LogoNormal from "@/app/assets/Images/logo.png";
 // import CopyRight from "./CopyRight";
 import cellPhone from "@/public/assets/Icon/cellphone.png";
 import whatsappIcon2 from "@/public/assets/Icon/whatsappIcon2.png";
@@ -101,12 +102,18 @@ const Footer: FC<FooterProps> = () => {
       <div className="bg-[#ececfb] md:flex justify-center py-14">
         <div className="max-w-screen-7xl xl:container md:flex justify-between gap-6 px-10 text-primary-600 max-[992px]:flex-col max-[992px]:w-[90%] ">
           {/* Logo & Description */}
-          <div className="md:max-w-[372px]">
-            <Link href="/" className="">
-              <div className="mb-4">
-                <Image src={Logo} alt="Logo" />
-              </div>
-            </Link>
+          <div className="md:max-w-[372px] mb-3">
+          <Link href="/">
+          
+          <Image
+            src={LogoNormal}
+            alt="Scholarly Help"
+            className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
+            width={142}
+            height={40}
+            priority
+          />
+        </Link>
             <p className="leading-5">
               Scholarly Help delivers academic writing services. Our team of qualified subject experts can help you with your challenging online classes
               {!isDoMyClassPage && ", homework, assignments, quizzes, and exams"}.

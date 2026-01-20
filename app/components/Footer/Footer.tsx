@@ -14,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC, useEffect, useState, useRef } from "react";
 import CopyRight from "./CopyRight";
+import LogoNormal from "@/app/assets/Images/logo.png";
 // import whatsappIconFooter from "@/app/assets/Images/whatsapp-icon.svg";
 import cellPhone from "@/app/assets/Images/cellphone.png";
 import whatsappIcon2 from "@/app/assets/Images/whatsappIcon2.png";
@@ -105,12 +106,18 @@ const Footer: FC<FooterProps> = ({ }) => {
       <div ref={footerRef} className={`${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-15 text-primary-600">
-            <div className="md:max-w-[372px]">
+            <div className="md:max-w-[372px] mb-3">
             <Link href="/">
-                <div className="mb-4">
-                  <Logo />
-                </div>
-              </Link>
+          
+          <Image
+            src={LogoNormal}
+            alt="Scholarly Help"
+            className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
+            width={142}
+            height={40}
+            priority
+          />
+        </Link>
               <div>
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
@@ -315,12 +322,18 @@ const Footer: FC<FooterProps> = ({ }) => {
       <div ref={footerRef} className={`relative ${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
-            <div className="md:max-w-[372px]">
-              <Link href="/">
-                <div className="mb-4">
-                  <Logo />
-                </div>
-              </Link>
+            <div className="md:max-w-[372px] mb-3">
+            <Link href="/">
+          
+              <Image
+                src={LogoNormal}
+                alt="Scholarly Help"
+                className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
+                width={142}
+                height={40}
+                priority
+              />
+            </Link>
               <div>
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
