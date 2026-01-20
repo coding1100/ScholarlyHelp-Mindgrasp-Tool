@@ -78,7 +78,7 @@ export default function GetQuote() {
                 position: "absolute",
                 left: "56px",
                 top: "-75px",
-                width: "auto",
+                width: "90px",
                 height: "auto",
                 zIndex: "8",
               }}
@@ -93,7 +93,7 @@ export default function GetQuote() {
                 position: "absolute",
                 left: "300px",
                 top: "-77px",
-                width: "auto",
+                width: "90px",
                 zIndex: "8",
                 height: "auto",
               }}
@@ -107,7 +107,7 @@ export default function GetQuote() {
                 position: "absolute",
                 right: "-50px",
                 bottom: "56px",
-                width: "auto",
+                width: "90px",
                 zIndex: "8",
                 height: "auto",
               }}

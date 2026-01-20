@@ -80,15 +80,20 @@ const nextConfig = {
   
   // Headers for caching static assets and enabling bfcache
   async headers() {
+    const isProd = process.env.NODE_ENV === 'production';
     return [
       // Security headers for all pages
       {
         source: '/:path*',
         headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: 'upgrade-insecure-requests',
-          },
+          ...(isProd
+            ? [
+                {
+                  key: 'Content-Security-Policy',
+                  value: 'upgrade-insecure-requests',
+                },
+              ]
+            : []),
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
