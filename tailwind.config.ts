@@ -27,11 +27,10 @@ const config: Config = {
       "2xl": "1400px",
     },
     extend: {
-      // Override default font family to prevent Inter/Roboto loading
+      // Override default font family to prevent Inter loading
       fontFamily: {
         sans: ['var(--font-poppins)', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
         poppins: ['var(--font-poppins)', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
-        roboto: ['var(--font-roboto)', 'sans-serif'],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

@@ -1,4 +1,4 @@
-import { Poppins, Roboto } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Metadata } from "next";
@@ -15,15 +15,6 @@ const poppins = Poppins({
   adjustFontFallback: true,
 });
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-roboto",
-  weight: ["400", "500", "700", "900"],
-  preload: true,
-  fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
-});
-
 export const metadata: Metadata = {
   title: "Scholarly Help - Academic Writing Services For You",
   description: "Professional academic writing services tailored to your needs.",
@@ -35,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${roboto.variable}`}>
+    <html lang="en" className={poppins.variable}>
       <head>
         {/* Force HTTPS for all resources in production only */}
         {process.env.NODE_ENV === "production" && (

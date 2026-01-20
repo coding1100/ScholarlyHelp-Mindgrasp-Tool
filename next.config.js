@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
-  
+
   // Enable image optimization for better LCP
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -15,25 +15,25 @@ const nextConfig = {
       },
     ],
   },
-  
+
   reactStrictMode: true,
-  
+
   // Enable compression
   compress: true,
-  
+
   // Optimize production builds
   swcMinify: true,
-  
+
   // Reduce JS bundle size
   productionBrowserSourceMaps: false,
-  
+
   eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: false,
   },
-  
+
   // Modularize heavy imports - reduces unused JS significantly
   modularizeImports: {
     'react-icons/?(((\\w*)?/?)*)': {
@@ -44,12 +44,12 @@ const nextConfig = {
       transform: 'lucide-react/dist/esm/icons/{{ kebabCase member }}',
     },
   },
-  
+
   // Enable experimental features for better performance
   experimental: {
     // Optimize heavy package imports - tree shake these libraries
     optimizePackageImports: [
-      'lucide-react', 
+      'lucide-react',
       'react-icons',
       'react-icons/io',
       'react-icons/io5',
@@ -65,7 +65,7 @@ const nextConfig = {
       'dayjs',
     ],
   },
-  
+
   // Webpack optimizations for smaller bundles
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -77,7 +77,7 @@ const nextConfig = {
     }
     return config;
   },
-  
+
   // Headers for caching static assets and enabling bfcache
   async headers() {
     const isProd = process.env.NODE_ENV === 'production';
@@ -88,11 +88,11 @@ const nextConfig = {
         headers: [
           ...(isProd
             ? [
-                {
-                  key: 'Content-Security-Policy',
-                  value: 'upgrade-insecure-requests',
-                },
-              ]
+              {
+                key: 'Content-Security-Policy',
+                value: 'upgrade-insecure-requests',
+              },
+            ]
             : []),
           {
             key: 'X-Content-Type-Options',
@@ -105,6 +105,14 @@ const nextConfig = {
           {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
           },
         ],
       },
