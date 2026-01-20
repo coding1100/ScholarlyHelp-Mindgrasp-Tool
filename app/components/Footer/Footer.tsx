@@ -106,9 +106,11 @@ const Footer: FC<FooterProps> = ({ }) => {
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-15 text-primary-600">
             <div className="md:max-w-[372px]">
-              <div className="mb-4">
-                <Logo />
-              </div>
+            <Link href="/">
+                <div className="mb-4">
+                  <Logo />
+                </div>
+              </Link>
               <div>
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
@@ -482,6 +484,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.facebook.com/Scholarly.help"
                       rel="noopener noreferrer"
                       aria-label="Follow us on Facebook"
+                      className="inline-flex items-center justify-center w-11 h-11"
                     >
                       <Facebook color="#2b1c51" />
                     </a>
@@ -492,6 +495,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.instagram.com/scholarlyhelp/"
                       rel="noopener noreferrer"
                       aria-label="Follow us on Instagram"
+                      className="inline-flex items-center justify-center w-11 h-11"
                     >
                       <Image src={Instagram} alt="instagram" />
                     </a>
@@ -502,6 +506,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.linkedin.com/company/scholarlyhelp/"
                       rel="noopener noreferrer"
                       aria-label="Follow us on LinkedIn"
+                      className="inline-flex items-center justify-center w-11 h-11"
                     >
                       <Image src={Linkedin} alt="Linkedin" />
                     </a>
@@ -512,6 +517,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.tiktok.com/@scholarlyhelp.com"
                       rel="noopener noreferrer"
                       aria-label="Follow us on TikTok"
+                      className="inline-flex items-center justify-center w-11 h-11"
                     >
                       <Image src={Tiktok} alt="Tiktok" />
                     </a>
@@ -522,6 +528,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.snapchat.com/add/helpscholarly"
                       rel="noopener noreferrer"
                       aria-label="Follow us on Snapchat"
+                      className="inline-flex items-center justify-center w-11 h-11"
                     >
                       <FaSnapchat />
                     </a>
@@ -532,6 +539,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.youtube.com/@ScholarlyHelp/"
                       rel="noopener noreferrer"
                       aria-label="Visit our YouTube channel"
+                      className="inline-flex items-center justify-center w-11 h-11"
                     >
                       <SiYoutubemusic />
                     </a>
@@ -566,7 +574,7 @@ const Footer: FC<FooterProps> = ({ }) => {
             <button id="sms-chat" className="sms-chat z-[100]">
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
-                className="blantershow-sms"
+                className="blantershow-sms inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Send us an SMS"
@@ -583,7 +591,7 @@ const Footer: FC<FooterProps> = ({ }) => {
             <button id="sms-chat2" className="sms-chat z-[100]">
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
-                className="blantershow-sms2"
+                className="blantershow-sms2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Send us an SMS"
@@ -608,7 +616,7 @@ const Footer: FC<FooterProps> = ({ }) => {
               onClick={apiCall}
             >
               <a
-                className="blantershow-chat"
+                className="blantershow-chat inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
                 href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -629,7 +637,7 @@ const Footer: FC<FooterProps> = ({ }) => {
               onClick={apiCall}
             >
               <a
-                className="blantershow-chat2"
+                className="blantershow-chat2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
                 href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
                 target="_blank"
                 rel="noopener noreferrer"
