@@ -480,6 +480,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.facebook.com/Scholarly.help"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on Facebook"
                     >
                       <Facebook color="#2b1c51" />
                     </a>
@@ -488,6 +490,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.instagram.com/scholarlyhelp/"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on Instagram"
                     >
                       <Image src={Instagram} alt="instagram" />
                     </a>
@@ -496,6 +500,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.linkedin.com/company/scholarlyhelp/"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on LinkedIn"
                     >
                       <Image src={Linkedin} alt="Linkedin" />
                     </a>
@@ -504,6 +510,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.tiktok.com/@scholarlyhelp.com"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on TikTok"
                     >
                       <Image src={Tiktok} alt="Tiktok" />
                     </a>
@@ -512,6 +520,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.snapchat.com/add/helpscholarly"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on Snapchat"
                     >
                       <FaSnapchat />
                     </a>
@@ -520,6 +530,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.youtube.com/@ScholarlyHelp/"
+                      rel="noopener noreferrer"
+                      aria-label="Visit our YouTube channel"
                     >
                       <SiYoutubemusic />
                     </a>
@@ -556,6 +568,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                 className="blantershow-sms"
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Send us an SMS"
               >
                 <Image
                   src={chatBubble}
@@ -571,6 +585,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                 className="blantershow-sms2"
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Send us an SMS"
               >
                 <Image
                   src={cellPhone}
@@ -595,6 +611,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                 className="blantershow-chat"
                 href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with us on WhatsApp"
               >
                 <Image
                   src={whatsappIconFooter}
@@ -614,6 +632,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                 className="blantershow-chat2"
                 href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with us on WhatsApp"
               >
                 <Image
                   src={whatsappIcon2}
