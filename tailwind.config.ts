@@ -31,7 +31,7 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-poppins)', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
         poppins: ['var(--font-poppins)', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
-        roboto: ['Roboto', 'sans-serif'],
+        roboto: ['var(--font-roboto)', 'sans-serif'],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
