@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import React, { FC, useEffect, useMemo, useRef } from "react";
 import HeroWhySliderCard from "@/app/components/reusable/HeroWhySliderCard";
 import icon1 from "@/app/assets/Icons/icon-1.svg";
 import icon2 from "@/app/assets/Icons/icon-2.png";
@@ -10,9 +10,6 @@ import icon5 from "@/app/assets/Icons/icon-5.png";
 import icon6 from "@/app/assets/Icons/icon-6.png";
 import icon7 from "@/app/assets/Icons/icon-7.png";
 import icon8 from "@/app/assets/Icons/icon-8.png";
-
-import boxShadow from "@/app/assets/Images/center-box-shadow.svg";
-import Image from "next/image";
 import { usePageData } from "./usePageData";
 
 type SliderItem = {
@@ -31,68 +28,52 @@ function SliderRow({
   intervalMs?: number;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const cardRef = useRef<HTMLDivElement | null>(null);
-  const [cardWidth, setCardWidth] = useState<number>(320);
-
-  useEffect(() => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setCardWidth(Math.round(rect.width + 20));
-  }, []);
+  // Use a fixed card width to avoid forced reflows from getBoundingClientRect
+  const cardWidth = 320; // Fixed width based on min-w-[300px] + gap
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    let animationFrame: number | null = null;
-    let lastScrollAt = Date.now();
-
-    const step = () => {
-      const now = Date.now();
-      if (now - lastScrollAt >= intervalMs) {
-        lastScrollAt = now;
-        const maxLoopPoint = container.scrollWidth / 2;
-        if (direction === "left") {
-          const nextLeft = container.scrollLeft + cardWidth;
-          if (nextLeft >= maxLoopPoint) {
-            container.scrollLeft = 0;
-          } else {
-            container.scrollTo({ left: nextLeft, behavior: "smooth" });
-          }
+    let timeoutId: ReturnType<typeof setTimeout>;
+    
+    const scroll = () => {
+      const maxLoopPoint = container.scrollWidth / 2;
+      if (direction === "left") {
+        const nextLeft = container.scrollLeft + cardWidth;
+        if (nextLeft >= maxLoopPoint) {
+          // Use instant scroll for loop reset to avoid visual glitch
+          container.scrollLeft = 0;
         } else {
-          const prevLeft = container.scrollLeft - cardWidth;
-          if (prevLeft < 0) {
-            container.scrollLeft = Math.max(maxLoopPoint - cardWidth, 0);
-          } else {
-            container.scrollTo({ left: prevLeft, behavior: "smooth" });
-          }
+          container.scrollTo({ left: nextLeft, behavior: "smooth" });
+        }
+      } else {
+        const prevLeft = container.scrollLeft - cardWidth;
+        if (prevLeft < 0) {
+          container.scrollLeft = Math.max(maxLoopPoint - cardWidth, 0);
+        } else {
+          container.scrollTo({ left: prevLeft, behavior: "smooth" });
         }
       }
-      animationFrame = requestAnimationFrame(step);
+      timeoutId = setTimeout(scroll, intervalMs);
     };
 
-    animationFrame = requestAnimationFrame(step);
+    // Start scrolling after initial delay
+    timeoutId = setTimeout(scroll, intervalMs);
+    
     return () => {
-      if (animationFrame) cancelAnimationFrame(animationFrame);
+      clearTimeout(timeoutId);
     };
-  }, [cardWidth, direction, intervalMs]);
+  }, [direction, intervalMs]);
 
   return (
     <div
       ref={containerRef}
-      className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth"
+      className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth will-change-scroll"
     >
-      {/* <Image
-        src={boxShadow}
-        alt=""
-        width={300}
-        height={200}
-        className=""
-      /> */}
       {items.map((item, index) => (
         <div
           key={index}
-          ref={index === 0 ? cardRef : undefined}
           className="snap-start"
         >
           <HeroWhySliderCard
@@ -204,7 +185,7 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
               : "Scholarly Help offers plenty of services through skilled online class helpers and various subject experts."}
           </p>
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 cust-shade">
           <SliderRow
             items={whyData?.sliderItems ? whyData.sliderItems : items}
             direction="left"

@@ -13,6 +13,7 @@ import Visa from "@/public/assets/Icon/visaIcon.webp";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
+import LogoNormal from "@/app/assets/Images/logo.png";
 // import CopyRight from "./CopyRight";
 import cellPhone from "@/public/assets/Icon/cellphone.png";
 import whatsappIcon2 from "@/public/assets/Icon/whatsappIcon2.png";
@@ -102,15 +103,24 @@ const Footer: FC<FooterProps> = () => {
         <div className="max-w-screen-7xl xl:container md:flex justify-between gap-6 px-10 text-primary-600 max-[992px]:flex-col max-[992px]:w-[90%] ">
           {/* Logo & Description */}
           <div className="md:max-w-[372px]">
-            <Link href="/" className="">
-              <div className="mb-4">
-                <Image src={Logo} alt="Logo" />
-              </div>
-            </Link>
-            <p className="leading-5">
+          <Link href="/">
+          
+          <Image
+            src={LogoNormal}
+            alt="Scholarly Help"
+            className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
+            width={142}
+            height={40}
+            priority
+          />
+        </Link>
+        <div className="mt-3">
+        <p className="leading-5">
               Scholarly Help delivers academic writing services. Our team of qualified subject experts can help you with your challenging online classes
               {!isDoMyClassPage && ", homework, assignments, quizzes, and exams"}.
             </p>
+        </div>
+            
           </div>
 
           {/* Navigation Links - Hidden on specific pages */}
@@ -173,14 +183,45 @@ const Footer: FC<FooterProps> = () => {
               {/* Social Icons */}
               <div className="flex my-2 space-x-1">
                 {[
-                  { href: "https://www.facebook.com/Scholarly.help", icon: <Image src={Facebook} alt="Facebook" /> },
-                  { href: "https://www.instagram.com/scholarlyhelp/", icon: <Image src={Instagram} alt="Instagram" /> },
-                  { href: "https://www.linkedin.com/company/scholarlyhelp/", icon: <Image src={Linkedin} alt="LinkedIn" /> },
-                  { href: "https://www.tiktok.com/@scholarlyhelp.com", icon: <Image src={Tiktok} alt="TikTok" /> },
-                  { href: "https://www.snapchat.com/add/helpscholarly", icon: <FaSnapchat className="text-[21px] text-[#000]" /> },
-                  { href: "https://www.youtube.com/@ScholarlyHelp/", icon: <SiYoutubemusic className="text-[21px] text-[#000]" /> },
+                  {
+                    href: "https://www.facebook.com/Scholarly.help",
+                    label: "Follow us on Facebook",
+                    icon: <Image src={Facebook} alt="Facebook" />,
+                  },
+                  {
+                    href: "https://www.instagram.com/scholarlyhelp/",
+                    label: "Follow us on Instagram",
+                    icon: <Image src={Instagram} alt="Instagram" />,
+                  },
+                  {
+                    href: "https://www.linkedin.com/company/scholarlyhelp/",
+                    label: "Follow us on LinkedIn",
+                    icon: <Image src={Linkedin} alt="LinkedIn" />,
+                  },
+                  {
+                    href: "https://www.tiktok.com/@scholarlyhelp.com",
+                    label: "Follow us on TikTok",
+                    icon: <Image src={Tiktok} alt="TikTok" />,
+                  },
+                  {
+                    href: "https://www.snapchat.com/add/helpscholarly",
+                    label: "Follow us on Snapchat",
+                    icon: <FaSnapchat className="text-[21px] text-[#000]" />,
+                  },
+                  {
+                    href: "https://www.youtube.com/@ScholarlyHelp/",
+                    label: "Visit our YouTube channel",
+                    icon: <SiYoutubemusic className="text-[21px] text-[#000]" />,
+                  },
                 ].map((social, i) => (
-                  <a key={i} href={social.href} target="_blank" rel="noopener noreferrer" className="w-5 h-5">
+                  <a
+                    key={i}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="inline-flex items-center justify-center w-5 h-5"
+                  >
                     {social.icon}
                   </a>
                 ))}

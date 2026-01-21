@@ -78,7 +78,7 @@ export default function GetQuote() {
                 position: "absolute",
                 left: "56px",
                 top: "-75px",
-                width: "auto",
+                width: "90px",
                 height: "auto",
                 zIndex: "8",
               }}
@@ -93,7 +93,7 @@ export default function GetQuote() {
                 position: "absolute",
                 left: "300px",
                 top: "-77px",
-                width: "auto",
+                width: "90px",
                 zIndex: "8",
                 height: "auto",
               }}
@@ -107,7 +107,7 @@ export default function GetQuote() {
                 position: "absolute",
                 right: "-50px",
                 bottom: "56px",
-                width: "auto",
+                width: "90px",
                 zIndex: "8",
                 height: "auto",
               }}
@@ -129,7 +129,7 @@ export default function GetQuote() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="text-[#949ACB] outline-none w-full pr-14 pl-4 py-7 bg-[#F8F8F8] rounded-xl  transition font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
+                      className="text-[#374151] placeholder:text-[#6B7280] outline-none w-full pr-14 pl-4 py-7 bg-[#F8F8F8] rounded-xl transition font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
                       placeholder="Email *"
                     />
                     <span className="absolute right-6 top-8.5 text-gray-400">
@@ -152,7 +152,7 @@ export default function GetQuote() {
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="text-[#949ACB] outline-none w-full pl-4 pr-14 py-7 bg-[#F8F8F8] rounded-xl  transition font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
+                      className="text-[#374151] placeholder:text-[#6B7280] outline-none w-full pl-4 pr-14 py-7 bg-[#F8F8F8] rounded-xl transition font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
                       placeholder="Phone # *"
                     />
                     <span className="absolute right-6 top-8.5 text-gray-400">
@@ -175,7 +175,7 @@ export default function GetQuote() {
                       rows={4}
                       value={formData.subject}
                       onChange={handleChange}
-                      className="text-[#949ACB] outline-none w-full pl-4 pr-14 py-7 bg-[#F8F8F8] rounded-xl  transition resize-none font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
+                      className="text-[#374151] placeholder:text-[#6B7280] outline-none w-full pl-4 pr-14 py-7 bg-[#F8F8F8] rounded-xl transition resize-none font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
                       placeholder="What do you need help with? *"
                     />
                     <span className="absolute right-6 top-8.5 text-gray-400">

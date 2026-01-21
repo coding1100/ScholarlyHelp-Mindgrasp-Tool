@@ -90,11 +90,12 @@ const Faq: FC<FaqProps> = ({ content }) => {
     answer: string;
   };
 
+  // Use index-based IDs to prevent hydration mismatch (Date.now() differs server/client)
   const faqItems = useMemo(() => {
     // Priority 1: Check if content is an array directly (content={Content.faq})
     if (Array.isArray(content) && content.length > 0) {
-      return content.map((item: any) => ({
-        id: item.id || Date.now(),
+      return content.map((item: any, index: number) => ({
+        id: item.id || `faq-${index}`,
         question: item.question || "",
         answer: item.answer || "",
       }));
@@ -103,8 +104,8 @@ const Faq: FC<FaqProps> = ({ content }) => {
     if (content && typeof content === "object" && "faq" in content) {
       const contentFaq = (content as { faq?: any[] }).faq;
       if (Array.isArray(contentFaq) && contentFaq.length > 0) {
-        return contentFaq.map((item: any) => ({
-          id: item.id || Date.now(),
+        return contentFaq.map((item: any, index: number) => ({
+          id: item.id || `faq-content-${index}`,
           question: item.question || "",
           answer: item.answer || "",
         }));
@@ -112,8 +113,8 @@ const Faq: FC<FaqProps> = ({ content }) => {
     }
     // Priority 3: Check if faq.faqs exists from usePageData
     if (faq?.faqs && Array.isArray(faq.faqs) && faq.faqs.length > 0) {
-      return faq.faqs.map((item: any) => ({
-        id: item.id || Date.now(),
+      return faq.faqs.map((item: any, index: number) => ({
+        id: item.id || `faq-db-${index}`,
         question: item.question || "",
         answer: item.answer || "",
       }));

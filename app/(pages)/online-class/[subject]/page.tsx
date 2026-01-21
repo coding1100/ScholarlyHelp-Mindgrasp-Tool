@@ -144,10 +144,10 @@ const Page: React.FC<PageProps> = async ({ params }) => {
         <MainLayout>
           <HeroSection />
           <Ratings />
-          <WhySlider />
           <CardCarousel />
           <Description />
           <GuaranteedBlock />
+          <WhySlider />
           <CustomerReviews />
           <ProcessSection />
           <Success />
@@ -174,10 +174,10 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <MainLayout>
         <HeroSection />
         <Ratings />
-        <WhySlider />
         <CardCarousel />
         <Description />
         <GuaranteedBlock />
+        <WhySlider />
         <CustomerReviews />
         <ProcessSection />
         <Success />

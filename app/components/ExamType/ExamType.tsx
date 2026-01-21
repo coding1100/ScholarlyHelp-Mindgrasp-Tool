@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 import useBreakpoint from "@/app/(pages)/hooks/useMediabreakpoint";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+// slick-theme.css removed - loads heavy font file, styles in globals.css
 import "./index.css";
 import SampleBg from "@/app/assets/Images/sampleBg.webp";
 import { sampleCardContent } from "./content";
