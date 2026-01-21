@@ -185,7 +185,7 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
               : "Scholarly Help offers plenty of services through skilled online class helpers and various subject experts."}
           </p>
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 cust-shade">
           <SliderRow
             items={whyData?.sliderItems ? whyData.sliderItems : items}
             direction="left"

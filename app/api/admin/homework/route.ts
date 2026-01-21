@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MongoClient } from 'mongodb';
+import clientPromise from "@/app/lib/mongodb";
 
 export const dynamic = 'force-dynamic';
 
@@ -26,14 +26,12 @@ export async function GET(request: NextRequest) {
     const slug = searchParams.get('slug');
     const listAll = searchParams.get('list') === 'all';
 
-    const client = new MongoClient(databaseUrl);
-    await client.connect();
+    const client = await clientPromise;
     const db = client.db('scholarly_help');
     
     // If list=all, return all homework pages
     if (listAll) {
       const pages = await db.collection('homework').find({}).toArray();
-      await client.close();
       return NextResponse.json({ pages }, { headers: corsHeaders });
     }
     
@@ -63,8 +61,6 @@ export async function GET(request: NextRequest) {
       query = { $or: [{ id: "homework_page" }, { id: "main" }] };
     }
     const content = await db.collection('homework').findOne(query);
-    await client.close();
-
     return NextResponse.json(content || {}, { headers: corsHeaders });
   } catch (error) {
     console.error('Error fetching from MongoDB:', error);
@@ -88,15 +84,7 @@ export async function POST(request: NextRequest) {
     // Exclude _id from the update to prevent immutable field error
     const { _id, slug, id, ...updateData } = body;
 
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000, // 5 second timeout
-      connectTimeoutMS: 10000, // 10 second timeout
-    });
-
-    console.log('Connecting to MongoDB...');
-    await client.connect();
-    console.log('Connected to MongoDB successfully');
-
+    const client = await clientPromise;
     const db = client.db('scholarly_help');
     console.log('Using database: scholarly_help');
 
@@ -135,9 +123,6 @@ export async function POST(request: NextRequest) {
     const result = await db.collection('homework').replaceOne(query, dataToSave, { upsert: true });
     console.log('Save result:', result);
 
-    await client.close();
-    console.log('Connection closed, save operation completed');
-
     return NextResponse.json({
       success: true,
       message: 'Data saved successfully',
@@ -167,14 +152,11 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Slug is required for deletion' }, { status: 400, headers: corsHeaders });
     }
 
-    const client = new MongoClient(databaseUrl);
-    await client.connect();
+    const client = await clientPromise;
     const db = client.db('scholarly_help');
     
     // Try to delete by slug or id
     const result = await db.collection('homework').deleteOne({ $or: [{ slug }, { id: slug }] });
-    await client.close();
-
     if (result.deletedCount === 0) {
       return NextResponse.json({ error: 'Document not found' }, { status: 404, headers: corsHeaders });
     }

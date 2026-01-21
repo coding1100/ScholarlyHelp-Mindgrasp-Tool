@@ -61,7 +61,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
   }, [slides.length]);
 
   return (
-    <section className="pt-9 pb-20 px-5 overflow-hidden bg-gray-50 text-[#171717]">
+    <section className="pt-9 pb-20 px-5 overflow-hidden text-[#171717]">
       <div className="max-w-6xl max-[992px]:max-w-4xl mx-auto">
         <div className="py-10 ">
           <h2 className="text-[42px] mb-[20px] text-[#000] font-bold text-center">

@@ -220,7 +220,7 @@ const Footer: FC<FooterProps> = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="inline-flex items-center justify-center w-6 h-6"
+                    className="inline-flex items-center justify-center w-5 h-5"
                   >
                     {social.icon}
                   </a>

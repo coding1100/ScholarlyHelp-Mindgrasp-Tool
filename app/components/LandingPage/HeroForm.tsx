@@ -293,7 +293,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
             alt="Academic success illustration"
             width={526}
             height={551}
-            className="min-[1200px]:max-w-[650px] max-w-[550px] cus-img absolute min-[1200px]:right-[-322px] min-[1200px]:top-[-148px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
+            className="min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-83px]"
             priority
             fetchPriority="high"
             unoptimized={true}
@@ -520,7 +520,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           alt="Academic success illustration"
           width={526}
           height={551}
-          className="min-[1200px]:max-w-[650px] max-w-[550px] cus-img absolute min-[1200px]:right-[-322px] min-[1200px]:top-[-148px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
+          className="min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
           priority
           fetchPriority="high"
           unoptimized={true}
@@ -558,7 +558,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3"
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200  min-[768px]:hidden"></div>
-            <IoIosMail className="text-[#6B7280] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
+            <IoIosMail className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
           </div>
 
           {/* Phone Field */}
@@ -575,7 +575,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
-            <MdPhoneInTalk className="text-[#6B7280] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
+            <MdPhoneInTalk className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
           </div>
 
           {/* Instructions Field */}
@@ -591,7 +591,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               className="flex-1 bg-transparent text-black outline-none resize-none text-sm placeholder:text-[#6B7280] pr-3 bg-[#EDEFFE] min-h-[150px]"
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
-            <IoChatbubbles className="text-[#6B7280] text-xl mt-1 flex-shrink-0" />
+            <IoChatbubbles className="text-[#9ea9bf] text-xl mt-1 flex-shrink-0" />
           </div>
 
           {/* Submit Button */}

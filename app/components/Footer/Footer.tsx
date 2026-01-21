@@ -243,10 +243,10 @@ const Footer: FC<FooterProps> = ({ }) => {
           <>
             {/* SMS module */}
             <div>
-              <button id="sms-chat" className="sms-chat z-[100]">
+              <button id="sms-chat" className="sms-chat z-[100] hidden" style={{ display: 'none' }}>
                 <a
                   href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
-                  className="blantershow-sms"
+                  className="blantershow-sms hidden"
                   target="_blank"
                 >
                   <Image
@@ -497,7 +497,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.facebook.com/Scholarly.help"
                       rel="noopener noreferrer"
                       aria-label="Follow us on Facebook"
-                      className="inline-flex items-center justify-center w-6 h-6"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <Facebook color="#2b1c51" />
                     </a>
@@ -508,7 +508,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.instagram.com/scholarlyhelp/"
                       rel="noopener noreferrer"
                       aria-label="Follow us on Instagram"
-                      className="inline-flex items-center justify-center w-6 h-6"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <Image src={Instagram} alt="instagram" />
                     </a>
@@ -519,7 +519,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.linkedin.com/company/scholarlyhelp/"
                       rel="noopener noreferrer"
                       aria-label="Follow us on LinkedIn"
-                      className="inline-flex items-center justify-center w-6 h-6"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <Image src={Linkedin} alt="Linkedin" />
                     </a>
@@ -530,7 +530,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.tiktok.com/@scholarlyhelp.com"
                       rel="noopener noreferrer"
                       aria-label="Follow us on TikTok"
-                      className="inline-flex items-center justify-center w-6 h-6"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <Image src={Tiktok} alt="Tiktok" />
                     </a>
@@ -541,7 +541,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.snapchat.com/add/helpscholarly"
                       rel="noopener noreferrer"
                       aria-label="Follow us on Snapchat"
-                      className="inline-flex items-center justify-center w-6 h-6"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <FaSnapchat />
                     </a>
@@ -552,7 +552,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                       href="https://www.youtube.com/@ScholarlyHelp/"
                       rel="noopener noreferrer"
                       aria-label="Visit our YouTube channel"
-                      className="inline-flex items-center justify-center w-6 h-6"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <SiYoutubemusic />
                     </a>
@@ -584,10 +584,10 @@ const Footer: FC<FooterProps> = ({ }) => {
         ) : (
           <div>
             {/* sms module */}
-            <button id="sms-chat" className="sms-chat z-[100]">
+            <button id="sms-chat" className="sms-chat z-[100] hidden" style={{ display: 'none' }}>
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
-                className="blantershow-sms inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
+                className="blantershow-sms inline-flex items-center justify-center min-w-[44px] min-h-[44px] hidden"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Send us an SMS"
