@@ -238,7 +238,7 @@ export default function Header() {
             alt="Scholarly Help"
             className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
             width={142}
-            height={40}
+            
             priority
           />
         </Link>
