@@ -57,9 +57,9 @@ const Page = async () => {
         <HeroSection />
         <Ratings />
         <CardCarousel />
-        <WhySlider />
         <Description />
         <GuaranteedBlock />
+        <WhySlider />
         <CustomerReviews />
         <ProcessSection />
         <Success />

@@ -860,7 +860,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         </p>
 
         {/* Desktop Slider - 3 cards per row, 2 rows per slide */}
-        <div className="my-8 md:block hidden">
+        <div className="my-2 md:block hidden">
           <Slider {...settings}>
             {groupedReviews.map((group, groupIndex) => (
               <div key={groupIndex}>

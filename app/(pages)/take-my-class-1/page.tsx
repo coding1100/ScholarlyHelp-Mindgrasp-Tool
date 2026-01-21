@@ -86,9 +86,9 @@ const TakeMyClass1 = async () => {
         <HeroSection />
         <Ratings />
         <CardCarousel />
-        <WhySlider />
         <Description />
         <GuaranteedBlock />
+        <WhySlider />
         <CustomerReviews />
         <ProcessSection />
         <Success />
