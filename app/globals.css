@@ -7,107 +7,50 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Critical styles - loaded immediately */
 
 body {
-  background: var(--background);
+  background: #fff;
   color: var(--foreground);
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
 
-/* Hide native scrollbars for elements with the no-scrollbar class */
+/* Hide native scrollbars - critical for layout */
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.slick-list {
-  padding-top: 65px !important;
-  overflow-y: visible !important;
-  padding-bottom: 40px !important;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-.slick-dots {
-  bottom: -60px;
-}
-.slick-dots li {
-  margin: 0 0px !important;
-}
-.slick-dots li button:before {
-  width: 10px !important;
-  height: 10px !important;
-}
-.slick-dots li {
-  width: 10px !important;
-}
-.slick-slider {
-  padding-bottom: 0px;
-}
+
+/* Form styles - critical for hero section */
 .formtwo .cus-img {
   display: none;
 }
+
 .formtwo .cus-div {
   z-index: 9;
   position: relative;
 }
 
-/* Custom animations for AI landing pages */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.lineAdded::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #E9E9F1;
+  bottom: 0;
+  left: 0;
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* GPU acceleration for smooth scrolling */
+.will-change-scroll {
+  will-change: scroll-position;
 }
 
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
+/* Optimize animations with GPU acceleration */
 .animate-fade-in {
   animation: fade-in 0.6s ease-out;
 }
@@ -123,15 +66,207 @@ body {
 .animate-slide-in-right {
   animation: slide-in-right 0.8s ease-out;
 }
-body{
-  background: #fff;
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
-.lineAdded::after{
-  content: "";
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/*
+ * FONT STRATEGY:
+ * - Poppins is self-hosted via next/font (NO CDN calls to fonts.googleapis.com)
+ * - slick-theme.css is NOT imported (it loads a heavy font file)
+ * - All slick icons are replaced with pure CSS arrows/dots below
+ */
+
+/* Block any attempts to load slick font - this font-face declaration
+   overrides the one in slick.css, pointing to a non-existent font */
+@font-face {
+  font-family: 'slick';
+  src: local('');
+  /* Empty local - prevents network request */
+  font-display: block;
+}
+
+/* Slick slider overrides - pure CSS arrows instead of font icons */
+.slick-list {
+  padding-top: 65px !important;
+  overflow-y: visible !important;
+  padding-bottom: 40px !important;
+}
+
+.slick-dots {
+  bottom: -60px;
+}
+
+.slick-dots {
+  position: relative;
+  bottom: -30px;
+  display: block;
+  width: 100px;
+  padding: 0;
+  margin: auto;
+  list-style: none;
+  text-align: center;
+  z-index: 999;
+}
+
+.slick-dots li,
+.slick-dots li button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.slick-dots li {
+  position: relative;
+  display: inline-block;
+  margin: 0 5px;
+  padding: 0;
+}
+
+.slick-dots li {
+  width: 10px !important;
+}
+
+.slick-dots li {
+  margin: 0 !important;
+}
+
+.slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  padding: 5px;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+.slick-dots li,
+.slick-dots li button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.slick-dots li button:before {
+  font-family: slick;
+  font-size: 6px;
+  line-height: 20px;
   position: absolute;
-  width: 10px;
-  height: 10px;
-  background: #E9E9F1;
-  bottom: 0;
+  top: 0;
   left: 0;
+  width: 20px;
+  height: 20px;
+  content: "•";
+  text-align: center;
+  opacity: .5;
+  color: #000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-dots li button:before {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.slick-dots li {
+  margin: 0 !important;
+  width: 10px !important;
+}
+
+.slick-dots li button:before {
+  width: 7px !important;
+  height: 7px !important;
+  /* Use CSS instead of slick font icon */
+  font-family: inherit !important;
+  content: "" !important;
+  background-color: #bfbfbf !important;
+  border-radius: 50%;
+}
+
+.slick-dots li.slick-active button:before {
+  background-color: #000000 !important;
+}
+
+.slick-slider {
+  padding-bottom: 0px;
+}
+
+/* Override slick arrows to use CSS instead of font icons - eliminates 3+ second font load */
+.slick-prev:before,
+.slick-next:before {
+  font-family: inherit !important;
+  content: "" !important;
+}
+
+.slick-prev,
+.slick-next {
+  width: 40px;
+  height: 40px;
+}
+
+.slick-prev::after,
+.slick-next::after {
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-left: 3px solid #1b1b1b;
+  border-bottom: 3px solid #1b1b1b;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.slick-prev::after {
+  transform: translate(-30%, -50%) rotate(45deg);
+}
+
+.slick-next::after {
+  transform: translate(-70%, -50%) rotate(-135deg);
 }

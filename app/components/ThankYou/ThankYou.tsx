@@ -11,7 +11,7 @@ import BoxStar from "@/app/assets/Images/boxStar.png";
 import { content } from "./content";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+// slick-theme.css removed - loads heavy font file, styles in globals.css
 import "./style.css";
 import TrustPilotLogo from "@/app/assets/Images/trustpilotlogo.png";
 import axios from "axios";

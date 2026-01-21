@@ -296,7 +296,7 @@ export default function AdminLayout({
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:z-40 lg:block">
         <div className="flex flex-col h-full bg-white shadow-lg overflow-hidden">
-          <div className="flex items-center p-6 border-b flex-shrink-0">
+          <div className="flex items-center p-[1.39rem] border-b flex-shrink-0">
             <h2 className="text-xl font-bold text-gray-900">Admin Panel</h2>
           </div>
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto min-h-0">

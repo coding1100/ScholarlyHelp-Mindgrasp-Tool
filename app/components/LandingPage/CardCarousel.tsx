@@ -1,10 +1,14 @@
 "use client";
 
 import { useRef, useState, useEffect, useMemo } from "react";
-import Slider, { Settings } from "react-slick";
+import Slider from "react-slick";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePageData } from "./usePageData";
+
+// Import only slick base CSS - theme CSS loads heavy font file
+// Arrow and dot styles are handled in globals.css
+import "slick-carousel/slick/slick.css";
 
 import slid1 from "@/app/assets/Images/slide1.svg";
 import slid2 from "@/app/assets/Images/slide2.svg";
@@ -12,7 +16,6 @@ import slid3 from "@/app/assets/Images/slide3.svg";
 import slid4 from "@/app/assets/Images/slide4.svg";
 import slid5 from "@/app/assets/Images/slide5.svg";
 import slid6 from "@/app/assets/Images/slide6.svg";
-// import slid7 from "@/app/assets/Images/per07.svg";
 
 // Card data
 const cardData = [
@@ -82,10 +85,11 @@ export default function CardCarousel() {
   };
 
   // Use MongoDB data if available, otherwise use default
+  // Use index-based IDs to prevent hydration mismatch (Date.now() differs server/client)
   const cards = useMemo(() => {
     if (cardCarousel?.cards && Array.isArray(cardCarousel.cards) && cardCarousel.cards.length > 0) {
-      return cardCarousel.cards.map((card: any) => ({
-        id: card.id || Date.now(),
+      return cardCarousel.cards.map((card: any, index: number) => ({
+        id: card.id || `card-${index}`,
         image: card.image || slid1,
         title: card.title || '',
         description: card.description || ''
@@ -107,7 +111,7 @@ export default function CardCarousel() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const settings: Settings = {
+  const settings = {
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
     centerMode: true,
@@ -117,7 +121,11 @@ export default function CardCarousel() {
     infinite: true,
     autoplay: true,
     autoplaySpeed: 3000,
-    afterChange: (current) => setCenterIndex(current),
+    // Use CSS transform instead of layout properties to avoid reflows
+    cssEase: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    useCSS: true,
+    useTransform: true,
+    afterChange: (current: number) => setCenterIndex(current),
   };
 
   const goPrev = () => sliderRef.current?.slickPrev();
