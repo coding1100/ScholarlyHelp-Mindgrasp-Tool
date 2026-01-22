@@ -74,7 +74,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
   return (
     <div className="max-w-2xl">
       <h1
-        className="font-semibold text-[32px] md:text-[50px] leading-[1.1] text-black"
+        className="font-semibold text-[32px] md:text-[50px] max-[768px]:text-[22px] leading-[1.1] text-black"
         style={{ fontFamily: "var(--font-poppins)" }}
       >
         {heroContent?.mainHeading ? (
@@ -93,7 +93,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
       </h1>
 
       {!shouldHideBadges && (
-        <div className="mt-6 flex flex-col items-start gap-3 relative">
+        <div className="mt-6 max-[768px]:mt-3 flex flex-col items-start gap-3 relative">
           <div className="inline-flex items-center gap-2 self-start rounded-full border max-[768px]:bg-[#D3D4F7] border-[#E9E9F1] bg-white/80 px-4 max-[768px]:px-3 py-2 z-[9]">
             <div>
               <CheckBadge />
@@ -144,7 +144,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
       )}
 
       {!shouldHideButtons && (
-        <div className="mt-6 flex gap-4">
+        <div className="mt-6 max-[768px]:mt-2 flex gap-4">
           {heroContent?.btn1Url ? (
             <Link
               href={heroContent.btn1Url}
