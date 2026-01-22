@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import { usePathname } from "next/navigation";
-import respavatar from "@/app/assets/Images/resp-avatar.svg";
+import respavatar from "@/app/assets/Images/resp-avatar.png";
 import Link from "next/link";
 import Image from "next/image";
 const CHECK_BG = "#9F92EC";
@@ -74,7 +74,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
   return (
     <div className="max-w-2xl">
       <h1
-        className="font-semibold text-[32px] md:text-[50px] max-[768px]:text-[22px] leading-[1.1] text-black"
+        className="font-semibold text-[32px] md:text-[50px] leading-[1.1] text-black"
         style={{ fontFamily: "var(--font-poppins)" }}
       >
         {heroContent?.mainHeading ? (
