@@ -10,12 +10,12 @@ import { usePageData } from "./usePageData";
 // Arrow and dot styles are handled in globals.css
 import "slick-carousel/slick/slick.css";
 
-import slid1 from "@/app/assets/Images/slide1.svg";
-import slid2 from "@/app/assets/Images/slide2.svg";
-import slid3 from "@/app/assets/Images/slide3.svg";
-import slid4 from "@/app/assets/Images/slide4.svg";
-import slid5 from "@/app/assets/Images/slide5.svg";
-import slid6 from "@/app/assets/Images/slide6.svg";
+import slid1 from "@/app/assets/Images/slide1.png";
+import slid2 from "@/app/assets/Images/slide2.png";
+import slid3 from "@/app/assets/Images/slide3.png";
+import slid4 from "@/app/assets/Images/slide4.png";
+import slid5 from "@/app/assets/Images/slide5.png";
+import slid6 from "@/app/assets/Images/slide6.png";
 
 // Card data
 const cardData = [
