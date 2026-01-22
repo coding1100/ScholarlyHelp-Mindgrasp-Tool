@@ -40,14 +40,10 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   
   // Routes where header and footer should be hidden
   const hideHeaderFooterRoutes = [
-    '/take-my-class',
-    '/take-my-class/',
     '/take-my-class-1',
     '/take-my-class-1/',
     '/take-my-class-2',
     '/take-my-class-2/',
-    '/take-my-exam',
-    '/take-my-exam/',
   ];
   
   const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(pathname || '');

@@ -577,16 +577,16 @@ const HeroForm: FC<ZohoForm2Props> = ({
           </div>
 
           {/* Instructions Field */}
-          <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] max-[768px]:bg-[#F5F6FA] px-4 pt-3 pb-2 min-h-[150px] max-[768px]:relative">
+          <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] h-[65px] max-[768px]:bg-[#F5F6FA] px-4 pt-3 pb-2 min-[768px]:min-h-[150px] max-[768px]:relative">
             <textarea
               id="Description"
               name="Description"
               placeholder="What do you need help with? *"
-              rows={textAreaRows}
+              rows={4}
               value={formData.Description}
               onChange={handleChange}
               required
-              className="flex-1 bg-transparent text-black outline-none resize-none text-sm placeholder:text-[#6B7280] pr-3 bg-[#EDEFFE] min-h-[150px]"
+              className="flex-1 bg-transparent text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] min-[768px]:min-h-[100px] max-[768px]:h-[50px]"
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
             <IoChatbubbles className="text-[#9ea9bf] text-xl mt-1 flex-shrink-0" />
