@@ -1,6 +1,5 @@
 import MainLayout from "./MainLayout";
 import HeroSection from "./components/LandingPage/HeroSection";
-import Ratings from "./components/LandingPage/Ratings";
 import { HomeDataProvider } from "./(pages)/HomeDataProvider";
 import dynamicImport from "next/dynamic";
 import { getHomeData } from "./lib/mongodb";
@@ -13,7 +12,7 @@ const LoadingSkeleton = ({ height = "400px" }: { height?: string }) => (
 // Lazy load ALL below-the-fold components to reduce initial JS
 const WhySlider = dynamicImport(() => import("./components/LandingPage/WhySlider"), {
   loading: () => <LoadingSkeleton height="500px" />,
-  ssr: true, // Keep SSR for SEO but load JS lazily
+  ssr: false, // Disable SSR for mobile performance
 });
 
 const CardCarousel = dynamicImport(() => import("./components/LandingPage/CardCarousel"), {
@@ -23,12 +22,12 @@ const CardCarousel = dynamicImport(() => import("./components/LandingPage/CardCa
 
 const Description = dynamicImport(() => import("./components/LandingPage/Description"), {
   loading: () => <LoadingSkeleton height="300px" />,
-  ssr: true,
+  ssr: false,
 });
 
 const GuaranteedBlock = dynamicImport(() => import("./components/LandingPage/GuaranteedBlock"), {
   loading: () => <LoadingSkeleton height="400px" />,
-  ssr: true,
+  ssr: false,
 });
 
 const CustomerReviews = dynamicImport(() => import("./components/LandingPage/CustomerReviews"), {
@@ -38,17 +37,17 @@ const CustomerReviews = dynamicImport(() => import("./components/LandingPage/Cus
 
 const ProcessSection = dynamicImport(() => import("./components/LandingPage/ProcessSection"), {
   loading: () => <LoadingSkeleton height="400px" />,
-  ssr: true,
+  ssr: false,
 });
 
 const Success = dynamicImport(() => import("./components/LandingPage/Success"), {
   loading: () => <LoadingSkeleton height="300px" />,
-  ssr: true,
+  ssr: false,
 });
 
 const AcademicPartners = dynamicImport(() => import("./components/LandingPage/AcademicPartners"), {
   loading: () => <LoadingSkeleton height="200px" />,
-  ssr: true,
+  ssr: false,
 });
 
 const GetQouteDynamic = dynamicImport(() => import("./components/LandingPage/GetQoute"), { 
@@ -58,7 +57,12 @@ const GetQouteDynamic = dynamicImport(() => import("./components/LandingPage/Get
 
 const Faq = dynamicImport(() => import("./components/LandingPage/Faq"), {
   loading: () => <LoadingSkeleton height="400px" />,
-  ssr: true,
+  ssr: false,
+});
+
+const Ratings = dynamicImport(() => import("./components/LandingPage/Ratings"), {
+  loading: () => <LoadingSkeleton height="200px" />,
+  ssr: false,
 });
 
 // Enable ISR with 60 second revalidation for fast TTFB
