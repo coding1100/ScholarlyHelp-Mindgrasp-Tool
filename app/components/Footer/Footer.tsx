@@ -605,6 +605,7 @@ const Footer: FC<FooterProps> = ({ }) => {
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                 className="blantershow-sms2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
+                style={{ display: 'none' }}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Send us an SMS"
