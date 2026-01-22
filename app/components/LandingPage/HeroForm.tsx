@@ -296,7 +296,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
             className="min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-83px]"
             priority
             fetchPriority="high"
-            unoptimized={true}
           />
         ) : (
           <Image
@@ -307,7 +306,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
             className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
             priority
             fetchPriority="high"
-            unoptimized={true}
           />
         )}
         <div className="max-w-[600px] mx-auto cus-div">

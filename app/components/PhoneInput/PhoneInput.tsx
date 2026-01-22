@@ -1,5 +1,4 @@
 import { PhoneInput } from "react-international-phone";
-import "react-international-phone/style.css";
 import "./index.css";
 import { Dispatch, FC, SetStateAction } from "react";
 
