@@ -105,14 +105,14 @@ const Footer: FC<FooterProps> = ({ }) => {
     return (
       <div ref={footerRef} className={`${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
-          <div className="md:container md:flex justify-between gap-6 px-15 text-primary-600">
+          <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
             <div className="md:max-w-[372px]">
             <Link href="/">
           
           <Image
             src={LogoNormal}
             alt="Scholarly Help"
-            className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
+            className="max-w-[142px] min-w-[142px]"
             width={142}
             
             priority
@@ -328,7 +328,7 @@ const Footer: FC<FooterProps> = ({ }) => {
               <Image
                 src={LogoNormal}
                 alt="Scholarly Help"
-                className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
+                className=" max-w-[142px] min-w-[142px]"
                 width={142}
                 
                 priority
