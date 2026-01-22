@@ -82,6 +82,9 @@ a.blantershow-chat svg {
 #sms-chat2, #whatsapp-chat-2{
     display: none;
 }
+.blantershow-sms2{
+    display: none;
+}
 @media (max-width: 768px) {
     .sms-icon-footer{
         width: 45px
