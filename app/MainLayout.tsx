@@ -1,12 +1,30 @@
 "use client";
 import { FC, ReactNode, useState, useCallback, useEffect } from "react"; // Added useEffect
-// import AppNav from "./components/NavBar/AppNav";
-import AppNav from "./components/LandingPage/Header";
-import Footer from "./components/Footer/Footer";
+import dynamic from "next/dynamic";
 import type { Metadata } from "next";
-import AuthProvider from "./context/auth/AuthProvider";
-import ExitPopUp from "./components/PopUpModal/ExitPopup";
 import { usePathname } from "next/navigation";
+
+// Lazy load auth provider
+const AuthProvider = dynamic(() => import("./context/auth/AuthProvider"), {
+  ssr: false,
+});
+
+// Lazy load header and footer to reduce initial bundle
+const AppNav = dynamic(() => import("./components/LandingPage/Header"), {
+  ssr: true,
+});
+
+const Footer = dynamic(() => import("./components/Footer/Footer"), {
+  ssr: true,
+});
+
+const ExitPopUp = dynamic(() => import("./components/PopUpModal/ExitPopup"), {
+  ssr: false,
+});
+
+const CookieBanner = dynamic(() => import("./components/CookieConsent"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "ScholarlyHelp",
@@ -68,6 +86,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
       {!shouldHideHeaderFooter && <AppNav />}
       {children}
       {!shouldHideHeaderFooter && <Footer />}
+      <CookieBanner />
       {/* <ExitPopUp
           open={openExitPopup}
           handleClose={() => setOpenExitPopup(false)}

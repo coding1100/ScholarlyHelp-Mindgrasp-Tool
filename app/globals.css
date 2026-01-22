@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Optimize font loading to prevent blocking */
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -13,6 +19,11 @@ body {
   background: #fff;
   color: var(--foreground);
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
+}
+
+/* Force all elements to use Poppins to prevent external font loading */
+* {
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif !important;
 }
 
 /* Hide native scrollbars - critical for layout */
