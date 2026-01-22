@@ -17,7 +17,6 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
   const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(null);
-  const [showPhoneDialog, setShowPhoneDialog] = useState(false);
 
   const navItems = [
     {
@@ -257,8 +256,8 @@ export default function Header() {
         {/* Phone Number - Shown for special routes */}
         {isSpecialRoute && (
           <div className="">
-            <button
-              onClick={() => setShowPhoneDialog(true)}
+            <a
+              href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || '17167081869'}`}
               className="flex items-center text-primary-400 text-[#565add] transition"
             >
               <span className="w-6 mr-1 text-primary-400">
@@ -272,7 +271,7 @@ export default function Header() {
               </span>
               <span className="max-[450px]:hidden">1-716-708-1869</span>
               <span className="min-[450px]:hidden font-semibold">Call Now</span>
-            </button>
+            </a>
           </div>
         )}
 
@@ -353,8 +352,8 @@ export default function Header() {
               ))}
             </nav>
             <div className="">
-              <button
-                onClick={() => setShowPhoneDialog(true)}
+              <a
+                href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || '17167081869'}`}
                 className="flex items-center text-primary-400 text-[#565add] transition"
               >
                 <span className="w-6 mr-1 text-primary-400">
@@ -368,7 +367,7 @@ export default function Header() {
                 </span>
                 <span className="max-[450px]:hidden">1-716-708-1869</span>
                 <span className="min-[450px]:hidden font-semibold">Call Now</span>
-              </button>
+              </a>
             </div>
           </>
         )}
@@ -461,47 +460,6 @@ export default function Header() {
       </div>
       )}
 
-      {/* Phone Dialog */}
-      {showPhoneDialog && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-6 max-w-sm mx-4 shadow-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Call Us</h3>
-              <button
-                onClick={() => setShowPhoneDialog(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X size={24} />
-              </button>
-            </div>
-            <div className="mb-4">
-              <p className="text-gray-600 mb-2">Phone Number:</p>
-              <div className="flex items-center justify-between bg-gray-50 p-3 rounded-md">
-                <span className="font-mono text-lg text-[#565add]">
-                  {process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || '1-716-708-1869'}
-                </span>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || '1-716-708-1869');
-                    alert('Phone number copied to clipboard!');
-                  }}
-                  className="ml-2 px-3 py-1 bg-[#ff641a] text-white text-sm rounded hover:bg-[#e55a15] transition"
-                >
-                  Copy
-                </button>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setShowPhoneDialog(false)}
-                className="flex-1 border border-gray-300 text-gray-700 py-2 rounded hover:bg-gray-50 transition"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 }
