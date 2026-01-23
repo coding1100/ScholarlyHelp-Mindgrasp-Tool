@@ -1,4 +1,4 @@
-import FormBackImg2 from "@/app/assets/Images/heroBg2.png";
+import FormBackImg2 from "@/app/assets/Images/heroBg2.webp";
 import NoPersonalInfoImg from "@/app/assets/Images/personal.png";
 import EncryptedImg from "@/app/assets/Images/encrypted.png";
 import PrivateImg from "@/app/assets/Images/private.png";

@@ -1,4 +1,4 @@
-import FormBackImg2 from "@/app/assets/Images/heroBg2.png";
+import FormBackImg2 from "@/app/assets/Images/heroBg2.webp";
 import icon1 from "@/app/assets/Icons/icon-1.svg";
 import icon2 from "@/app/assets/Icons/icon-2.png";
 import icon3 from "@/app/assets/Icons/icon-3.png";
