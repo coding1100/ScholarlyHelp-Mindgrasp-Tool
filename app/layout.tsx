@@ -10,7 +10,7 @@ const poppins = Poppins({
   display: "swap",
   variable: "--font-poppins",
   weight: ["400", "500", "600", "700"],
-  preload: false,
+  preload: true,
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
   adjustFontFallback: true,
 });
@@ -34,21 +34,21 @@ export default function RootLayout({
         )}
 
         {/* CRITICAL: Preload LCP image to eliminate 4.6s resource load delay */}
-        <link
+        {/* <link
           rel="preload"
           as="image"
-          href="/images/Hero-Group-195.png"
+          href="/images/Hero-Group-195.webp"
           type="image/png"
           fetchPriority="high"
-        />
+        /> */}
 
         {/* Preconnect only to non-font third-party domains */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
 
         {/* DNS prefetch for resources loaded later */}
-        <link rel="dns-prefetch" href="https://accounts.google.com" />
-        <link rel="dns-prefetch" href="https://cdn.livechatinc.com" />
-        <link rel="dns-prefetch" href="https://script.crazyegg.com" />
+        <link rel="preconnect" href="https://accounts.google.com" />
+        <link rel="preconnect" href="https://cdn.livechatinc.com" />
+        <link rel="preconnect" href="https://script.crazyegg.com" />
       </head>
       <body className={poppins.className} suppressHydrationWarning={true}>
         <main id="main-content">{children}</main>
@@ -67,7 +67,7 @@ export default function RootLayout({
         {/* GTM - use lazyOnload instead of default to reduce main thread work */}
         <Script
           id="gtm-script"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -89,7 +89,7 @@ export default function RootLayout({
               "@context": "https://schema.org/",
               "@type": "Product",
               "name": "Scholarly Help",
-              "image": "./img/logonew.svg",
+              "image": "https://scholarlyhelp.com/img/logonew.svg",
               "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": "4.9",

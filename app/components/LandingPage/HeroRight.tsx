@@ -3,7 +3,7 @@
 import React, { FC } from "react";
 import Image, { StaticImageData } from "next/image";
 import HeroForm from "./HeroForm"; // Direct import for LCP - no dynamic loading
-import Illustration from "@/app/assets/Images/Hero-Group-195.png";
+import Illustration from "@/app/assets/Images/Hero-Group-195.webp";
 import Bg1 from "@/app/assets/Images/Hero-b-1.png";
 import Bg2 from "@/app/assets/Images/Hero-b-2.png";
 import Bg3 from "@/app/assets/Images/Hero-b-3.png";
@@ -42,25 +42,25 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             src={Bg1}
             alt=""
             className="absolute -left-[80px] top-[130px] opacity-50"
-            loading="lazy"
+            fetchPriority="high"
           />
           <Image
             src={Bg3}
             alt=""
             className="absolute -left-[80px] -top-10 opacity-50"
-            loading="lazy"
+            fetchPriority="high"
           />
           <Image
             src={Bg2}
             alt=""
             className="absolute -left-[80px] top-[300px] opacity-50"
-            loading="lazy"
+            fetchPriority="high"
           />
           <Image
             src={Bg4}
             alt=""
             className="absolute left-28 -top-20 opacity-50"
-            loading="lazy"
+            fetchPriority="high"
           />
         </div>
 
@@ -98,6 +98,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             src={Bg5}
             alt=""
             className=""
+            fetchPriority="high"
           />
         </div>
         <div className="">
