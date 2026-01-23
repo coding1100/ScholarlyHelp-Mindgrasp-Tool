@@ -240,6 +240,7 @@ export default function Header() {
             width={142}
             height={40}
             priority
+            fetchPriority="high"
           />
         </Link>
         {!isSpecialRoute && (
@@ -266,7 +267,7 @@ export default function Header() {
                   alt="Phone"
                   width={22}
                   height={22}
-                  loading="lazy"
+                  fetchPriority="high"
                 />
               </span>
               <span className="max-[450px]:hidden">1-716-708-1869</span>
@@ -341,7 +342,7 @@ export default function Header() {
                             alt="SiteJabber"
                             width={367}
                             height={250}
-                            loading="lazy"
+                            fetchPriority="high"
                             className="h-[100%]"
                           />
                         </div>
@@ -362,7 +363,7 @@ export default function Header() {
                     alt="Phone"
                     width={22}
                     height={22}
-                    loading="lazy"
+                    fetchPriority="high"
                   />
                 </span>
                 <span className="max-[450px]:hidden">1-716-708-1869</span>

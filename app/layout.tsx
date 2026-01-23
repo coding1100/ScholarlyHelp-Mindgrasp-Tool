@@ -37,7 +37,7 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
-          href="/images/Hero-Group-195.png"
+          href="/images/Hero-Group-195.webp"
           type="image/png"
           fetchPriority="high"
         />
