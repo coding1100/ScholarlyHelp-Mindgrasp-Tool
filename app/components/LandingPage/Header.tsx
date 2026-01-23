@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import megaMenuImage from "@/app/assets/Images/mega-menu-image.svg";
+import megaMenuImage from "@/app/assets/Images/mega-menu-image.webp";
 import Image from "next/image";
 import LogoSmall from "@/app/assets/Images/logoSmall.png";
 import LogoNormal from "@/app/assets/Images/logo.png";
-import Phone from "@/app/assets/Icons/phone.svg";
+import Phone from "@/app/assets/Icons/phone.webp";
 
 export default function Header() {
   const pathname = usePathname();
