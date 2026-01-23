@@ -2,7 +2,7 @@
 
 import React, { FC } from "react";
 import { usePathname } from "next/navigation";
-import respavatar from "@/app/assets/Images/resp-avatar.png";
+import respavatar from "@/app/assets/Images/resp-avatar.webp";
 import Link from "next/link";
 import Image from "next/image";
 const CHECK_BG = "#9F92EC";

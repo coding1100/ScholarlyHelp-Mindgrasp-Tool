@@ -8,7 +8,7 @@ import { IoChatbubbles } from "react-icons/io5";
 import { MdPhoneInTalk } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
 import Image, { StaticImageData } from "next/image";
-import FormBackImg from "@/app/assets/Images/Hero-Group-195.png";
+import FormBackImg from "@/app/assets/Images/Hero-Group-195.webp";
 import { usePageData } from "./usePageData";
 
 interface ZohoForm2Props {
@@ -299,7 +299,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           />
         ) : (
           <Image
-            src="/images/Hero-Group-195.png"
+            src="/images/Hero-Group-195.webp"
             alt="Academic success illustration"
             width={526}
             height={551}
@@ -525,7 +525,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
         />
       ) : (
         <Image
-          src="/images/Hero-Group-195.png"
+          src="/images/Hero-Group-195.webp"
           alt="Academic success illustration"
           width={526}
           height={551}

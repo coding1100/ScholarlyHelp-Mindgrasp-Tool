@@ -7,7 +7,7 @@ import slide5 from "@/app/assets/Images/aitoollanding/stanford.png";
 import effortless from "@/app/assets/Images/aitoollanding/effortless.png";
 import interactive from "@/app/assets/Images/aitoollanding/interactive.png";
 import learning from "@/app/assets/Images/aitoollanding/learning.png";
-import FormBackImg2 from "@/app/assets/Images/heroBg2.png";
+import FormBackImg2 from "@/app/assets/Images/heroBg2.webp";
 import icon1 from "@/app/assets/Icons/icon-1.svg";
 import icon2 from "@/app/assets/Icons/icon-2.png";
 import icon3 from "@/app/assets/Icons/icon-3.png";

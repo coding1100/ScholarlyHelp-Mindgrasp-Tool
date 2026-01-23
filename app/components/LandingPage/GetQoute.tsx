@@ -54,7 +54,7 @@ export default function GetQuote() {
       <div className="max-w-7xl mx-auto flex max-[1080px]:flex-col-reverse pt-[130px] max-[768px]:pt-[50px] pb-[80px] max-[1320px]:px-8">
         <div className="w-[70%] max-[1080px]:w-[100%] p-4 flex relative justify-end">
           <Image
-            src="/assets/Icon/aGrade.png"
+            src="/assets/Icon/aGrade.webp"
             alt=""
             width={580}
             height={600}
