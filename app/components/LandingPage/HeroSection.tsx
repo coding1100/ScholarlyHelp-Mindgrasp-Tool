@@ -38,21 +38,14 @@ const HeroSection: FC<HeroSectionProps> = ({
 }) => {
   const data = usePageData();
   const heroContent = propHeroContent || data?.heroSection;
-  
-  // Debug: Log the heroSection data to see what we're receiving
-  if (typeof window !== 'undefined') {
-    console.log('HeroSection component - data:', data);
-    console.log('HeroSection component - heroSection:', data?.heroSection);
-    console.log('HeroSection component - mainHeading:', data?.heroSection?.mainHeading);
-  }
 
   return (
     <section
       id="hero-section"
-      className="w-full bg-[#F5F6FA] pb-[100px] max-[1320px]:px-8"
+      className="w-full bg-[#F5F6FA] pb-[100px] max-[1320px]:px-8 max-[768px]:px-6 max-[768px]:shadow-[inset_0px_200px_123px_-131px_rgba(211,212,247,0.9)]"
     >
-      <div className="mx-auto max-w-7xl py-10 !pt-[100px] md:py-14">
-        <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-12 md:gap-12">
+      <div className="mx-auto max-w-7xl py-10 !pt-[100px] md:py-14 max-[768px]:!pt-[30px]">
+        <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-12 md:gap-12 max-[768px]:gap-4">
           <div className="mid:col-span-5 md:col-span-6">
             <HeroLead heroContent={heroContent} />
           </div>

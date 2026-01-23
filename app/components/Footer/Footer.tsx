@@ -12,16 +12,13 @@ import Tiktok from "@/app/assets/Images/tiktok.webp";
 import Visa from "@/app/assets/Images/visaIcon.webp";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import CopyRight from "./CopyRight";
-// import whatsappIconFooter from "@/app/assets/Images/whatsapp-icon.svg";
+import LogoNormal from "@/app/assets/Images/logo.png";
 import cellPhone from "@/app/assets/Images/cellphone.png";
-import whatsappIcon2 from "@/app/assets/Images/whatsappIcon2.png";
-import whatsappIconFooter from "@/app/assets/Images/whatsapplogo.png";
 import { usePathname } from "next/navigation";
 import {
   hideFooterLinks,
-  hideWhatsappModule,
   sms,
   smsHide,
 } from "../HideLinks/HideLinks";
@@ -35,12 +32,13 @@ import { SiYoutubemusic } from "react-icons/si";
 interface FooterProps { }
 const Footer: FC<FooterProps> = ({ }) => {
   const currentPage = usePathname();
-  const hideWhatsapp = hideWhatsappModule.includes(currentPage);
   const hidelinksfooter = hideFooterLinks.includes(currentPage);
   const ShowSms = sms.includes(currentPage);
   const hideSMS = smsHide.includes(currentPage);
   const [GCLID, setGCLID] = useState("");
   const [url, setUrl] = useState("");
+  const [isFooterInView, setIsFooterInView] = useState(false);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window?.location?.href?.includes("gclid=")) {
@@ -48,6 +46,28 @@ const Footer: FC<FooterProps> = ({ }) => {
     }
 
     setUrl(window?.location?.href);
+  }, []);
+
+  useEffect(() => {
+    if (!footerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterInView(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+        // Start treating footer as "in view" a bit earlier (offset from bottom)
+        // so z-[999] drops before it fully reaches the viewport
+        rootMargin: "0px 0px 100px 0px",
+      }
+    );
+
+    observer.observe(footerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   const postUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/quote/whatsapp`;
@@ -78,14 +98,22 @@ const Footer: FC<FooterProps> = ({ }) => {
     return;
   } else if (hidelinksfooter) {
     return (
-      <div>
+      <div ref={footerRef} className={`${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
-          <div className="md:container md:flex justify-between gap-6 px-15 text-primary-600">
+          <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
             <div className="md:max-w-[372px]">
-              <div className="mb-4">
-                <Logo />
-              </div>
-              <div>
+            <Link href="/">
+          
+          <Image
+            src={LogoNormal}
+            alt="Scholarly Help"
+            className="max-w-[142px] min-w-[142px]"
+            width={142}
+            
+            priority
+          />
+        </Link>
+              <div className="mt-3">
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
                   qualified subject experts can help you with your challenging
@@ -210,10 +238,10 @@ const Footer: FC<FooterProps> = ({ }) => {
           <>
             {/* SMS module */}
             <div>
-              <button id="sms-chat" className="sms-chat">
+              <button id="sms-chat" className="sms-chat z-[100] hidden" style={{ display: 'none' }}>
                 <a
                   href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
-                  className="blantershow-sms"
+                  className="blantershow-sms hidden"
                   target="_blank"
                 >
                   <Image
@@ -224,7 +252,7 @@ const Footer: FC<FooterProps> = ({ }) => {
                   <span className="sms-text">Send SMS</span>
                 </a>
               </button>
-              <button id="sms-chat2" className="sms-chat" onClick={apiCall}>
+              <button id="sms-chat2" className="sms-chat z-[100]" onClick={apiCall}>
                 <a
                   href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                   className="blantershow-sms2"
@@ -240,62 +268,26 @@ const Footer: FC<FooterProps> = ({ }) => {
             </div>
           </>
         )}
-        {!hideWhatsapp && (
-          <>
-            {/* Whatsapp module */}
-            <div>
-              <button
-                id="whatsapp-chat"
-                className="whatsapp-chat"
-                onClick={apiCall}
-              >
-                <a
-                  className="blantershow-chat"
-                  href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
-                  target="_blank"
-                >
-                  <Image
-                    src={whatsappIconFooter}
-                    alt="whatsapp"
-                    className="whatsapp-icon-footer"
-                  />
-                  <span className="chat-text">Free Quote On Whatsapp</span>{" "}
-                </a>
-              </button>
-              <button
-                id="whatsapp-chat-2"
-                className="whatsapp-chat"
-                onClick={apiCall}
-              >
-                <a
-                  className="blantershow-chat2"
-                  href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
-                  target="_blank"
-                >
-                  <Image
-                    src={whatsappIcon2}
-                    alt="whatsapp"
-                    className="whatsapp-icon-footer"
-                  />
-                </a>
-              </button>
-            </div>
-          </>
-        )}
       </div>
     );
   } else {
     return (
-      <div>
+      <div ref={footerRef} className={`relative ${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
             <div className="md:max-w-[372px]">
-              <Link href="/">
-                <div className="mb-4">
-                  <Logo />
-                </div>
-              </Link>
-              <div>
+            <Link href="/">
+          
+              <Image
+                src={LogoNormal}
+                alt="Scholarly Help"
+                className=" max-w-[142px] min-w-[142px]"
+                width={142}
+                
+                priority
+              />
+            </Link>
+              <div className="mt-3">
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
                   qualified subject experts can help you with your challenging
@@ -456,6 +448,9 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.facebook.com/Scholarly.help"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on Facebook"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <Facebook color="#2b1c51" />
                     </a>
@@ -464,6 +459,9 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.instagram.com/scholarlyhelp/"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on Instagram"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <Image src={Instagram} alt="instagram" />
                     </a>
@@ -472,6 +470,9 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.linkedin.com/company/scholarlyhelp/"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on LinkedIn"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <Image src={Linkedin} alt="Linkedin" />
                     </a>
@@ -480,6 +481,9 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.tiktok.com/@scholarlyhelp.com"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on TikTok"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <Image src={Tiktok} alt="Tiktok" />
                     </a>
@@ -488,6 +492,9 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.snapchat.com/add/helpscholarly"
+                      rel="noopener noreferrer"
+                      aria-label="Follow us on Snapchat"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <FaSnapchat />
                     </a>
@@ -496,6 +503,9 @@ const Footer: FC<FooterProps> = ({ }) => {
                     <a
                       target="_blank"
                       href="https://www.youtube.com/@ScholarlyHelp/"
+                      rel="noopener noreferrer"
+                      aria-label="Visit our YouTube channel"
+                      className="inline-flex items-center justify-center w-5 h-5"
                     >
                       <SiYoutubemusic />
                     </a>
@@ -527,11 +537,13 @@ const Footer: FC<FooterProps> = ({ }) => {
         ) : (
           <div>
             {/* sms module */}
-            <button id="sms-chat" className="sms-chat">
+            <button id="sms-chat" className="sms-chat z-[100] hidden" style={{ display: 'none' }}>
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
-                className="blantershow-sms"
+                className="blantershow-sms inline-flex items-center justify-center min-w-[44px] min-h-[44px] hidden"
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Send us an SMS"
               >
                 <Image
                   src={chatBubble}
@@ -542,11 +554,14 @@ const Footer: FC<FooterProps> = ({ }) => {
               </a>
             </button>
 
-            <button id="sms-chat2" className="sms-chat">
+            <button id="sms-chat2" className="sms-chat z-[100]"   style={{ display: 'none' }}>
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
-                className="blantershow-sms2"
+                className="blantershow-sms2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
+                style={{ display: 'none' }}
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Send us an SMS"
               >
                 <Image
                   src={cellPhone}
@@ -558,48 +573,6 @@ const Footer: FC<FooterProps> = ({ }) => {
           </div>
         )}
 
-        {/* whatsapp module */}
-        {!hideWhatsapp && (
-          <div>
-            {/* whatsapp module */}
-            <button
-              id="whatsapp-chat"
-              className="whatsapp-chat"
-              onClick={apiCall}
-            >
-              <a
-                className="blantershow-chat"
-                href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
-                target="_blank"
-              >
-                <Image
-                  src={whatsappIconFooter}
-                  alt="whatsapp"
-                  className="whatsapp-icon-footer"
-                />
-                <span className="chat-text">Free Quote On Whatsapp</span>{" "}
-              </a>
-            </button>
-            {/* whatsapp module */}
-            <button
-              id="whatsapp-chat-2"
-              className="whatsapp-chat"
-              onClick={apiCall}
-            >
-              <a
-                className="blantershow-chat2"
-                href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
-                target="_blank"
-              >
-                <Image
-                  src={whatsappIcon2}
-                  alt="whatsapp"
-                  className="whatsapp-icon-footer"
-                />
-              </a>
-            </button>
-          </div>
-        )}
       </div>
     );
   }

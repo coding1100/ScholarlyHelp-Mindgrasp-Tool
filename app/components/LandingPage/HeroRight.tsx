@@ -2,14 +2,13 @@
 
 import React, { FC } from "react";
 import Image, { StaticImageData } from "next/image";
-import dynamic from "next/dynamic";
+import HeroForm from "./HeroForm"; // Direct import for LCP - no dynamic loading
 import Illustration from "@/app/assets/Images/Hero-Group-195.png";
-
-const HeroForm = dynamic(() => import("./HeroForm"), { ssr: false });
 import Bg1 from "@/app/assets/Images/Hero-b-1.png";
 import Bg2 from "@/app/assets/Images/Hero-b-2.png";
 import Bg3 from "@/app/assets/Images/Hero-b-3.png";
 import Bg4 from "@/app/assets/Images/Hero-b-4.png";
+import Bg5 from "@/app/assets/Images/rev-icon.svg";
 import Heart from "@/app/assets/Images/Hero-b-Heart.png";
 import Update from "@/app/assets/Images/Hero-b-Update.png";
 import Discount from "@/app/assets/Images/Hero-b-Discount.png";
@@ -36,36 +35,37 @@ interface HeroRightProps {
 const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
   return (
     <div className="flex w-full flex-col gap-6">
-      <div className="relative flex items-start gap-6">
-        {/* background decorative layer behind the form */}
+      <div className="relative flex items-start gap-6 z-[999]">
+        {/* background decorative layer behind the form - lazy load decorative images */}
         <div className="pointer-events-none absolute inset-0 z-0 hidden md:block">
           <Image
             src={Bg1}
-            alt="bg1"
-            className="absolute  -left-[80px] top-[130px] opacity-50"
+            alt=""
+            className="absolute -left-[80px] top-[130px] opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg3}
-            alt="bg3"
+            alt=""
             className="absolute -left-[80px] -top-10 opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg2}
-            alt="bg2"
+            alt=""
             className="absolute -left-[80px] top-[300px] opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg4}
-            alt="bg4"
+            alt=""
             className="absolute left-28 -top-20 opacity-50"
+            loading="lazy"
           />
-          {/* <Image src={Heart} alt="heart" className="absolute right-[220px] top-8" /> */}
-          {/* <Image src={Update} alt="update" className="absolute right-20 top-10" /> */}
-          {/* <Image src={Discount} alt="discount" className="absolute right-[260px] top-56" /> */}
         </div>
 
         {/* form sits above decorative layer */}
-        <div className="relative z-10 w-full max-w-md">
+        <div className="relative z-[99] w-full">
           <HeroForm formBackImg2={formBackImg2} />
         </div>
 
@@ -92,29 +92,39 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
       </div>
 
       {/* mobile rating under the form */}
-      <div className="flex max-w-md flex-col gap-2 md:hidden relative z-20">
-        <div className="flex items-center gap-1">
-          <Star />
-          <Star />
-          <Star />
-          <Star />
-          <Star />
+      <div className="flex max-w-md min-[768px]:flex-col gap-4 md:hidden relative z-20 max-[768px]:p-5 max-[768px]:bg-[#9F92EC1A]">
+        <div className="min-[768px]:hidden"> 
+        <Image
+            src={Bg5}
+            alt=""
+            className=""
+          />
         </div>
-        <div className="font-semibold text-[#1E1E1E]">Stress Free A+</div>
-        <p className="text-[14px] leading-6 text-[#555B66]">
-          Scholarly has taken 100% of the stress I usually deal with when...
-        </p>
-        <div className="mt-2 flex items-center gap-2">
-          {/* <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A]">
-            <Image
-              src={TomIcon}
-              alt="Tom Icon"
-              className="max:w-[31px] min-w-[28px]"
-            />
-          </span> */}
-          <div className="text-[12px] text-[#6A6F7A]">
-            <div></div>
-            <div><span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A] border border-[#c7c7c7] mr-[5px] bg-[#eee]">T</span> Engineering Student, Devry University</div>
+        <div className="">
+          <div className="flex items-center gap-1">
+            <Star />
+            <Star />
+            <Star />
+            <Star />
+            <Star />
+          </div>
+
+          <div className="font-semibold text-[#1E1E1E]">Stress Free A+</div>
+          <p className="text-[14px] leading-6 text-[#555B66]">
+            Scholarly has taken 100% of the stress I usually deal with when...
+          </p>
+          <div className="mt-2 flex items-center gap-2">
+            {/* <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A]">
+              <Image
+                src={TomIcon}
+                alt="Tom Icon"
+                className="max:w-[31px] min-w-[28px]"
+              />
+            </span> */}
+            <div className="text-[12px] text-[#6A6F7A]">
+              <div></div>
+              <div><span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A] border border-[#c7c7c7] mr-[5px] bg-[#eee]">T</span> Engineering Student, Devry University</div>
+            </div>
           </div>
         </div>
       </div>

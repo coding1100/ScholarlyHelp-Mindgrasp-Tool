@@ -51,14 +51,14 @@ export default function GetQuote() {
       id="quote-form"
       className="w-full bg-[#F3F4F9] max-[1020px]:overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto flex max-[1080px]:flex-col-reverse pt-[130px] pb-[80px] max-[1320px]:px-8">
+      <div className="max-w-7xl mx-auto flex max-[1080px]:flex-col-reverse pt-[130px] max-[768px]:pt-[50px] pb-[80px] max-[1320px]:px-8">
         <div className="w-[70%] max-[1080px]:w-[100%] p-4 flex relative justify-end">
           <Image
             src="/assets/Icon/aGrade.png"
             alt=""
             width={580}
             height={600}
-            className="max-[768px]:hidden"
+            className="max-[900px]:hidden"
             style={{
               height: "auto",
               position: "absolute",
@@ -67,7 +67,7 @@ export default function GetQuote() {
             }}
           />
 
-          <div className="relative max-[768px]:mx-auto ">
+          <div className="relative max-[768px]:mx-auto  max-[900px]:w-full">
             <Image
               src="/assets/Icon/ag-1.png"
               alt=""
@@ -78,7 +78,7 @@ export default function GetQuote() {
                 position: "absolute",
                 left: "56px",
                 top: "-75px",
-                width: "auto",
+                width: "90px",
                 height: "auto",
                 zIndex: "8",
               }}
@@ -93,7 +93,7 @@ export default function GetQuote() {
                 position: "absolute",
                 left: "300px",
                 top: "-77px",
-                width: "auto",
+                width: "90px",
                 zIndex: "8",
                 height: "auto",
               }}
@@ -107,13 +107,13 @@ export default function GetQuote() {
                 position: "absolute",
                 right: "-50px",
                 bottom: "56px",
-                width: "auto",
+                width: "90px",
                 zIndex: "8",
                 height: "auto",
               }}
             />
             <div className="sm:w-[450px] formtwo">
-              <HeroForm />
+              <HeroForm showStickyOnMobile={false} />
             </div>
             <div className="hidden">
               <form
@@ -129,7 +129,7 @@ export default function GetQuote() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="text-[#949ACB] outline-none w-full pr-14 pl-4 py-7 bg-[#F8F8F8] rounded-xl  transition font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
+                      className="text-[#374151] placeholder:text-[#6B7280] outline-none w-full pr-14 pl-4 py-7 bg-[#F8F8F8] rounded-xl transition font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
                       placeholder="Email *"
                     />
                     <span className="absolute right-6 top-8.5 text-gray-400">
@@ -152,7 +152,7 @@ export default function GetQuote() {
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="text-[#949ACB] outline-none w-full pl-4 pr-14 py-7 bg-[#F8F8F8] rounded-xl  transition font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
+                      className="text-[#374151] placeholder:text-[#6B7280] outline-none w-full pl-4 pr-14 py-7 bg-[#F8F8F8] rounded-xl transition font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
                       placeholder="Phone # *"
                     />
                     <span className="absolute right-6 top-8.5 text-gray-400">
@@ -175,7 +175,7 @@ export default function GetQuote() {
                       rows={4}
                       value={formData.subject}
                       onChange={handleChange}
-                      className="text-[#949ACB] outline-none w-full pl-4 pr-14 py-7 bg-[#F8F8F8] rounded-xl  transition resize-none font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
+                      className="text-[#374151] placeholder:text-[#6B7280] outline-none w-full pl-4 pr-14 py-7 bg-[#F8F8F8] rounded-xl transition resize-none font-poppins font-medium leading-[154%] tracking-normal text-[15.73px]"
                       placeholder="What do you need help with? *"
                     />
                     <span className="absolute right-6 top-8.5 text-gray-400">

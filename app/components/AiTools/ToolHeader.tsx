@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const ToolHeader: React.FC = () => {
   const [showPricing, setShowPricing] = useState(false);
   const currentPath = usePathname();
-  
+
   // Normalize path by removing trailing slash for consistent comparison
   const normalizedPath = currentPath?.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
 
@@ -20,12 +20,14 @@ const ToolHeader: React.FC = () => {
         {normalizedPath === "/tools/paraphraser-tool"
           ? "AI Paraphraser Tool"
           : normalizedPath === "/tools/summarizer-tool"
-          ? "AI summarizer Tool"
-          : normalizedPath === "/tools/thesis-generator-tool"
-          ? "AI Thesis Generator Tool"
-          : normalizedPath === "/tools/essay-outline-tool"
-          ? "AI Essay Outline Tool"
-          : ""}
+            ? "AI summarizer Tool"
+            : normalizedPath === "/tools/thesis-generator-tool"
+              ? "AI Thesis Generator Tool"
+              : normalizedPath === "/tools/essay-outline-tool"
+                ? "AI Essay Outline Tool"
+                : normalizedPath === "/tools/tutor"
+                  ? "AI Tutor Tool"
+                  : ""}
       </h1>
 
       {/* Right-aligned Button */}

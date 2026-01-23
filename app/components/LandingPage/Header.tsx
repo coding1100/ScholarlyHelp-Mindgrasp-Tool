@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import megaMenuImage from "@/app/assets/Images/mega-menu-image.svg";
 import Image from "next/image";
 import LogoSmall from "@/app/assets/Images/logoSmall.png";
@@ -9,8 +10,13 @@ import LogoNormal from "@/app/assets/Images/logo.png";
 import Phone from "@/app/assets/Icons/phone.svg";
 
 export default function Header() {
+  const pathname = usePathname();
+  const isTakeMyClass = pathname === '/take-my-class/' || pathname === '/take-my-class';
+  const isTakeMyExam = pathname === '/take-my-exam/' || pathname === '/take-my-exam';
+  const isSpecialRoute = isTakeMyClass || isTakeMyExam;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
+  const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(null);
 
   const navItems = [
     {
@@ -213,168 +219,236 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 bg-white shadow-md z-50 relative max-[1020px]:py-3">
+    <header className="sticky top-0 bg-white z-[9999] relative">
       {/* Header Top Bar */}
-      <div className="max-w-7xl mx-auto max-[1320px]:px-8 flex items-center justify-between pt-2 px-6">
+      <div className="max-w-7xl mx-auto max-[1320px]:px-8 flex items-center justify-between pt-2 min-h-[64px]">
+        {/* Menu Button - Hidden for special routes */}
         {/* Logo */}
         <Link href="/">
-          <Image
+          {/* <Image
             src={LogoSmall}
-            alt="logo"
-            className="max-[480px]:block hidden max-w-[30px] min-w-[30px]"
-          />
+            alt="Scholarly Help Logo"
+            className="max-[480px]:block hidden max-w-[32px] min-w-[29px]"
+            width={32}
+            height={29}
+            priority
+          /> */}
           <Image
             src={LogoNormal}
-            alt=""
-            className="min-[480px]:block hidden max-w-[142px] min-w-[142px]"
+            alt="Scholarly Help"
+            className=" max-w-[142px] min-w-[142px]"
+            width={142}
+            height={40}
+            priority
           />
-          {/* <Logo /> */}
         </Link>
-
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="min-[1200px]:hidden text-gray-700"
-        >
-          {mobileOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden min-[1200px]:flex items-center font-medium text-gray-700 ">
-          {navItems.map((item, index) => (
-            <div
-              key={index}
-              className="gap-2"
-              onMouseEnter={() => setActiveMenu(index)}
-              onMouseLeave={() => setActiveMenu(null)}
-            >
-              <Link
-                href={item.href || "#"}
-                className="flex items-center hover:bg-[#F9FBFF] transition py-[20px] px-[10px] ml-[10px]"
-              >
-                {item.title}
-                {item.submenu && (
-                  <ChevronDown
-                    size={16}
-                    className={`transition ${activeMenu === index ? "rotate-180" : ""
-                      }`}
-                  />
-                )}
-              </Link>
-
-              {/* Full Width Mega Menu */}
-              {item.submenu && activeMenu === index && (
-                <div className="absolute left-0 right-0 top-full bg-[#F9FBFF] flex gap-y-8 px-10 py-10 max-h-[400px] overflow-auto">
-                  {/* Invisible hover buffer to prevent flicker */}
-                  <div className="absolute top-[-12px] left-0 w-full h-12 bg-transparent"></div>
-                  <div className="flex mx-auto">
-                    <div className=" flex mx-auto gap-8 max-[1500px]:grid-cols-2">
-                      {item.submenu.map((sub, idx) => (
-                        <div
-                          key={idx}
-                          className="flex flex-col justify-between shadow-[0px_0px_31.8px_0px_#00000012] p-[25px] rounded-[5px] w-[350px]"
-                        >
-                          <div className="text-gray-900 mb-2 font-semibold">{sub.title}</div>
-                          {sub.links.map((link, linkIdx) => (
-                            <Link
-                              key={linkIdx}
-                              href={link.href}
-                              className="block text-gray-700 hover:text-blue-600 transition mb-1"
-                            >
-                              {link.name}
-                            </Link>
-                          ))}
-                          {sub.button &&
-                            sub.button.map((btn, btnIdx) => (
-                              <Link
-                                key={`button-${btnIdx}`}
-                                href={btn.href}
-                                className="rounded-md flex cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] min-h-[54px]"
-                              >
-                                {btn.name}
-                              </Link>
-                            ))}
-                        </div>
-                      ))}
-                    </div>
-                    <div className=" ">
-                      <Image
-                        src={megaMenuImage}
-                        alt="SiteJabber"
-                        width={367}
-                        height={250}
-                        loading="lazy"
-                        className="h-[100%]"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
-        <div className="mr-4">
-          <a
-            href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
-            className="flex items-center text-primary-400 text-[#565add]"
+        {!isSpecialRoute && (
+          <button
+            onClick={() => setMobileOpen((prev) => !prev)}
+            className="min-[1200px]:hidden text-gray-700"
           >
-            <span className="w-6 mr-1 text-primary-400">
-              <Image
-                src={Phone}
-                alt="Phone"
-                width={22}
-                height={22}
-                loading="lazy"
-              />
-            </span>
-            1-716-708-1869
-          </a>
-        </div>
+            {mobileOpen ? <X size={28} color="#3e42b3" /> : <Menu size={28} color="#3e42b3" />}
+          </button>
+        )}
+
+        
+
+        {/* Phone Number - Shown for special routes */}
+        {isSpecialRoute && (
+          <div className="">
+            <a
+              href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || '17167081869'}`}
+              className="flex items-center text-primary-400 text-[#565add] transition"
+            >
+              <span className="w-6 mr-1 text-primary-400">
+                <Image
+                  src={Phone}
+                  alt="Phone"
+                  width={22}
+                  height={22}
+                  loading="lazy"
+                />
+              </span>
+              <span className="max-[450px]:hidden">1-716-708-1869</span>
+              <span className="min-[450px]:hidden font-semibold">Call Now</span>
+            </a>
+          </div>
+        )}
+
+        {/* Desktop Navigation - Hidden for special routes */}
+        {!isSpecialRoute && (
+          <>
+            <nav className="hidden min-[1200px]:flex items-center font-medium text-gray-700 ">
+              {navItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="gap-2"
+                  onMouseEnter={() => setActiveMenu(index)}
+                  onMouseLeave={() => setActiveMenu(null)}
+                >
+                  <Link
+                    href={item.href || "#"}
+                    className="flex items-center hover:bg-[#F9FBFF] transition py-[20px] px-[10px] ml-[10px]"
+                  >
+                    {item.title}
+                    {item.submenu && (
+                      <ChevronDown
+                        size={16}
+                        className={`transition ${activeMenu === index ? "rotate-180" : ""
+                          }`}
+                      />
+                    )}
+                  </Link>
+
+                  {/* Full Width Mega Menu */}
+                  {item.submenu && activeMenu === index && (
+                    <div className="absolute left-0 right-0 top-full bg-[#F9FBFF] flex gap-y-8 px-10 py-10 max-h-[400px] overflow-auto">
+                      {/* Invisible hover buffer to prevent flicker */}
+                      <div className="absolute top-[-12px] left-0 w-full h-12 bg-transparent"></div>
+                      <div className="flex mx-auto">
+                        <div className=" flex mx-auto gap-8 max-[1500px]:grid-cols-2">
+                          {item.submenu.map((sub, idx) => (
+                            <div
+                              key={idx}
+                              className="flex flex-col justify-between shadow-[0px_0px_31.8px_0px_#00000012] p-[25px] rounded-[5px] w-[350px]"
+                            >
+                              <div className="text-gray-900 mb-2 font-semibold">{sub.title}</div>
+                              {sub.links.map((link, linkIdx) => (
+                                <Link
+                                  key={linkIdx}
+                                  href={link.href}
+                                  className="block text-gray-700 hover:text-blue-600 transition mb-1"
+                                >
+                                  {link.name}
+                                </Link>
+                              ))}
+                              {sub.button &&
+                                sub.button.map((btn, btnIdx) => (
+                                  <Link
+                                    key={`button-${btnIdx}`}
+                                    href={btn.href}
+                                    className="rounded-md flex cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] min-h-[54px]"
+                                  >
+                                    {btn.name}
+                                  </Link>
+                                ))}
+                            </div>
+                          ))}
+                        </div>
+                        <div className=" ">
+                          <Image
+                            src={megaMenuImage}
+                            alt="SiteJabber"
+                            width={367}
+                            height={250}
+                            loading="lazy"
+                            className="h-[100%]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
+            <div className="">
+              <a
+                href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || '17167081869'}`}
+                className="flex items-center text-primary-400 text-[#565add] transition"
+              >
+                <span className="w-6 mr-1 text-primary-400">
+                  <Image
+                    src={Phone}
+                    alt="Phone"
+                    width={22}
+                    height={22}
+                    loading="lazy"
+                  />
+                </span>
+                <span className="max-[450px]:hidden">1-716-708-1869</span>
+                <span className="min-[450px]:hidden font-semibold">Call Now</span>
+              </a>
+            </div>
+          </>
+        )}
       </div>
 
-      {/* Mobile Navigation */}
-      {mobileOpen && (
-        <div className="min-[1200px]:hidden bg-white border-t shadow-inner max-h-[90vh] overflow-auto">
-          <ul className="flex flex-col divide-y ">
+      {/* Mobile Navigation - full-width dropdown under header with smooth transition and outside click close */}
+      {!isSpecialRoute && (
+        <div
+          className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${
+            mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={() => {
+            setMobileOpen(false);
+            setMobileActiveIndex(null);
+          }}
+        >
+        <div
+          className={`absolute inset-x-0 top-[60px] mx-auto max-w-7xl bg-white border-t shadow-lg rounded-b-2xl max-h-[70vh] overflow-auto transform transition-transform duration-300 ease-in-out ${
+            mobileOpen ? "translate-y-0" : "-translate-y-4"
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <ul className="flex flex-col divide-y">
             {navItems.map((item, index) => (
-              <li key={index} className="p-3 ">
+              <li key={index} className="p-3">
                 {item.submenu ? (
-                  <details className="group">
-                    <summary className="flex justify-between items-center cursor-pointer font-medium">
+                  <details
+                    className="group"
+                    open={mobileActiveIndex === index}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMobileActiveIndex(
+                        mobileActiveIndex === index ? null : index
+                      );
+                    }}
+                  >
+                    <summary className="flex justify-between items-center cursor-pointer font-medium text-[#1e1e1e]">
                       {item.title}
                       <ChevronDown
                         size={18}
-                        className="transition group-open:rotate-180"
+                        className="transition-transform duration-300 ease-in-out group-open:rotate-180"
                       />
                     </summary>
-                    <ul className="mt-2 pl-3 border-l border-gray-200 space-y-1">
-                      {item.submenu.map((sub, idx) => (
-                        <li key={idx}>
-                          <div className="mb-2">
-                            <span className="font-medium text-gray-800">
-                              {sub.title}
-                            </span>
-                            <ul className="ml-2 mt-1 space-y-1">
-                              {sub.links.map((link, linkIdx) => (
-                                <li key={linkIdx}>
-                                  <Link
-                                    href={link.href}
-                                    className="block text-gray-600 hover:text-blue-600 py-1"
-                                  >
-                                    {link.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="mt-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-open:max-h-fit">
+                      <ul className="pl-3 border-l border-gray-200 space-y-1">
+                        {item.submenu.map((sub, idx) => (
+                          <li key={idx}>
+                            <div className="mb-2">
+                              <span className="font-medium text-gray-800">
+                                {sub.title}
+                              </span>
+                              <ul className="ml-2 mt-1 space-y-1">
+                                {sub.links.map((link, linkIdx) => (
+                                  <li key={linkIdx}>
+                                    <Link
+                                      href={link.href}
+                                      className="block text-gray-600 hover:text-blue-600 py-1"
+                                      onClick={() => {
+                                        setMobileOpen(false);
+                                        setMobileActiveIndex(null);
+                                      }}
+                                    >
+                                      {link.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </details>
                 ) : (
                   <Link
                     href={item.href || "#"}
                     className="block text-gray-700 hover:text-blue-600"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      setMobileActiveIndex(null);
+                    }}
                   >
                     {item.title}
                   </Link>
@@ -383,7 +457,9 @@ export default function Header() {
             ))}
           </ul>
         </div>
+      </div>
       )}
+
     </header>
   );
 }

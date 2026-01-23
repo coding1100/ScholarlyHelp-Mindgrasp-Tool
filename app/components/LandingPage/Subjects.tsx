@@ -196,7 +196,7 @@ export default function SubjectsSection({
 
   return (
     <section className="pt-[86px] pb-16 bg-[#ECECFC] text-[#2B1C51]">
-      <div className="max-w-7xl mx-auto max-[1320px]:px-8 text-center">
+      <div className="max-w-7xl mx-auto max-[1320px]:px-4 text-center">
         <h2 className="text-[42px] text-[#000] font-bold mb-3">
           {subjectsData?.mainHeading || "Subjects & Majors We Cover"}
         </h2>
@@ -250,7 +250,7 @@ export default function SubjectsSection({
           <button
             type="button"
             onClick={scrollToQuote}
-            className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
+            className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
           >
             {subjectsData?.ctaText || "Take my online class"}
           </button>
