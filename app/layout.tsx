@@ -45,9 +45,6 @@ export default function RootLayout({
         />
 
 
-        {/* DNS prefetch for resources loaded later */}
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        
       </head>
       <body className={poppins.className} suppressHydrationWarning={true}>
         <main id="main-content">{children}</main>
@@ -68,9 +65,20 @@ export default function RootLayout({
               (function() {
                 var gtmLoaded = false;
                 
+                function addDNSPrefetch() {
+                  // Add DNS prefetch dynamically only when needed
+                  var link = document.createElement('link');
+                  link.rel = 'dns-prefetch';
+                  link.href = 'https://www.googletagmanager.com';
+                  document.head.appendChild(link);
+                }
+                
                 function initGTM() {
                   if (gtmLoaded) return;
                   gtmLoaded = true;
+                  
+                  // Add DNS prefetch right before loading GTM
+                  addDNSPrefetch();
                   
                   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
