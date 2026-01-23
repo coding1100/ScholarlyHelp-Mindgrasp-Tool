@@ -33,17 +33,22 @@ export default function RootLayout({
           <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         )}
 
-        {/* CRITICAL: Preload LCP image to eliminate resource load delay */}
+        {/* CRITICAL: Preload LCP image to eliminate 4.6s resource load delay */}
         <link
           rel="preload"
           as="image"
           href="/images/Hero-Group-195.webp"
-          type="image/webp"
+          type="image/png"
           fetchPriority="high"
-          imageSrcSet="/_next/image?url=%2Fimages%2FHero-Group-195.webp&w=640&q=75 1x, /_next/image?url=%2Fimages%2FHero-Group-195.webp&w=1080&q=75 2x"
-          imageSizes="(max-width: 1025px) 0px, 450px"
         />
 
+        {/* Preconnect only to non-font third-party domains */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+        {/* DNS prefetch for resources loaded later */}
+        <link rel="dns-prefetch" href="https://accounts.google.com" />
+        <link rel="dns-prefetch" href="https://cdn.livechatinc.com" />
+        <link rel="dns-prefetch" href="https://script.crazyegg.com" />
       </head>
       <body className={poppins.className} suppressHydrationWarning={true}>
         <main id="main-content">{children}</main>
@@ -52,20 +57,6 @@ export default function RootLayout({
          * PERFORMANCE: All scripts use lazyOnload to minimize main thread work
          * This defers all non-critical scripts until after page is fully interactive
          */}
-
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"
-          strategy="afterInteractive"
-        />
-        <Script id="ga-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XXXX');
-          `}
-        </Script>
 
         {/* Google Sign-In - lazy load */}
         <Script
@@ -86,18 +77,6 @@ export default function RootLayout({
               })(window,document,'script','dataLayer','GTM-5ZHV46X');
             `,
           }}
-        />
-
-        {/* LiveChat */}
-        <Script
-          src="https://cdn.livechatinc.com/tracking.js"
-          strategy="lazyOnload"
-        />
-
-        {/* CrazyEgg */}
-        <Script
-          src="https://script.crazyegg.com/pages/scripts/XXXX.js"
-          strategy="lazyOnload"
         />
 
         {/* Schema.org - lazyOnload since it's not render-blocking */}
