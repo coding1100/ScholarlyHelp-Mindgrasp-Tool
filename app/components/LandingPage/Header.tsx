@@ -247,6 +247,8 @@ export default function Header() {
           <button
             onClick={() => setMobileOpen((prev) => !prev)}
             className="min-[1200px]:hidden text-gray-700"
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X size={28} color="#3e42b3" /> : <Menu size={28} color="#3e42b3" />}
           </button>
