@@ -5,12 +5,12 @@ import Image from "next/image"; // optional – replace with your own button
 import { usePageData } from "./usePageData";
 
 // Import the icons (replace with your actual image paths or use SVG icons)
-import IconZeroDetection from "@/app/assets/Icons/zero-detection.png";
+import IconZeroDetection from "@/app/assets/Icons/zero-detection.webp";
 import IconGrade from "@/app/assets/Icons/grade.png";
-import IconConfidentiality from "@/app/assets/Icons/confidentiality.png";
-import IconOnTime from "@/app/assets/Icons/on-time.png";
-import IconQuality from "@/app/assets/Icons/quality.png";
-import IconMoneyBack from "@/app/assets/Icons/money-back.png";
+import IconConfidentiality from "@/app/assets/Icons/confidentiality.webp";
+import IconOnTime from "@/app/assets/Icons/on-time.webp";
+import IconQuality from "@/app/assets/Icons/quality.webp";
+import IconMoneyBack from "@/app/assets/Icons/money-back.webp";
 import FadeBorder from "@/app/assets/Icons/fade-border.svg";
 import { GiPositionMarker } from "react-icons/gi";
 
