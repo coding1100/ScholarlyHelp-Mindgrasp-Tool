@@ -7,26 +7,35 @@ export default function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
+    
     try {
+      console.log('Attempting login for:', username);
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
+      
+      console.log('Response status:', res.status);
       const data = await res.json();
+      console.log('Response data:', data);
+      
       if (data.success && data.token) {
         localStorage.setItem('adminToken', data.token);
         router.push('/admin');
       } else {
-        alert('Invalid credentials');
+        setError(data.error || 'Invalid credentials');
       }
     } catch (error) {
-      alert('Login failed');
+      console.error('Login error:', error);
+      setError('Login failed: ' + String(error));
     }
     setLoading(false);
   };
@@ -43,6 +52,11 @@ export default function AdminLogin() {
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+              <span className="block sm:inline">{error}</span>
+            </div>
+          )}
           <div>
             <label htmlFor="username" className="sr-only">
               Username

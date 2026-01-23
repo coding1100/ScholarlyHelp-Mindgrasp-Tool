@@ -61,7 +61,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
   }, [slides.length]);
 
   return (
-    <section className="pt-9 pb-20 px-5 overflow-hidden bg-gray-50 text-[#171717]">
+    <section className="pt-9 pb-20 px-5 overflow-hidden text-[#171717]">
       <div className="max-w-6xl max-[992px]:max-w-4xl mx-auto">
         <div className="py-10 ">
           <h2 className="text-[42px] mb-[20px] text-[#000] font-bold text-center">
@@ -133,7 +133,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
         <button
           type="button"
           onClick={scrollToQuote}
-          className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] md:w-64 w-48"
+          className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] "
         >
           {success?.ctaButton?.text || "Take my online class"}
         </button>

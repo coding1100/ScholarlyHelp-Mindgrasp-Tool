@@ -44,6 +44,7 @@ const MTSidebar = ({
     { name: "Research Question Generator", href: "/tools/research-question" },
     { name: "Pythagoras Equation Solver", href: "/tools/pythagoras-solver" },
     { name: "Citation Tool", href: "/tools/citation-tool" },
+    { name: "Tutor Tool", href: "/tools/tutor" },
 
     // { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
   ];
@@ -157,11 +158,11 @@ const MTSidebar = ({
   return (
     <aside
       className={
-        "relative flex h-[100vh] w-60 flex-col space-y-2 border-r dark:border-gray-700 bg-gray-100 dark:bg-gray-800 p-4 font-sans text-black dark:text-gray-200 transition-colors duration-300"
+        "relative flex h-screen w-60 flex-col border-r dark:border-gray-700 bg-gray-100 dark:bg-gray-800 p-4 font-sans text-black dark:text-gray-200 transition-colors duration-300"
       }
     >
       {/* 1. User Profile Section */}
-      <div className="relative">
+      <div className="relative flex-shrink-0 mb-2">
         <div
           className="flex items-center w-full gap-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 rounded-md transition-colors duration-300"
           // ref={profileRef}
@@ -227,7 +228,7 @@ const MTSidebar = ({
       >
         <span className="text-sm font-semibold">Documents</span>
       </button> */}
-      <div>
+      <div className="flex-shrink-0 mb-2">
         <button
           className="flex w-full items-center gap-3 px-3 py-1 text-sm transition-colors bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md"
           onClick={() => setShowTools((prev) => !prev)}
@@ -241,11 +242,10 @@ const MTSidebar = ({
             <Link
               key={index}
               href={tool.href}
-              className={` py-1 px-2 text-sm rounded-md transition-colors ${
-                normalizedRoute === tool.href
+              className={` py-1 px-2 text-sm rounded-md transition-colors ${normalizedRoute === tool.href
                   ? "font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
                   : " hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
-              }`}
+                }`}
             >
               {tool.name}
             </Link>
@@ -253,7 +253,10 @@ const MTSidebar = ({
         </div>
       </div>
 
-      <div className="absolute bottom-16  lg:bottom-4 left-0 w-full px-4">
+      {/* Spacer to push bottom content down */}
+      <div className="flex-1"></div>
+
+      <div className="flex-shrink-0 mt-auto">
         <UsageAndPricing setFlag={setFlag} flag={flag} />
       </div>
       <PromptModal

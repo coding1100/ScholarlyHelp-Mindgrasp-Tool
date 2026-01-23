@@ -24,10 +24,10 @@ const Page = () => {
     <MainLayout>
       <HeroSection />
       <Ratings />
-      <WhySlider />
       <CardCarousel />
       <Description />
       <GuaranteedBlock />
+      <WhySlider />
       <CustomerReviews />
       <ProcessSection />
       <Success />

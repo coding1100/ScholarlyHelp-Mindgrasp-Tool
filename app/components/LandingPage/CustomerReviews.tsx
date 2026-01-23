@@ -5,7 +5,7 @@ import React from "react";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+// slick-theme.css removed - loads heavy font file, styles in globals.css
 import { usePageData } from "./usePageData";
 
 // Icons & Images
@@ -860,7 +860,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         </p>
 
         {/* Desktop Slider - 3 cards per row, 2 rows per slide */}
-        <div className="my-8 md:block hidden">
+        <div className="my-2 md:block hidden">
           <Slider {...settings}>
             {groupedReviews.map((group, groupIndex) => (
               <div key={groupIndex}>
