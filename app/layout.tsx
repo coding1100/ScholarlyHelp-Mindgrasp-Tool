@@ -33,19 +33,25 @@ export default function RootLayout({
           <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         )}
 
-        {/* CRITICAL: Preload LCP image to eliminate 4.6s resource load delay */}
+        {/* CRITICAL: Preload LCP image to eliminate resource load delay */}
         <link
           rel="preload"
           as="image"
           href="/images/Hero-Group-195.webp"
-          type="image/png"
+          type="image/webp"
           fetchPriority="high"
+          imageSrcSet="/_next/image?url=%2Fimages%2FHero-Group-195.webp&w=640&q=75 1x, /_next/image?url=%2Fimages%2FHero-Group-195.webp&w=1080&q=75 2x"
+          imageSizes="(max-width: 1025px) 0px, 450px"
         />
 
-        {/* Preconnect only to non-font third-party domains */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        {/* Preconnect to critical third-party origins (max 4 as recommended) */}
+        <link rel="preconnect" href="https://pixel-config.reddit.com" />
+        <link rel="preconnect" href="https://capig.stape.do" />
+        <link rel="preconnect" href="https://www.clickcease.com" />
+        <link rel="preconnect" href="https://alb.reddit.com" />
 
         {/* DNS prefetch for resources loaded later */}
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://accounts.google.com" />
         <link rel="dns-prefetch" href="https://cdn.livechatinc.com" />
         <link rel="dns-prefetch" href="https://script.crazyegg.com" />
