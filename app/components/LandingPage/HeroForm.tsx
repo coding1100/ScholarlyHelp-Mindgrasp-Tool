@@ -8,7 +8,7 @@ import { IoChatbubbles } from "react-icons/io5";
 import { MdPhoneInTalk } from "react-icons/md";
 import { ClipLoader } from "react-spinners";
 import Image, { StaticImageData } from "next/image";
-import FormBackImg from "@/app/assets/Images/Hero-Group-195.png";
+import FormBackImg from "@/app/assets/Images/Hero-Group-195.webp";
 import { usePageData } from "./usePageData";
 
 interface ZohoForm2Props {
@@ -299,7 +299,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           />
         ) : (
           <Image
-            src="/images/Hero-Group-195.png"
+            src="/images/Hero-Group-195.webp"
             alt="Academic success illustration"
             width={526}
             height={551}
@@ -521,18 +521,16 @@ const HeroForm: FC<ZohoForm2Props> = ({
           className="min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
           priority
           fetchPriority="high"
-          unoptimized={true}
         />
       ) : (
         <Image
-          src="/images/Hero-Group-195.png"
+          src="/images/Hero-Group-195.webp"
           alt="Academic success illustration"
           width={526}
           height={551}
           className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
           priority
           fetchPriority="high"
-          unoptimized={true}
         />
       )}
       <div className="w-full mx-auto cus-div">

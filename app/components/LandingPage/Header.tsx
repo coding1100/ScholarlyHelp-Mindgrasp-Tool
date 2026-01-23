@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import megaMenuImage from "@/app/assets/Images/mega-menu-image.svg";
+import megaMenuImage from "@/app/assets/Images/mega-menu-image.webp";
 import Image from "next/image";
 import LogoSmall from "@/app/assets/Images/logoSmall.png";
 import LogoNormal from "@/app/assets/Images/logo.png";
-import Phone from "@/app/assets/Icons/phone.svg";
+import Phone from "@/app/assets/Icons/phone.webp";
 
 export default function Header() {
   const pathname = usePathname();
@@ -240,6 +240,7 @@ export default function Header() {
             width={142}
             height={40}
             priority
+            fetchPriority="high"
           />
         </Link>
         {!isSpecialRoute && (
@@ -266,7 +267,7 @@ export default function Header() {
                   alt="Phone"
                   width={22}
                   height={22}
-                  loading="lazy"
+                  fetchPriority="high"
                 />
               </span>
               <span className="max-[450px]:hidden">1-716-708-1869</span>
@@ -335,13 +336,13 @@ export default function Header() {
                             </div>
                           ))}
                         </div>
-                        <div className=" ">
+                        <div className="ml-8">
                           <Image
                             src={megaMenuImage}
                             alt="SiteJabber"
-                            width={367}
+                            width={325}
                             height={250}
-                            loading="lazy"
+                            fetchPriority="high"
                             className="h-[100%]"
                           />
                         </div>
@@ -362,7 +363,7 @@ export default function Header() {
                     alt="Phone"
                     width={22}
                     height={22}
-                    loading="lazy"
+                    fetchPriority="high"
                   />
                 </span>
                 <span className="max-[450px]:hidden">1-716-708-1869</span>
