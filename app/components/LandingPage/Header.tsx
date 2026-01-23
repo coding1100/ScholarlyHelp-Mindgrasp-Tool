@@ -336,11 +336,11 @@ export default function Header() {
                             </div>
                           ))}
                         </div>
-                        <div className=" ">
+                        <div className="ml-8">
                           <Image
                             src={megaMenuImage}
                             alt="SiteJabber"
-                            width={367}
+                            width={325}
                             height={250}
                             fetchPriority="high"
                             className="h-[100%]"
