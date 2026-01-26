@@ -42,25 +42,29 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             src={Bg1}
             alt=""
             className="absolute -left-[80px] top-[130px] opacity-50"
-            fetchPriority="high"
+            loading="lazy"
+            fetchPriority="low"
           />
           <Image
             src={Bg3}
             alt=""
             className="absolute -left-[80px] -top-10 opacity-50"
-            fetchPriority="high"
+            loading="lazy"
+            fetchPriority="low"
           />
           <Image
             src={Bg2}
             alt=""
             className="absolute -left-[80px] top-[300px] opacity-50"
-            fetchPriority="high"
+            loading="lazy"
+            fetchPriority="low"
           />
           <Image
             src={Bg4}
             alt=""
             className="absolute left-28 -top-20 opacity-50"
-            fetchPriority="high"
+            loading="lazy"
+            fetchPriority="low"
           />
         </div>
 
@@ -98,7 +102,8 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             src={Bg5}
             alt=""
             className=""
-            fetchPriority="high"
+            loading="lazy"
+            fetchPriority="low"
           />
         </div>
         <div className="">
