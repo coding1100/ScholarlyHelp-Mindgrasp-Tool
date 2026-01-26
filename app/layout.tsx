@@ -10,7 +10,7 @@ const poppins = Poppins({
   display: "swap",
   variable: "--font-poppins",
   weight: ["400", "500", "600", "700"],
-  preload: false,
+  preload: true,
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
   adjustFontFallback: true,
 });
@@ -33,23 +33,19 @@ export default function RootLayout({
           <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         )}
 
-        {/* CRITICAL: Preload LCP image to eliminate resource load delay */}
-        <link
-          rel="preload"
-          as="image"
-          href="/images/Hero-Group-195.webp"
-          type="image/webp"
-          fetchPriority="high"
-          imageSrcSet="/_next/image?url=%2Fimages%2FHero-Group-195.webp&w=640&q=75 1x, /_next/image?url=%2Fimages%2FHero-Group-195.webp&w=1080&q=75 2x"
-          imageSizes="(max-width: 1025px) 0px, 450px"
-        />
-
         
 
-       
+
       </head>
-      <body className={poppins.className} suppressHydrationWarning={true}>
+      <body suppressHydrationWarning>
         <main id="main-content">{children}</main>
+
+        {/* 
+         * PERFORMANCE: All scripts use lazyOnload to minimize main thread work
+         * This defers all non-critical scripts until after page is fully interactive
+         */}
+
+        
 
         {/* GTM - Loaded only after browser is idle or user interaction to protect web vitals */}
         <Script
