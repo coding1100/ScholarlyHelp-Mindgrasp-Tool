@@ -27,6 +27,10 @@ const nextConfig = {
   // Reduce JS bundle size
   productionBrowserSourceMaps: false,
 
+  // Optimize CSS - Next.js automatically removes unused CSS in production
+  // Combined with PurgeCSS in postcss.config.js for maximum optimization
+  optimizeFonts: true,
+
   eslint: {
     ignoreDuringBuilds: true,
   },
