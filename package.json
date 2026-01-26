@@ -50,6 +50,7 @@
     "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^8.0.0",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/moment": "^2.13.0",

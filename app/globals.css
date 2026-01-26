@@ -3,10 +3,7 @@
 @tailwind utilities;
 
 /* Optimize font loading to prevent blocking */
-@font-face {
-  font-family: 'Roboto';
-  font-display: swap;
-}
+
 
 :root {
   --background: #ffffff;
