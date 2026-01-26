@@ -17,16 +17,38 @@ module.exports = {
         // Safelist: Keep these classes even if not found in content
         // Based on styles.pure.css reference - these are the classes actually used
         safelist: {
-          // Keep only essential slick-carousel classes (dynamically loaded components)
+          // Keep all slick-carousel classes (dynamically loaded)
           standard: [
-            /^slick-(list|dots|slider|prev|next|active)$/,
-            // Keep only actually used custom classes
-            /^carousel-card$/,
+            /^slick-/,
+            /^slick$/,
+            /\.slick-/,
+            // Keep dynamically generated classes
+            /^carousel-/,
             /^center-card$/,
-            // Keep custom utility classes from globals.css that are actually used
+            /^samplesSlider$/,
+            /^sampleCard$/,
+            /^samplesWrap$/,
+            /^customerReviewsWrap$/,
+            /^customerReviewsCard/,
+            /^testimonials$/,
+            // Keep custom utility classes from globals.css
             /^no-scrollbar$/,
             /^formtwo$/,
-            /^cus-(img|div)$/,
+            /^lineAdded$/,
+            /^will-change-scroll$/,
+            /^animate-fade-in$/,
+            /^animate-fade-in-up$/,
+            /^animate-slide-in-left$/,
+            /^animate-slide-in-right$/,
+            // Keep all Tailwind utility classes (they're already purged by Tailwind, but safelist for safety)
+            // Keep responsive variants
+            /^(sm|md|lg|xl|2xl|min-\[|max-\[):/,
+            // Keep state variants
+            /^(hover|focus|active|disabled|before|after):/,
+            // Keep animation classes
+            /^animate-/,
+            // Keep dark mode classes if used
+            /^dark:/,
           ],
           // Keep classes with these patterns
           deep: [
