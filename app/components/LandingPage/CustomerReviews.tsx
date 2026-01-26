@@ -4,9 +4,8 @@ import { FC, useMemo } from "react";
 import React from "react";
 import Image from "next/image";
 import Slider from "react-slick";
-// Import slick CSS - Next.js cssChunking will code-split this per route
-// slick-theme.css removed - loads heavy font file, styles in globals.css
 import "slick-carousel/slick/slick.css";
+// slick-theme.css removed - loads heavy font file, styles in globals.css
 import { usePageData } from "./usePageData";
 
 // Icons & Images
