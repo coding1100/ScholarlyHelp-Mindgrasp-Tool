@@ -72,28 +72,41 @@ const HeroForm: FC<ZohoForm2Props> = ({
     { emoji: "📝", label: "Other" },
   ];
 
+  // Defer non-critical operations to avoid blocking LCP image render
   useEffect(() => {
-    setWholeUrl(window.location?.href ?? currentPage);
+    // Use requestIdleCallback to defer non-critical URL tracking
+    const deferNonCritical = () => {
+      setWholeUrl(window.location?.href ?? currentPage);
+      
+      const searchParams = new URLSearchParams(window.location.search);
+      const fbclid = searchParams.get("fbclid");
+      const gclid = searchParams.get("gclid");
+
+      if (fbclid) {
+        setFBCLID(fbclid);
+      }
+      if (gclid) {
+        setGCLID(gclid);
+      }
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(deferNonCritical, { timeout: 100 });
+    } else {
+      setTimeout(deferNonCritical, 0);
+    }
   }, [currentPage]);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const fbclid = searchParams.get("fbclid");
-    const gclid = searchParams.get("gclid");
-
-    if (fbclid) {
-      setFBCLID(fbclid);
-    }
-    if (gclid) {
-      setGCLID(gclid);
-    }
-  }, []);
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    checkMobile();
+    // Defer mobile check to avoid blocking render
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(checkMobile, { timeout: 50 });
+    } else {
+      setTimeout(checkMobile, 0);
+    }
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
@@ -111,29 +124,51 @@ const HeroForm: FC<ZohoForm2Props> = ({
       setIsFormVisible(visible);
     };
 
-    // Check initial visibility
-    checkVisibility();
+    // Defer visibility check to avoid blocking LCP image render
+    let observer: IntersectionObserver | null = null;
+    let cleanupFn: (() => void) | null = null;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsFormVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -100px 0px", // Account for button space at bottom
+    const setupVisibility = () => {
+      checkVisibility();
+
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsFormVisible(entry.isIntersecting);
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -100px 0px", // Account for button space at bottom
+        }
+      );
+
+      if (formRef.current) {
+        observer.observe(formRef.current);
       }
-    );
 
-    observer.observe(formRef.current);
+      // Also check on scroll for more reliable detection
+      window.addEventListener("scroll", checkVisibility, { passive: true });
+      window.addEventListener("resize", checkVisibility, { passive: true });
 
-    // Also check on scroll for more reliable detection
-    window.addEventListener("scroll", checkVisibility, { passive: true });
-    window.addEventListener("resize", checkVisibility, { passive: true });
+      cleanupFn = () => {
+        if (observer) observer.disconnect();
+        window.removeEventListener("scroll", checkVisibility);
+        window.removeEventListener("resize", checkVisibility);
+      };
+    };
+
+    // Defer to avoid blocking initial render
+    let idleCallbackId: ReturnType<typeof requestIdleCallback> | null = null;
+    if ('requestIdleCallback' in window && typeof window.requestIdleCallback === 'function') {
+      idleCallbackId = window.requestIdleCallback(setupVisibility, { timeout: 200 });
+    } else {
+      setTimeout(setupVisibility, 0);
+    }
 
     return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", checkVisibility);
-      window.removeEventListener("resize", checkVisibility);
+      if (idleCallbackId !== null && 'cancelIdleCallback' in window && typeof window.cancelIdleCallback === 'function') {
+        window.cancelIdleCallback(idleCallbackId);
+      }
+      if (cleanupFn) cleanupFn();
     };
   }, []);
 
@@ -296,6 +331,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
             className="min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-83px]"
             priority
             fetchPriority="high"
+            sizes="(min-width: 1200px) 450px, (min-width: 1000px) 400px, 0px"
+            decoding="async"
           />
         ) : (
           <Image
@@ -306,6 +343,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
             className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
             priority
             fetchPriority="high"
+            sizes="(min-width: 1200px) 450px, (min-width: 1100px) 400px, 0px"
+            decoding="async"
           />
         )}
         <div className="max-w-[600px] mx-auto cus-div">
@@ -521,6 +560,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
           className="min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
           priority
           fetchPriority="high"
+          sizes="(min-width: 1200px) 450px, (min-width: 1000px) 400px, 0px"
+          decoding="async"
         />
       ) : (
         <Image
@@ -531,6 +572,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
           className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
           priority
           fetchPriority="high"
+          sizes="(min-width: 1200px) 450px, (min-width: 1100px) 400px, 0px"
+          decoding="async"
         />
       )}
       <div className="w-full mx-auto cus-div">
