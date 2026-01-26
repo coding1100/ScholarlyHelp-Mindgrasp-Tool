@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePageData } from "./usePageData";
 
-// Import slick CSS - Next.js cssChunking will code-split this per route
+// Import only slick base CSS - theme CSS loads heavy font file
 // Arrow and dot styles are handled in globals.css
 import "slick-carousel/slick/slick.css";
 
