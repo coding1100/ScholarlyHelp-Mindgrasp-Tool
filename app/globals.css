@@ -144,10 +144,7 @@ body {
   padding-bottom: 40px !important;
 }
 
-.slick-dots {
-  bottom: -60px;
-}
-
+/* Slick dots - consolidated to remove duplicates */
 .slick-dots {
   position: relative;
   bottom: -30px;
@@ -160,26 +157,13 @@ body {
   z-index: 999;
 }
 
-.slick-dots li,
-.slick-dots li button {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
 .slick-dots li {
   position: relative;
   display: inline-block;
-  margin: 0 5px;
-  padding: 0;
-}
-
-.slick-dots li {
-  width: 10px !important;
-}
-
-.slick-dots li {
   margin: 0 !important;
+  padding: 0;
+  width: 10px !important;
+  cursor: pointer;
 }
 
 .slick-dots li button {
@@ -191,50 +175,27 @@ body {
   border: 0;
   outline: none;
   background: transparent;
-}
-
-.slick-dots li,
-.slick-dots li button {
   width: 20px;
   height: 20px;
   cursor: pointer;
 }
 
 .slick-dots li button:before {
-  font-family: slick;
-  font-size: 6px;
+  font-family: inherit !important;
+  font-size: 0;
   line-height: 20px;
   position: absolute;
   top: 0;
   left: 0;
-  width: 20px;
-  height: 20px;
-  content: "•";
-  text-align: center;
-  opacity: .5;
-  color: #000;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.slick-dots li button:before {
-  width: 10px !important;
-  height: 10px !important;
-}
-
-.slick-dots li {
-  margin: 0 !important;
-  width: 10px !important;
-}
-
-.slick-dots li button:before {
   width: 7px !important;
   height: 7px !important;
-  /* Use CSS instead of slick font icon */
-  font-family: inherit !important;
   content: "" !important;
   background-color: #bfbfbf !important;
   border-radius: 50%;
+  text-align: center;
+  opacity: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .slick-dots li.slick-active button:before {
