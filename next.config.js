@@ -51,6 +51,8 @@ const nextConfig = {
 
   // Enable experimental features for better performance
   experimental: {
+    // CSS chunking - splits CSS per route to reduce initial CSS payload
+    cssChunking: true,
     // Optimize heavy package imports - tree shake these libraries
     optimizePackageImports: [
       'lucide-react',
