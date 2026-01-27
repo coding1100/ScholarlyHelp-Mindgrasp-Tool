@@ -122,6 +122,102 @@ export function parseQuiz(quizText: string): ParsedQuestion[] {
 }
 
 /**
+ * Parse quiz response from API in "Question X:" or "Question X of Y" format
+ * Handles formats like:
+ * **Question 1:** or **Question 1 of 2**
+ * [question text with possible code blocks]
+ * A) [option]
+ * B) [option]
+ * C) [option]
+ * D) [option]
+ * **Answer:** [letter]
+ */
+export function parseQuizFromResponse(quizText: string): ParsedQuestion[] {
+  const questions: ParsedQuestion[] = [];
+
+  // Normalize literal \n to actual newlines first
+  const normalizedText = quizText.replace(/\\n/g, '\n');
+
+  // Try both formats: "Question X:" and "Question X of Y"
+  const questionRegex = /\*\*Question (\d+)(?:\s+of\s+(\d+))?:\*\*/g;
+  const questionMatches = Array.from(normalizedText.matchAll(questionRegex));
+
+  if (questionMatches.length === 0) {
+    return questions;
+  }
+
+  questionMatches.forEach((match, idx) => {
+    const questionNumber = parseInt(match[1]);
+    const startIndex = match.index! + match[0].length;
+    const endIndex = idx < questionMatches.length - 1 
+      ? questionMatches[idx + 1].index! 
+      : normalizedText.length;
+
+    const questionBlock = normalizedText.substring(startIndex, endIndex).trim();
+
+    // Extract question text (everything before the first option)
+    // Options start with A), B), C), or D) on a new line
+    const optionStartRegex = /\n([A-D])\)/;
+    const optionStartMatch = questionBlock.match(optionStartRegex);
+    
+    if (!optionStartMatch) {
+      // Try without newline (options might be on same line)
+      const optionStartRegexInline = /([A-D])\)/;
+      const optionStartMatchInline = questionBlock.match(optionStartRegexInline);
+      if (!optionStartMatchInline) return;
+    }
+
+    const optionStartIndex = optionStartMatch 
+      ? questionBlock.indexOf(optionStartMatch[0])
+      : questionBlock.search(/[A-D]\)/);
+    
+    let questionText = questionBlock.substring(0, optionStartIndex).trim();
+    
+    // Clean up question text (remove extra markdown formatting)
+    questionText = questionText
+      .replace(/^###?\s*/, '') // Remove ### headers
+      .replace(/\*\*/g, '') // Remove bold markers
+      .replace(/---+/g, '') // Remove horizontal rules
+      .replace(/^Question \d+:\s*/, '') // Remove "Question X:" prefix if still present
+      .trim();
+
+    // Extract options - find everything between question and answer
+    const options: { letter: string; text: string }[] = [];
+    
+    // Find where the answer section starts
+    const answerStartIndex = questionBlock.search(/\*\*Answer:\*\*/i);
+    const optionsSection = answerStartIndex > -1 
+      ? questionBlock.substring(0, answerStartIndex)
+      : questionBlock;
+    
+    const optionRegex = /^([A-D])\)\s*(.+)$/gm;
+    let optionMatch;
+
+    while ((optionMatch = optionRegex.exec(optionsSection)) !== null) {
+      options.push({
+        letter: optionMatch[1],
+        text: optionMatch[2].trim(),
+      });
+    }
+
+    // Try to find answer
+    const answerMatch = questionBlock.match(/\*\*Answer:\*\*\s*([A-D])/i);
+    const answer = answerMatch ? answerMatch[1] : '';
+
+    if (questionText && options.length >= 2) {
+      questions.push({
+        number: questionNumber,
+        question: questionText,
+        options: options,
+        answer: answer, // May be empty if not provided in response
+      });
+    }
+  });
+
+  return questions;
+}
+
+/**
  * Generate quiz questions via API
  */
 export async function generateQuiz(
