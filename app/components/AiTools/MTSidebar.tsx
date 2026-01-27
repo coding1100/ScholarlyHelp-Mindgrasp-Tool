@@ -45,6 +45,9 @@ const MTSidebar = ({
     { name: "Pythagoras Equation Solver", href: "/tools/pythagoras-solver" },
     { name: "Citation Tool", href: "/tools/citation-tool" },
     { name: "Tutor Tool", href: "/tools/tutor" },
+    { name: "Micro Learning", href: "/tools/mirco-learning" },
+    { name: "Exam Prep", href: "/tools/exam-prep" },
+
 
     // { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
   ];
@@ -243,8 +246,8 @@ const MTSidebar = ({
               key={index}
               href={tool.href}
               className={` py-1 px-2 text-sm rounded-md transition-colors ${normalizedRoute === tool.href
-                  ? "font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
-                  : " hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+                ? "font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
+                : " hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 }`}
             >
               {tool.name}

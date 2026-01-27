@@ -27,7 +27,11 @@ const ToolHeader: React.FC = () => {
                 ? "AI Essay Outline Tool"
                 : normalizedPath === "/tools/tutor"
                   ? "AI Tutor Tool"
-                  : ""}
+                  : normalizedPath === "/tools/exam-prep"
+                    ? "AI Exam Prep Tool"
+                    : normalizedPath === "/tools/mirco-learning"
+                      ? "AI Micro Learning Tool"
+                      : ""}
       </h1>
 
       {/* Right-aligned Button */}
