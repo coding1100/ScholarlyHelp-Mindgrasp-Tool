@@ -101,19 +101,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
   useEffect(() => {
     if (!formRef.current) return;
 
-    const checkVisibility = () => {
-      if (!formRef.current) return;
-      const rect = formRef.current.getBoundingClientRect();
-      const windowHeight =
-        window.innerHeight || document.documentElement.clientHeight;
-      // Form is visible if any part of it is in the viewport
-      const visible = rect.top < windowHeight && rect.bottom > 0;
-      setIsFormVisible(visible);
-    };
-
-    // Check initial visibility
-    checkVisibility();
-
+    // Use IntersectionObserver only to avoid repeated layout reads
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsFormVisible(entry.isIntersecting);
@@ -126,14 +114,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
 
     observer.observe(formRef.current);
 
-    // Also check on scroll for more reliable detection
-    window.addEventListener("scroll", checkVisibility, { passive: true });
-    window.addEventListener("resize", checkVisibility, { passive: true });
-
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", checkVisibility);
-      window.removeEventListener("resize", checkVisibility);
     };
   }, []);
 
