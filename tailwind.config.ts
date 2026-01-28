@@ -2,10 +2,14 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: "class",
-  // Strict content paths for better CSS purging - be specific to reduce unused CSS
+  // Comprehensive content paths for better CSS purging - scan all relevant files
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    // Include HTML files if any
+    "./public/**/*.html",
   ],
   // Only safelist classes that are ACTUALLY dynamically generated
   safelist: [

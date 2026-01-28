@@ -31,7 +31,9 @@ const ToolHeader: React.FC = () => {
                     ? "AI Exam Prep Tool"
                     : normalizedPath === "/tools/mirco-learning"
                       ? "AI Micro Learning Tool"
-                      : ""}
+                      : normalizedPath === "/tools/language-practice"
+                        ? "AI Language Practice Tool"
+                        : ""}
       </h1>
 
       {/* Right-aligned Button */}
