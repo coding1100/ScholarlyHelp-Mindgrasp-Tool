@@ -46,7 +46,7 @@ function Chip({
         </div>
         <div
           className={[
-            "mt-0.5 h-6 w-6 rounded-xl border grid place-items-center text-xs font-bold",
+            "mt-0.5 min-h-6 min-w-6 h-6 w-6 rounded-xl border grid place-items-center text-xs font-bold",
             active
               ? "border-blue-600 bg-blue-600 text-white"
               : "border-gray-300 bg-white text-gray-600",

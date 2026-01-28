@@ -179,7 +179,7 @@ export default function Step10({
                 {/* Quiz Card */}
                 <div className="bg-[#F0F0F0] rounded-3xl p-8 md:p-12 shadow-2xl">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="sm:flex items-center justify-between mb-8">
                         <div className="flex items-center gap-3">
                             <p className="text-2xl font-semibold text-[#333333]">
                                 Quick Check

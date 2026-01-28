@@ -97,7 +97,7 @@ export default function Step2({ onBack, onContinue }: Step2Props) {
                     </div>
 
                     <div className="mt-8">
-                        <div className="flex gap-4">
+                        <div className="flex sm:gap-4 gap-2">
                             <input
                                 value={customGoal}
                                 onChange={(e) => setCustomGoal(e.target.value)}
@@ -110,7 +110,7 @@ export default function Step2({ onBack, onContinue }: Step2Props) {
                             <button
                                 type="button"
                                 onClick={addCustom}
-                                className="px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold text-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                                className="sm:px-6 px-4 sm:py-2 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold sm:text-xl text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
                                 aria-label="Add custom goal"
                             >
                                 +
@@ -118,11 +118,11 @@ export default function Step2({ onBack, onContinue }: Step2Props) {
                         </div>
                     </div>
 
-                    <div className="mt-8 flex items-center justify-between gap-4">
+                    <div className="mt-8 sm:flex items-center justify-between gap-4">
                         <button
                             type="button"
                             onClick={onBack}
-                            className="h-10 px-10 rounded-lg border-2 border-[#6C757D] text-[#6C757D] font-semibold bg-transparent hover:bg-[#6C757D]/10 transition-all duration-200"
+                            className="sm:w-fit w-full h-10 px-10 rounded-lg border-2 border-[#6C757D] text-[#6C757D] font-semibold bg-transparent hover:bg-[#6C757D]/10 transition-all duration-200"
                         >
                             ← Back
                         </button>
@@ -132,7 +132,7 @@ export default function Step2({ onBack, onContinue }: Step2Props) {
                             onClick={() => onContinue?.(selectedList)}
                             disabled={!canContinue}
                             className={[
-                                "h-10 px-12 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer",
+                                "sm:w-fit w-full sm:mt-0 mt-2 h-10 px-12 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer",
                                 canContinue
                                     ? "bg-linear-to-r from-[#6C757D] to-[#868E96] shadow-lg hover:shadow-xl active:scale-[0.99]"
                                     : "bg-[#B9BFC5] cursor-not-allowed opacity-80",

@@ -182,10 +182,10 @@ export default function Step2({ examDate, apiResponse, examType, subject, knowle
 
 
                     {/* Footer Buttons */}
-                    <div className="flex gap-4 mt-8">
+                    <div className="sm:flex gap-4 mt-8">
                         <button
                             onClick={onBack}
-                            className="flex-1 px-6 py-2 rounded-lg border-2 border-gray-300 text-black font-semibold hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2"
+                            className="sm:flex-1 w-full px-6 py-2 rounded-lg border-2 border-gray-300 text-black font-semibold hover:bg-gray-600 transition-all duration-200 flex items-center justify-center gap-2"
                         >
                             <HiArrowLeft className="text-xl" />
                             Back
@@ -193,7 +193,7 @@ export default function Step2({ examDate, apiResponse, examType, subject, knowle
                         <button
                             onClick={() => onStartPractice?.(apiResponse.conversation_id)}
                             disabled={isLoading}
-                            className="flex-1 px-6 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="sm:flex-1 w-full sm:mt-0 mt-2 px-6 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {isLoading ? (
                                 <>

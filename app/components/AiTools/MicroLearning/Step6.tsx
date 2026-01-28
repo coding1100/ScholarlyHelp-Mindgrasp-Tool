@@ -191,8 +191,8 @@ export default function Step6({
                             </div>
 
                             {/* Don't Break Your Streak Section */}
-                            <div className="rounded-2xl bg-white p-6 shadow-lg flex items-center justify-between gap-6">
-                                <div className="flex items-center gap-4">
+                            <div className="rounded-2xl bg-white p-6 shadow-lg sm:flex items-center justify-between gap-6">
+                                <div className="flex sm:items-center items-start sm:gap-4 gap-2">
                                     <div className="text-4xl">💡</div>
                                     <div>
                                         <div className="text-[#333333] font-semibold text-lg mb-1">
@@ -205,7 +205,7 @@ export default function Step6({
                                 </div>
                                 <button
                                     onClick={handleStartLessonClick}
-                                    className="px-6 py-3 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                                    className="sm:w-fit w-full sm:mt-0 mt-2 px-6 py-3 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
                                 >
                                     Start Now →
                                 </button>

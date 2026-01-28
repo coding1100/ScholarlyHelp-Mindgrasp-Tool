@@ -145,20 +145,20 @@ export default function Step4({
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-4 mb-6">
+                    <div className="sm:flex gap-4 mb-6">
                         <button
                             // onClick={() => {
                             //     console.log("View Weak Areas");
                             // }}
                             onClick={onBackToSchedule}
-                            className="flex-1 px-6 py-4 rounded-xl text-black font-semibold border border-[#6C757D] hover:border-gray-600 transition-all duration-200 flex items-center justify-center gap-2"
+                            className="sm:flex-1 w-full px-6 py-4 rounded-xl text-black font-semibold border border-[#6C757D] hover:border-gray-600 transition-all duration-200 flex items-center justify-center gap-2"
                         >
                             <HiArrowLeft className="text-xl" />
                             Back to Schedule
                         </button>
                         <button
                             onClick={onTakePracticeExam}
-                            className="flex-1 px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center justify-center gap-2"
+                            className="sm:flex-1 w-full sm:mt-0 mt-2 px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center justify-center gap-2"
                         >
                             {/* <HiRocket className="text-xl" /> */}
                             Take Practice Exam
