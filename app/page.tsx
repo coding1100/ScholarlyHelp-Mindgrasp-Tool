@@ -1,69 +1,8 @@
 import MainLayout from "./MainLayout";
 import HeroSection from "./components/LandingPage/HeroSection";
 import { HomeDataProvider } from "./(pages)/HomeDataProvider";
-import dynamicImport from "next/dynamic";
 import { getHomeData } from "./lib/mongodb";
-
-// Skeleton component for loading states
-const LoadingSkeleton = ({ height = "400px" }: { height?: string }) => (
-  <div className="w-full animate-pulse bg-gray-100" style={{ minHeight: height }} />
-);
-
-// Lazy load ALL below-the-fold components to reduce initial JS
-const WhySlider = dynamicImport(() => import("./components/LandingPage/WhySlider"), {
-  loading: () => <LoadingSkeleton height="500px" />,
-  ssr: false, // Disable SSR for mobile performance
-});
-
-const CardCarousel = dynamicImport(() => import("./components/LandingPage/CardCarousel"), {
-  loading: () => <LoadingSkeleton height="600px" />,
-  ssr: false, // Heavy slider - no SSR needed
-});
-
-const Description = dynamicImport(() => import("./components/LandingPage/Description"), {
-  loading: () => <LoadingSkeleton height="300px" />,
-  ssr: false,
-});
-
-const GuaranteedBlock = dynamicImport(() => import("./components/LandingPage/GuaranteedBlock"), {
-  loading: () => <LoadingSkeleton height="400px" />,
-  ssr: false,
-});
-
-const CustomerReviews = dynamicImport(() => import("./components/LandingPage/CustomerReviews"), {
-  loading: () => <LoadingSkeleton height="500px" />,
-  ssr: false, // Heavy slider component
-});
-
-const ProcessSection = dynamicImport(() => import("./components/LandingPage/ProcessSection"), {
-  loading: () => <LoadingSkeleton height="400px" />,
-  ssr: false,
-});
-
-const Success = dynamicImport(() => import("./components/LandingPage/Success"), {
-  loading: () => <LoadingSkeleton height="300px" />,
-  ssr: false,
-});
-
-const AcademicPartners = dynamicImport(() => import("./components/LandingPage/AcademicPartners"), {
-  loading: () => <LoadingSkeleton height="200px" />,
-  ssr: false,
-});
-
-const GetQouteDynamic = dynamicImport(() => import("./components/LandingPage/GetQoute"), { 
-  ssr: false,
-  loading: () => <LoadingSkeleton height="400px" />
-});
-
-const Faq = dynamicImport(() => import("./components/LandingPage/Faq"), {
-  loading: () => <LoadingSkeleton height="400px" />,
-  ssr: false,
-});
-
-const Ratings = dynamicImport(() => import("./components/LandingPage/Ratings"), {
-  loading: () => <LoadingSkeleton height="200px" />,
-  ssr: false,
-});
+import BelowFoldLanding from "./components/LandingPage/BelowFoldLanding";
 
 // Enable ISR with 60 second revalidation for fast TTFB
 export const revalidate = 60;
@@ -76,17 +15,8 @@ const Home = async () => {
     <HomeDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Ratings />
-        <CardCarousel />
-        <Description />
-        <GuaranteedBlock />
-        <WhySlider />
-        <CustomerReviews />
-        <ProcessSection />
-        <Success />
-        <AcademicPartners />
-        <GetQouteDynamic />
-        <Faq />
+        {/* All below-the-fold sections mount only after the page is interactive */}
+        <BelowFoldLanding />
       </MainLayout>
     </HomeDataProvider>
   );
