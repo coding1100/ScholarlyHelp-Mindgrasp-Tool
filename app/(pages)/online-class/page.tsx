@@ -3,7 +3,6 @@ import { MetaData } from "@/app/metadata/metadata";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
 import Ratings from "@/app/components/LandingPage/Ratings";
 import WhySlider from "@/app/components/LandingPage/WhySlider";
-import CardCarousel from "@/app/components/LandingPage/CardCarousel";
 import Description from "@/app/components/LandingPage/Description";
 import GuaranteedBlock from "@/app/components/LandingPage/GuaranteedBlock";
 import ProcessSection from "@/app/components/LandingPage/ProcessSection";
@@ -19,6 +18,11 @@ import { onlineClassSubjects } from "./content";
 
 const GetQouteDynamic = dynamicImport(
   () => import("@/app/components/LandingPage/GetQoute"),
+  { ssr: false }
+);
+
+const CardCarousel = dynamicImport(
+  () => import("@/app/components/LandingPage/CardCarousel"),
   { ssr: false }
 );
 

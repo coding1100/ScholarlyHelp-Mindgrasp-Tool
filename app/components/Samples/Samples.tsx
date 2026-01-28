@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import SampleCard from "./SampleCard";
 import "slick-carousel/slick/slick.css";
 // slick-theme.css removed - loads heavy font file, styles in globals.css
-import "./index.css";
+import styles from "./Samples.module.css";
 import SampleBg from "@/app/assets/Images/sampleBg.webp";
 import { sampleCardContent } from "./content";
 import Link from "next/link";
@@ -59,18 +59,19 @@ const Samples: FC<SamplesProps> = ({ btnText }) => {
 
   return (
     <div
-      className="py-28 relative bg-primary-500 xl:flex justify-center bg-sample"
-      // style={{ backgroundImage: `url(${SampleBg.src})` }}
+      className={`py-28 relative bg-primary-500 xl:flex justify-center bg-sample`}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-90"></div>
-      <div className="xl:container 2xl:px-10 z-10 relative xl:px-5 samplesWrap">
+      <div
+        className={`xl:container 2xl:px-10 z-10 relative xl:px-5 ${styles.samplesWrap}`}
+      >
         <div>
           <h2 className="md:text-5xl sm:text-3xl text-2xl font-bold text-white text-center">
             Our Samples
           </h2>
         </div>
         <div className="py-12 xl:px-14">
-          <Slider {...settings} className="samplesSlider">
+          <Slider {...settings} className={styles.samplesSlider}>
             {sampleCardContent.map((item, index) => (
               <div
                 key={index}

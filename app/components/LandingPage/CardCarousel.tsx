@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePageData } from "./usePageData";
+import styles from "./CardCarousel.module.css";
 
 // Import only slick base CSS - theme CSS loads heavy font file
 // Arrow and dot styles are handled in globals.css
@@ -154,10 +155,10 @@ export default function CardCarousel() {
             <div key={card.id} className="px-2 cursor-pointer">
               <div
                 onClick={() => goToSlide(index)}
-                className={`
-                  carousel-card p-6 shadow-md rounded-[21px] cursor-pointer h-[510px] flex flex-col bg-white transition-all hover:!scale-100 duration-300 relative
-                  ${isCenter ? "center-card" : "scale-90"}
-                `}
+                className={[
+                  "p-6 shadow-md rounded-[21px] cursor-pointer h-[510px] flex flex-col bg-white transition-all hover:!scale-100 duration-300 relative",
+                  isCenter ? styles.centerCard : `scale-90 ${styles.nonCenterCard}`,
+                ].join(" ")}
               >
                 <div className="">
                   <Image
@@ -197,27 +198,6 @@ export default function CardCarousel() {
         <ChevronRight size={20} className="cursor-pointer" onClick={goNext} />
       </div>
 
-      {/* Styles */}
-      <style jsx>{`
-        .carousel-card.center-card {
-          background: #4744c9;
-          z-index: 20;
-          border: 1px solid #e2e2e2;
-        }
-        .carousel-card:not(.center-card):hover {
-          background: #4744c9;
-          transform: scale(1.1);
-          z-index: 15;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .slick-dots li {
-          width: 20px !important;
-        }
-        .carousel-card:not(.center-card):hover h3,
-        .carousel-card:not(.center-card):hover p {
-          color: #fff;
-        }
-      `}</style>
     </section>
   );
 }

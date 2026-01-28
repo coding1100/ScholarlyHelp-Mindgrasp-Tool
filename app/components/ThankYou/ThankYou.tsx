@@ -12,7 +12,7 @@ import { content } from "./content";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 // slick-theme.css removed - loads heavy font file, styles in globals.css
-import "./style.css";
+import styles from "./ThankYou.module.css";
 import TrustPilotLogo from "@/app/assets/Images/trustpilotlogo.png";
 import axios from "axios";
 import BgThankYou from "@/app/assets/Images/thankYouBg.png";
@@ -114,7 +114,7 @@ const ThankYou: FC<ThankYouProps> = ({}) => {
     ],
   };
   return (
-    <div>
+    <div className={styles.thankYouRoot}>
       <div className="container mx-auto h-[350px] text-center flex flex-col items-center justify-end">
         <div>
           <p className="lg:text-5xl md:text-3xl text-2xl font-semibold mb-4">
