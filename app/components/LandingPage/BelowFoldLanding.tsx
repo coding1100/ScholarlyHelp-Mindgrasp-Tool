@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 // Lightweight skeleton for below-the-fold sections
@@ -67,12 +67,16 @@ const Faq = dynamic(() => import("./Faq"), {
   loading: () => <LoadingSkeleton height="400px" />,
 });
 
+type BelowFoldLandingProps = {
+  children?: ReactNode;
+};
+
 /**
  * This component waits until the page is fully interactive on the client
  * (after hydration / idle) and only then mounts all below-the-fold sections.
  * This keeps LCP focused on the hero while still rendering the rest quickly after.
  */
-export default function BelowFoldLanding() {
+export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -101,10 +105,12 @@ export default function BelowFoldLanding() {
       <CustomerReviews />
       <ProcessSection />
       <Success />
+      {children}
       <AcademicPartners />
       <GetQouteDynamic />
       <Faq />
     </>
   );
 }
+
 

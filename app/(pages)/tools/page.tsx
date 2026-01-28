@@ -1,13 +1,12 @@
 import MainLayout from "@/app/MainLayout";
 import type { NextPage } from "next";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
-import WhySlider from "@/app/components/LandingPage/WhySlider";
-import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
 import Faq from "@/app/components/LandingPage/Faq";
 import AcademicTools from "@/app/components/AiLandingPage/AcademicTools";
 import WhyTools from "@/app/components/AiLandingPage/WhyTools";
 import { MainAiLanding } from "@/app/components/AiLandingPage/AiContent";
+import DeferUntilInteractive from "@/app/components/DeferUntilInteractive";
 
 import clientPromise from "@/app/lib/mongodb";
 import { Metadata } from "next";
@@ -87,12 +86,14 @@ const Page: NextPage = async () => {
     <div>
       <MainLayout>
         <HeroSection heroContent={heroContent} />
-        <AcademicTools content={academicTools} />
-        <WhyTools whyToolsContent={whyTools} />
-        {/* <WhySlider whyData={whyScholarlySlider} /> */}
-        {/* <CustomerReviews /> */}
-        <AcademicPartners content={academicPartners} />
-        <Faq content={faq} />
+        <DeferUntilInteractive>
+          <AcademicTools content={academicTools} />
+          <WhyTools whyToolsContent={whyTools} />
+          {/* <WhySlider whyData={whyScholarlySlider} /> */}
+          {/* <CustomerReviews /> */}
+          <AcademicPartners content={academicPartners} />
+          <Faq content={faq} />
+        </DeferUntilInteractive>
       </MainLayout>
     </div>
   );
