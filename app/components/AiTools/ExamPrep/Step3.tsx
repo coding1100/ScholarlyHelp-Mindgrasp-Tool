@@ -198,7 +198,7 @@ export default function Step3({ examType, subject, apiResponse, onComplete }: St
             <div className="w-full max-w-4xl my-8">
                 {/* Header */}
                 <div className="backdrop-blur-xl border border-white/20 rounded-3xl p-6 mb-6 shadow-2xl">
-                    <div className="flex items-center justify-between">
+                    <div className="sm:flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <HiDocumentText className="text-4xl text-blue-400" />
                             <div>
@@ -213,7 +213,7 @@ export default function Step3({ examType, subject, apiResponse, onComplete }: St
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 text-black">
+                        <div className="sm:ml-0 ml-auto sm:mt-0 w-full sm:w-fit mt-2 flex items-center gap-2 text-black">
                             <HiClock className="text-2xl" />
                             <span className="text-2xl font-bold">
                                 {formatTime(timeRemaining)}
