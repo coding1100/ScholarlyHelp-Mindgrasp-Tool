@@ -71,7 +71,7 @@ export default function Step4({
 
               {/* Topic Cards Grid */}
               {topics.length > 0 ? (
-                <div className="grid grid-cols-3 gap-4 mb-8">
+                <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 mb-8">
                   {topics.map((topic) => (
                     <button
                       key={topic.id}
@@ -112,7 +112,7 @@ export default function Step4({
               </div>
 
               {/* Custom Topic Input and Button */}
-              <div className="flex gap-4 items-end">
+              <div className="sm:flex gap-4 items-end">
                 {/* Input Field */}
                 <div className="flex-1">
                   <input
@@ -134,7 +134,7 @@ export default function Step4({
                 <button
                   onClick={handleStartLearning}
                   disabled={!isButtonEnabled}
-                  className="py-3.5 px-4 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                  className="sm:mt-0 mt-2 sm:w-fit w-full py-3.5 px-4 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
                 >
                   Start Learning
                 </button>

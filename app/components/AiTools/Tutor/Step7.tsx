@@ -206,7 +206,7 @@ export default function Step7({
     <div className="h-[calc(100vh-9vh)] overflow-y-auto">
       <div className="p-4 bg-linear-to-br from-gray-100 to-gray-200">
         {/* Header */}
-        <div className="max-w-5xl mx-auto mb-6 flex justify-between items-center">
+        <div className="max-w-5xl mx-auto mb-6 sm:flex justify-between items-center">
           <h2 className="text-xl font-semibold text-black text-center mb-3 leading-tight">
             {topic} - {difficulty}
           </h2>
@@ -224,12 +224,12 @@ export default function Step7({
             <div className="relative z-10">
               {/* Question Section */}
               <div className="mb-6">
-                <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="sm:flex items-start justify-between gap-4 mb-4">
                   <p className="text-lg text-black flex-1 leading-relaxed">
                     {currentQuestion.question}
                   </p>
                   <button
-                    className="px-4 py-2 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black text-sm font-medium hover:bg-white/50 transition-all flex items-center gap-2 whitespace-nowrap"
+                    className="sm:ml-0 ml-auto px-4 py-2 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black text-sm font-medium hover:bg-white/50 transition-all flex items-center gap-2 whitespace-nowrap"
                     disabled
                   >
                     <span>🔊</span> Listen

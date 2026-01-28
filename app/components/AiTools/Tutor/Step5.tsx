@@ -76,7 +76,7 @@ export default function Step5({
             {/* Level Cards - 2x1 Grid Layout */}
             <div className="space-y-6">
               {/* Top Row - 2 Cards */}
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid sm:grid-cols-2 grid-cols-1 gap-6">
                 {levels.slice(0, 2).map((level) => (
                   <button
                     key={level.level}

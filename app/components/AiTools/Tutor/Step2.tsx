@@ -43,7 +43,7 @@ export default function Step2({ onContinue, isLoading = false }: Step2Props) {
             </p>
 
             {/* Input and Button Section - Side by Side */}
-            <div className="flex gap-4 items-end">
+            <div className="sm:flex gap-4 items-end">
               {/* Input Field */}
               <div className="flex-1">
                 <input
@@ -61,7 +61,7 @@ export default function Step2({ onContinue, isLoading = false }: Step2Props) {
               <button
                 onClick={handleContinue}
                 disabled={!subject.trim() || isLoading}
-                className="py-3.5 px-4 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                className="sm:mt-0 mt-2 sm:w-fit w-full py-3.5 px-4 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">

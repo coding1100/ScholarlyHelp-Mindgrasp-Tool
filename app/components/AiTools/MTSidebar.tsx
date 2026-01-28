@@ -47,7 +47,7 @@ const MTSidebar = ({
     { name: "Tutor Tool", href: "/tools/tutor" },
     { name: "Micro Learning", href: "/tools/mirco-learning" },
     { name: "Exam Prep", href: "/tools/exam-prep" },
-
+    { name: "Language Practice", href: "/tools/language-practice" },
 
     // { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
   ];
