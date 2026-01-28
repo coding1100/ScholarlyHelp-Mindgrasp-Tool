@@ -1,40 +1,17 @@
 import MainLayout from "@/app/MainLayout";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
-import Ratings from "@/app/components/LandingPage/Ratings";
-import WhySlider from "@/app/components/LandingPage/WhySlider";
-import CardCarousel from "@/app/components/LandingPage/CardCarousel";
-import Description from "@/app/components/LandingPage/Description";
-import GuaranteedBlock from "@/app/components/LandingPage/GuaranteedBlock";
-import ProcessSection from "@/app/components/LandingPage/ProcessSection";
-import Success from "@/app/components/LandingPage/Success";
+import BelowFoldLanding from "@/app/components/LandingPage/BelowFoldLanding";
 import Subjects from "@/app/components/LandingPage/Subjects";
-import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
-import GetQoute from "@/app/components/LandingPage/GetQoute";
-import Faq from "@/app/components/LandingPage/Faq";
-import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import { MetaData } from "@/app/metadata/metadata";
 import { assignmentSubject } from "../assignment/content";
-// import type { Metadata } from "next";
 
-// export const metadata: Metadata = {
-//   title: "Help Me Do My Assignment | Online Assignment Help | Scholarly Help",
-// };
 const Page = () => {
   return (
     <MainLayout>
       <HeroSection />
-      <Ratings />
-      <CardCarousel />
-      <Description />
-      <GuaranteedBlock />
-      <WhySlider />
-      <CustomerReviews />
-      <ProcessSection />
-      <Success />
-      <Subjects defaultSubjects={assignmentSubject} />
-      <AcademicPartners />
-      <GetQoute />
-      <Faq />
+      <BelowFoldLanding>
+        <Subjects defaultSubjects={assignmentSubject} />
+      </BelowFoldLanding>
     </MainLayout>
   );
 };
@@ -52,3 +29,4 @@ export function generateMetadata({}) {
     },
   };
 }
+

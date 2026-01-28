@@ -1,30 +1,10 @@
 import MainLayout from "@/app/MainLayout";
 import { MetaData } from "@/app/metadata/metadata";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
-import Ratings from "@/app/components/LandingPage/Ratings";
-import WhySlider from "@/app/components/LandingPage/WhySlider";
-import Description from "@/app/components/LandingPage/Description";
-import GuaranteedBlock from "@/app/components/LandingPage/GuaranteedBlock";
-import ProcessSection from "@/app/components/LandingPage/ProcessSection";
-import Success from "@/app/components/LandingPage/Success";
-import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
-import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
-import GetQoute from "@/app/components/LandingPage/GetQoute";
-import Faq from "@/app/components/LandingPage/Faq";
+import BelowFoldLanding from "@/app/components/LandingPage/BelowFoldLanding";
 import Subjects from "@/app/components/LandingPage/Subjects";
 import { OnlineClassDataProvider } from "./OnlineClassDataProvider";
-import dynamicImport from "next/dynamic";
 import { onlineClassSubjects } from "./content";
-
-const GetQouteDynamic = dynamicImport(
-  () => import("@/app/components/LandingPage/GetQoute"),
-  { ssr: false }
-);
-
-const CardCarousel = dynamicImport(
-  () => import("@/app/components/LandingPage/CardCarousel"),
-  { ssr: false }
-);
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -96,18 +76,9 @@ const Page = async () => {
     <OnlineClassDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Ratings />
-        <CardCarousel />
-        <Description />
-        <GuaranteedBlock />
-        <WhySlider />
-        <CustomerReviews />
-        <ProcessSection />
-        <Success />
-        <Subjects defaultSubjects={onlineClassSubjects} />
-        <AcademicPartners />
-        <GetQouteDynamic />
-        <Faq />
+        <BelowFoldLanding>
+          <Subjects defaultSubjects={onlineClassSubjects} />
+        </BelowFoldLanding>
       </MainLayout>
     </OnlineClassDataProvider>
   );
