@@ -75,7 +75,6 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
     <div className="max-w-2xl">
       <h1
         className="font-semibold text-[32px] md:text-[50px] leading-[1.1] text-black"
-        style={{ fontFamily: "var(--font-poppins)" }}
       >
         {heroContent?.mainHeading ? (
           <div dangerouslySetInnerHTML={{ __html: heroContent.mainHeading }} />
