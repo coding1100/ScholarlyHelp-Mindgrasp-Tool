@@ -272,8 +272,15 @@ export default function Header() {
                   fetchPriority="high"
                 />
               </span>
-              <span className="max-[450px]:hidden">1-716-708-1869</span>
-              <span className="min-[450px]:hidden font-semibold">Call Now</span>
+              {/* On /take-my-class/ always show phone number; on other special routes show "Call Now" on small screens */}
+              {isTakeMyClass ? (
+                <span>1-716-708-1869</span>
+              ) : (
+                <>
+                  <span className="max-[450px]:hidden">1-716-708-1869</span>
+                  <span className="min-[450px]:hidden font-semibold">Call Now</span>
+                </>
+              )}
             </a>
           </div>
         )}
