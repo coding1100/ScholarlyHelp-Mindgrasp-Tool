@@ -23,8 +23,11 @@ const config: Config = {
     "./app/(pages)/success-stories-and-reviews/page.tsx",
     "./app/(pages)/terms-and-conditions/page.tsx",
     "./app/(pages)/privacy-policy/page.tsx",
-    "./app/(pages)/contact-us/page.tsx",
-    "./app/(pages)/about-us/page.tsx",
+    "./app/(pages)/contact-us/**/*.tsx",
+    "./app/(pages)/about-us/**/*.tsx",
+    "./app/(pages)/samples/**/*.tsx",
+    "./app/components/SamplesAssignments/**/*.tsx",
+    "./app/(pages)/contact-us/ContactUs.tsx",
     "./app/(pages)/faq/page.tsx",
     "./app/(pages)/essay-writing/page.tsx",
     "./app/(pages)/essay-writing/[subject]/page.tsx",
@@ -54,6 +57,13 @@ const config: Config = {
   safelist: [
     'animate-pulse',
     'bg-gray-100',
+    // Ensure container is always available so layout is correct on all routes (samples, about-us, contact-us)
+    'container',
+    'sm:container',
+    'md:container',
+    'lg:container',
+    'xl:container',
+    '2xl:container',
   ],
   // Blocklist unused Tailwind utilities to reduce CSS bundle
   blocklist: [
@@ -134,6 +144,8 @@ const config: Config = {
     justifyContent: true,
     gap: true,
     gridTemplateColumns: true,
+    gridColumn: true,
+    gridRow: true,
     fontFamily: true,
     fontSize: true,
     fontWeight: true,
