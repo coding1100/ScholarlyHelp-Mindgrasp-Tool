@@ -100,7 +100,7 @@ const Footer: FC<FooterProps> = ({ }) => {
     return (
       <div ref={footerRef} className={`${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
-          <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
+          <div className=" w-full max-w-7xl mx-auto md:flex justify-between gap-6 max-[768px]:px-10 text-primary-600">
             <div className="md:max-w-[372px]">
             <Link href="/">
           
@@ -274,7 +274,7 @@ const Footer: FC<FooterProps> = ({ }) => {
     return (
       <div ref={footerRef} className={`relative ${!isFooterInView ? "z-[999]" : ""}`}>
         <div className="bg-primary-200 md:flex justify-center py-14">
-          <div className="md:container md:flex justify-between gap-6 px-10 text-primary-600">
+          <div className="w-full max-w-7xl mx-auto md:flex justify-between gap-6 max-[768px]:px-10 text-primary-600">
             <div className="md:max-w-[372px]">
             <Link href="/">
           

@@ -15,7 +15,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     <div>
       <Header />
       <main className="min-h-screen w-full bg-[#D1D1F7] flex items-center justify-center overflow-hidden py-16">
-        <div className="container relative">
+        <div className="max-w-7xl mx-auto relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
             {/* Left Column */}
             <InfoSection />
