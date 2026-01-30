@@ -84,11 +84,21 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <AuthProvider>
+      {/* <div
+        onClick={handleUserInteraction}
+        onInput={handleUserInteraction}
+        onMouseLeave={handleMouseLeave}
+      > */}
        <AppNav />
       {children}
       {!shouldHideHeaderFooter && <Footer />}
       <WhatsApp />
       <CookieBanner />
+      {/* <ExitPopUp
+          open={openExitPopup}
+          handleClose={() => setOpenExitPopup(false)}
+        />
+      </div> */}
     </AuthProvider>
   );
 };
