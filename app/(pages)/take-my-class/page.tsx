@@ -1,9 +1,15 @@
+import dynamic from "next/dynamic";
 import MainLayout from "@/app/MainLayout";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
-import BelowFoldLanding from "@/app/components/LandingPage/BelowFoldLanding";
 import { MetaData } from "@/app/metadata/metadata";
 import { TakeMyClassDataProvider } from "../TakeMyClassDataProvider";
 import type { Metadata } from "next";
+
+// Mobile LCP: load below-fold after initial paint so hero text wins LCP
+const BelowFoldLanding = dynamic(
+  () => import("@/app/components/LandingPage/BelowFoldLanding"),
+  { ssr: false }
+);
 
 export const revalidate = 0;
 
