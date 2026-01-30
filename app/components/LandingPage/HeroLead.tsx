@@ -138,6 +138,13 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
       {heroContent?.description && shouldHideBadges && (
         <div
           className="text-[#263238] text-[16px] mt-3 "
+          style={
+            // LCP fix for /take-my-class/: inline critical styles so the hero description
+            // paints immediately without waiting for the stylesheet (reduces element render delay)
+            (pathname === "/take-my-class/" || pathname === "/take-my-class")
+              ? { color: "#263238", fontSize: "16px", marginTop: "12px" }
+              : undefined
+          }
           dangerouslySetInnerHTML={{ __html: heroContent.description }}
         />
       )}
