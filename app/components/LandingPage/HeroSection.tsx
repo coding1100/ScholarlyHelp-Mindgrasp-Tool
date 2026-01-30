@@ -49,8 +49,7 @@ const HeroSection: FC<HeroSectionProps> = ({
           <div className="mid:col-span-5 md:col-span-6">
             <HeroLead heroContent={heroContent} />
           </div>
-          {/* Mobile LCP: defer rendering of form/images until after first paint so hero text wins LCP */}
-          <div className="mid:col-span-4 md:col-span-6 max-md:[content-visibility:auto] max-md:[contain-intrinsic-size:auto_400px]">
+          <div className="mid:col-span-4 md:col-span-6">
             <HeroRight formBackImg2={heroContent?.formBackImg2} />
           </div>
           <div className="mid:col-span-3 md:col-span-6 md:self-end relative z-20 -bottom-[35px]">

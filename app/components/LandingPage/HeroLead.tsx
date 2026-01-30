@@ -73,7 +73,9 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="font-bold text-[32px] md:text-[50px] leading-[1.1] text-black">
+      <h1
+        className="font-bold text-[32px] md:text-[50px] leading-[1.1] text-black"
+      >
         {heroContent?.mainHeading ? (
           <div dangerouslySetInnerHTML={{ __html: heroContent.mainHeading }} />
         ) : (
@@ -121,7 +123,6 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
               src={respavatar}
               alt=""
               className="absolute right-0 bottom-0 max-[430px]:w-[130px] max-[430px]:h-[130px]"
-              fetchPriority="low"
             />
           </div>
         </div>
@@ -136,11 +137,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
       )}
       {heroContent?.description && shouldHideBadges && (
         <div
-          className="text-[#263238] text-[16px] mt-3"
-          style={
-            // Mobile LCP: inline critical styles so description paints without waiting for stylesheet
-            { color: "#263238", fontSize: "16px", marginTop: "12px" }
-          }
+          className="text-[#263238] text-[16px] mt-3 "
           dangerouslySetInnerHTML={{ __html: heroContent.description }}
         />
       )}

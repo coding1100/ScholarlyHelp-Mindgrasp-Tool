@@ -91,14 +91,14 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
         </div> */}
       </div>
 
-      {/* mobile rating under the form - low priority on mobile so hero text wins LCP */}
+      {/* mobile rating under the form */}
       <div className="flex max-w-md min-[768px]:flex-col gap-4 md:hidden relative z-20 max-[768px]:p-5 max-[768px]:bg-[#9F92EC1A]">
         <div className="min-[768px]:hidden"> 
         <Image
             src={Bg5}
             alt=""
             className=""
-            fetchPriority="low"
+            fetchPriority="high"
           />
         </div>
         <div className="">
