@@ -253,21 +253,17 @@ export default function Header() {
     <header className="sticky top-0 bg-white z-[9999] relative">
       {/* Header Top Bar */}
       <div className="max-w-7xl mx-auto max-[1320px]:px-8 flex items-center justify-between pt-2 min-h-[64px]">
-        {/* Logo: on mobile defer until after interaction for LCP; desktop always full */}
-        <Link href="/" className="min-w-[142px] min-h-[40px] flex items-center">
-          {showFullMobileHeader ? (
-            <Image
-              src={LogoNormal}
-              alt="Scholarly Help"
-              className="max-w-[142px] min-w-[142px]"
-              width={142}
-              height={40}
-              priority={isDesktop}
-              fetchPriority={isDesktop ? "high" : "low"}
-            />
-          ) : (
-            <span className="text-[#1e1e1e] font-bold text-lg leading-tight">Scholarly Help</span>
-          )}
+        {/* Logo - always show image */}
+        <Link href="/">
+          <Image
+            src={LogoNormal}
+            alt="Scholarly Help"
+            className="max-w-[142px] min-w-[142px]"
+            width={142}
+            height={40}
+            priority
+            fetchPriority="high"
+          />
         </Link>
         {/* Menu button: on mobile defer until after interaction for LCP */}
         {!isSpecialRoute && (
