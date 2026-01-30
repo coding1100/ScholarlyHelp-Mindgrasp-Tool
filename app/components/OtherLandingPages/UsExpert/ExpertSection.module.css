@@ -1,0 +1,61 @@
+/* Slick dots – visible and styled for Expert slider */
+.expertSliderRoot :global(.slick-dots),
+.expertSliderRoot :global(.slick-dots li) {
+  position: relative;
+  padding: 0;
+}
+
+.expertSliderRoot :global(.slick-dots) {
+  bottom: -30px;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 16px auto 0;
+  list-style: none;
+  text-align: center;
+  z-index: 10;
+}
+
+.expertSliderRoot :global(.slick-dots li button) {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  padding: 6px;
+  color: transparent;
+  border: 0;
+  outline: 0;
+  background: 0 0;
+}
+
+.expertSliderRoot :global(.slick-dots li),
+.expertSliderRoot :global(.slick-dots li button) {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.expertSliderRoot :global(.slick-dots li button::before) {
+  content: "" !important;
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 0 auto;
+  background-color: #bfbfbf;
+  border-radius: 50%;
+  opacity: 1;
+}
+
+.expertSliderRoot :global(.slick-dots li) {
+  display: inline-block;
+  margin: 0 4px;
+  width: auto;
+}
+
+.expertSliderRoot :global(.slick-dots li.slick-active button::before) {
+  background-color: #493e8e;
+  transform: scale(1.2);
+}
+
+.expertSliderRoot :global(.slick-slider) {
+  padding-bottom: 40px;
+}
