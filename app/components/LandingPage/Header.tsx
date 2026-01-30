@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,8 +9,6 @@ import LogoSmall from "@/app/assets/Images/logoSmall.png";
 import LogoNormal from "@/app/assets/Images/logo.png";
 import Phone from "@/app/assets/Icons/phone.webp";
 
-const MOBILE_BREAKPOINT = 1200;
-
 export default function Header() {
   const pathname = usePathname();
   const isTakeMyClass = pathname === '/take-my-class/' || pathname === '/take-my-class';
@@ -19,35 +17,6 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
   const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(null);
-
-  // LCP: defer mobile header (logo image, menu icon) until after first interaction so hero content wins LCP
-  const [hasInteracted, setHasInteracted] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    const checkViewport = () => setIsDesktop(typeof window !== "undefined" && window.innerWidth >= MOBILE_BREAKPOINT);
-    checkViewport();
-    window.addEventListener("resize", checkViewport);
-    return () => window.removeEventListener("resize", checkViewport);
-  }, []);
-
-  useEffect(() => {
-    if (hasInteracted) return;
-    const onInteraction = () => setHasInteracted(true);
-    const opts = { passive: true, once: true };
-    window.addEventListener("scroll", onInteraction, opts);
-    window.addEventListener("touchstart", onInteraction, opts);
-    window.addEventListener("click", onInteraction, opts);
-    window.addEventListener("keydown", onInteraction, opts);
-    return () => {
-      window.removeEventListener("scroll", onInteraction);
-      window.removeEventListener("touchstart", onInteraction);
-      window.removeEventListener("click", onInteraction);
-      window.removeEventListener("keydown", onInteraction);
-    };
-  }, [hasInteracted]);
-
-  const showFullMobileHeader = isDesktop || hasInteracted;
 
   const navItems = [
     {
@@ -253,45 +222,41 @@ export default function Header() {
     <header className="sticky top-0 bg-white z-[9999] relative">
       {/* Header Top Bar */}
       <div className="max-w-7xl mx-auto max-[1320px]:px-8 flex items-center justify-between pt-2 min-h-[64px]">
-        {/* Logo - always show image */}
+        {/* Menu Button - Hidden for special routes */}
+        {/* Logo */}
         <Link href="/">
+          {/* <Image
+            src={LogoSmall}
+            alt="Scholarly Help Logo"
+            className="max-[480px]:block hidden max-w-[32px] min-w-[29px]"
+            width={32}
+            height={29}
+            priority
+          /> */}
           <Image
             src={LogoNormal}
             alt="Scholarly Help"
-            className="max-w-[142px] min-w-[142px]"
+            className=" max-w-[142px] min-w-[142px]"
             width={142}
             height={40}
             priority
             fetchPriority="high"
           />
         </Link>
-        {/* Menu button: on mobile defer until after interaction for LCP */}
         {!isSpecialRoute && (
-          showFullMobileHeader ? (
-            <button
-              onClick={() => setMobileOpen((prev) => !prev)}
-              className="min-[1200px]:hidden text-gray-700"
-              aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
-              aria-expanded={mobileOpen}
-            >
-              {mobileOpen ? <X size={28} color="#3e42b3" /> : <Menu size={28} color="#3e42b3" />}
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="min-[1200px]:hidden w-[28px] h-[28px] shrink-0 cursor-pointer"
-              aria-label="Open navigation menu"
-              onClick={() => {
-                setHasInteracted(true);
-                setMobileOpen(true);
-              }}
-            />
-          )
+          <button
+            onClick={() => setMobileOpen((prev) => !prev)}
+            className="min-[1200px]:hidden text-gray-700"
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X size={28} color="#3e42b3" /> : <Menu size={28} color="#3e42b3" />}
+          </button>
         )}
 
         
 
-        {/* Phone Number - Shown for special routes */}
+        {/* Phone Number - Shown for special routes (take-my-class, take-my-exam): always show number on mobile */}
         {isSpecialRoute && (
           <div className="">
             <a
@@ -307,15 +272,7 @@ export default function Header() {
                   fetchPriority="high"
                 />
               </span>
-              {/* On /take-my-class/ always show phone number; on other special routes show "Call Now" on small screens */}
-              {isTakeMyClass ? (
-                <span>1-716-708-1869</span>
-              ) : (
-                <>
-                  <span className="max-[450px]:hidden">1-716-708-1869</span>
-                  <span className="min-[450px]:hidden font-semibold">Call Now</span>
-                </>
-              )}
+              <span>1-716-708-1869</span>
             </a>
           </div>
         )}
@@ -418,8 +375,8 @@ export default function Header() {
         )}
       </div>
 
-      {/* Mobile Navigation - full-width dropdown; defer until after interaction for LCP */}
-      {!isSpecialRoute && showFullMobileHeader && (
+      {/* Mobile Navigation - full-width dropdown under header with smooth transition and outside click close */}
+      {!isSpecialRoute && (
         <div
           className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${
             mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
