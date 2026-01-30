@@ -11,7 +11,7 @@ export default function ReviewRatings() {
   return (
     <div className="xl:flex justify-center py-8 mt-[-96px]">
       <div
-        className="max-w-7xl container py-6 px-12 rounded-lg lg:flex justify-between grid grid-cols-2 gap-6 bg-[#fff]"
+        className="w-full max-w-7xl container py-6 px-12 rounded-lg lg:flex justify-between grid grid-cols-2 gap-6 bg-[#fff]"
         style={{ boxShadow: " 0px 11px 32px 0px #DFE5FF " }}
       >
         {/* Sitejabber */}
