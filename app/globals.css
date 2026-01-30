@@ -118,11 +118,3 @@ body {
     font-display: block
 }
 
-/* Mobile LCP: critical hero styles so LCP element paints without waiting for full Tailwind */
-@media (max-width: 767px) {
-    #hero-section {
-        background-color: #F5F6FA;
-        padding-top: 30px;
-    }
-}
-
