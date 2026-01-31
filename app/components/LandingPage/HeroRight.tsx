@@ -42,25 +42,25 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             src={Bg1}
             alt=""
             className="absolute -left-[80px] top-[130px] opacity-50"
-            fetchPriority="high"
+            loading="lazy"
           />
           <Image
             src={Bg3}
             alt=""
             className="absolute -left-[80px] -top-10 opacity-50"
-            fetchPriority="high"
+            loading="lazy"
           />
           <Image
             src={Bg2}
             alt=""
             className="absolute -left-[80px] top-[300px] opacity-50"
-            fetchPriority="high"
+            loading="lazy"
           />
           <Image
             src={Bg4}
             alt=""
             className="absolute left-28 -top-20 opacity-50"
-            fetchPriority="high"
+            loading="lazy"
           />
         </div>
 
@@ -93,12 +93,12 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
 
       {/* mobile rating under the form */}
       <div className="flex max-w-md min-[768px]:flex-col gap-4 md:hidden relative z-20 max-[768px]:p-5 max-[768px]:bg-[#9F92EC1A]">
-        <div className="min-[768px]:hidden"> 
-        <Image
+        <div className="min-[768px]:hidden">
+          <Image
             src={Bg5}
             alt=""
             className=""
-            fetchPriority="high"
+            loading="lazy"
           />
         </div>
         <div className="">

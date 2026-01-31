@@ -9,14 +9,8 @@ const AuthProvider = dynamic(() => import("./context/auth/AuthProvider"), {
   ssr: false,
 });
 
-// Lazy load header and footer to reduce initial bundle
-const AppNav = dynamic(() => import("./components/LandingPage/Header"), {
-  ssr: true,
-});
-
-const Footer = dynamic(() => import("./components/Footer/Footer"), {
-  ssr: true,
-});
+import AppNav from "./components/LandingPage/Header";
+import Footer from "./components/Footer/Footer";
 
 const ExitPopUp = dynamic(() => import("./components/PopUpModal/ExitPopup"), {
   ssr: false,
@@ -43,7 +37,7 @@ interface MainLayoutProps {
 
 const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  
+
   // Routes where header and footer should be hidden
   const hideHeaderFooterRoutes = [
     '/take-my-class',
@@ -55,41 +49,47 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
     '/take-my-exam',
     '/take-my-exam/',
   ];
-  
+
   const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(pathname || '');
 
-  // const [openExitPopup, setOpenExitPopup] = useState<boolean>(false);
-  // const [userInteracted, setUserInteracted] = useState<boolean>(false);
+  // Routes where the header should be deferred until interaction to optimize LCP
+  const deferHeaderRoutes = [
+    '/take-my-class',
+    '/take-my-class/',
+    '/take-my-exam',
+    '/take-my-exam/',
+  ];
 
-  // // Auto-close popup after 30 seconds
-  // useEffect(() => {
-  //   let timer: NodeJS.Timeout;
-  //   if (openExitPopup) {
-  //     timer = setTimeout(() => {
-  //       setOpenExitPopup(false);
-  //     }, 30000); // 30 seconds
-  //   }
-  //   return () => clearTimeout(timer); // Cleanup on unmount or popup close
-  // }, [openExitPopup]);
+  const shouldDeferHeader = deferHeaderRoutes.includes(pathname || '');
+  const [headerVisible, setHeaderVisible] = useState(!shouldDeferHeader);
 
-  // const handleUserInteraction = useCallback(() => {
-  //   if (!userInteracted) setUserInteracted(true);
-  // }, [userInteracted]);
+  // Detect user interaction to load deferred header
+  useEffect(() => {
+    if (!shouldDeferHeader || headerVisible) return;
 
-  // const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
-  //   if (event.clientY <= 0 && !userInteracted) {
-  //     setOpenExitPopup(true);
-  //   }
-  // };
+    const handleInteraction = () => {
+      setHeaderVisible(true);
+      removeEventListeners();
+    };
+
+    const removeEventListeners = () => {
+      window.removeEventListener('scroll', handleInteraction);
+      window.removeEventListener('mousemove', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
+    };
+
+    window.addEventListener('scroll', handleInteraction, { passive: true });
+    window.addEventListener('mousemove', handleInteraction, { passive: true });
+    window.addEventListener('touchstart', handleInteraction, { passive: true });
+    window.addEventListener('keydown', handleInteraction, { passive: true });
+
+    return removeEventListeners;
+  }, [shouldDeferHeader, headerVisible]);
 
   return (
     <AuthProvider>
-      {/* <div
-        onClick={handleUserInteraction}
-        onInput={handleUserInteraction}
-        onMouseLeave={handleMouseLeave}
-      > */}
-       <AppNav />
+      {headerVisible && <AppNav />}
       {children}
       {!shouldHideHeaderFooter && <Footer />}
       <WhatsApp />
