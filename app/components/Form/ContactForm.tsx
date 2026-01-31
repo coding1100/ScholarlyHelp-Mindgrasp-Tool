@@ -2,9 +2,9 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PhoneInput } from "react-international-phone";
-import "react-international-phone/style.css";
+// import "react-international-phone/style.css";
 import emailIcon from "@/app/assets/Images/email-quote.png";
 
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -20,7 +20,7 @@ const toast = (msg: string) =>
     duration: 4000,
     position: "bottom-center",
   });
- 
+
 type Inputs = {
   email?: string;
   phoneNumber?: string;
@@ -40,6 +40,12 @@ const ContactUs = () => {
     reset,
     formState: { errors },
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    // Dynamically load CSS to avoid render blocking
+    // @ts-ignore
+    import("react-international-phone/style.css");
+  }, []);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setPhoneNumber("");
@@ -67,7 +73,7 @@ const ContactUs = () => {
               name="phoneNumber"
               control={control}
               defaultValue=""
-            //   rules={{ required: "Phone Number is required" }}
+              //   rules={{ required: "Phone Number is required" }}
               render={({ field }) => {
                 return (
                   <PhoneInput
@@ -96,12 +102,11 @@ const ContactUs = () => {
               {/* <Image src={emailIcon} alt="email" className="w-6 h-4 mr-2" /> */}
               <input
                 type="text"
-                className={`w-full border-b-2 border-0 focus:outline-none bg-transparent max-w-[300px] pl-10 pb-2 ${
-                  errors.email ? "border-primary-500" : "border-gray-300"
-                }`}
+                className={`w-full border-b-2 border-0 focus:outline-none bg-transparent max-w-[300px] pl-10 pb-2 ${errors.email ? "border-primary-500" : "border-gray-300"
+                  }`}
                 placeholder="@email.com"
                 {...register("email", {
-                //   required: "Email is required",
+                  //   required: "Email is required",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                     message: "Invalid email address",

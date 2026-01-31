@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LuZap } from "react-icons/lu";
 import PricingPopup from "./PricingPopup";
-import axiosInstance from "@/app/axios";
 import axios from "axios";
 
 interface UsageAndPricingProps {

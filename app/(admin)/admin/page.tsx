@@ -122,7 +122,7 @@ export default function AdminDashboard() {
             <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
               Backup Database
             </button>
-            <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+            <button className="bg-[#da0e0e] hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
               Clear Cache
             </button>
           </div>

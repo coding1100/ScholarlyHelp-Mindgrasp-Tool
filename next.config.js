@@ -6,14 +6,25 @@ const nextConfig = {
   transpilePackages: [
     'react-slick',
     'slick-carousel',
-    'react-code-blocks',
     'react-international-phone',
     '@szhsin/react-accordion',
     'lucide-react',
     'dayjs',
     'axios',
     'react-loader-spinner',
-    'react-spinners'
+    'react-spinners',
+    'google-libphonenumber',
+    'react-hot-toast',
+    'react-markdown',
+    'remark-gfm',
+    'remark-math',
+    'rehype-katex',
+    'rehype-raw',
+    'jsonwebtoken',
+    'jwt-decode',
+    'mongodb',
+    'clsx',
+    'tailwind-merge'
   ],
 
   // Enable image optimization for better LCP
@@ -66,8 +77,7 @@ const nextConfig = {
 
   // Enable experimental features for better performance
   experimental: {
-    optimizeCss: true, // Inlines critical CSS
-    // Optimize heavy package imports - tree shake these libraries
+    optimizeCss: true,
     optimizePackageImports: [
       'lucide-react',
       'react-icons',
@@ -83,6 +93,12 @@ const nextConfig = {
       'react-spinners',
       'react-loader-spinner',
       'dayjs',
+      'axios',
+      'jsonwebtoken',
+      'react-markdown',
+      'jwt-decode',
+      'clsx',
+      'tailwind-merge'
     ],
   },
 
