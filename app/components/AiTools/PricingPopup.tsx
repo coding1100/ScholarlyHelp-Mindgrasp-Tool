@@ -1,7 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { FaRegClock, FaDatabase } from "react-icons/fa";
-import axiosInstance from "@/app/axios";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -159,13 +158,11 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             return (
               <label
                 key={plan.name}
-                className={`flex items-center border rounded-lg px-4 py-2 mb-2 cursor-pointer transition-all ${
-                  selectedPlan === idx
+                className={`flex items-center border rounded-lg px-4 py-2 mb-2 cursor-pointer transition-all ${selectedPlan === idx
                     ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-900/30"
                     : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
-                } text-xs sm:text-sm ${
-                  isDisabled ? "opacity-60 cursor-not-allowed" : ""
-                }`}
+                  } text-xs sm:text-sm ${isDisabled ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
                 onClick={() => handlePlanClick(idx)}
               >
                 <input
@@ -205,9 +202,8 @@ const PricingPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <button
           onClick={handleUpgrade}
           disabled={isLoading}
-          className={`w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white font-semibold py-2.5 rounded-lg transition-colors mb-2 text-xs sm:text-sm ${
-            isLoading ? "opacity-75 cursor-not-allowed" : ""
-          }`}
+          className={`w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white font-semibold py-2.5 rounded-lg transition-colors mb-2 text-xs sm:text-sm ${isLoading ? "opacity-75 cursor-not-allowed" : ""
+            }`}
         >
           {isLoading ? (
             <span className="flex items-center justify-center gap-2">

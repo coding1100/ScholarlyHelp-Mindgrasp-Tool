@@ -1,6 +1,5 @@
 import "katex/dist/katex.min.css";
 import { memo } from "react";
-import { CopyBlock, dracula } from "react-code-blocks";
 import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
@@ -62,24 +61,20 @@ const MarkDown = ({ content }) => {
               const codeString = String(children).replace(/\n$/, "");
               const removenbsp = String(codeString).replace(/&nbsp;/, "");
               return (
-                <div
+                <pre
                   style={{
                     padding: "15px",
                     backgroundColor: "#282a36",
                     borderRadius: "5px",
                     overflowX: "auto",
                     margin: "10px 0",
+                    color: "#f8f8f2",
                   }}
                 >
-                  <CopyBlock
-                    text={removenbsp}
-                    language={match[1]}
-                    showLineNumbers={false}
-                    wrapLongLines
-                    theme={dracula}
-                    {...props}
-                  />
-                </div>
+                  <code className={className} {...props}>
+                    {removenbsp}
+                  </code>
+                </pre>
               );
             }
             return (
