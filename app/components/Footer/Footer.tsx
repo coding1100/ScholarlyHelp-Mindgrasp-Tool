@@ -22,7 +22,7 @@ import {
   sms,
   smsHide,
 } from "../HideLinks/HideLinks";
-import "./footer.css";
+// import "./footer.css";
 // import ChatBubble from "@/app/assets/Icons/ChatBubble";
 import chatBubble from "@/app/assets/Images/chatBubble.png";
 import axios from "axios";

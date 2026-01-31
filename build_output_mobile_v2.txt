@@ -1,0 +1,192 @@
+
+> scholarly-help-next@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.5
+  - Environments: .env.local
+  - Experiments (use with caution):
+    · optimizeCss
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/245) ...
+Time 8.1341
+Time 8.1265
+   Generating static pages (61/245) 
+   Generating static pages (122/245) 
+   Generating static pages (183/245) 
+ ✓ Generating static pages (245/245)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size     First Load JS
+┌ ○ /                                       825 B           151 kB
+├ ○ /_not-found                             153 B          91.8 kB
+├ ƒ /[category]/[slug]                      153 B          91.8 kB
+├ ƒ /a-or-b-grade-guarantee                 4.61 kB         185 kB
+├ ○ /about-us                               1.94 kB         141 kB
+├ ○ /admin                                  1.57 kB        93.2 kB
+├ ○ /admin/a-or-b-grade-guarantee           2.77 kB        94.4 kB
+├ ○ /admin/assignment                       6.22 kB        97.9 kB
+├ ○ /admin/essay-writing                    6.27 kB        97.9 kB
+├ ○ /admin/exam                             4.93 kB        96.6 kB
+├ ○ /admin/faq                              1.5 kB         93.2 kB
+├ ○ /admin/guarantee-anonymity              2.48 kB        94.1 kB
+├ ○ /admin/home                             3.66 kB        95.3 kB
+├ ○ /admin/homework                         6.72 kB        98.4 kB
+├ ○ /admin/login                            1.19 kB        92.8 kB
+├ ○ /admin/on-time-delivery-guarantee       2.8 kB         94.5 kB
+├ ○ /admin/online-class                     6.73 kB        98.4 kB
+├ ○ /admin/pages                            1.27 kB        92.9 kB
+├ ○ /admin/plagiarism-free-process          2.57 kB        94.2 kB
+├ ○ /admin/success-stories-and-reviews      2.57 kB        94.2 kB
+├ ○ /admin/take-my-class                    3.41 kB        95.1 kB
+├ ○ /admin/take-my-class-1                  2.98 kB        94.6 kB
+├ ○ /admin/take-my-class-2                  3.7 kB         95.3 kB
+├ ○ /admin/take-my-exam                     3.4 kB         95.1 kB
+├ ○ /admin/tools                            2.74 kB        94.4 kB
+├ ○ /admin/us-based-phd-experts             2.59 kB        94.2 kB
+├ ○ /ai-essay-generator                     166 B           133 kB
+├ ○ /ai-paraphraser                         166 B           133 kB
+├ ○ /ai-summarizer                          166 B           133 kB
+├ ○ /ai-thesis-generator                    166 B           133 kB
+├ ƒ /api/a-or-b-grade-guarantee             0 B                0 B
+├ ƒ /api/admin/a-or-b-grade-guarantee       0 B                0 B
+├ ƒ /api/admin/assignment                   0 B                0 B
+├ ƒ /api/admin/essay-writing                0 B                0 B
+├ ƒ /api/admin/exam                         0 B                0 B
+├ ƒ /api/admin/faq                          0 B                0 B
+├ ƒ /api/admin/guarantee-anonymity          0 B                0 B
+├ ƒ /api/admin/home                         0 B                0 B
+├ ƒ /api/admin/homework                     0 B                0 B
+├ ƒ /api/admin/login                        0 B                0 B
+├ ƒ /api/admin/on-time-delivery-guarantee   0 B                0 B
+├ ƒ /api/admin/online-class                 0 B                0 B
+├ ƒ /api/admin/pages                        0 B                0 B
+├ ƒ /api/admin/plagiarism-free-process      0 B                0 B
+├ ƒ /api/admin/success-stories-and-reviews  0 B                0 B
+├ ƒ /api/admin/take-my-class                0 B                0 B
+├ ƒ /api/admin/take-my-class-1              0 B                0 B
+├ ƒ /api/admin/take-my-class-2              0 B                0 B
+├ ƒ /api/admin/take-my-exam                 0 B                0 B
+├ ƒ /api/admin/tools                        0 B                0 B
+├ ƒ /api/admin/us-based-phd-experts         0 B                0 B
+├ ƒ /api/assignment                         0 B                0 B
+├ ƒ /api/essay-writing                      0 B                0 B
+├ ƒ /api/exam                               0 B                0 B
+├ ƒ /api/guarantee-anonymity                0 B                0 B
+├ ƒ /api/home                               0 B                0 B
+├ ƒ /api/homework                           0 B                0 B
+├ ƒ /api/on-time-delivery-guarantee         0 B                0 B
+├ ƒ /api/online-class                       0 B                0 B
+├ ƒ /api/order/quote                        0 B                0 B
+├ ƒ /api/plagiarism-free-process            0 B                0 B
+├ ƒ /api/success-stories-and-reviews        0 B                0 B
+├ ƒ /api/take-my-class                      0 B                0 B
+├ ƒ /api/take-my-exam                       0 B                0 B
+├ ƒ /api/tools                              0 B                0 B
+├ ƒ /api/us-based-phd-experts               0 B                0 B
+├ ƒ /assignment                             1.93 kB         152 kB
+├ ● /assignment/[subject]                   17.7 kB         191 kB
+├   ├ /assignment/accounting
+├   ├ /assignment/anatomy
+├   ├ /assignment/architecture
+├   └ [+24 more paths]
+├ ○ /class-help                             197 B           213 kB
+├ ○ /classhelpdiscount                      6.13 kB         349 kB
+├ ○ /contact-us                             2.42 kB         141 kB
+├ ○ /dissertation-writing-services          6.67 kB         226 kB
+├ ○ /do-my-aleks-for-me                     197 B           213 kB
+├ ○ /do-my-assignment                       1.93 kB         152 kB
+├ ○ /do-my-class                            1.15 kB         356 kB
+├ ○ /do-my-class-1                          1.15 kB         356 kB
+├ ○ /do-my-class-2                          366 B           355 kB
+├ ○ /do-my-exam                             200 B           216 kB
+├ ƒ /essay-writing                          3.42 kB         154 kB
+├ ● /essay-writing/[subject]                18 kB           192 kB
+├   ├ /essay-writing/generic
+├   ├ /essay-writing/admissions
+├   ├ /essay-writing/research
+├   └ [+23 more paths]
+├ ƒ /exam                                   175 B           154 kB
+├ ● /exam/[subject]                         190 B           192 kB
+├   ├ /exam/accounting
+├   ├ /exam/anatomy
+├   ├ /exam/architecture
+├   └ [+21 more paths]
+├ ƒ /exams                                  175 B           154 kB
+├ ● /exams/[subject]                        190 B           192 kB
+├   ├ /exams/accounting
+├   ├ /exams/anatomy
+├   ├ /exams/architecture
+├   └ [+22 more paths]
+├ ○ /forgot-password                        1.99 kB         159 kB
+├ ƒ /guarantee-anonymity                    11.2 kB         185 kB
+├ ○ /help-me-with-my-exam                   198 B           216 kB
+├ ƒ /homework                               3.42 kB         154 kB
+├ ● /homework/[subject]                     17.9 kB         192 kB
+├   ├ /homework/accounting
+├   ├ /homework/anatomy
+├   ├ /homework/architecture
+├   └ [+24 more paths]
+├ ○ /login                                  1.27 kB        92.9 kB
+├ ƒ /on-time-delivery-guarantee             3.27 kB         184 kB
+├ ƒ /online-class                           1.93 kB         152 kB
+├ ● /online-class/[subject]                 17.7 kB         191 kB
+├   ├ /online-class/accounting
+├   ├ /online-class/anatomy
+├   ├ /online-class/architecture
+├   └ [+21 more paths]
+├ ○ /order                                  16.4 kB         278 kB
+├ ○ /pay-for-someone-to-write-my-paper      4.68 kB         212 kB
+├ ○ /pay-someone-to-do-my-assignment        13.8 kB         362 kB
+├ ○ /pay-someone-to-do-my-edgenuity         197 B           213 kB
+├ ○ /pay-someone-to-take-my-online-exam     329 B           209 kB
+├ ƒ /plagiarism-free-process                11.4 kB         185 kB
+├ ○ /pricing                                4.32 kB         124 kB
+├ ○ /privacy                                2.47 kB         141 kB
+├ ○ /reset-password                         7.97 kB         141 kB
+├ ○ /samples                                7.33 kB         215 kB
+├ ○ /savemytime                             5.84 kB         349 kB
+├ ○ /scan                                   224 kB          372 kB
+├ ○ /scan/excercise                         7.83 kB         263 kB
+├ ○ /scan/login                             4.8 kB          253 kB
+├ ○ /scan/payment-successful                2.5 kB          106 kB
+├ ○ /scan/payment-unsuccessful              2.03 kB        98.8 kB
+├ ○ /scan/plans                             4.98 kB         264 kB
+├ ○ /scan/register                          3.74 kB         252 kB
+├ ○ /sign-in                                2.35 kB         160 kB
+├ ○ /sign-up                                2.92 kB         160 kB
+├ ƒ /success-stories-and-reviews            2.62 kB         185 kB
+├ ƒ /take-my-class                          894 B           151 kB
+├ ƒ /take-my-class-1                        190 B           190 kB
+├ ƒ /take-my-class-2                        190 B           190 kB
+├ ƒ /take-my-exam                           825 B           151 kB
+├ ○ /take-my-proctored-exam-for-me          329 B           209 kB
+├ ○ /terms-and-conditions                   3.54 kB         142 kB
+├ ○ /thank-you                              769 B           178 kB
+├ ○ /thank-you-2                            2.38 kB         171 kB
+├ ○ /thank-you-3                            754 B           167 kB
+├ ƒ /tools                                  3.1 kB          160 kB
+├ ○ /tools/essay-outline-tool               2.2 kB          150 kB
+├ ○ /tools/miles-to-millimeters             3.15 kB         149 kB
+├ ○ /tools/paraphraser-tool                 3.01 kB         151 kB
+├ ○ /tools/summarizer-tool                  3.08 kB         151 kB
+├ ○ /tools/thesis-generator-tool            2.35 kB         150 kB
+├ ƒ /us-based-phd-experts                   3.24 kB         186 kB
+└ ○ /write-my-paper                         197 B           213 kB
++ First Load JS shared by all               91.7 kB
+  ├ chunks/7023-4cab35ee2b7737f4.js         31.6 kB
+  ├ chunks/fd9d1056-dde6362176e9ed64.js     53.6 kB
+  └ other shared chunks (total)             6.38 kB
+
+
+ƒ Middleware                                28.1 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses getStaticProps)
+ƒ  (Dynamic)  server-rendered on demand
+

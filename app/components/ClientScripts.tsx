@@ -26,7 +26,7 @@ export default function ClientScripts() {
   // Memoize functions to prevent unnecessary re-renders
   const hideLiveChatWidget = useCallback(() => {
     if (typeof window === "undefined") return;
-    
+
     if (window.LiveChatWidget) {
       try {
         window.LiveChatWidget.call("hide");
@@ -34,7 +34,7 @@ export default function ClientScripts() {
         // Silently fail if widget not ready
       }
     }
-    
+
     const selectors = [
       '#livechat-container',
       '[id*="livechat"]',
@@ -44,7 +44,7 @@ export default function ClientScripts() {
       'iframe[src*="livechatinc.com"]',
       'iframe[src*="livechat"]'
     ];
-    
+
     selectors.forEach(selector => {
       try {
         const elements = document.querySelectorAll(selector);
@@ -62,7 +62,7 @@ export default function ClientScripts() {
 
   const showLiveChatWidget = useCallback(() => {
     if (typeof window === "undefined") return;
-    
+
     const selectors = [
       '#livechat-container',
       '[id*="livechat"]',
@@ -70,7 +70,7 @@ export default function ClientScripts() {
       '[id*="LiveChat"]',
       '[class*="LiveChat"]'
     ];
-    
+
     selectors.forEach(selector => {
       try {
         const elements = document.querySelectorAll(selector);
@@ -90,21 +90,27 @@ export default function ClientScripts() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    let intervalId: ReturnType<typeof setInterval> | null = null;
-
-    if (!isThankYouPage) {
-      hideLiveChatWidget();
-      // Use longer interval to reduce main thread work
-      intervalId = setInterval(hideLiveChatWidget, 2000);
-    } else {
+    if (isThankYouPage) {
       showLiveChatWidget();
+      return;
     }
-    
-    // Clean up interval on unmount - important for bfcache
+
+    // Initial hide
+    hideLiveChatWidget();
+
+    // Use MutationObserver instead of polling setInterval to be much more efficient
+    const observer = new MutationObserver(() => {
+      hideLiveChatWidget();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // Clean up observer on unmount
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      observer.disconnect();
     };
   }, [currentPage, isThankYouPage, hideLiveChatWidget, showLiveChatWidget]);
 

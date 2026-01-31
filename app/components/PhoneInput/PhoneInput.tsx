@@ -1,5 +1,5 @@
 import { PhoneInput } from "react-international-phone";
-import "./index.css";
+// import "./index.css";
 import { Dispatch, FC, SetStateAction } from "react";
 
 type PhoneNumberInputProps = {
@@ -18,7 +18,7 @@ const PhoneNumberInput: FC<PhoneNumberInputProps> = ({ value, setValue }) => {
       value={value}
       onChange={(val: string) => setValue(val)}
       placeholder="Phone Number"
-      //   style={style}
+    //   style={style}
     />
   );
 
