@@ -20,7 +20,7 @@ export default function TakeMyClass2Admin() {
         console.log('Fetched data from API:', data);
         console.log('Data keys:', data ? Object.keys(data) : 'null');
         console.log('Data id:', data?.id, 'pageType:', data?.pageType);
-        
+
         if (data.error) {
           console.error('API error:', data.error);
           throw new Error(data.error);
@@ -29,7 +29,7 @@ export default function TakeMyClass2Admin() {
         // Check if data exists and has content (not just empty object or only _id)
         const hasContent = data && Object.keys(data).length > 0 && !(Object.keys(data).length === 1 && data._id);
         console.log('Has content:', hasContent);
-        
+
         setPageData(hasContent ? {
           ...data,
           id: data.id || 'take-my-class-2',
@@ -863,7 +863,7 @@ export default function TakeMyClass2Admin() {
           <button
             type="submit"
             disabled={pageLoading}
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[#283c88] hover:bg-[#283c88] focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {pageLoading ? (
               <>
