@@ -34,13 +34,7 @@ export default function ReviewRatings() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 md:w-5 md:h-5 ${
-                    i < 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i === 4
-                      ? "fill-yellow-400/50 text-yellow-400"
-                      : "fill-gray-300 text-gray-300"
-                  }`}
+                  className="w-3 h-3 md:w-5 md:h-5 text-[#facc15] fill-[#facc15]"
                 />
               ))}
             </div>
@@ -70,13 +64,7 @@ export default function ReviewRatings() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 md:w-5 md:h-5 ${
-                    i < 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i === 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "fill-gray-300 text-gray-300"
-                  }`}
+                  className="w-3 h-3 md:w-5 md:h-5 text-[#facc15] fill-[#facc15]"
                 />
               ))}
             </div>
@@ -106,13 +94,7 @@ export default function ReviewRatings() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 md:w-5 md:h-5 ${
-                    i < 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i === 4
-                      ? "fill-yellow-400/50 text-yellow-400"
-                      : "fill-gray-300 text-gray-300"
-                  }`}
+                  className="w-3 h-3 md:w-5 md:h-5 text-[#facc15] fill-[#facc15]"
                 />
               ))}
             </div>
@@ -142,13 +124,7 @@ export default function ReviewRatings() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 md:w-5 md:h-5 ${
-                    i < 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i === 4
-                      ? "fill-yellow-400/50 text-yellow-400"
-                      : "fill-gray-300 text-gray-300"
-                  }`}
+                  className="w-3 h-3 md:w-5 md:h-5 text-[#facc15] fill-[#facc15]"
                 />
               ))}
             </div>
