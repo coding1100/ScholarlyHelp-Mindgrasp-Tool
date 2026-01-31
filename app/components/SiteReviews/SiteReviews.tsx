@@ -9,8 +9,8 @@ import ReviewIo from "@/app/assets/Images/review.webp";
 import ReviewStar from "@/app/assets/Icons/ReviewStar";
 import useBreakpoint from "@/app/(pages)/hooks/useMediabreakpoint";
 
-interface SiteReviewsProps {}
-const SiteReviews: FC<SiteReviewsProps> = ({}) => {
+interface SiteReviewsProps { }
+const SiteReviews: FC<SiteReviewsProps> = ({ }) => {
   const { isMobile } = useBreakpoint();
 
   return (
@@ -19,9 +19,8 @@ const SiteReviews: FC<SiteReviewsProps> = ({}) => {
         className={`xl:container xs:px-16 px-8 2xl:px-44 lg:flex justify-between grid grid-cols-2`}
       >
         <div
-          className={`flex items-center ${
-            isMobile ? "justify-start" : "justify-center"
-          } col-span-1 `}
+          className={`flex items-center ${isMobile ? "justify-start" : "justify-center"
+            } col-span-1 `}
         >
           <div className="md:w-14 w-10 mr-3">
             <Image
@@ -62,12 +61,12 @@ const SiteReviews: FC<SiteReviewsProps> = ({}) => {
         </div>
 
         <div
-          className={`flex items-center ${
-            isMobile ? "justify-start" : "justify-center"
-          } col-span-1 `}
+          className={`flex items-center ${isMobile ? "justify-start" : "justify-center"
+            } col-span-1 `}
         >
           <div className="md:w-14 w-10 mr-3">
-            <Image src={GoogleIcon} alt="GoogleIcon" />
+            <Image src={GoogleIcon} width={56}
+              height={56} alt="GoogleIcon" />
           </div>
           <div>
             <div>
@@ -97,9 +96,8 @@ const SiteReviews: FC<SiteReviewsProps> = ({}) => {
         </div>
 
         <div
-          className={`flex items-center ${
-            isMobile ? "justify-start" : "justify-center"
-          } col-span-1 `}
+          className={`flex items-center ${isMobile ? "justify-start" : "justify-center"
+            } col-span-1 `}
         >
           <div className="md:w-14 w-10 mr-3">
             <Image
@@ -140,9 +138,8 @@ const SiteReviews: FC<SiteReviewsProps> = ({}) => {
         </div>
 
         <div
-          className={`flex items-center ${
-            isMobile ? "justify-start" : "justify-center"
-          } col-span-1 `}
+          className={`flex items-center ${isMobile ? "justify-start" : "justify-center"
+            } col-span-1 `}
         >
           <div className="md:w-14 w-10 mr-3">
             <Image

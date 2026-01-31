@@ -102,17 +102,17 @@ const Footer: FC<FooterProps> = ({ }) => {
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className=" w-full max-w-7xl mx-auto md:flex justify-between gap-6 max-[768px]:px-10 text-primary-600">
             <div className="md:max-w-[372px]">
-            <Link href="/">
-          
-          <Image
-            src={LogoNormal}
-            alt="Scholarly Help"
-            className="max-w-[142px] min-w-[142px]"
-            width={142}
-            
-            priority
-          />
-        </Link>
+              <Link href="/">
+
+                <Image
+                  src={LogoNormal}
+                  alt="Scholarly Help"
+                  className="max-w-[142px] min-w-[142px]"
+                  width={142}
+
+                  priority
+                />
+              </Link>
               <div className="mt-3">
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
@@ -217,16 +217,16 @@ const Footer: FC<FooterProps> = ({ }) => {
 
                 <div className="flex my-2">
                   <div className="w-5 mr-1">
-                    <Image src={MasterCard} alt="MasterCard" />
+                    <Image width={30} height={30} src={MasterCard} alt="MasterCard" />
                   </div>
                   <div className="w-5 mr-1">
-                    <Image src={Visa} alt="Visa" />
+                    <Image width={30} height={30} src={Visa} alt="Visa" />
                   </div>
                   <div className="w-5 mr-1">
-                    <Image src={AmericanExpress} alt="AmericanExpress" />
+                    <Image width={30} height={30} src={AmericanExpress} alt="AmericanExpress" />
                   </div>
                   <div className="w-5 mr-1">
-                    <Image src={Paypal} alt="Paypal" />
+                    <Image width={30} height={30} src={Paypal} alt="Paypal" />
                   </div>
                 </div>
               </div>
@@ -276,17 +276,17 @@ const Footer: FC<FooterProps> = ({ }) => {
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="w-full max-w-7xl mx-auto md:flex justify-between gap-6 max-[768px]:px-10 text-primary-600">
             <div className="md:max-w-[372px]">
-            <Link href="/">
-          
-              <Image
-                src={LogoNormal}
-                alt="Scholarly Help"
-                className=" max-w-[142px] min-w-[142px]"
-                width={142}
-                
-                priority
-              />
-            </Link>
+              <Link href="/">
+
+                <Image
+                  src={LogoNormal}
+                  alt="Scholarly Help"
+                  className=" max-w-[142px] min-w-[142px]"
+                  width={142}
+
+                  priority
+                />
+              </Link>
               <div className="mt-3">
                 <p className="leading-5 ">
                   Scholarly Help delivers academic writing services. Our team of
@@ -515,16 +515,16 @@ const Footer: FC<FooterProps> = ({ }) => {
 
                 <div className="flex my-2">
                   <div className="w-5 mr-1">
-                    <Image src={MasterCard} alt="MasterCard" />
+                    <Image width={30} height={30} src={MasterCard} alt="MasterCard" />
                   </div>
                   <div className="w-5 mr-1">
-                    <Image src={Visa} alt="Visa" />
+                    <Image width={30} height={30} src={Visa} alt="Visa" />
                   </div>
                   <div className="w-5 mr-1">
-                    <Image src={AmericanExpress} alt="AmericanExpress" />
+                    <Image width={30} height={30} src={AmericanExpress} alt="AmericanExpress" />
                   </div>
                   <div className="w-5 mr-1">
-                    <Image src={Paypal} alt="Paypal" />
+                    <Image width={30} height={30} src={Paypal} alt="Paypal" />
                   </div>
                 </div>
               </div>
@@ -554,7 +554,7 @@ const Footer: FC<FooterProps> = ({ }) => {
               </a>
             </button>
 
-            <button id="sms-chat2" className="sms-chat z-[100]"   style={{ display: 'none' }}>
+            <button id="sms-chat2" className="sms-chat z-[100]" style={{ display: 'none' }}>
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                 className="blantershow-sms2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"

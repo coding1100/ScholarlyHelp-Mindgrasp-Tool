@@ -118,15 +118,16 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
               100% Confidential
             </span>
           </div>
-          <div className="min-[768px]:hidden"> 
+          <div className="min-[768px]:hidden">
             <Image
               src={respavatar}
               alt=""
               className="absolute right-0 bottom-0 max-[430px]:w-[130px] max-[430px]:h-[130px]"
+              priority
             />
           </div>
         </div>
-        
+
       )}
 
       {heroContent?.subHeading && shouldHideBadges && (

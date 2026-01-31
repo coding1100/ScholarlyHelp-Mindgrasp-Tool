@@ -41,10 +41,10 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <main id="main-content">{children}</main>
 
-        {/* GTM - Loaded only after browser is idle or user interaction to protect web vitals */}
+        {/* GTM - Loaded only after the page is fully loaded to protect LCP */}
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
