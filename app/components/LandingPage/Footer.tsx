@@ -103,24 +103,24 @@ const Footer: FC<FooterProps> = () => {
         <div className="max-w-screen-7xl xl:container md:flex justify-between gap-6 px-10 text-primary-600 max-[992px]:flex-col max-[992px]:w-[90%] ">
           {/* Logo & Description */}
           <div className="md:max-w-[372px]">
-          <Link href="/">
-          
-          <Image
-            src={LogoNormal}
-            alt="Scholarly Help"
-            className="max-w-[142px] min-w-[142px]"
-            width={142}
-            
-            priority
-          />
-        </Link>
-        <div className="mt-3">
-        <p className="leading-5">
-              Scholarly Help delivers academic writing services. Our team of qualified subject experts can help you with your challenging online classes
-              {!isDoMyClassPage && ", homework, assignments, quizzes, and exams"}.
-            </p>
-        </div>
-            
+            <Link href="/">
+
+              <Image
+                src={LogoNormal}
+                alt="Scholarly Help"
+                className="max-w-[142px] min-w-[142px]"
+                width={142}
+
+                priority
+              />
+            </Link>
+            <div className="mt-3">
+              <p className="leading-5">
+                Scholarly Help delivers academic writing services. Our team of qualified subject experts can help you with your challenging online classes
+                {!isDoMyClassPage && ", homework, assignments, quizzes, and exams"}.
+              </p>
+            </div>
+
           </div>
 
           {/* Navigation Links - Hidden on specific pages */}
@@ -231,7 +231,7 @@ const Footer: FC<FooterProps> = () => {
               <div className="flex my-2 space-x-1">
                 {[MasterCard, Visa, AmericanExpress, Paypal].map((src, i) => (
                   <div key={i} className="w-5">
-                    <Image src={src} alt={["MasterCard", "Visa", "American Express", "PayPal"][i]} />
+                    <Image width={30} height={30} src={src} alt={["MasterCard", "Visa", "American Express", "PayPal"][i]} />
                   </div>
                 ))}
               </div>

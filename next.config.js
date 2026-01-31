@@ -2,6 +2,20 @@
 const nextConfig = {
   trailingSlash: true,
 
+  // Recompile everything modern to eliminate 12 KiB legacy polyfills
+  transpilePackages: [
+    'react-slick',
+    'slick-carousel',
+    'react-code-blocks',
+    'react-international-phone',
+    '@szhsin/react-accordion',
+    'lucide-react',
+    'dayjs',
+    'axios',
+    'react-loader-spinner',
+    'react-spinners'
+  ],
+
   // Enable image optimization for better LCP
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -23,9 +37,10 @@ const nextConfig = {
 
   // Optimize production builds
   swcMinify: true,
-
-  // Reduce JS bundle size
   productionBrowserSourceMaps: false,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 
   // Optimize CSS - Next.js automatically removes unused CSS in production
   // Combined with PurgeCSS in postcss.config.js for maximum optimization
@@ -51,8 +66,7 @@ const nextConfig = {
 
   // Enable experimental features for better performance
   experimental: {
-    cssChunking: 'strict',
-    inlineCss: true,
+    optimizeCss: true, // Inlines critical CSS
     // Optimize heavy package imports - tree shake these libraries
     optimizePackageImports: [
       'lucide-react',

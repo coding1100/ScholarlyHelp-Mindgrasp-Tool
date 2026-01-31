@@ -34,7 +34,7 @@ const SignInCard = () => {
     if (token) {
       // Set cookie for middleware if not already set
       document.cookie = `access_token=${token}; path=/; max-age=86400`;
-      
+
       if (returnUrl) {
         console.log('Redirecting to:', returnUrl);
         // Small delay to ensure cookie is set before redirect
@@ -66,10 +66,10 @@ const SignInCard = () => {
       localStorage.setItem("user_id", res.data.user.user_id);
       localStorage.setItem("user_name", res.data.user.name);
       localStorage.setItem("package_type", res.data.user.package_type);
-      
+
       // Also set token in cookies for middleware
       document.cookie = `access_token=${res.data.access_token}; path=/; max-age=86400`;
-      
+
       // Small delay to ensure cookie is set before redirect
       setTimeout(() => {
         // Redirect to returnUrl if provided, otherwise default to paraphraser tool
@@ -138,7 +138,7 @@ const SignInCard = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-[90%] bg-orange-500 text-white font-semibold h-[39px] px-4 rounded-lg hover:bg-orange-600 transition duration-300 flex items-center justify-center gap-2"
+          className="w-[90%] bg-[#ff641a] text-white font-semibold h-[39px] px-4 rounded-lg hover:bg-[#ff641a]/80 transition duration-300 flex items-center justify-center gap-2"
         >
           {loading ? (
             <ColorRing

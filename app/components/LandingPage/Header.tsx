@@ -29,19 +29,23 @@ export default function Header() {
               name: "Take My Chemistry Class",
               href: "/online-class/chemistry/",
             },
-            { name: "Take My Biology Class", 
-              href: "/online-class/biology/" },
+            {
+              name: "Take My Biology Class",
+              href: "/online-class/biology/"
+            },
             {
               name: "Take My Economics Class",
               href: "/online-class/economics/",
             },
-            { name: "Take My Math Class",
-              href: "/online-class/math/" },
+            {
+              name: "Take My Math Class",
+              href: "/online-class/math/"
+            },
             {
               name: "Take My Law Class",
               href: "/online-class/law/",
             },
-            
+
           ],
           button: [{ name: "See All Subjects", href: "/online-class/" }],
         },
@@ -67,8 +71,10 @@ export default function Header() {
               name: "Time Management Help",
               href: "https://scholarlyhelp.com/blog/time-management-for-students/",
             },
-            { name: "Work–Study Balance", 
-              href: "https://scholarlyhelp.com/blog/how-to-balance-work-and-study/" },
+            {
+              name: "Work–Study Balance",
+              href: "https://scholarlyhelp.com/blog/how-to-balance-work-and-study/"
+            },
             {
               name: "Study Tips & Productivity",
               href: "https://scholarlyhelp.com/blog/15-study-tips-for-students/",
@@ -77,7 +83,7 @@ export default function Header() {
               name: "Tough Math & Study Help",
               href: "https://scholarlyhelp.com/blog/hardest-math-class-in-high-school/",
             },
-            
+
           ],
           button: [{ name: "Ask for Class Help", href: "/online-class/" }],
         },
@@ -145,14 +151,18 @@ export default function Header() {
               name: "Statistics Assignment Help",
               href: "/assignment/statistics/",
             },
-            { name: "Finance Assignment Help", 
-              href: "/assignment/finance/" },
+            {
+              name: "Finance Assignment Help",
+              href: "/assignment/finance/"
+            },
             {
               name: "Marketing Assignment Help",
               href: "/assignment/marketing/",
             },
-            { name: "Math Assignment Help", 
-              href: "/assignment/math/" },
+            {
+              name: "Math Assignment Help",
+              href: "/assignment/math/"
+            },
             {
               name: "Accounting Assignment Help",
               href: "/assignment/accounting/",
@@ -173,7 +183,7 @@ export default function Header() {
         },
       ],
       href: "/assignment/",
-      
+
     },
     {
       title: "Homework",
@@ -246,7 +256,7 @@ export default function Header() {
         {!isSpecialRoute && (
           <button
             onClick={() => setMobileOpen((prev) => !prev)}
-            className="min-[1200px]:hidden text-gray-700"
+            className="min-[1200px]:hidden text-gray-700 relative z-[10000] p-2"
             aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileOpen}
           >
@@ -254,7 +264,7 @@ export default function Header() {
           </button>
         )}
 
-        
+
 
         {/* Phone Number - Shown for special routes (take-my-class, take-my-exam): always show number on mobile */}
         {isSpecialRoute && (
@@ -378,88 +388,86 @@ export default function Header() {
       {/* Mobile Navigation - full-width dropdown under header with smooth transition and outside click close */}
       {!isSpecialRoute && (
         <div
-          className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${
-            mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          }`}
+          className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            }`}
           onClick={() => {
             setMobileOpen(false);
             setMobileActiveIndex(null);
           }}
         >
-        <div
-          className={`absolute inset-x-0 top-[60px] mx-auto max-w-7xl bg-white border-t shadow-lg rounded-b-2xl max-h-[70vh] overflow-auto transform transition-transform duration-300 ease-in-out ${
-            mobileOpen ? "translate-y-0" : "-translate-y-4"
-          }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <ul className="flex flex-col divide-y">
-            {navItems.map((item, index) => (
-              <li key={index} className="p-3">
-                {item.submenu ? (
-                  <details
-                    className="group"
-                    open={mobileActiveIndex === index}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setMobileActiveIndex(
-                        mobileActiveIndex === index ? null : index
-                      );
-                    }}
-                  >
-                    <summary className="flex justify-between items-center cursor-pointer font-medium text-[#1e1e1e]">
+          <div
+            className={`absolute inset-x-0 top-[64px] mx-auto max-w-7xl bg-white border-t shadow-lg rounded-b-2xl max-h-[70vh] overflow-auto transform transition-transform duration-300 ease-in-out ${mobileOpen ? "translate-y-[0px]" : "-translate-y-[400px]"
+              }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ul className="flex flex-col divide-y">
+              {navItems.map((item, index) => (
+                <li key={index} className="p-3">
+                  {item.submenu ? (
+                    <details
+                      className="group"
+                      open={mobileActiveIndex === index}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setMobileActiveIndex(
+                          mobileActiveIndex === index ? null : index
+                        );
+                      }}
+                    >
+                      <summary className="flex justify-between items-center cursor-pointer font-medium text-[#1e1e1e]">
+                        {item.title}
+                        <ChevronDown
+                          size={18}
+                          className="transition-transform duration-300 ease-in-out group-open:rotate-180"
+                        />
+                      </summary>
+                      <div className="mt-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-open:max-h-fit">
+                        <ul className="pl-3 border-l border-gray-200 space-y-1">
+                          {item.submenu.map((sub, idx) => (
+                            <li key={idx}>
+                              <div className="mb-2">
+                                <span className="font-medium text-gray-800">
+                                  {sub.title}
+                                </span>
+                                <ul className="ml-2 mt-1 space-y-1">
+                                  {sub.links.map((link, linkIdx) => (
+                                    <li key={linkIdx}>
+                                      <Link
+                                        href={link.href}
+                                        className="block text-gray-600 hover:text-blue-600 py-1"
+                                        onClick={() => {
+                                          setMobileOpen(false);
+                                          setMobileActiveIndex(null);
+                                        }}
+                                      >
+                                        {link.name}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                  ) : (
+                    <Link
+                      href={item.href || "#"}
+                      className="block text-gray-700 hover:text-blue-600"
+                      onClick={() => {
+                        setMobileOpen(false);
+                        setMobileActiveIndex(null);
+                      }}
+                    >
                       {item.title}
-                      <ChevronDown
-                        size={18}
-                        className="transition-transform duration-300 ease-in-out group-open:rotate-180"
-                      />
-                    </summary>
-                    <div className="mt-2 overflow-hidden transition-all duration-300 ease-in-out max-h-0 group-open:max-h-fit">
-                      <ul className="pl-3 border-l border-gray-200 space-y-1">
-                        {item.submenu.map((sub, idx) => (
-                          <li key={idx}>
-                            <div className="mb-2">
-                              <span className="font-medium text-gray-800">
-                                {sub.title}
-                              </span>
-                              <ul className="ml-2 mt-1 space-y-1">
-                                {sub.links.map((link, linkIdx) => (
-                                  <li key={linkIdx}>
-                                    <Link
-                                      href={link.href}
-                                      className="block text-gray-600 hover:text-blue-600 py-1"
-                                      onClick={() => {
-                                        setMobileOpen(false);
-                                        setMobileActiveIndex(null);
-                                      }}
-                                    >
-                                      {link.name}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </details>
-                ) : (
-                  <Link
-                    href={item.href || "#"}
-                    className="block text-gray-700 hover:text-blue-600"
-                    onClick={() => {
-                      setMobileOpen(false);
-                      setMobileActiveIndex(null);
-                    }}
-                  >
-                    {item.title}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
       )}
 
     </header>

@@ -21,20 +21,20 @@ async function fetchTakeMyClassData() {
       connectTimeoutMS: 10000,
       maxPoolSize: 1,
     });
-    
+
     await client.connect();
     const db = client.db('scholarly_help');
-    
-    const query = { 
+
+    const query = {
       id: "take-my-class"
     };
-    
+
     console.log('Querying pages collection for take-my-class, query:', JSON.stringify(query));
     const content = await db.collection('pages').findOne(query, {
       readPreference: 'primary',
     });
     console.log('Found content:', content ? 'Yes' : 'No');
-    
+
     await client.close();
     return content as any;
   } catch (error) {
@@ -43,21 +43,25 @@ async function fetchTakeMyClassData() {
   }
 }
 
+import DelayedBelowFold from "@/app/components/LandingPage/DelayedBelowFold";
+
 const Page = async () => {
   const pageData = await fetchTakeMyClassData();
-  
+
   return (
     <TakeMyClassDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <BelowFoldLanding />
+        <DelayedBelowFold>
+          <BelowFoldLanding />
+        </DelayedBelowFold>
       </MainLayout>
     </TakeMyClassDataProvider>
   );
 };
 export default Page;
 
-export async function generateMetadata({}): Promise<Metadata> {
+export async function generateMetadata({ }): Promise<Metadata> {
   const pageData = await fetchTakeMyClassData();
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";

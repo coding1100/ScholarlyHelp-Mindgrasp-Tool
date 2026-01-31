@@ -36,18 +36,18 @@ async function fetchTakeMyClass2Data() {
       // Force a new connection to avoid caching
       maxPoolSize: 1,
     });
-    
+
     await client.connect();
     const db = client.db('scholarly_help');
-    
+
     // Query for take-my-class-2 page using id or pageType
-    const query = { 
+    const query = {
       $or: [
         { id: "take-my-class-2" },
         { pageType: "take-my-class-2" }
       ]
     };
-    
+
     console.log('Querying pages collection with query:', JSON.stringify(query));
     // Use findOne with no caching
     const content = await db.collection('pages').findOne(query, {
@@ -55,19 +55,19 @@ async function fetchTakeMyClass2Data() {
       readPreference: 'primary',
     });
     console.log('Found content:', content ? 'Yes' : 'No');
-    
+
     // Debug: Log the heroSection data to verify it's being fetched correctly
     if (content) {
       console.log('Fetched take-my-class-2 data - heroSection:', JSON.stringify(content.heroSection));
       console.log('Fetched take-my-class-2 data - heroSection.mainHeading:', content.heroSection?.mainHeading);
     }
-    
+
     // If no content found, try to see what's in the collection
     if (!content) {
       const allDocs = await db.collection('pages').find({}).limit(5).toArray();
       console.log('Sample documents in pages:', allDocs.map(d => ({ id: d.id, pageType: d.pageType, slug: d.slug })));
     }
-    
+
     await client.close();
 
     return content as any;
@@ -77,25 +77,29 @@ async function fetchTakeMyClass2Data() {
   }
 }
 
+import DelayedBelowFold from "@/app/components/LandingPage/DelayedBelowFold";
+
 const TakeMyClass2 = async () => {
   const pageData = await fetchTakeMyClass2Data();
-  
+
   return (
     <HomeDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Ratings />
-        <CardCarousel />
-        <Description />
-        <GuaranteedBlock />
-        <WhySlider />
-        <CustomerReviews />
-        <ProcessSection />
-        <Success />
-        {/* <Subjects /> */}
-        <AcademicPartners />
-        <GetQouteDynamic />
-        <Faq />
+        <DelayedBelowFold>
+          <Ratings />
+          <CardCarousel />
+          <Description />
+          <GuaranteedBlock />
+          <WhySlider />
+          <CustomerReviews />
+          <ProcessSection />
+          <Success />
+          {/* <Subjects /> */}
+          <AcademicPartners />
+          <GetQouteDynamic />
+          <Faq />
+        </DelayedBelowFold>
       </MainLayout>
     </HomeDataProvider>
   );
@@ -103,7 +107,9 @@ const TakeMyClass2 = async () => {
 
 export default TakeMyClass2;
 
-export async function generateMetadata() {
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (databaseUrl) {
@@ -112,26 +118,26 @@ export async function generateMetadata() {
         serverSelectionTimeoutMS: 5000,
         connectTimeoutMS: 10000,
       });
-      
+
       await client.connect();
       const db = client.db('scholarly_help');
-      
-      const query = { 
+
+      const query = {
         $or: [
           { id: "take-my-class-2" },
           { pageType: "take-my-class-2" }
         ]
       };
-      
+
       const pageData: any = await db.collection('pages').findOne(query);
       await client.close();
-      
+
       if (pageData) {
         const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
         const metaTitle = pageData.meta?.title || "Take My Class 2 - Academic Writing Services For You";
         const metaDescription = pageData.meta?.description || "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!";
         const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/take-my-class-2`;
-        
+
         return {
           title: metaTitle,
           description: metaDescription,
@@ -144,7 +150,7 @@ export async function generateMetadata() {
   } catch (error) {
     console.error('Error fetching metadata:', error);
   }
-  
+
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}take-my-class-2`;
   return {
