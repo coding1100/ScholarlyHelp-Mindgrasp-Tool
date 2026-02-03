@@ -72,7 +72,7 @@ const WhatsApp = () => {
         </button>
         <button
           id="whatsapp-chat-2"
-          className="fixed flex justify-between z-[98] left-0 bg-transparent border-none md:hidden flex"
+          className="fixed flex justify-between z-[98] left-0 bg-transparent border-none md:hidden flex z-[99999]"
           onClick={apiCall}
         >
           <a
@@ -85,7 +85,7 @@ const WhatsApp = () => {
             <Image
               src={whatsappIcon2}
               alt="whatsapp"
-              className="w-[45px]"
+              className="w-[45px] max-[768px]:w-[37px]"
             />
           </a>
         </button>

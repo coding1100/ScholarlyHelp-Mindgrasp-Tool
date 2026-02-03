@@ -14,7 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC, useEffect, useState, useRef } from "react";
 import CopyRight from "./CopyRight";
-import LogoNormal from "@/app/assets/Images/logo.png";
+import LogoNormal from "@/app/assets/Images/logo.svg";
 import cellPhone from "@/app/assets/Images/cellphone.png";
 import { usePathname } from "next/navigation";
 import {
@@ -98,7 +98,7 @@ const Footer: FC<FooterProps> = ({ }) => {
     return;
   } else if (hidelinksfooter) {
     return (
-      <div ref={footerRef} className={`${!isFooterInView ? "z-[999]" : ""}`}>
+      <div ref={footerRef}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className=" w-full max-w-7xl mx-auto md:flex justify-between gap-6 max-[768px]:px-10 text-primary-600">
             <div className="md:max-w-[372px]">
@@ -108,8 +108,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                   src={LogoNormal}
                   alt="Scholarly Help"
                   className="max-w-[142px] min-w-[142px]"
-                  width={142}
-
+                  width={138}
+                  height={36}
                   priority
                 />
               </Link>
@@ -272,7 +272,7 @@ const Footer: FC<FooterProps> = ({ }) => {
     );
   } else {
     return (
-      <div ref={footerRef} className={`relative ${!isFooterInView ? "z-[999]" : ""}`}>
+      <div ref={footerRef}>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="w-full max-w-7xl mx-auto md:flex justify-between gap-6 max-[768px]:px-10 text-primary-600">
             <div className="md:max-w-[372px]">
@@ -282,8 +282,8 @@ const Footer: FC<FooterProps> = ({ }) => {
                   src={LogoNormal}
                   alt="Scholarly Help"
                   className=" max-w-[142px] min-w-[142px]"
-                  width={142}
-
+                  width={138}
+                  height={36}
                   priority
                 />
               </Link>
