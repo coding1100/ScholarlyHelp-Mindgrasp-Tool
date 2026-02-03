@@ -6,7 +6,7 @@ import { usePageData } from "./usePageData";
 const HowWeHelp: React.FC = () => {
   const data = usePageData();
   const description = data?.description;
-  
+
   const scrollToQuote = () => {
     const quoteForm = document.getElementById('quote-form');
     if (quoteForm) {
@@ -51,11 +51,11 @@ const HowWeHelp: React.FC = () => {
         "Plagiarism is never an option. ScholarlyHelp provides papers written from scratch, with thorough checks using trusted plagiarism detection tools.",
     },
   ];
-  
-  const services = description?.services && description.services.length > 0 
-    ? description.services 
+
+  const services = description?.services && description.services.length > 0
+    ? description.services
     : defaultServices;
-  
+
   const badges = description?.badges && description.badges.length > 0
     ? description.badges
     : ["Online Class Help", "Assignment Help", "Online Exam Help", "Essay Writing Services"];
@@ -65,13 +65,13 @@ const HowWeHelp: React.FC = () => {
       <div className="max-w-7xl mx-auto  max-[1320px]:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-[42px] text-[#000] font-bold  mb-4">
+          <h2 className="text-[42px] max-[768px]:text-[28px] text-[#000] font-bold  mb-4">
             {description?.mainHeading || "How We Help You Succeed"}
           </h2>
-          <p 
+          <p
             className="text-sm sm:text-base md:text-lg text-gray-600 w-full html font-normal text-[17px] leading[1.4] tracking-normal text-center"
-            dangerouslySetInnerHTML={{ 
-              __html: description?.description || 
+            dangerouslySetInnerHTML={{
+              __html: description?.description ||
                 "Your go-to source for top-notch academic writing services. Get excellence in every assignment. From essays and research papers to online classes and exam assistance, we offer a range of comprehensive services to meet your academic needs. Get A+ grades!<br />Are you finding it difficult to complete your assignment questions correctly and on time? Worry not, Scholarly Help offers 24/7 homework aid with reliable client support at your service."
             }}
           />
@@ -96,7 +96,7 @@ const HowWeHelp: React.FC = () => {
           {badges.map((badge: string, idx: number) => (
             <div
               key={idx}
-              className="flex items-center gap-2  px-4 sm:py-2 rounded-full text-sm font-medium "
+              className="flex items-center gap-2 max-[768px]:px-0 px-4 sm:py-2 rounded-full text-sm font-medium "
             >
               <svg
                 className="sm:w-8 w-6 sm:h-8 h-6 text-[#9F92EC]"
@@ -119,7 +119,7 @@ const HowWeHelp: React.FC = () => {
           <button
             type="button"
             onClick={scrollToQuote}
-            className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
+            className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
           >
             {description?.ctaButton?.text || "Take my online class"}
           </button>

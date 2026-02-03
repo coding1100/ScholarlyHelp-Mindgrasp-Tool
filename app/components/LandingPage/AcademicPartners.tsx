@@ -100,7 +100,7 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content: propsContent }) 
       <div className="max-w-7xl mx-auto flex max-[1450px]:flex-col max-[1320px]:px-8">
         {/* Hero Section */}
         <div className="text-left mb-12 w-[40%] max-[1450px]:w-[100%]">
-          <h3 className="sm:text-4xl text-[32px] md:text-5xl sm:font-bold font-semibold text-gray-900 mb-4">
+          <h3 className="sm:text-4xl max-[768px]:text-[28px] md:text-5xl sm:font-bold font-semibold text-gray-900 mb-4">
             {content?.mainHeading || "Your Academic Partners for Success"}
           </h3>
           <p className="sm:text-lg text-sm text-gray-600 max-w-3xl mb-8">
@@ -111,7 +111,7 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content: propsContent }) 
             <button
               type="button"
               onClick={scrollToQuote}
-              className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
+              className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
             >
               {content?.ctaButton?.text || "Take my online class"}
             </button>

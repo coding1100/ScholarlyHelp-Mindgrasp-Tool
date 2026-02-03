@@ -62,7 +62,7 @@ const reviews = [
       "I don't even know where to start. I don't even know the words to use for this people because they are the best and amazing .They came to my rescue for my classes...",
     image: "/images/fivestar.svg",
   },
-  
+
   {
     title: "Excellent service/communication",
     description:
@@ -675,7 +675,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     <div className="bg-white text-[#171717] w-full">
       <div className="max-w-7xl mx-auto pt-2 pb-3  max-[1320px]:px-8">
         {/* Header */}
-        <h2 className="font-bold text-[#000] text-center [992px]:text-[42px] text-[30px]  mb-3">
+        <h2 className="font-bold text-[#000] text-center [992px]:text-[42px] text-[30px] max-[768px]:text-[28px] mb-3">
           How Students Rate Us!
         </h2>
         {/* <p className="md:text-5xl text-2xl text-[#00B67A] text-center mt-2">
@@ -709,13 +709,13 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
                   {group.map((review: ReviewType, index: number) => (
                     <div key={index}>
                       <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
-                        
+
                         {review.image && (
                           <div className="my-2 flex space-x-2">
-                            <Image 
-                              src={review.image} 
-                              alt="Rating" 
-                              width={150} 
+                            <Image
+                              src={review.image}
+                              alt="Rating"
+                              width={150}
                               height={40}
                               fetchPriority="high"
                               className="object-contain w-[150px] h-[40px]"
@@ -745,10 +745,10 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
                   <Image src={Verifiend} alt="Review" />
                   {review.image && (
                     <div className="my-2">
-                      <Image 
-                        src={review.image} 
-                        alt="Rating" 
-                        width={100} 
+                      <Image
+                        src={review.image}
+                        alt="Rating"
+                        width={100}
                         height={20}
                         className="object-contain"
                       />

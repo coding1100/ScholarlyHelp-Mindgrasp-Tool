@@ -44,6 +44,15 @@ interface HeroLeadProps {
 const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
   const pathname = usePathname();
 
+  // Function to automatically style the guarantee text and domestic logins text
+  const styleParentheticalText = (text: string): string => {
+    // Replace "(Guaranteed A or B)" with styled span
+    let styledText = text.replace(/\(Guaranteed A or B\)/gi, '<span class="text-[#ff641a]">$&</span>');
+    // Replace "with 100% Domestic Logins to protect your identity." with styled span
+    styledText = styledText.replace(/with 100% Domestic Logins to protect your identity\./gi, '<span class="font-semibold">$&</span>');
+    return styledText;
+  };
+
   // Routes where badges section should be hidden
   const hiddenRoutes = [
     '/a-or-b-grade-guarantee',
@@ -77,7 +86,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
         className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black"
       >
         {heroContent?.mainHeading ? (
-          <div dangerouslySetInnerHTML={{ __html: heroContent.mainHeading }} />
+          <div dangerouslySetInnerHTML={{ __html: styleParentheticalText(heroContent.mainHeading) }} />
         ) : (
           <>
             Stop Sacrificing
@@ -139,7 +148,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
       {heroContent?.description && shouldHideBadges && (
         <div
           className="text-[#263238] text-[16px] mt-3 "
-          dangerouslySetInnerHTML={{ __html: heroContent.description }}
+          dangerouslySetInnerHTML={{ __html: styleParentheticalText(heroContent.description) }}
         />
       )}
 

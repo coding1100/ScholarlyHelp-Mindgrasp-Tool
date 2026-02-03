@@ -203,7 +203,7 @@ export default function GetQuote() {
           </div>
         </div>
         <div className="w-[30%] p-4 bg-gray-100 max-[1080px]:w-[100%] max-[1080px]:mb-20">
-          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+          <h3 className="text-3xl max-[768px]:text-[28px] md:text-4xl font-bold text-gray-900 leading-tight">
             {getQuote?.mainHeading ||
               "Stop Sacrificing Your Time, We'll Handle Your Classes"}
           </h3>
