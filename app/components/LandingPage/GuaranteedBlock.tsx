@@ -22,7 +22,7 @@ interface GuaranteeItem {
 export default function GuaranteeSection() {
   const data = usePageData();
   const guaranteedBlock = data?.guaranteedBlock;
-  
+
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
@@ -33,9 +33,9 @@ export default function GuaranteeSection() {
   // Use MongoDB data if available
   const mongoGuarantees: GuaranteeItem[] = guaranteedBlock?.guarantees && Array.isArray(guaranteedBlock.guarantees)
     ? guaranteedBlock.guarantees.map((g: any) => ({
-        title: <span dangerouslySetInnerHTML={{ __html: g.title || '' }} />,
-        icon: <Image src={g.icon || IconZeroDetection} alt={g.title || ''} className="w-25 h-25" />
-      }))
+      title: <span dangerouslySetInnerHTML={{ __html: g.title || '' }} />,
+      icon: <Image src={g.icon || IconZeroDetection} alt={g.title || ''} className="w-25 h-25" />
+    }))
     : [];
 
   const defaultGuarantees: GuaranteeItem[] = [
@@ -124,7 +124,7 @@ export default function GuaranteeSection() {
       ),
     },
   ];
-  
+
   const guarantees = mongoGuarantees.length > 0 ? mongoGuarantees : defaultGuarantees;
 
   return (
@@ -132,7 +132,7 @@ export default function GuaranteeSection() {
       <div className="mx-auto w-full max-w-7xl pt-3 pb-10 flex relative justify-between max-[1080px]:flex-col">
         {/* Header */}
         <div className="text-left mb-12 mt-10 w-[28%] max-[1080px]:w-[100%]">
-          <h2 className="text-[42px] text-[#000] font-bold  leading-[120%] tracking-[0] mb-[30px]">
+          <h2 className="text-[42px] max-[768px]:text-[28px] text-[#000] font-bold  leading-[120%] tracking-[0] mb-[30px]">
             {guaranteedBlock?.mainHeading || "We've Got You Covered — Guaranteed!"}
           </h2>
           <p className="font-poppins font-normal sm:text-[17px] text-sm leading-[1.5] tracking-[0] mb-[30px]">
@@ -140,7 +140,7 @@ export default function GuaranteeSection() {
           </p>
           <button
             onClick={scrollToQuote}
-            className="sm:mx-0 mx-auto rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
+            className="sm:mx-0 mx-auto rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
           >
             {guaranteedBlock?.ctaButton?.text || "Take my online class"}
           </button>

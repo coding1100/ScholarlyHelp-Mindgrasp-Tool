@@ -41,25 +41,33 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
           <Image
             src={Bg1}
             alt=""
-            className="absolute -left-[80px] top-[130px] opacity-50"
+            width={80}
+            height={80}
+            className="absolute -left-[60px] top-[130px] opacity-50"
             loading="lazy"
           />
           <Image
             src={Bg3}
             alt=""
-            className="absolute -left-[80px] -top-10 opacity-50"
+            width={80}
+            height={80}
+            className="absolute -left-[60px] -top-10 opacity-50"
             loading="lazy"
           />
           <Image
             src={Bg2}
             alt=""
-            className="absolute -left-[80px] top-[300px] opacity-50"
+            width={80}
+            height={80}
+            className="absolute -left-[60px] top-[300px] opacity-50"
             loading="lazy"
           />
           <Image
             src={Bg4}
+            width={80}
+            height={80}
             alt=""
-            className="absolute left-28 -top-20 opacity-50"
+            className="absolute left-28 -top-16 opacity-50"
             loading="lazy"
           />
         </div>

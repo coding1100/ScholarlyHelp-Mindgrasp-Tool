@@ -64,7 +64,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
     <section className="pt-9 pb-20 px-5 overflow-hidden text-[#171717]">
       <div className="max-w-6xl max-[992px]:max-w-4xl mx-auto">
         <div className="py-10 ">
-          <h2 className="text-[42px] mb-[20px] text-[#000] font-bold text-center">
+          <h2 className="text-[42px] max-[768px]:text-[28px] mb-[20px] text-[#000] font-bold text-center">
             {success?.mainHeading || "What Success Looks Like"}
           </h2>
           <p className="sm:text-[18px] text-sm text-center">
@@ -121,9 +121,8 @@ const Success: FC<SuccessProps> = ({ content }) => {
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  i === active ? "bg-gray-700 scale-110" : "bg-gray-400"
-                }`}
+                className={`w-3 h-3 rounded-full transition-all ${i === active ? "bg-gray-700 scale-110" : "bg-gray-400"
+                  }`}
               />
             ))}
           </div>
@@ -133,7 +132,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
         <button
           type="button"
           onClick={scrollToQuote}
-          className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] "
+          className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] "
         >
           {success?.ctaButton?.text || "Take my online class"}
         </button>
