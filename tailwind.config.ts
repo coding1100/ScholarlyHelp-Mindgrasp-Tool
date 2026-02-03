@@ -192,7 +192,7 @@ const config: Config = {
     backgroundSize: false,
     borderCollapse: false,
     borderStyle: false,
-    outlineStyle: false,
+    outlineStyle: true,
     outlineWidth: false,
     outlineOffset: false,
     outlineColor: false,
