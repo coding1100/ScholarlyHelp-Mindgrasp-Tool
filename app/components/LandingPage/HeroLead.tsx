@@ -74,7 +74,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
   return (
     <div className="max-w-2xl">
       <h1
-        className="font-semibold text-[32px] md:text-[50px] leading-[1.1] text-black"
+        className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black"
       >
         {heroContent?.mainHeading ? (
           <div dangerouslySetInnerHTML={{ __html: heroContent.mainHeading }} />
@@ -163,22 +163,26 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
             </button>
           )}
 
-          {heroContent?.btn2Url ? (
-            <Link
-              href={heroContent.btn2Url}
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
-              style={{ backgroundColor: SECONDARY_BG }}
-            >
-              {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-            </Link>
-          ) : (
-            <button
-              type="button"
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
-              style={{ backgroundColor: SECONDARY_BG }}
-            >
-              {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-            </button>
+          {(!pathname?.includes('/take-my-class')) && (
+            <>
+              {heroContent?.btn2Url ? (
+                <Link
+                  href={heroContent.btn2Url}
+                  className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
+                  style={{ backgroundColor: SECONDARY_BG }}
+                >
+                  {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
+                  style={{ backgroundColor: SECONDARY_BG }}
+                >
+                  {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+                </button>
+              )}
+            </>
           )}
         </div>
       )}

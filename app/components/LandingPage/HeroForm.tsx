@@ -281,7 +281,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           />
         ) : (
           <Image
-            src="/images/Hero-Group-195.webp"
+            src={FormBackImg}
             alt="Academic success illustration"
             width={526}
             height={551}
@@ -506,11 +506,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
         />
       ) : (
         <Image
-          src="/images/Hero-Group-195.webp"
+          src={FormBackImg}
           alt="Academic success illustration"
-          width={526}
-          height={551}
-          className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+          width={400}
+          className="cus-img absolute max-w-[400px] min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
           priority
           fetchPriority="high"
         />
@@ -566,7 +565,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               value={formData.Description}
               onChange={handleChange}
               required
-              className="flex-1 bg-transparent text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] min-[768px]:min-h-[100px] max-[768px]:h-[50px]"
+              className="flex-1 bg-transparent text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] outline-none min-[768px]:min-h-[130px] max-[768px]:h-[50px]"
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
             <IoChatbubbles className="text-[#9ea9bf] text-xl mt-1 flex-shrink-0" />

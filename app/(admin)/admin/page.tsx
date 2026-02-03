@@ -109,24 +109,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="mt-8">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-              Add New Content
-            </button>
-            <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-              Export Data
-            </button>
-            <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-              Backup Database
-            </button>
-            <button className="bg-[#da0e0e] hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-              Clear Cache
-            </button>
-          </div>
-        </div>
 
         {/* Recent Activity */}
         <div className="mt-8">

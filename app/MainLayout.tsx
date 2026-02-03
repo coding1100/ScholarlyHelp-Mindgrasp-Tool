@@ -9,7 +9,10 @@ const AuthProvider = dynamic(() => import("./context/auth/AuthProvider"), {
     ssr: false,
 });
 
-import AppNav from "./components/LandingPage/Header";
+const AppNav = dynamic(() => import("./components/LandingPage/Header"), {
+    ssr: false,
+});
+
 import Footer from "./components/Footer/Footer";
 
 const ExitPopUp = dynamic(() => import("./components/PopUpModal/ExitPopup"), {
@@ -88,7 +91,16 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         window.addEventListener('touchstart', handleInteraction, { passive: true });
         window.addEventListener('keydown', handleInteraction, { passive: true });
 
-        return removeEventListeners;
+        // Fallback: Show header after 2.5 seconds if no interaction occurs
+        const timer = setTimeout(() => {
+            setHeaderVisible(true);
+            removeEventListeners();
+        }, 2500);
+
+        return () => {
+            removeEventListeners();
+            clearTimeout(timer);
+        };
     }, [shouldDeferHeader, headerVisible]);
 
     return (

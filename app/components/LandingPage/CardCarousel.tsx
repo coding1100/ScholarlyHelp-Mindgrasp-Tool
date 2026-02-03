@@ -75,7 +75,7 @@ export default function CardCarousel() {
   const carouselRootRef = useRef<HTMLDivElement | null>(null);
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [centerIndex, setCenterIndex] = useState(0);
-  
+
   type CardType = {
     id: number | string;
     image: any;
@@ -178,24 +178,21 @@ export default function CardCarousel() {
                     <Image
                       src={card.image}
                       alt={card.title}
-                      width={536}
-                      height={553}
-                      sizes="(max-width: 768px) 373px, 385px"
-                      className="object-cover w-[300px] h-[330px] rounded-lg mx-auto relative top-[-80px] max-[768px]:w-[373px] max-[768px]:h-[385px]"
+                      width={290}
+                      height={310}
+                      className="object-cover w-[290px] h-[310px] rounded-lg mx-auto relative top-[-80px] max-[768px]:w-[290px] max-[768px]:h-[310px]"
                     />
                   </div>
                   <div className="flex flex-col h-full justify-center relative top-[-35px]">
                     <h3
-                      className={`font-semibold text-[19px] leading-[1.5] ${
-                        isCenter ? "text-white" : "text-gray-900"
-                      }`}
+                      className={`font-semibold text-[19px] leading-[1.5] ${isCenter ? "text-white" : "text-gray-900"
+                        }`}
                     >
                       {card.title}
                     </h3>
                     <p
-                      className={`text-[16px] leading-[1.5] mt-2 ${
-                        isCenter ? "text-white" : "text-gray-600"
-                      }`}
+                      className={`text-[16px] leading-[1.5] mt-2 ${isCenter ? "text-white" : "text-gray-600"
+                        }`}
                     >
                       {card.description}
                     </p>
