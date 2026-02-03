@@ -72,11 +72,11 @@ const faqContent = [
 
 interface FaqProps {
   content?:
-    | {
-        id: number;
-        question: string;
-        answer: string;
-      }[];
+  | {
+    id: number;
+    question: string;
+    answer: string;
+  }[];
 }
 const Faq: FC<FaqProps> = ({ content }) => {
   const data = usePageData();
@@ -136,7 +136,7 @@ const Faq: FC<FaqProps> = ({ content }) => {
   return (
     <section className="sm:pt-[83px] sm:pb-14 pt-8 max-[1320px]:px-8 pb-8 bg-white text-[#171717]">
       <div className="max-w-7xl mx-auto max-[1320px]:px-8">
-        <h2 className="text-[42px] text-[#000]font-bold font-bold text-[#000] text-center mb-10">
+        <h2 className="text-[42px] max-[768px]:text-[28px] text-[#000] font-bold font-bold text-[#000] text-center mb-10">
           {faq?.mainHeading || "Frequently Asked Questions"}
         </h2>
 
@@ -145,11 +145,10 @@ const Faq: FC<FaqProps> = ({ content }) => {
           {displayedFaqs.map((item: FaqItemType, i: number) => (
             <div
               key={item.id}
-              className={`transition-all duration-500 rounded-md border p-5 max-[992px]:p-2 ${
-                activeIndex === i
+              className={`transition-all duration-500 rounded-md border p-5 max-[992px]:p-2 ${activeIndex === i
                   ? "bg-primary-200 border-primary-200"
                   : "border-primary-500 hover:border-primary-400"
-              } ${activeIndex === i ? "" : "max-h-[90px] overflow-hidden"}`}
+                } ${activeIndex === i ? "" : "max-h-[90px] overflow-hidden"}`}
             >
               <div
                 onClick={() => toggleAccordion(i)}
@@ -159,9 +158,8 @@ const Faq: FC<FaqProps> = ({ content }) => {
                   {item.question}
                 </h3>
                 <div
-                  className={`w-8 h-8 flex-shrink-0 transition-transform duration-500 ${
-                    activeIndex === i ? "rotate-180" : ""
-                  }`}
+                  className={`w-8 h-8 flex-shrink-0 transition-transform duration-500 ${activeIndex === i ? "rotate-180" : ""
+                    }`}
                 >
                   <Image
                     src={DownArrow}
@@ -174,9 +172,8 @@ const Faq: FC<FaqProps> = ({ content }) => {
               </div>
 
               <div
-                className={`mt-4 text-sm sm:text-base whitespace-pre-line transition-all duration-500 ${
-                  activeIndex === i ? "block" : "hidden"
-                }`}
+                className={`mt-4 text-sm sm:text-base whitespace-pre-line transition-all duration-500 ${activeIndex === i ? "block" : "hidden"
+                  }`}
                 dangerouslySetInnerHTML={{ __html: item.answer }}
               />
             </div>
@@ -188,11 +185,10 @@ const Faq: FC<FaqProps> = ({ content }) => {
           {faqItems.map((item: FaqItemType, i: number) => (
             <div
               key={item.id}
-              className={`transition-all duration-500 rounded-md border p-5 max-[992px]:p-2 ${
-                activeIndex === i
+              className={`transition-all duration-500 rounded-md border p-5 max-[992px]:p-2 ${activeIndex === i
                   ? "bg-primary-200 border-primary-200"
                   : "border-primary-500 hover:border-primary-400"
-              } ${activeIndex === i ? "" : "h-[90px] overflow-hidden"}`}
+                } ${activeIndex === i ? "" : "h-[90px] overflow-hidden"}`}
             >
               <div
                 onClick={() => toggleAccordion(i)}
@@ -200,9 +196,8 @@ const Faq: FC<FaqProps> = ({ content }) => {
               >
                 <h3 className="text-lg font-semibold pr-4">{item.question}</h3>
                 <div
-                  className={`w-8 h-8 flex-shrink-0 transition-transform duration-500 ${
-                    activeIndex === i ? "rotate-180" : ""
-                  }`}
+                  className={`w-8 h-8 flex-shrink-0 transition-transform duration-500 ${activeIndex === i ? "rotate-180" : ""
+                    }`}
                 >
                   <Image
                     src={DownArrow}
@@ -215,9 +210,8 @@ const Faq: FC<FaqProps> = ({ content }) => {
               </div>
 
               <div
-                className={`mt-4 text-base transition-all duration-500 ${
-                  activeIndex === i ? "block" : "hidden"
-                }`}
+                className={`mt-4 text-base transition-all duration-500 ${activeIndex === i ? "block" : "hidden"
+                  }`}
                 dangerouslySetInnerHTML={{ __html: item.answer }}
               />
             </div>

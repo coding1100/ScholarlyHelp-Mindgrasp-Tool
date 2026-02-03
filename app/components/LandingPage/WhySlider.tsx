@@ -36,7 +36,7 @@ function SliderRow({
     if (!container) return;
 
     let timeoutId: ReturnType<typeof setTimeout>;
-    
+
     const scroll = () => {
       const maxLoopPoint = container.scrollWidth / 2;
       if (direction === "left") {
@@ -60,7 +60,7 @@ function SliderRow({
 
     // Start scrolling after initial delay
     timeoutId = setTimeout(scroll, intervalMs);
-    
+
     return () => {
       clearTimeout(timeoutId);
     };
@@ -205,7 +205,7 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
         <div className="flex justify-center mt-[60px]">
           <button
             type="button"
-            className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
+            className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
             onClick={() => {
               const form = document.getElementById("quote-form");
               if (form) {
