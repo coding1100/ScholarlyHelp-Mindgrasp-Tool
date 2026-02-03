@@ -154,7 +154,7 @@ export default function CardCarousel() {
       <div ref={carouselRootRef} className={styles.carouselRoot}>
         {/* Header */}
         <div className="text-center mb-12 mx-auto max-w-[740px]">
-          <h2 className="text-[42px] text-[#000] font-bold   mb-3">
+          <h2 className="text-[42px] max-[768px]:text-[28px] text-[#000] font-bold   mb-3">
             {cardCarousel?.mainHeading || "The Academic Pressure You're Facing Every Day"}
           </h2>
           <p className="sm:text-lg text-sm text-gray-600 max-w-3xl mx-auto">
@@ -178,8 +178,8 @@ export default function CardCarousel() {
                     <Image
                       src={card.image}
                       alt={card.title}
-                      width={290}
-                      height={310}
+                      width={536}
+                      height={553}
                       className="object-cover w-[290px] h-[310px] rounded-lg mx-auto relative top-[-80px] max-[768px]:w-[290px] max-[768px]:h-[310px]"
                     />
                   </div>
