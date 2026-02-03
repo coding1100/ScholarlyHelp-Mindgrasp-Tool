@@ -44,7 +44,7 @@ const CookieBanner = () => {
       buttonText="Accept"
       declineButtonText="Decline"
       cookieName="cookieConsent"
-      style={{ background: "#2B373B", color: "#fff" }}
+      style={{ background: "#2B373B", color: "#fff", justifyContent: "center" }}
       buttonStyle={{ color: "#fff", background: "#ff641a", fontSize: "13px" }}
       declineButtonStyle={{ color: "#fff", background: "#6c757d", fontSize: "13px" }}
       expires={365}

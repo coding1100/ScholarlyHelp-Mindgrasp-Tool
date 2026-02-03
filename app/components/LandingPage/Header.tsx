@@ -6,8 +6,22 @@ import { usePathname } from "next/navigation";
 import megaMenuImage from "@/app/assets/Images/mega-menu-image.webp";
 import Image from "next/image";
 import LogoSmall from "@/app/assets/Images/logoSmall.png";
-import LogoNormal from "@/app/assets/Images/logo.png";
+import LogoNormal from "@/app/assets/Images/logo.svg";
 import Phone from "@/app/assets/Icons/phone.webp";
+
+const Star: React.FC<{ className?: string }> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
 export default function Header() {
   const pathname = usePathname();
@@ -246,9 +260,9 @@ export default function Header() {
           <Image
             src={LogoNormal}
             alt="Scholarly Help"
-            className=" max-w-[142px] min-w-[142px]"
-            width={142}
-            height={40}
+            className=""
+            width={138}
+            height={36}
             priority
             fetchPriority="high"
           />
@@ -264,6 +278,27 @@ export default function Header() {
           </button>
         )}
 
+
+
+
+
+        {/* Rating Stars - Only for /take-my-class/ */}
+        {isTakeMyClass && (
+          <div className="max-[768px]:hidden md:flex flex-col items-center">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="w-6 h-6 text-[#facc15] fill-[#facc15]"
+                />
+              ))}
+              <span className="text-sm font-semibold text-gray-700 ml-2">4.9/5</span>
+              <span className="text-sm ml-4">(1,000+ Satisfied Students)</span>
+            </div>
+
+
+          </div>
+        )}
 
 
         {/* Phone Number - Shown for special routes (take-my-class, take-my-exam): always show number on mobile */}
@@ -384,11 +419,24 @@ export default function Header() {
           </>
         )}
       </div>
-
+      {isTakeMyClass && (
+        <div className=" md:hidden flex-col items-center flex py-2">
+          <div className="flex">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className="w-5 h-5 text-[#facc15] fill-[#facc15]"
+              />
+            ))}
+            <span className="text-sm font-semibold text-gray-700 ml-2">4.9/5</span>
+            <span className="text-sm ml-4">(1,000+ Satisfied Students)</span>
+          </div>
+        </div>
+      )}
       {/* Mobile Navigation - full-width dropdown under header with smooth transition and outside click close */}
       {!isSpecialRoute && (
         <div
-          className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${mobileOpen ? "block pointer-events-auto" : "hidden pointer-events-none"
             }`}
           onClick={() => {
             setMobileOpen(false);
