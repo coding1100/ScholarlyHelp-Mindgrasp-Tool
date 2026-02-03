@@ -195,9 +195,10 @@ export default function TutorFlow() {
   };
 
   const handlePracticeMore = () => {
-    // Go back to Step6 to regenerate quiz
-    setCurrentStep(6);
+    // Go back to Step 5 (difficulty selection) to regenerate quiz
+    setCurrentStep(5);
     setQuizQuestions([]);
+    setQuizResult(null);
   };
 
   const handleChooseAnotherTopic = () => {

@@ -228,12 +228,12 @@ export default function Step7({
                   <p className="text-lg text-black flex-1 leading-relaxed">
                     {currentQuestion.question}
                   </p>
-                  <button
+                  {/* <button
                     className="sm:ml-0 ml-auto px-4 py-2 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black text-sm font-medium hover:bg-white/50 transition-all flex items-center gap-2 whitespace-nowrap"
                     disabled
                   >
                     <span>🔊</span> Listen
-                  </button>
+                  </button> */}
                 </div>
 
                 {/* Answer Type Toggle */}
@@ -246,7 +246,7 @@ export default function Step7({
                       : "bg-white/40 backdrop-blur-md border border-gray-300/50 text-black"
                       } ${!canSwitchAnswerType
                         ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-white/50 cursor-pointer"
+                        : "hover:bg-white hover:text-[#333333] cursor-pointer"
                       }`}
                   >
                     Multiple Choice
@@ -259,7 +259,7 @@ export default function Step7({
                       : "bg-white/40 backdrop-blur-md border border-gray-300/50 text-black"
                       } ${!canSwitchAnswerType
                         ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-white/50 cursor-pointer"
+                        : "hover:bg-white hover:text-[#333333] cursor-pointer"
                       }`}
                   >
                     Type Answer
@@ -306,8 +306,8 @@ export default function Step7({
 
                 {/* Type Answer Input */}
                 {answerType === "type-answer" && (
-                  <div className="mb-6">
-                    <div className="flex gap-4">
+                  <div className="mb-6 w-full">
+                    <div className="flex gap-4 w-full">
                       <input
                         type="text"
                         value={typedAnswer}
