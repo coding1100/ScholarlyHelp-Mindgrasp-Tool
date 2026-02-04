@@ -63,28 +63,28 @@ export default function FloatingChat() {
   if (!isOpen) {
     // Minimized state - circular button
     return (
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-6 right-6 z-50 max-[420px]:right-4 max-[420px]:bottom-4">
         <button
           onClick={() => setIsOpen(true)}
-          className="w-16 h-16 rounded-full bg-purple-400/80 backdrop-blur-md border-2 border-white/40 shadow-lg shadow-purple-500/30 flex items-center justify-center hover:scale-110 transition-all duration-200 cursor-pointer"
+          className="w-16 h-16 rounded-full bg-purple-400/80 backdrop-blur-md border-2 border-white/40 shadow-lg shadow-purple-500/30 flex items-center justify-center hover:scale-110 transition-all duration-200 cursor-pointer max-[420px]:w-14 max-[420px]:h-14"
         >
-          <span className="text-2xl">💬</span>
+          <span className="text-2xl max-[420px]:text-xl">💬</span>
         </button>
       </div>
     );
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] flex flex-col bg-white">
+    <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] max-[420px]:left-3 max-[420px]:right-3 max-[420px]:bottom-3 max-[420px]:w-[calc(100vw-24px)] max-[420px]:max-w-none max-[420px]:h-[85vh] flex flex-col bg-white">
       {/* Main Chat Container */}
-      <div className="h-full backdrop-blur-xl bg-white/30 border border-white/40 rounded-t-3xl rounded-br-3xl shadow-2xl flex flex-col overflow-hidden">
+      <div className="h-full min-w-0 backdrop-blur-xl bg-white/30 border border-white/40 rounded-t-3xl rounded-br-3xl shadow-2xl flex flex-col overflow-hidden">
         {/* Inner glow effect */}
         <div className="absolute inset-0 rounded-t-3xl rounded-br-3xl bg-linear-to-br from-white/20 to-transparent pointer-events-none" />
 
         <div className="relative z-10 flex flex-col h-full">
           {/* Header - Fixed at top */}
-          <div className="flex-shrink-0 flex items-center justify-between p-4 border-b border-white/20 bg-white/20 backdrop-blur-md">
-            <h2 className="text-xl font-bold text-black">Chat with Tutor</h2>
+          <div className="flex-shrink-0 flex items-center justify-between gap-2 p-4 border-b border-white/20 bg-white/20 backdrop-blur-md min-w-0">
+            <h2 className="text-xl font-bold text-black truncate">Chat with Tutor</h2>
             <button
               onClick={() => setIsOpen(false)}
               className="w-8 h-8 rounded-full bg-white/40 backdrop-blur-md border border-gray-300/50 flex items-center justify-center hover:bg-white/50 transition-all cursor-pointer"
@@ -174,8 +174,8 @@ export default function FloatingChat() {
           </div>
 
           {/* Input Area - Fixed at bottom */}
-          <div className="flex-shrink-0 p-4 border-t border-white/20 bg-white/20 backdrop-blur-md">
-            <div className="flex gap-2">
+          <div className="flex-shrink-0 p-4 border-t border-white/20 bg-white/20 backdrop-blur-md min-w-0">
+            <div className="flex gap-2 min-w-0">
               <input
                 type="text"
                 value={inputMessage}
@@ -183,12 +183,12 @@ export default function FloatingChat() {
                 onKeyPress={handleKeyPress}
                 disabled={isLoading}
                 placeholder="Type your message..."
-                className="flex-1 px-4 py-3 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm disabled:opacity-50"
+                className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm disabled:opacity-50"
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputMessage.trim() || isLoading}
-                className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                className="flex-shrink-0 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
               >
                 {isLoading ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

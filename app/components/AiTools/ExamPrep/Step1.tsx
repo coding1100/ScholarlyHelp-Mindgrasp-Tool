@@ -82,6 +82,13 @@ export default function Step1({ onContinue }: Step1Props) {
             return;
         }
 
+        // Validate exam date is not in the past
+        const today = new Date().toISOString().split("T")[0];
+        if (examDate < today) {
+            setError("Exam date cannot be in the past. Please select today or a future date.");
+            return;
+        }
+
         setIsLoading(true);
 
         try {
@@ -178,15 +185,15 @@ export default function Step1({ onContinue }: Step1Props) {
                             </div>
                         </div>
 
-                        {/* Subject/Topic */}
+                        {/* Subject */}
                         <div>
                             <label className="block text-black font-semibold mb-1 text-sm">
-                                Subject/Topic:
+                                Subject:
                             </label>
                             <input
                                 type="text"
                                 value={subject}
-                                onChange={(e) => setSubject(e.target.value)}
+                                onChange={(e) => setSubject(e.target.value.replace(/\s/g, ""))}
                                 placeholder="e.g., Mathematics, Biology, Python Programming"
                                 className="w-full px-4 py-3 rounded-lg bg-gray-100 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
                             />
@@ -201,6 +208,7 @@ export default function Step1({ onContinue }: Step1Props) {
                                 <input
                                     type="date"
                                     value={examDate}
+                                    min={new Date().toISOString().split("T")[0]}
                                     onChange={(e) => setExamDate(e.target.value)}
                                     className="text-sm w-full px-4 py-3 pr-12 rounded-lg bg-gray-100 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:w-5 [&::-webkit-calendar-picker-indicator]:h-5"
                                 />
