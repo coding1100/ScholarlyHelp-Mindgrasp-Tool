@@ -237,11 +237,11 @@ export default function Step7({
                 </div>
 
                 {/* Answer Type Toggle */}
-                <div className="grid grid-cols-2 gap-0 mb-6 w-full">
+                <div className="sm:grid grid-cols-2 gap-0 mb-6 w-full">
                   <button
                     onClick={() => handleAnswerTypeChange("multiple-choice")}
                     disabled={!canSwitchAnswerType}
-                    className={`col-span-1 px-8 py-2 rounded-l-lg font-semibold text-sm transition-all ${answerType === "multiple-choice"
+                    className={`sm:col-span-1 w-full sm:w-auto px-8 py-2 sm:rounded-tr-none sm:rounded-bl-lg sm:rounded-tl-lg sm:rounded-br-none font-semibold text-sm transition-all ${answerType === "multiple-choice"
                       ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
                       : "bg-white/40 backdrop-blur-md border border-gray-300/50 text-black"
                       } ${!canSwitchAnswerType
@@ -254,7 +254,7 @@ export default function Step7({
                   <button
                     onClick={() => handleAnswerTypeChange("type-answer")}
                     disabled={!canSwitchAnswerType}
-                    className={`col-span-1 px-8 py-2 rounded-r-lg font-semibold text-sm transition-all ${answerType === "type-answer"
+                    className={`sm:col-span-1 w-full sm:w-auto px-8 py-2 sm:rounded-tr-lg sm:rounded-bl-none sm:rounded-tl-none sm:rounded-br-lg font-semibold text-sm transition-all ${answerType === "type-answer"
                       ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
                       : "bg-white/40 backdrop-blur-md border border-gray-300/50 text-black"
                       } ${!canSwitchAnswerType
@@ -307,7 +307,7 @@ export default function Step7({
                 {/* Type Answer Input */}
                 {answerType === "type-answer" && (
                   <div className="mb-6 w-full">
-                    <div className="flex gap-4 w-full">
+                    <div className="sm:flex gap-4 w-full">
                       <input
                         type="text"
                         value={typedAnswer}
@@ -323,12 +323,12 @@ export default function Step7({
                         }}
                         disabled={isSubmitted}
                         placeholder="Type your answer here..."
-                        className="flex-1 px-4 py-4 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-base disabled:opacity-50"
+                        className="sm:flex-1 w-full px-4 py-4 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-base disabled:opacity-50"
                       />
                       <button
                         onClick={handleSubmit}
                         disabled={isSubmitted || !typedAnswer.trim()}
-                        className="px-8 py-4 rounded-xl bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer whitespace-nowrap"
+                        className="sm:px-8 w-full sm:w-auto px-4 sm:py-4 py-2 sm:mt-0 mt-2 rounded-xl bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer whitespace-nowrap"
                       >
                         Submit
                       </button>

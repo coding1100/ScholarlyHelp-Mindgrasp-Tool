@@ -111,7 +111,7 @@ export default function Step10({
 
     if (isLoading) {
         return (
-            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex items-center justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
                 <div className="flex flex-col items-center gap-4">
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 bg-[#6C757D] rounded-full animate-bounce"></div>
@@ -132,7 +132,7 @@ export default function Step10({
 
     if (error) {
         return (
-            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex items-center justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
                 <div className="max-w-md w-full bg-[#F0F0F0] rounded-3xl p-8 text-center">
                     <div className="text-red-500 text-4xl mb-4">⚠️</div>
                     <h3 className="text-2xl font-bold text-[#333333] mb-2">
@@ -154,7 +154,7 @@ export default function Step10({
 
     if (questions.length === 0) {
         return (
-            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex items-center justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
                 <div className="max-w-md w-full bg-[#F0F0F0] rounded-3xl p-8 text-center">
                     <p className="text-[#666666] mb-6">No questions available.</p>
                     {onBack && (
@@ -174,7 +174,7 @@ export default function Step10({
     const totalQuestions = questions.length;
 
     return (
-        <div className="h-[calc(100vh-8vh)] overflow-y-auto flex items-center justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+        <div className="h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
             <div className="w-full max-w-3xl">
                 {/* Quiz Card */}
                 <div className="bg-[#F0F0F0] rounded-3xl p-8 md:p-12 shadow-2xl">

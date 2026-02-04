@@ -34,7 +34,12 @@ export default function Step2({ onBack, onContinue }: Step2Props) {
     const [selected, setSelected] = useState<Set<string>>(new Set());
     const [customGoal, setCustomGoal] = useState("");
 
+    const predefinedKeys = new Set<string>(goals.map((g) => g.key));
     const selectedList = useMemo(() => Array.from(selected), [selected]);
+    const customAddedList = useMemo(
+        () => selectedList.filter((s) => !predefinedKeys.has(s)),
+        [selectedList]
+    );
     const canContinue = selected.size > 0;
 
     const toggle = (value: string) => {
@@ -116,6 +121,26 @@ export default function Step2({ onBack, onContinue }: Step2Props) {
                                 +
                             </button>
                         </div>
+                        {customAddedList.length > 0 && (
+                            <div className="mt-3 flex flex-wrap gap-2">
+                                {customAddedList.map((goal) => (
+                                    <span
+                                        key={goal}
+                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[#6C757D]/50 text-[#222222] text-sm font-medium shadow-sm"
+                                    >
+                                        {goal}
+                                        <button
+                                            type="button"
+                                            onClick={() => toggle(goal)}
+                                            className="ml-0.5 rounded p-0.5 text-gray-500 hover:text-red-600 hover:bg-red-50 focus:outline-none"
+                                            aria-label={`Remove ${goal}`}
+                                        >
+                                            ×
+                                        </button>
+                                    </span>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     <div className="mt-8 sm:flex items-center justify-between gap-4">
