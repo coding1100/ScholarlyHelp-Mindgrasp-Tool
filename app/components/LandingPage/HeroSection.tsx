@@ -1,12 +1,10 @@
 "use client";
 
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 import HeroLead from "./HeroLead";
 import HeroRight from "./HeroRight";
-import ReviewBar from "./ReviewBar";
-import Image, { StaticImageData } from "next/image";
+import { StaticImageData } from "next/image";
 import { usePageData } from "./usePageData";
-import TomIcon from "@/app/assets/Icons/tom.png";
 
 const Star: React.FC = () => (
   <svg
@@ -32,9 +30,12 @@ interface HeroSectionProps {
     btn2: string;
     formBackImg2: StaticImageData;
   };
+  /** Server-rendered heading slot for LCP (avoids 2.5s element render delay) */
+  headingSlot?: ReactNode;
 }
 const HeroSection: FC<HeroSectionProps> = ({
   heroContent: propHeroContent,
+  headingSlot,
 }) => {
   const data = usePageData();
   const heroContent = propHeroContent || data?.heroSection;
@@ -42,12 +43,13 @@ const HeroSection: FC<HeroSectionProps> = ({
   return (
     <section
       id="hero-section"
-      className="w-full bg-[#F5F6FA] pb-[100px] max-[1320px]:px-8 max-[768px]:px-6 max-[768px]:shadow-[inset_0px_200px_123px_-131px_rgba(211,212,247,0.9)]"
+      className="w-full bg-[#F5F6FA] pb-[100px] max-[1320px]:px-8 max-[768px]:px-6 max-[768px]:shadow-[inset_0px_200px_123px_-131px_rgba(211,212,247,0.9)] min-h-[600px] md:min-h-[700px]"
     >
       <div className="mx-auto max-w-7xl py-10 !pt-[100px] md:py-14 max-[768px]:!pt-[30px]">
         <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-12 md:gap-12 max-[768px]:gap-4">
           <div className="mid:col-span-5 md:col-span-6">
-            <HeroLead heroContent={heroContent} />
+            {headingSlot}
+            <HeroLead heroContent={heroContent} hideHeading={!!headingSlot} />
           </div>
           <div className="mid:col-span-4 md:col-span-6">
             <HeroRight formBackImg2={heroContent?.formBackImg2} />

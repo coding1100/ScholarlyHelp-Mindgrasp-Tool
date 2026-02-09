@@ -14,7 +14,7 @@ const LoadingSkeleton = ({ height = "400px" }: { height?: string }) => (
 // All heavy / below-the-fold sections are already code-split
 const Ratings = dynamic(() => import("./Ratings"), {
   ssr: false,
-  loading: () => <LoadingSkeleton height="200px" />,
+  loading: () => <LoadingSkeleton height="104px" />,
 });
 
 const CardCarousel = dynamic(() => import("./CardCarousel"), {
@@ -83,14 +83,27 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     // Defer until after main thread is idle to be extra safe for LCP
     if (typeof window === "undefined") return;
 
-    const start = () => setReady(true);
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      setReady(true);
+      window.removeEventListener('scroll', start);
+    };
 
     if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(start, { timeout: 3000 });
+      (window as any).requestIdleCallback(start, { timeout: 200 });
     } else {
       // Fallback: run soon after first paint
-      setTimeout(start, 0);
+      setTimeout(start, 100);
     }
+
+    // Also start on first scroll (user likely scrolled before timeout)
+    window.addEventListener('scroll', start, { once: true, passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', start);
+    };
   }, []);
 
   if (!ready) return null;

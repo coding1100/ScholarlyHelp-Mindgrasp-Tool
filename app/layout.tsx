@@ -13,7 +13,7 @@ const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-poppins",
-  weight: ["400", "700"],
+  weight: ["400", "600", "700"],
   preload: true,
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
   adjustFontFallback: true,
@@ -33,10 +33,7 @@ export default function RootLayout({
     <html lang="en" className={poppins.variable}>
       <head>
         {/* Resource Hints for better performance */}
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://cdn.livechatinc.com" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdn.livechatinc.com" crossOrigin="anonymous" />
+
 
         {/* Force HTTPS for all resources in production only */}
         {process.env.NODE_ENV === "production" && (
