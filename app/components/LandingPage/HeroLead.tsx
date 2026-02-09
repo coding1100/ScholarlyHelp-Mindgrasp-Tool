@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import respavatar from "@/app/assets/Images/resp-avatar.webp";
 import Link from "next/link";
 import Image from "next/image";
+import { styleParentheticalText } from "./heroHeadingUtils";
+
 const CHECK_BG = "#9F92EC";
 const PRIMARY_BG = "#9F92EC";
 const SECONDARY_BG = "#B0B0B0";
@@ -40,18 +42,11 @@ interface HeroLeadProps {
     btn1Url?: string;
     btn2Url?: string;
   };
+  /** When true, heading is rendered by server (HeroHeading) for LCP; only badges/buttons show here */
+  hideHeading?: boolean;
 }
-const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
+const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   const pathname = usePathname();
-
-  // Function to automatically style the guarantee text and domestic logins text
-  const styleParentheticalText = (text: string): string => {
-    // Replace "(Guaranteed A or B)" with styled span
-    let styledText = text.replace(/\(Guaranteed A or B\)/gi, '<span class="text-[#ff641a]">$&</span>');
-    // Replace "with 100% Domestic Logins to protect your identity." with styled span
-    styledText = styledText.replace(/with 100% Domestic Logins to protect your identity\./gi, '<span class="font-semibold">$&</span>');
-    return styledText;
-  };
 
   // Routes where badges section should be hidden
   const hiddenRoutes = [
@@ -82,23 +77,25 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
 
   return (
     <div className="max-w-2xl">
-      <h1
-        className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black"
-      >
-        {heroContent?.mainHeading ? (
-          <div dangerouslySetInnerHTML={{ __html: styleParentheticalText(heroContent.mainHeading) }} />
-        ) : (
-          <>
-            Stop Sacrificing
-            <br />
-            Your Time, We&apos;ll
-            <br />
-            Handle Your
-            <br />
-            Classes
-          </>
-        )}
-      </h1>
+      {!hideHeading && (
+        <h1
+          className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black"
+        >
+          {heroContent?.mainHeading ? (
+            <span dangerouslySetInnerHTML={{ __html: styleParentheticalText(heroContent.mainHeading) }} />
+          ) : (
+            <>
+              Stop Sacrificing
+              <br />
+              Your Time, We&apos;ll
+              <br />
+              Handle Your
+              <br />
+              Classes
+            </>
+          )}
+        </h1>
+      )}
 
       {!shouldHideBadges && (
         <div className="mt-6 max-[768px]:mt-3 flex flex-col items-start gap-3 relative">

@@ -115,7 +115,7 @@ const Footer: FC<FooterProps> = () => {
               />
             </Link>
             <div className="mt-3">
-              <p className="leading-5">
+              <p className="leading-5 w-full">
                 Scholarly Help delivers academic writing services. Our team of qualified subject experts can help you with your challenging online classes
                 {!isDoMyClassPage && ", homework, assignments, quizzes, and exams"}.
               </p>

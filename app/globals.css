@@ -1,4 +1,5 @@
 @tailwind base;
+@tailwind components;
 @tailwind utilities;
 
 :root {
@@ -116,5 +117,5 @@ select {
 @font-face {
     font-family: slick;
     src: local('');
-    font-display: block
+    font-display: swap
 }
