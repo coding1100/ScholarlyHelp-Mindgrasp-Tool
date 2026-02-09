@@ -1,5 +1,6 @@
 import MainLayout from "./MainLayout";
 import HeroSection from "./components/LandingPage/HeroSection";
+import HeroHeading from "./components/LandingPage/HeroHeading";
 import { HomeDataProvider } from "./(pages)/HomeDataProvider";
 import { getHomeData } from "./lib/mongodb";
 import BelowFoldLanding from "./components/LandingPage/BelowFoldLanding";
@@ -10,11 +11,14 @@ export const revalidate = 60;
 const Home = async () => {
   // Use pooled connection - much faster TTFB
   const pageData = await getHomeData();
-  
+  const mainHeading = pageData?.heroSection?.mainHeading ?? "";
+
   return (
     <HomeDataProvider data={pageData}>
       <MainLayout>
-        <HeroSection />
+        <HeroSection
+          headingSlot={mainHeading ? <HeroHeading mainHeading={mainHeading} /> : undefined}
+        />
         {/* All below-the-fold sections mount only after the page is interactive */}
         <BelowFoldLanding />
       </MainLayout>

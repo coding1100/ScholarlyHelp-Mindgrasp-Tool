@@ -3,16 +3,11 @@
 import React, { FC } from "react";
 import Image, { StaticImageData } from "next/image";
 import HeroForm from "./HeroForm"; // Direct import for LCP - no dynamic loading
-import Illustration from "@/app/assets/Images/Hero-Group-195.webp";
-import Bg1 from "@/app/assets/Images/Hero-b-1.png";
-import Bg2 from "@/app/assets/Images/Hero-b-2.png";
-import Bg3 from "@/app/assets/Images/Hero-b-3.png";
-import Bg4 from "@/app/assets/Images/Hero-b-4.png";
+import Bg1 from "@/app/assets/Images/Hero-b-1.webp";
+import Bg2 from "@/app/assets/Images/Hero-b-2.webp";
+import Bg3 from "@/app/assets/Images/Hero-b-3.webp";
+import Bg4 from "@/app/assets/Images/Hero-b-4.webp";
 import Bg5 from "@/app/assets/Images/rev-icon.svg";
-import Heart from "@/app/assets/Images/Hero-b-Heart.png";
-import Update from "@/app/assets/Images/Hero-b-Update.png";
-import Discount from "@/app/assets/Images/Hero-b-Discount.png";
-import TomIcon from "@/app/assets/Icons/tom.png";
 
 const Star: React.FC = () => (
   <svg
@@ -43,7 +38,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             alt=""
             width={80}
             height={80}
-            className="absolute -left-[60px] top-[130px] opacity-50"
+            className="absolute w-[80px] h-[80px] -left-[60px] top-[130px] opacity-50"
             loading="lazy"
           />
           <Image
@@ -51,7 +46,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             alt=""
             width={80}
             height={80}
-            className="absolute -left-[60px] -top-10 opacity-50"
+            className="absolute w-[80px] h-[80px] -left-[60px] -top-10 opacity-50"
             loading="lazy"
           />
           <Image
@@ -59,7 +54,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             alt=""
             width={80}
             height={80}
-            className="absolute -left-[60px] top-[300px] opacity-50"
+            className="absolute w-[80px] h-[80px] -left-[60px] top-[300px] opacity-50"
             loading="lazy"
           />
           <Image
@@ -67,7 +62,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
             width={80}
             height={80}
             alt=""
-            className="absolute left-28 -top-16 opacity-50"
+            className="absolute w-[80px] h-[80px] left-28 -top-16 opacity-50"
             loading="lazy"
           />
         </div>

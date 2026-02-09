@@ -118,19 +118,22 @@ const ThankYou: FC<ThankYouProps> = ({}) => {
       <div className="container mx-auto h-[350px] text-center flex flex-col items-center justify-end">
         <div>
           <p className="lg:text-5xl md:text-3xl text-2xl font-semibold mb-4">
-            Thank You for Choosing Scholarly Help!
+            Thank You! ⚡ Get Your Quote In 60 Seconds.
           </p>
-          <p className="lg:text-[33px] md:text-[23px] text-[19px]">
+          {/* <p className="lg:text-[33px] md:text-[23px] text-[19px]">
             A Smart and Wise Decision, Indeed!
-          </p>
+          </p> */}
         </div>
         <div className="py-11">
-          <p className="lg:text-xl ">
+          {/* <p className="lg:text-xl ">
             At Scholarly Help, we specialize in easing the academic burdens of
             students like you.
             <br />
             Our mission is simple: to get you top grades without the stress and
             overwhelm.
+          </p> */}
+          <p className="lg:text-xl ">
+          Our academic team is online right now. Start a chat to skip <br /> the queue and get your price instantly.
           </p>
         </div>
       </div>

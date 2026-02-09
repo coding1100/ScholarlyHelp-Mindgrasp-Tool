@@ -690,7 +690,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         )}
         <div className="flex justify-center items-center gap-2 mt-4">
           <div className="flex items-end gap-1">
-            <Image src={Trustpilot} alt="Trustpilot" className="md:w-10 w-8" />
+            <Image src={Trustpilot} width={40} height={39} alt="Trustpilot" className="md:w-10 w-8" />
             <p className="md:text-3xl text-xl font-bold">Trustpilot</p>
           </div>
           <Image src={StarGroup} alt="5 Stars" className="max-w-32" />
