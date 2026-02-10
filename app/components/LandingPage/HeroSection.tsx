@@ -32,10 +32,13 @@ interface HeroSectionProps {
   };
   /** Server-rendered heading slot for LCP (avoids 2.5s element render delay) */
   headingSlot?: ReactNode;
+  /** When true, use HeroForm2 (different field order) instead of default HeroForm */
+  useHeroForm2?: boolean;
 }
 const HeroSection: FC<HeroSectionProps> = ({
   heroContent: propHeroContent,
   headingSlot,
+  useHeroForm2,
 }) => {
   const data = usePageData();
   const heroContent = propHeroContent || data?.heroSection;
@@ -52,7 +55,10 @@ const HeroSection: FC<HeroSectionProps> = ({
             <HeroLead heroContent={heroContent} hideHeading={!!headingSlot} />
           </div>
           <div className="mid:col-span-4 md:col-span-6">
-            <HeroRight formBackImg2={heroContent?.formBackImg2} />
+            <HeroRight
+              formBackImg2={heroContent?.formBackImg2}
+              useHeroForm2={useHeroForm2}
+            />
           </div>
           <div className="mid:col-span-3 md:col-span-6 md:self-end relative z-20 -bottom-[35px]">
             <div className="hidden md:flex flex-col gap-5">
