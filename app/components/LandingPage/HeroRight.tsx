@@ -2,7 +2,8 @@
 
 import React, { FC } from "react";
 import Image, { StaticImageData } from "next/image";
-import HeroForm from "./HeroForm"; // Direct import for LCP - no dynamic loading
+import HeroForm from "./HeroForm"; // Default form
+import HeroForm2 from "./HeroForm2"; // Alternate form with different field order
 import Bg1 from "@/app/assets/Images/Hero-b-1.webp";
 import Bg2 from "@/app/assets/Images/Hero-b-2.webp";
 import Bg3 from "@/app/assets/Images/Hero-b-3.webp";
@@ -26,8 +27,11 @@ const Star: React.FC = () => (
 
 interface HeroRightProps {
   formBackImg2?: StaticImageData;
+  useHeroForm2?: boolean;
 }
-const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
+const HeroRight: FC<HeroRightProps> = ({ formBackImg2, useHeroForm2 }) => {
+  const FormComponent = useHeroForm2 ? HeroForm2 : HeroForm;
+
   return (
     <div className="flex w-full flex-col gap-6">
       <div className="relative flex items-start gap-6 z-[999]">
@@ -69,7 +73,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
 
         {/* form sits above decorative layer */}
         <div className="relative z-[99] w-full">
-          <HeroForm formBackImg2={formBackImg2} />
+          <FormComponent formBackImg2={formBackImg2} />
         </div>
 
         {/* right column: illustration + rating stacked; illustration sits slightly under the form */}
