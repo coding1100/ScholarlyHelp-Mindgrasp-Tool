@@ -51,7 +51,7 @@ const Page = async () => {
   return (
     <TakeMyClassDataProvider data={pageData}>
       <MainLayout>
-        <HeroSection />
+        <HeroSection useHeroForm2 />
         <DelayedBelowFold>
           <BelowFoldLanding />
         </DelayedBelowFold>

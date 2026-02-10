@@ -204,7 +204,7 @@ const config: Config = {
     strokeWidth: false,
     fill: true,
     tableLayout: false,
-    appearance: false,
+    appearance: true,
     float: false,
     clear: false,
     listStyleType: true,
