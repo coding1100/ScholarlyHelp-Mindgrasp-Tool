@@ -34,8 +34,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         disabled={isSubmitting || isDisabled}
         className={`p-3 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300 ${
           isSubmitting || isDisabled
-            ? "bg-indigo-400 dark:bg-indigo-500/70 cursor-not-allowed"
-            : "bg-indigo-600 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+            ? "bg-primary-400 cursor-not-allowed"
+            : "bg-primary-400 hover:bg-primary-300"
         }`}
       >
         {isSubmitting ? `${submitButtonText}...` : submitButtonText}
