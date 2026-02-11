@@ -13,7 +13,9 @@ interface TitleResponse {
   status: string;
   topic: string | null;
   keywords: string | null;
-  tone: "formal" | "creative" | "research-based";
+  tone?: string;
+  style_engagement?: string;
+  academic_level?: string;
   requested_count: number;
   titles: string[];
   raw_output: string;
@@ -21,13 +23,40 @@ interface TitleResponse {
   tokens_used: number;
 }
 
+// Tone options with display labels
+const toneOptions = [
+  { value: "formal", label: "Formal" },
+  { value: "research-based", label: "Research-Based" },
+  { value: "analytical", label: "Analytical" },
+  { value: "argumentative", label: "Argumentative" },
+  { value: "critical", label: "Critical" },
+  { value: "theoretical", label: "Theoretical" },
+  { value: "empirical", label: "Empirical" },
+  { value: "case-study-oriented", label: "Case Study-Oriented" },
+];
+
+// Style & Engagement options with display labels
+const styleEngagementOptions = [
+  { value: "creative", label: "Creative" },
+  { value: "persuasive", label: "Persuasive" },
+  { value: "problem-solution", label: "Problem-Solution" },
+];
+
+// Academic Level options with display labels
+const academicLevelOptions = [
+  { value: "undergraduate", label: "Undergraduate" },
+  { value: "postgraduate", label: "Postgraduate" },
+  { value: "doctoral", label: "Doctoral" },
+  { value: "journal-ready", label: "Journal-Ready" },
+];
+
 const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
   const [token, setToken] = useState<string | null>(null);
   const [topic, setTopic] = useState<string>("");
   const [keywords, setKeywords] = useState<string>("");
-  const [tone, setTone] = useState<"formal" | "creative" | "research-based">(
-    "formal"
-  );
+  const [tone, setTone] = useState<string>("");
+  const [styleEngagement, setStyleEngagement] = useState<string>("");
+  const [academicLevel, setAcademicLevel] = useState<string>("");
   const [count, setCount] = useState<number>(5);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [titles, setTitles] = useState<string[]>([]);
@@ -42,17 +71,19 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
   const handleClear = () => {
     setTopic("");
     setKeywords("");
-    setTone("formal");
+    setTone("");
+    setStyleEngagement("");
+    setAcademicLevel("");
     setCount(5);
     setTitles([]);
     setError("");
   };
 
   const handleGenerate = async () => {
-    // Validation: At least one of topic or keywords is required
-    if (!topic.trim() && !keywords.trim()) {
-      setError("Please provide either a topic or keywords.");
-      toast.error("Please provide either a topic or keywords.");
+    // Validation: Topic is required
+    if (!topic.trim()) {
+      setError("Please provide a topic.");
+      toast.error("Please provide a topic.");
       return;
     }
 
@@ -64,7 +95,9 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
       const payload: {
         topic?: string;
         keywords?: string;
-        tone?: "formal" | "creative" | "research-based";
+        tone?: string;
+        style_engagement?: string;
+        academic_level?: string;
         count?: number;
       } = {};
 
@@ -77,20 +110,28 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
       if (tone) {
         payload.tone = tone;
       }
+      if (styleEngagement) {
+        payload.style_engagement = styleEngagement;
+      }
+      if (academicLevel) {
+        payload.academic_level = academicLevel;
+      }
       if (count) {
         payload.count = count;
       }
 
-      const response = await axios.post<TitleResponse>(
-        `${process.env.NEXT_PUBLIC_NGROX_URL}/tools/essay-title-generator`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const baseUrl =
+        process.env.NEXT_PUBLIC_NGROX_URL ||
+        process.env.NEXT_PUBLIC_BASE_URL ||
+        "";
+      const endpoint = `${baseUrl}/tools/essay-title-generator`;
+
+      const response = await axios.post<TitleResponse>(endpoint, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       console.log("Response:", response.data);
 
@@ -126,7 +167,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
   };
 
   const handleRegenerate = () => {
-    if (topic.trim() || keywords.trim()) {
+    if (topic.trim()) {
       handleGenerate();
     }
   };
@@ -150,7 +191,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                 htmlFor="topic"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
               >
-                Topic (Optional)
+                Topic
               </label>
               <textarea
                 id="topic"
@@ -180,7 +221,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
 
             {/* Note */}
             <p className="text-sm text-gray-500 dark:text-gray-400 italic transition-colors duration-300">
-              Note: At least one of topic or keywords is required.
+              Note: Topic is required. Keywords are optional.
             </p>
 
             {/* Error Message */}
@@ -192,7 +233,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
               </div>
             )}
 
-            {/* Options Row */}
+            {/* Options Row - Form order: Tone → Style & Engagement → Academic Level → Number of Titles */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Tone Selector */}
               <div>
@@ -206,19 +247,71 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                   <select
                     id="tone"
                     value={tone}
-                    onChange={(e) =>
-                      setTone(
-                        e.target.value as
-                          | "formal"
-                          | "creative"
-                          | "research-based"
-                      )
-                    }
+                    onChange={(e) => setTone(e.target.value)}
                     className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
-                    <option value="formal">Formal</option>
-                    <option value="creative">Creative</option>
-                    <option value="research-based">Research-based</option>
+                    <option value="">Select tone...</option>
+                    {toneOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                    <FaChevronDown className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Style & Engagement Selector */}
+              <div>
+                <label
+                  htmlFor="styleEngagement"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+                >
+                  Style & Engagement:
+                </label>
+                <div className="relative">
+                  <select
+                    id="styleEngagement"
+                    value={styleEngagement}
+                    onChange={(e) => setStyleEngagement(e.target.value)}
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  >
+                    <option value="">Select style...</option>
+                    {styleEngagementOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                    <FaChevronDown className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Academic Level Selector */}
+              <div>
+                <label
+                  htmlFor="academicLevel"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+                >
+                  Academic Level:
+                </label>
+                <div className="relative">
+                  <select
+                    id="academicLevel"
+                    value={academicLevel}
+                    onChange={(e) => setAcademicLevel(e.target.value)}
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  >
+                    <option value="">Select level...</option>
+                    {academicLevelOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                   <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
                     <FaChevronDown className="w-3 h-3" />
@@ -258,9 +351,9 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={handleGenerate}
-                disabled={isSubmitting || (!topic.trim() && !keywords.trim())}
+                disabled={isSubmitting || !topic.trim()}
                 className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 ${
-                  isSubmitting || (!topic.trim() && !keywords.trim())
+                  isSubmitting || !topic.trim()
                     ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
                     : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                 }`}
