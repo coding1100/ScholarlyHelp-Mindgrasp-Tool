@@ -113,15 +113,20 @@ function parseQuestions(markdown: string): ParsedQuestion[] {
 export default function Step3({ examType, subject, apiResponse, onComplete }: Step3Props) {
     const [questions, setQuestions] = useState<ParsedQuestion[]>([]);
     const [selectedAnswers, setSelectedAnswers] = useState<Map<number, string>>(new Map());
-    const [timeRemaining, setTimeRemaining] = useState(60 * 60); // 60 minutes in seconds
+    const [timeRemaining, setTimeRemaining] = useState(0);
+    const [timeLimit, setTimeLimit] = useState(0); // Total time limit in seconds
     const [isTimeUp, setIsTimeUp] = useState(false);
     const [showTimeUpModal, setShowTimeUpModal] = useState(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Parse questions on mount
+    // Parse questions on mount and calculate time limit
     useEffect(() => {
         const parsed = parseQuestions(apiResponse.message);
         setQuestions(parsed);
+        // Calculate time: 30 seconds per question
+        const calculatedTime = parsed.length * 30;
+        setTimeLimit(calculatedTime);
+        setTimeRemaining(calculatedTime);
     }, [apiResponse.message]);
 
     const formatTime = (seconds: number): string => {
@@ -165,9 +170,9 @@ export default function Step3({ examType, subject, apiResponse, onComplete }: St
         }
     }, [questions, selectedAnswers, onComplete]);
 
-    // Timer countdown
+    // Timer countdown - only start when we have questions and time is set
     useEffect(() => {
-        if (timeRemaining > 0 && !isTimeUp) {
+        if (timeRemaining > 0 && !isTimeUp && questions.length > 0) {
             timerRef.current = setInterval(() => {
                 setTimeRemaining((prev) => {
                     if (prev <= 1) {
@@ -189,7 +194,7 @@ export default function Step3({ examType, subject, apiResponse, onComplete }: St
                 clearInterval(timerRef.current);
             }
         };
-    }, [timeRemaining, isTimeUp, handleSubmit]);
+    }, [timeRemaining, isTimeUp, handleSubmit, questions.length]);
 
     const totalQuestions = questions.length;
 
@@ -209,7 +214,7 @@ export default function Step3({ examType, subject, apiResponse, onComplete }: St
                                     {examType} - {subject}
                                 </p>
                                 <p className="text-gray-500 text-sm mt-2">
-                                    {totalQuestions} questions • 60 minutes
+                                    {totalQuestions} questions • {formatTime(timeLimit)}
                                 </p>
                             </div>
                         </div>
