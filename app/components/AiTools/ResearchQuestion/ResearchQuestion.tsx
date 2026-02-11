@@ -13,7 +13,9 @@ interface QuestionResponse {
   status: string;
   topic: string | null;
   keywords: string | null;
-  research_type: "qualitative" | "quantitative" | "mixed";
+  research_type?: string;
+  question_style?: string;
+  level_of_specificity?: string;
   requested_count: number;
   questions: string[];
   raw_output: string;
@@ -21,13 +23,47 @@ interface QuestionResponse {
   tokens_used: number;
 }
 
+// Research Type options with display labels
+const researchTypeOptions = [
+  { value: "qualitative", label: "Qualitative" },
+  { value: "quantitative", label: "Quantitative" },
+  { value: "mixed", label: "Mixed" },
+  { value: "exploratory", label: "Exploratory" },
+  { value: "descriptive", label: "Descriptive" },
+  { value: "explanatory-causal", label: "Explanatory / Causal" },
+  { value: "correlational", label: "Correlational" },
+  { value: "comparative", label: "Comparative" },
+  { value: "experimental", label: "Experimental" },
+  { value: "quasi-experimental", label: "Quasi-Experimental" },
+  { value: "case-study", label: "Case Study" },
+  { value: "survey-based", label: "Survey-Based" },
+  { value: "action-research", label: "Action Research" },
+  { value: "policy-analysis", label: "Policy Analysis" },
+  { value: "critical-research", label: "Critical Research" },
+];
+
+// Question Style options with display labels
+const questionStyleOptions = [
+  { value: "broad", label: "Broad" },
+  { value: "focused", label: "Focused" },
+  { value: "hypothesis-driven", label: "Hypothesis-Driven" },
+  { value: "policy-oriented", label: "Policy-Oriented" },
+];
+
+// Level of Specificity options with display labels
+const levelOfSpecificityOptions = [
+  { value: "general", label: "General" },
+  { value: "moderately-specific", label: "Moderately Specific" },
+  { value: "highly-specific", label: "Highly Specific" },
+];
+
 const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
   const [token, setToken] = useState<string | null>(null);
   const [topic, setTopic] = useState<string>("");
   const [keywords, setKeywords] = useState<string>("");
-  const [researchType, setResearchType] = useState<
-    "qualitative" | "quantitative" | "mixed"
-  >("mixed");
+  const [researchType, setResearchType] = useState<string>("");
+  const [questionStyle, setQuestionStyle] = useState<string>("");
+  const [levelOfSpecificity, setLevelOfSpecificity] = useState<string>("");
   const [count, setCount] = useState<number>(5);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [questions, setQuestions] = useState<string[]>([]);
@@ -42,17 +78,19 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
   const handleClear = () => {
     setTopic("");
     setKeywords("");
-    setResearchType("mixed");
+    setResearchType("");
+    setQuestionStyle("");
+    setLevelOfSpecificity("");
     setCount(5);
     setQuestions([]);
     setError("");
   };
 
   const handleGenerate = async () => {
-    // Validation: At least one of topic or keywords is required
-    if (!topic.trim() && !keywords.trim()) {
-      setError("Please provide either a topic or keywords.");
-      toast.error("Please provide either a topic or keywords.");
+    // Validation: Topic is required
+    if (!topic.trim()) {
+      setError("Please provide a topic.");
+      toast.error("Please provide a topic.");
       return;
     }
 
@@ -64,7 +102,9 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
       const payload: {
         topic?: string;
         keywords?: string;
-        research_type?: "qualitative" | "quantitative" | "mixed";
+        research_type?: string;
+        question_style?: string;
+        level_of_specificity?: string;
         count?: number;
       } = {};
 
@@ -77,12 +117,23 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
       if (researchType) {
         payload.research_type = researchType;
       }
+      if (questionStyle) {
+        payload.question_style = questionStyle;
+      }
+      if (levelOfSpecificity) {
+        payload.level_of_specificity = levelOfSpecificity;
+      }
       if (count) {
         payload.count = count;
       }
 
+      const baseUrl = process.env.NEXT_PUBLIC_NGROX_URL || process.env.NEXT_PUBLIC_BASE_URL || "";
+      const endpoint = baseUrl.includes("/v1/") 
+        ? `${baseUrl}/tools/research-question-generator`
+        : `${baseUrl}/v1/tools/research-question-generator`;
+
       const response = await axios.post<QuestionResponse>(
-        `${process.env.NEXT_PUBLIC_NGROX_URL}/tools/research-question-generator`,
+        endpoint,
         payload,
         {
           headers: {
@@ -126,7 +177,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
   };
 
   const handleRegenerate = () => {
-    if (topic.trim() || keywords.trim()) {
+    if (topic.trim()) {
       handleGenerate();
     }
   };
@@ -150,7 +201,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                 htmlFor="topic"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
               >
-                Topic (Optional)
+                Topic
               </label>
               <textarea
                 id="topic"
@@ -180,7 +231,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
 
             {/* Note */}
             <p className="text-sm text-gray-500 dark:text-gray-400 italic transition-colors duration-300">
-              Note: At least one of topic or keywords is required.
+              Note: Topic is required. Keywords are optional.
             </p>
 
             {/* Error Message */}
@@ -192,7 +243,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
               </div>
             )}
 
-            {/* Options Row */}
+            {/* Options Row - Form order: Research Type → Question Style → Level of Specificity → Number of Questions */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Research Type Selector */}
               <div>
@@ -206,19 +257,71 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                   <select
                     id="research_type"
                     value={researchType}
-                    onChange={(e) =>
-                      setResearchType(
-                        e.target.value as
-                          | "qualitative"
-                          | "quantitative"
-                          | "mixed"
-                      )
-                    }
+                    onChange={(e) => setResearchType(e.target.value)}
                     className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
-                    <option value="qualitative">Qualitative</option>
-                    <option value="quantitative">Quantitative</option>
-                    <option value="mixed">Mixed</option>
+                    <option value="">Select research type...</option>
+                    {researchTypeOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                    <FaChevronDown className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Question Style Selector */}
+              <div>
+                <label
+                  htmlFor="question_style"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+                >
+                  Question Style:
+                </label>
+                <div className="relative">
+                  <select
+                    id="question_style"
+                    value={questionStyle}
+                    onChange={(e) => setQuestionStyle(e.target.value)}
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  >
+                    <option value="">Select question style...</option>
+                    {questionStyleOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                    <FaChevronDown className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Level of Specificity Selector */}
+              <div>
+                <label
+                  htmlFor="level_of_specificity"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+                >
+                  Level of Specificity:
+                </label>
+                <div className="relative">
+                  <select
+                    id="level_of_specificity"
+                    value={levelOfSpecificity}
+                    onChange={(e) => setLevelOfSpecificity(e.target.value)}
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  >
+                    <option value="">Select level...</option>
+                    {levelOfSpecificityOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                   <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
                     <FaChevronDown className="w-3 h-3" />
@@ -258,9 +361,9 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={handleGenerate}
-                disabled={isSubmitting || (!topic.trim() && !keywords.trim())}
+                disabled={isSubmitting || !topic.trim()}
                 className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 ${
-                  isSubmitting || (!topic.trim() && !keywords.trim())
+                  isSubmitting || !topic.trim()
                     ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
                     : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                 }`}
