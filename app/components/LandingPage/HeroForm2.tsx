@@ -78,7 +78,7 @@ const HeroForm2: FC<ZohoForm2Props> = ({
       {
         threshold: 0.1,
         rootMargin: "0px 0px -100px 0px",
-      }
+      },
     );
 
     observer.observe(formRef.current);
@@ -89,7 +89,7 @@ const HeroForm2: FC<ZohoForm2Props> = ({
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -247,18 +247,18 @@ const HeroForm2: FC<ZohoForm2Props> = ({
             {loading ? (
               <ClipLoader color="#fff" size={22} />
             ) : (
-              getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"
+              getQuote?.ctaButton?.text || "Get My Free, Confidential Quoteddd"
             )}
           </button>
         </form>
       </div>
 
       {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
-      {showStickyOnMobile && isMobile && !isFormVisible ? (
+      {showStickyOnMobile && !isFormVisible ? (
         <button
           type="button"
           onClick={scrollToForm}
-          className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
+          className="fixed bottom-2 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
         >
           {getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"}
         </button>
@@ -268,4 +268,3 @@ const HeroForm2: FC<ZohoForm2Props> = ({
 };
 
 export default HeroForm2;
-

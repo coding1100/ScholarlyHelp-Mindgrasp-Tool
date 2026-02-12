@@ -17,7 +17,7 @@ export default function GetQuote() {
     console.log("GetQuote component - getQuote data:", getQuote);
     console.log(
       "GetQuote component - ctaButton.text:",
-      getQuote?.ctaButton?.text
+      getQuote?.ctaButton?.text,
     );
   }
 
@@ -35,7 +35,7 @@ export default function GetQuote() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
