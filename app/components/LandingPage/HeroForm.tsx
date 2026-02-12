@@ -40,8 +40,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   const [selectedDeadline, setSelectedDeadline] = useState<string>("");
-  const [otherSubjectDescription, setOtherSubjectDescription] = useState<string>("");
-  const [otherDeadlineDescription, setOtherDeadlineDescription] = useState<string>("");
+  const [otherSubjectDescription, setOtherSubjectDescription] =
+    useState<string>("");
+  const [otherDeadlineDescription, setOtherDeadlineDescription] =
+    useState<string>("");
 
   const [formData, setFormData] = useState({
     Email: "",
@@ -101,19 +103,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
   useEffect(() => {
     if (!formRef.current) return;
 
-    const checkVisibility = () => {
-      if (!formRef.current) return;
-      const rect = formRef.current.getBoundingClientRect();
-      const windowHeight =
-        window.innerHeight || document.documentElement.clientHeight;
-      // Form is visible if any part of it is in the viewport
-      const visible = rect.top < windowHeight && rect.bottom > 0;
-      setIsFormVisible(visible);
-    };
-
-    // Check initial visibility
-    checkVisibility();
-
+    // Use IntersectionObserver only to avoid repeated layout reads
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsFormVisible(entry.isIntersecting);
@@ -121,24 +111,18 @@ const HeroForm: FC<ZohoForm2Props> = ({
       {
         threshold: 0.1,
         rootMargin: "0px 0px -100px 0px", // Account for button space at bottom
-      }
+      },
     );
 
     observer.observe(formRef.current);
 
-    // Also check on scroll for more reliable detection
-    window.addEventListener("scroll", checkVisibility, { passive: true });
-    window.addEventListener("resize", checkVisibility, { passive: true });
-
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", checkVisibility);
-      window.removeEventListener("resize", checkVisibility);
     };
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -240,7 +224,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
         }
         description += `\n`;
       }
-      if (formData.Description) description += `Additional Info: ${formData.Description}`;
+      if (formData.Description)
+        description += `Additional Info: ${formData.Description}`;
       if (description) fd.append("instructions", description);
     } else {
       if (formData.Description) fd.append("instructions", formData.Description);
@@ -299,7 +284,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           />
         ) : (
           <Image
-            src="/images/Hero-Group-195.webp"
+            src={FormBackImg}
             alt="Academic success illustration"
             width={526}
             height={551}
@@ -320,17 +305,19 @@ const HeroForm: FC<ZohoForm2Props> = ({
               {[1, 2, 3].map((step) => (
                 <React.Fragment key={step}>
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${currentStep >= step
-                      ? "bg-[#ff641a] text-white"
-                      : "bg-gray-200 text-gray-500"
-                      }`}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
+                      currentStep >= step
+                        ? "bg-[#ff641a] text-white"
+                        : "bg-gray-200 text-gray-500"
+                    }`}
                   >
                     {step}
                   </div>
                   {step < 3 && (
                     <div
-                      className={`h-1 w-12 transition-all duration-300 ${currentStep > step ? "bg-[#ff641a]" : "bg-gray-200"
-                        }`}
+                      className={`h-1 w-12 transition-all duration-300 ${
+                        currentStep > step ? "bg-[#ff641a]" : "bg-gray-200"
+                      }`}
                     />
                   )}
                 </React.Fragment>
@@ -349,10 +336,11 @@ const HeroForm: FC<ZohoForm2Props> = ({
                       key={index}
                       type="button"
                       onClick={() => handleSubjectSelect(subject.label)}
-                      className={`flex items-center justify-center gap-2 px-4 py-3 rounded-md border-2 transition-all duration-200 text-sm font-medium ${selectedSubject === subject.label
-                        ? "border-[#ff641a] bg-[#fff5f0] text-[#ff641a]"
-                        : "border-[#E3E5F3] bg-[#EDEFFE] text-gray-700 hover:border-[#ff641a] hover:bg-[#fff5f0]"
-                        }`}
+                      className={`flex items-center justify-center gap-2 px-4 py-3 rounded-md border-2 transition-all duration-200 text-sm font-medium ${
+                        selectedSubject === subject.label
+                          ? "border-[#ff641a] bg-[#fff5f0] text-[#ff641a]"
+                          : "border-[#E3E5F3] bg-[#EDEFFE] text-gray-700 hover:border-[#ff641a] hover:bg-[#fff5f0]"
+                      }`}
                     >
                       <span className="text-lg">{subject.emoji}</span>
                       <span>{subject.label}</span>
@@ -365,7 +353,9 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   <div className="mb-4">
                     <textarea
                       value={otherSubjectDescription}
-                      onChange={(e) => setOtherSubjectDescription(e.target.value)}
+                      onChange={(e) =>
+                        setOtherSubjectDescription(e.target.value)
+                      }
                       placeholder="What Subject You Need Help With?"
                       rows={4}
                       className="w-full px-4 py-3 border-2 border-[#E3E5F3] rounded-md bg-[#EDEFFE] text-black outline-none resize-none text-sm placeholder:text-[#6B7280] focus:border-[#ff641a] transition-all duration-200"
@@ -376,11 +366,18 @@ const HeroForm: FC<ZohoForm2Props> = ({
                 <button
                   type="button"
                   onClick={handleNext}
-                  disabled={!selectedSubject || (selectedSubject === "Other" && !otherSubjectDescription.trim())}
-                  className={`rounded-md px-3 cursor-pointer border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center h-[54px] w-full ${selectedSubject && (selectedSubject !== "Other" || otherSubjectDescription.trim())
-                    ? "bg-[#ff641a] text-white hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a]"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    }`}
+                  disabled={
+                    !selectedSubject ||
+                    (selectedSubject === "Other" &&
+                      !otherSubjectDescription.trim())
+                  }
+                  className={`rounded-md px-3 cursor-pointer border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center h-[54px] w-full ${
+                    selectedSubject &&
+                    (selectedSubject !== "Other" ||
+                      otherSubjectDescription.trim())
+                      ? "bg-[#ff641a] text-white hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a]"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
                 >
                   Next
                 </button>
@@ -399,10 +396,11 @@ const HeroForm: FC<ZohoForm2Props> = ({
                       key={index}
                       type="button"
                       onClick={() => handleDeadlineSelect(deadline.label)}
-                      className={`flex items-center justify-center gap-2 px-4 py-3 rounded-md border-2 transition-all duration-200 text-sm font-medium ${selectedDeadline === deadline.label
-                        ? "border-[#ff641a] bg-[#fff5f0] text-[#ff641a]"
-                        : "border-[#E3E5F3] bg-[#EDEFFE] text-gray-700 hover:border-[#ff641a] hover:bg-[#fff5f0]"
-                        }`}
+                      className={`flex items-center justify-center gap-2 px-4 py-3 rounded-md border-2 transition-all duration-200 text-sm font-medium ${
+                        selectedDeadline === deadline.label
+                          ? "border-[#ff641a] bg-[#fff5f0] text-[#ff641a]"
+                          : "border-[#E3E5F3] bg-[#EDEFFE] text-gray-700 hover:border-[#ff641a] hover:bg-[#fff5f0]"
+                      }`}
                     >
                       <span className="text-lg">{deadline.emoji}</span>
                       <span>{deadline.label}</span>
@@ -415,7 +413,9 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   <div className="mb-4">
                     <textarea
                       value={otherDeadlineDescription}
-                      onChange={(e) => setOtherDeadlineDescription(e.target.value)}
+                      onChange={(e) =>
+                        setOtherDeadlineDescription(e.target.value)
+                      }
                       placeholder="Please specify your deadline"
                       rows={4}
                       className="w-full px-4 py-3 border-2 border-[#E3E5F3] rounded-md bg-[#EDEFFE] text-black outline-none resize-none text-sm placeholder:text-[#6B7280] focus:border-[#ff641a] transition-all duration-200"
@@ -426,11 +426,18 @@ const HeroForm: FC<ZohoForm2Props> = ({
                 <button
                   type="button"
                   onClick={handleNext}
-                  disabled={!selectedDeadline || (selectedDeadline === "Other" && !otherDeadlineDescription.trim())}
-                  className={`rounded-md px-3 cursor-pointer border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center h-[54px] w-full ${selectedDeadline && (selectedDeadline !== "Other" || otherDeadlineDescription.trim())
-                    ? "bg-[#ff641a] text-white hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a]"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    }`}
+                  disabled={
+                    !selectedDeadline ||
+                    (selectedDeadline === "Other" &&
+                      !otherDeadlineDescription.trim())
+                  }
+                  className={`rounded-md px-3 cursor-pointer border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center h-[54px] w-full ${
+                    selectedDeadline &&
+                    (selectedDeadline !== "Other" ||
+                      otherDeadlineDescription.trim())
+                      ? "bg-[#ff641a] text-white hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a]"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
                 >
                   Next
                 </button>
@@ -476,7 +483,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={loading || (!formData.Email.trim() && !formData.Phone.trim())}
+                  disabled={
+                    loading ||
+                    (!formData.Email.trim() && !formData.Phone.trim())
+                  }
                   className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] w-full disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:text-gray-500 disabled:hover:border-transparent"
                 >
                   {loading ? (
@@ -524,11 +534,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
         />
       ) : (
         <Image
-          src="/images/Hero-Group-195.webp"
+          src={FormBackImg}
           alt="Academic success illustration"
-          width={526}
-          height={551}
-          className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+          width={400}
+          className="cus-img absolute w-[400px] min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
           priority
           fetchPriority="high"
         />
@@ -541,8 +550,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
           id="quote-form"
         >
           {/* Email Field */}
-          <div className="flex items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative
-          ">
+          <div
+            className="flex items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative
+          "
+          >
             <input
               type="email"
               id="Email"
@@ -584,7 +595,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               value={formData.Description}
               onChange={handleChange}
               required
-              className="flex-1 bg-transparent text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] min-[768px]:min-h-[100px] max-[768px]:h-[50px]"
+              className="flex-1 bg-transparent text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] outline-none min-[768px]:min-h-[130px] max-[768px]:h-[50px]"
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
             <IoChatbubbles className="text-[#9ea9bf] text-xl mt-1 flex-shrink-0" />

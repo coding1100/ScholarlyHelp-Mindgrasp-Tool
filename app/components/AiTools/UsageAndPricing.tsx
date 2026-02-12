@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LuZap } from "react-icons/lu";
 import PricingPopup from "./PricingPopup";
-import axiosInstance from "@/app/axios";
 import axios from "axios";
 
 interface UsageAndPricingProps {
@@ -108,7 +107,7 @@ const UsageAndPricing: React.FC<UsageAndPricingProps> = ({ setFlag, flag }) => {
 
       {/* See Pricing Button */}
       <button
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#ff641a] py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#ff641a]/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         onClick={() => setShowPricing(true)}
       >
         <LuZap className="h-4 w-4 bg-transparent" />

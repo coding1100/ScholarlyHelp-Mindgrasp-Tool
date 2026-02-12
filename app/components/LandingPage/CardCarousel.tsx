@@ -5,10 +5,8 @@ import Slider from "react-slick";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePageData } from "./usePageData";
+import styles from "./CardCarousel.module.css";
 
-// Import only slick base CSS - theme CSS loads heavy font file
-// Arrow and dot styles are handled in globals.css
-import "slick-carousel/slick/slick.css";
 
 import slid1 from "@/app/assets/Images/slide1.webp";
 import slid2 from "@/app/assets/Images/slide2.webp";
@@ -74,9 +72,10 @@ export default function CardCarousel() {
   const data = usePageData();
   const cardCarousel = data?.cardCarousel;
   const sliderRef = useRef<Slider | null>(null);
+  const carouselRootRef = useRef<HTMLDivElement | null>(null);
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [centerIndex, setCenterIndex] = useState(0);
-  
+
   type CardType = {
     id: number | string;
     image: any;
@@ -111,6 +110,22 @@ export default function CardCarousel() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Apply .slick-list padding via inline style (Slick renders that element after mount)
+  useEffect(() => {
+    const applySlickListStyle = () => {
+      const root = carouselRootRef.current;
+      if (!root) return;
+      const list = root.querySelector(".slick-list") as HTMLElement | null;
+      if (list) {
+        list.style.padding = "60px 0px 30px 0px";
+        list.style.overflowY = "visible";
+      }
+    };
+    applySlickListStyle();
+    const t = setTimeout(applySlickListStyle, 0);
+    return () => clearTimeout(t);
+  }, [cards.length]);
+
   const settings = {
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
@@ -136,59 +151,58 @@ export default function CardCarousel() {
 
   return (
     <section className="w-full pt-[15px] px-4 text-[#171717] bg-white">
-      <div className="w-full overflow-hidden">
+      <div ref={carouselRootRef} className={styles.carouselRoot}>
         {/* Header */}
         <div className="text-center mb-12 mx-auto max-w-[740px]">
-          <h2 className="text-[42px] text-[#000] font-bold   mb-3">
+          <h2 className="text-[42px] max-[768px]:text-[28px] text-[#000] font-bold   mb-3">
             {cardCarousel?.mainHeading || "The Academic Pressure You're Facing Every Day"}
           </h2>
           <p className="sm:text-lg text-sm text-gray-600 max-w-3xl mx-auto">
             {cardCarousel?.description || "We understand the weight on your shoulders — and we're here to lighten the load."}
           </p>
         </div>
-      </div>
-      <Slider ref={sliderRef} {...settings}>
-        {cards.map((card: CardType, index: number) => {
-          const isCenter = index === centerIndex;
-          return (
-            <div key={card.id} className="px-2 cursor-pointer">
-              <div
-                onClick={() => goToSlide(index)}
-                className={`
-                  carousel-card p-6 shadow-md rounded-[21px] cursor-pointer h-[510px] flex flex-col bg-white transition-all hover:!scale-100 duration-300 relative
-                  ${isCenter ? "center-card" : "scale-90"}
-                `}
-              >
-                <div className="">
-                <Image
-                    src={card.image}
-                    alt={card.title}
-                    width={300}
-                    height={310}
-                    className="object-cover rounded-lg mx-auto relative top-[-80px] w-[300px] h-[330px] max-[768px]:w-[300px] max-[768px]:h-[310px]"
-                  />
-                </div>
-                <div className="flex flex-col h-full justify-center relative top-[-35px]">
-                  <h3
-                    className={`font-semibold text-[19px] leading-[1.5] ${
-                      isCenter ? "text-white" : "text-gray-900"
-                    }`}
-                  >
-                    {card.title}
-                  </h3>
-                  <p
-                    className={`text-[16px] leading-[1.5] mt-2 ${
-                      isCenter ? "text-white" : "text-gray-600"
-                    }`}
-                  >
-                    {card.description}
-                  </p>
+
+        <Slider ref={sliderRef} {...settings}>
+          {cards.map((card: CardType, index: number) => {
+            const isCenter = index === centerIndex;
+            return (
+              <div key={card.id} className="px-2 cursor-pointer">
+                <div
+                  onClick={() => goToSlide(index)}
+                  className={[
+                    "p-6 shadow-md rounded-[21px] cursor-pointer h-[510px] flex flex-col bg-white transition-all hover:!scale-100 duration-300 relative",
+                    isCenter ? styles.centerCard : `scale-90 ${styles.nonCenterCard}`,
+                  ].join(" ")}
+                >
+                  <div className="">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      width={290}
+                      height={299}
+                      className=" max-w-[100%] rounded-lg mx-auto relative top-[-80px]"
+                    />
+                  </div>
+                  <div className="flex flex-col h-full justify-center relative top-[-35px]">
+                    <h3
+                      className={`font-semibold text-[19px] leading-[1.5] ${isCenter ? "text-white" : "text-gray-900"
+                        }`}
+                    >
+                      {card.title}
+                    </h3>
+                    <p
+                      className={`text-[16px] leading-[1.5] mt-2 ${isCenter ? "text-white" : "text-gray-600"
+                        }`}
+                    >
+                      {card.description}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </Slider>
+            );
+          })}
+        </Slider>
+      </div>
 
       {/* Navigation */}
       <div className="w-[225px] mx-auto flex justify-around mt-[5px] relative z-[9]">
@@ -196,27 +210,6 @@ export default function CardCarousel() {
         <ChevronRight size={20} className="cursor-pointer" onClick={goNext} />
       </div>
 
-      {/* Styles */}
-      <style jsx>{`
-        .carousel-card.center-card {
-          background: #4744c9;
-          z-index: 20;
-          border: 1px solid #e2e2e2;
-        }
-        .carousel-card:not(.center-card):hover {
-          background: #4744c9;
-          transform: scale(1.1);
-          z-index: 15;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .slick-dots li {
-          width: 20px !important;
-        }
-        .carousel-card:not(.center-card):hover h3,
-        .carousel-card:not(.center-card):hover p {
-          color: #fff;
-        }
-      `}</style>
     </section>
   );
 }

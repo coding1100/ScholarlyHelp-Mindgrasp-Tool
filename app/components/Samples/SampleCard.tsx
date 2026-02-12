@@ -5,7 +5,7 @@ import Image from "next/image";
 import Button from "../Button/Button";
 import EyeIcon from "@/app/assets/Icons/EyeIcon";
 import ReviewStar from "@/app/assets/Icons/ReviewStar";
-import "./index.css";
+import styles from "./Samples.module.css";
 import Link from "next/link";
 type Content = {
   img?: any;
@@ -22,7 +22,9 @@ interface SampleCardProps {
 }
 const SampleCard: FC<SampleCardProps> = ({ content }) => {
   return (
-    <div className="sampleCard py-8 px-8 relative bg-white rounded-md xl:w-[305px] lg:w-[280px] md:w-[305px] mt-8 mb-5 tranition-all ">
+    <div
+      className={`${styles.sampleCard} py-8 px-8 relative bg-white rounded-md xl:w-[305px] lg:w-[280px] md:w-[305px] mt-8 mb-5 tranition-all`}
+    >
       <div className="flex items-center">
         <div className="mr-2">
           <Image src={content.img} alt="image" className="w-12 h-12" />

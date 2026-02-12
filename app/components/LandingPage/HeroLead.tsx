@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import respavatar from "@/app/assets/Images/resp-avatar.webp";
 import Link from "next/link";
 import Image from "next/image";
+import { styleParentheticalText } from "./heroHeadingUtils";
+
 const CHECK_BG = "#9F92EC";
 const PRIMARY_BG = "#9F92EC";
 const SECONDARY_BG = "#B0B0B0";
@@ -40,8 +42,10 @@ interface HeroLeadProps {
     btn1Url?: string;
     btn2Url?: string;
   };
+  /** When true, heading is rendered by server (HeroHeading) for LCP; only badges/buttons show here */
+  hideHeading?: boolean;
 }
-const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
+const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   const pathname = usePathname();
 
   // Routes where badges section should be hidden
@@ -73,24 +77,25 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
 
   return (
     <div className="max-w-2xl">
-      <h1
-        className="font-semibold text-[32px] md:text-[50px] leading-[1.1] text-black"
-        style={{ fontFamily: "var(--font-poppins)" }}
-      >
-        {heroContent?.mainHeading ? (
-          <div dangerouslySetInnerHTML={{ __html: heroContent.mainHeading }} />
-        ) : (
-          <>
-            Stop Sacrificing
-            <br />
-            Your Time, We&apos;ll
-            <br />
-            Handle Your
-            <br />
-            Classes
-          </>
-        )}
-      </h1>
+      {!hideHeading && (
+        <h1
+          className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black"
+        >
+          {heroContent?.mainHeading ? (
+            <span dangerouslySetInnerHTML={{ __html: styleParentheticalText(heroContent.mainHeading) }} />
+          ) : (
+            <>
+              Stop Sacrificing
+              <br />
+              Your Time, We&apos;ll
+              <br />
+              Handle Your
+              <br />
+              Classes
+            </>
+          )}
+        </h1>
+      )}
 
       {!shouldHideBadges && (
         <div className="mt-6 max-[768px]:mt-3 flex flex-col items-start gap-3 relative">
@@ -119,15 +124,16 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
               100% Confidential
             </span>
           </div>
-          <div className="min-[768px]:hidden"> 
+          <div className="min-[768px]:hidden">
             <Image
               src={respavatar}
               alt=""
               className="absolute right-0 bottom-0 max-[430px]:w-[130px] max-[430px]:h-[130px]"
+              priority
             />
           </div>
         </div>
-        
+
       )}
 
       {heroContent?.subHeading && shouldHideBadges && (
@@ -139,7 +145,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
       {heroContent?.description && shouldHideBadges && (
         <div
           className="text-[#263238] text-[16px] mt-3 "
-          dangerouslySetInnerHTML={{ __html: heroContent.description }}
+          dangerouslySetInnerHTML={{ __html: styleParentheticalText(heroContent.description) }}
         />
       )}
 
@@ -163,22 +169,26 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent }) => {
             </button>
           )}
 
-          {heroContent?.btn2Url ? (
-            <Link
-              href={heroContent.btn2Url}
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
-              style={{ backgroundColor: SECONDARY_BG }}
-            >
-              {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-            </Link>
-          ) : (
-            <button
-              type="button"
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
-              style={{ backgroundColor: SECONDARY_BG }}
-            >
-              {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-            </button>
+          {(!pathname?.includes('/take-my-class')) && (
+            <>
+              {heroContent?.btn2Url ? (
+                <Link
+                  href={heroContent.btn2Url}
+                  className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
+                  style={{ backgroundColor: SECONDARY_BG }}
+                >
+                  {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
+                  style={{ backgroundColor: SECONDARY_BG }}
+                >
+                  {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+                </button>
+              )}
+            </>
           )}
         </div>
       )}

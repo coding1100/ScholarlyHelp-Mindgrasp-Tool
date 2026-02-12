@@ -66,7 +66,7 @@ const ForgotPassword = () => {
         <button
           type="submit"
           disabled={loading}
-          className="lg:w-[90%] bg-orange-500 text-white font-semibold h-[39px] px-4 rounded-lg hover:bg-orange-600 transition duration-300 flex items-center justify-center gap-2"
+          className="lg:w-[90%] bg-[#ff641a] text-white font-semibold h-[39px] px-4 rounded-lg hover:bg-[#ff641a]/80 transition duration-300 flex items-center justify-center gap-2"
         >
           {loading ? (
             <ColorRing

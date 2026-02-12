@@ -14,165 +14,6 @@ import StarGroup from "@/app/assets/Images/starGroup.png";
 
 import Verifiend from "@/app/assets/Images/reviews/verified.svg";
 
-// Desktop Reviews
-// import Review1 from "@/app/assets/Images/reviews/1.png";
-// import Review2 from "@/app/assets/Images/reviews/2.png";
-// import Review3 from "@/app/assets/Images/reviews/3.png";
-// import Review4 from "@/app/assets/Images/reviews/4.png";
-// import Review5 from "@/app/assets/Images/reviews/5.png";
-// import Review6 from "@/app/assets/Images/reviews/6.png";
-// import Review7 from "@/app/assets/Images/reviews/7.png";
-// import Review8 from "@/app/assets/Images/reviews/8.png";
-// import Review9 from "@/app/assets/Images/reviews/9.png";
-// import Review10 from "@/app/assets/Images/reviews/10.png";
-
-// // Mobile Reviews
-// import mobileReview1 from "@/app/assets/Images/mobileReviews/1.png";
-// import mobileReview2 from "@/app/assets/Images/mobileReviews/2.png";
-// import mobileReview3 from "@/app/assets/Images/mobileReviews/3.png";
-// import mobileReview4 from "@/app/assets/Images/mobileReviews/4.png";
-// import mobileReview5 from "@/app/assets/Images/mobileReviews/5.png";
-// import mobileReview6 from "@/app/assets/Images/mobileReviews/6.png";
-// import mobileReview7 from "@/app/assets/Images/mobileReviews/7.png";
-// import mobileReview8 from "@/app/assets/Images/mobileReviews/8.png";
-// import mobileReview9 from "@/app/assets/Images/mobileReviews/9.png";
-// import mobileReview10 from "@/app/assets/Images/mobileReviews/10.png";
-// import mobileReview11 from "@/app/assets/Images/mobileReviews/11.png";
-// import mobileReview12 from "@/app/assets/Images/mobileReviews/12.png";
-// import mobileReview13 from "@/app/assets/Images/mobileReviews/13.png";
-// import mobileReview14 from "@/app/assets/Images/mobileReviews/14.png";
-// import mobileReview15 from "@/app/assets/Images/mobileReviews/15.png";
-// import mobileReview16 from "@/app/assets/Images/mobileReviews/16.png";
-// import mobileReview17 from "@/app/assets/Images/mobileReviews/17.png";
-// import mobileReview19 from "@/app/assets/Images/mobileReviews/19.png";
-// import mobileReview20 from "@/app/assets/Images/mobileReviews/20.png";
-// import mobileReview21 from "@/app/assets/Images/mobileReviews/21.png";
-// import mobileReview22 from "@/app/assets/Images/mobileReviews/22.png";
-// import mobileReview23 from "@/app/assets/Images/mobileReviews/23.png";
-// import mobileReview24 from "@/app/assets/Images/mobileReviews/24.png";
-// import mobileReview25 from "@/app/assets/Images/mobileReviews/25.png";
-// import mobileReview26 from "@/app/assets/Images/mobileReviews/26.png";
-// import mobileReview27 from "@/app/assets/Images/mobileReviews/27.png";
-// import mobileReview28 from "@/app/assets/Images/mobileReviews/28.png";
-// import mobileReview29 from "@/app/assets/Images/mobileReviews/29.png";
-// import mobileReview30 from "@/app/assets/Images/mobileReviews/30.png";
-// import mobileReview32 from "@/app/assets/Images/mobileReviews/32.png";
-// import mobileReview33 from "@/app/assets/Images/mobileReviews/33.png";
-// import mobileReview35 from "@/app/assets/Images/mobileReviews/34.png";
-// import mobileReview36 from "@/app/assets/Images/mobileReviews/35.png";
-// import mobileReview37 from "@/app/assets/Images/mobileReviews/36.png";
-// import mobileReview38 from "@/app/assets/Images/mobileReviews/37.png";
-// import mobileReview39 from "@/app/assets/Images/mobileReviews/38.png";
-// import mobileReview40 from "@/app/assets/Images/mobileReviews/39.png";
-// import mobileReview42 from "@/app/assets/Images/mobileReviews/41.png";
-// import mobileReview43 from "@/app/assets/Images/mobileReviews/42.png";
-// import mobileReview44 from "@/app/assets/Images/mobileReviews/43.png";
-// import mobileReview45 from "@/app/assets/Images/mobileReviews/44.png";
-// import mobileReview46 from "@/app/assets/Images/mobileReviews/45.png";
-// import mobileReview47 from "@/app/assets/Images/mobileReviews/46.png";
-// import mobileReview50 from "@/app/assets/Images/mobileReviews/49.png";
-// import mobileReview51 from "@/app/assets/Images/mobileReviews/50.png";
-// import mobileReview52 from "@/app/assets/Images/mobileReviews/51.png";
-// import mobileReview53 from "@/app/assets/Images/mobileReviews/52.png";
-// import mobileReview54 from "@/app/assets/Images/mobileReviews/53.png";
-// import mobileReview55 from "@/app/assets/Images/mobileReviews/54.png";
-// import mobileReview56 from "@/app/assets/Images/mobileReviews/55.png";
-// import mobileReview57 from "@/app/assets/Images/mobileReviews/56.png";
-// import mobileReview58 from "@/app/assets/Images/mobileReviews/57.png";
-// import mobileReview59 from "@/app/assets/Images/mobileReviews/58.png";
-// import mobileReview60 from "@/app/assets/Images/mobileReviews/59.png";
-// import mobileReview61 from "@/app/assets/Images/mobileReviews/60.png";
-// import mobileReview62 from "@/app/assets/Images/mobileReviews/61.png";
-// import mobileReview63 from "@/app/assets/Images/mobileReviews/62.png";
-// import mobileReview64 from "@/app/assets/Images/mobileReviews/64.png";
-// import mobileReview65 from "@/app/assets/Images/mobileReviews/65.png";
-// import mobileReview66 from "@/app/assets/Images/mobileReviews/66.png";
-// import mobileReview67 from "@/app/assets/Images/mobileReviews/67.png";
-// import mobileReview68 from "@/app/assets/Images/mobileReviews/68.png";
-// import mobileReview69 from "@/app/assets/Images/mobileReviews/69.png";
-// import mobileReview70 from "@/app/assets/Images/mobileReviews/70.png";
-
-// Content Arrays
-// const desktopReviews = [
-//   Review1,
-//   Review2,
-//   Review3,
-//   Review4,
-//   Review5,
-//   Review6,
-//   Review7,
-//   Review8,
-//   Review9,
-//   Review10,
-// ];
-
-// const mobileReviews = [
-//   mobileReview1,
-//   mobileReview2,
-//   mobileReview3,
-//   mobileReview4,
-//   mobileReview5,
-//   mobileReview6,
-//   mobileReview7,
-//   mobileReview8,
-//   mobileReview9,
-//   mobileReview10,
-//   mobileReview11,
-//   mobileReview12,
-//   mobileReview13,
-//   mobileReview14,
-//   mobileReview15,
-//   mobileReview16,
-//   mobileReview17,
-//   mobileReview19,
-//   mobileReview20,
-//   mobileReview21,
-//   mobileReview22,
-//   mobileReview23,
-//   mobileReview24,
-//   mobileReview25,
-//   mobileReview26,
-//   mobileReview27,
-//   mobileReview28,
-//   mobileReview29,
-//   mobileReview30,
-//   mobileReview32,
-//   mobileReview33,
-//   mobileReview35,
-//   mobileReview36,
-//   mobileReview37,
-//   mobileReview38,
-//   mobileReview39,
-//   mobileReview40,
-//   mobileReview42,
-//   mobileReview43,
-//   mobileReview44,
-//   mobileReview45,
-//   mobileReview46,
-//   mobileReview47,
-//   mobileReview50,
-//   mobileReview51,
-//   mobileReview52,
-//   mobileReview53,
-//   mobileReview54,
-//   mobileReview55,
-//   mobileReview56,
-//   mobileReview57,
-//   mobileReview58,
-//   mobileReview59,
-//   mobileReview60,
-//   mobileReview61,
-//   mobileReview62,
-//   mobileReview63,
-//   mobileReview64,
-//   mobileReview65,
-//   mobileReview66,
-//   mobileReview67,
-//   mobileReview68,
-//   mobileReview69,
-//   mobileReview70,
-// ];
-
 const reviews = [
   {
     title: "My experience has been nothing short of great",
@@ -221,7 +62,7 @@ const reviews = [
       "I don't even know where to start. I don't even know the words to use for this people because they are the best and amazing .They came to my rescue for my classes...",
     image: "/images/fivestar.svg",
   },
-  
+
   {
     title: "Excellent service/communication",
     description:
@@ -816,7 +657,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     dots: false,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 7000,
     cssEase: "linear",
     pauseOnHover: true,
     responsive: [
@@ -834,7 +675,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     <div className="bg-white text-[#171717] w-full">
       <div className="max-w-7xl mx-auto pt-2 pb-3  max-[1320px]:px-8">
         {/* Header */}
-        <h2 className="font-bold text-[#000] text-center [992px]:text-[42px] text-[30px]  mb-3">
+        <h2 className="font-bold text-[#000] text-center [992px]:text-[42px] text-[30px] max-[768px]:text-[28px] mb-3">
           How Students Rate Us!
         </h2>
         {/* <p className="md:text-5xl text-2xl text-[#00B67A] text-center mt-2">
@@ -849,7 +690,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         )}
         <div className="flex justify-center items-center gap-2 mt-4">
           <div className="flex items-end gap-1">
-            <Image src={Trustpilot} alt="Trustpilot" className="md:w-10 w-8" />
+            <Image src={Trustpilot} width={40} height={39} alt="Trustpilot" className="md:w-10 w-8" />
             <p className="md:text-3xl text-xl font-bold">Trustpilot</p>
           </div>
           <Image src={StarGroup} alt="5 Stars" className="max-w-32" />
@@ -860,7 +701,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         </p>
 
         {/* Desktop Slider - 3 cards per row, 2 rows per slide */}
-        <div className="my-2 md:block hidden">
+        <div className="my-6 md:block hidden">
           <Slider {...settings}>
             {groupedReviews.map((group, groupIndex) => (
               <div key={groupIndex}>
@@ -868,14 +709,15 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
                   {group.map((review: ReviewType, index: number) => (
                     <div key={index}>
                       <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
-                        
+
                         {review.image && (
                           <div className="my-2 flex space-x-2">
-                            <Image 
-                              src={review.image} 
-                              alt="Rating" 
-                              width={150} 
+                            <Image
+                              src={review.image}
+                              alt="Rating"
+                              width={150}
                               height={40}
+                              fetchPriority="high"
                               className="object-contain w-[150px] h-[40px]"
                             />
                             <Image src={Verifiend} alt="Review" />
@@ -903,10 +745,10 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
                   <Image src={Verifiend} alt="Review" />
                   {review.image && (
                     <div className="my-2">
-                      <Image 
-                        src={review.image} 
-                        alt="Rating" 
-                        width={100} 
+                      <Image
+                        src={review.image}
+                        alt="Rating"
+                        width={100}
                         height={20}
                         className="object-contain"
                       />
