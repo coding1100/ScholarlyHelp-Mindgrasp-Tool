@@ -56,7 +56,7 @@ const WhatsApp = () => {
           onClick={apiCall}
         >
           <a
-            className="fixed flex font-normal justify-between z-[98] bottom-[10px] left-0 text-[15px] py-[10px] px-[20px] no-underline bg-[#128C7E] ml-[5px] rounded-[50px] items-center min-w-[44px] min-h-[44px]"
+            className="fixed flex font-normal justify-between z-[98] bottom-[60px] left-0 text-[15px] py-[10px] px-[20px] no-underline bg-[#128C7E] ml-[5px] rounded-[50px] items-center min-w-[44px] min-h-[44px]"
             href="https://wa.me/17167081869?text=Hi%20There!%20We are here for you!"
             target="_blank"
             rel="noopener noreferrer"
@@ -67,7 +67,9 @@ const WhatsApp = () => {
               alt="whatsapp"
               className="w-[35px]"
             />
-            <span className="pl-[10px] ml-[15px] font-bold text-white relative -left-[14px]">Free Quote On Whatsapp</span>
+            <span className="pl-[10px] ml-[15px] font-bold text-white relative -left-[14px]">
+              Free Quote On Whatsapp
+            </span>
           </a>
         </button>
         <button
