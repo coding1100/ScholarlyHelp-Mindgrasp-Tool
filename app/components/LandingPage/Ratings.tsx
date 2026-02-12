@@ -11,7 +11,7 @@ export default function ReviewRatings() {
   return (
     <div className="xl:flex justify-center py-8 mt-[-96px]">
       <div
-        className="max-w-7xl container py-6 px-12 rounded-lg lg:flex justify-between grid grid-cols-2 gap-6 bg-[#fff]"
+        className="w-full max-w-7xl container py-6 px-12 rounded-lg lg:flex justify-between grid grid-cols-2 gap-6 bg-[#fff]"
         style={{ boxShadow: " 0px 11px 32px 0px #DFE5FF " }}
       >
         {/* Sitejabber */}
@@ -22,8 +22,8 @@ export default function ReviewRatings() {
               alt="SiteJabber"
               width={56}
               height={56}
-              fetchPriority="high"
-              className="w-full h-auto"
+              loading="lazy"
+              className="w-[56px] h-auto"
             />
           </div>
           <div>
@@ -34,13 +34,7 @@ export default function ReviewRatings() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 md:w-5 md:h-5 ${
-                    i < 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i === 4
-                      ? "fill-yellow-400/50 text-yellow-400"
-                      : "fill-gray-300 text-gray-300"
-                  }`}
+                  className="w-3 h-3 md:w-5 md:h-5 text-[#facc15] fill-[#facc15]"
                 />
               ))}
             </div>
@@ -58,8 +52,8 @@ export default function ReviewRatings() {
               alt="Google Reviews"
               width={56}
               height={56}
-              fetchPriority="high"
-              className="w-full h-auto"
+              loading="lazy"
+              className="w-[56px] h-auto"
             />
           </div>
           <div>
@@ -70,13 +64,7 @@ export default function ReviewRatings() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 md:w-5 md:h-5 ${
-                    i < 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i === 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "fill-gray-300 text-gray-300"
-                  }`}
+                  className="w-3 h-3 md:w-5 md:h-5 text-[#facc15] fill-[#facc15]"
                 />
               ))}
             </div>
@@ -94,8 +82,8 @@ export default function ReviewRatings() {
               alt="Trustpilot"
               width={56}
               height={56}
-              fetchPriority="high"
-              className="w-full h-auto"
+              loading="lazy"
+              className="w-[56px] h-auto"
             />
           </div>
           <div>
@@ -106,13 +94,7 @@ export default function ReviewRatings() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 md:w-5 md:h-5 ${
-                    i < 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i === 4
-                      ? "fill-yellow-400/50 text-yellow-400"
-                      : "fill-gray-300 text-gray-300"
-                  }`}
+                  className="w-3 h-3 md:w-5 md:h-5 text-[#facc15] fill-[#facc15]"
                 />
               ))}
             </div>
@@ -130,8 +112,8 @@ export default function ReviewRatings() {
               alt="Review.io"
               width={56}
               height={56}
-              fetchPriority="high"
-              className="w-full h-auto"
+              loading="lazy"
+              className="w-[56px] h-auto"
             />
           </div>
           <div>
@@ -142,13 +124,7 @@ export default function ReviewRatings() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 md:w-5 md:h-5 ${
-                    i < 4
-                      ? "fill-yellow-400 text-yellow-400"
-                      : i === 4
-                      ? "fill-yellow-400/50 text-yellow-400"
-                      : "fill-gray-300 text-gray-300"
-                  }`}
+                  className="w-3 h-3 md:w-5 md:h-5 text-[#facc15] fill-[#facc15]"
                 />
               ))}
             </div>

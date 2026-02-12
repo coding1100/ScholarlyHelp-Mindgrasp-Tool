@@ -13,7 +13,7 @@ const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-poppins",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
   preload: true,
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
   adjustFontFallback: true,
@@ -32,27 +32,21 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.variable}>
       <head>
+        {/* Resource Hints for better performance */}
+
+
         {/* Force HTTPS for all resources in production only */}
         {process.env.NODE_ENV === "production" && (
           <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         )}
-
-        
-
-
       </head>
       <body suppressHydrationWarning>
         <main id="main-content">{children}</main>
 
-        {/* 
-         * PERFORMANCE: All scripts use lazyOnload to minimize main thread work
-         * This defers all non-critical scripts until after page is fully interactive
-         */}
-
-        {/* GTM - Loaded only after browser is idle or user interaction to protect web vitals */}
+        {/* GTM - Loaded only after the page is fully loaded to protect LCP */}
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {

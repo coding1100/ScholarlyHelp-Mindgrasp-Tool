@@ -3,9 +3,9 @@
 import Image, { StaticImageData } from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-// slick-theme.css removed - loads heavy font file, styles in globals.css
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, FC } from "react";
+import styles from "./ExpertSection.module.css";
 
 interface ExpertSectionProps {
   content: {
@@ -72,8 +72,8 @@ const ExpertSection: FC<ExpertSectionProps> = ({ content }) => {
           </p>
         </div>
 
-        {/* Expert Slider */}
-        <div className="relative">
+        {/* Expert Slider – dots styled in ExpertSection.module.css */}
+        <div className={`relative ${styles.expertSliderRoot}`}>
           <Slider ref={sliderRef} {...settings}>
             {content.slider.map((expert, index) => (
               <div key={index} className="px-5 h-full">
@@ -99,7 +99,7 @@ const ExpertSection: FC<ExpertSectionProps> = ({ content }) => {
           </Slider>
 
           {/* Navigation Arrows */}
-          <div className="w-[225px] mx-auto flex justify-around mt-[5px] relative z-[9]">
+          <div className="w-[295px] mx-auto flex justify-around -mt-[31px] relative z-[9]">
             <ChevronLeft
               size={20}
               className="cursor-pointer"
@@ -113,28 +113,6 @@ const ExpertSection: FC<ExpertSectionProps> = ({ content }) => {
           </div>
         </div>
       </div>
-
-      {/* Custom Slider Styles */}
-      <style jsx>{`
-        .carousel-card.center-card {
-          background: #4744c9;
-          z-index: 20;
-          border: 1px solid #e2e2e2;
-        }
-        .carousel-card:not(.center-card):hover {
-          background: #4744c9;
-          transform: scale(1.1);
-          z-index: 15;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .slick-dots li {
-          width: 20px !important;
-        }
-        .carousel-card:not(.center-card):hover h3,
-        .carousel-card:not(.center-card):hover p {
-          color: #fff;
-        }
-      `}</style>
     </section>
   );
 };

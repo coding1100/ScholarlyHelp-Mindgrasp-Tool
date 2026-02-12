@@ -227,11 +227,10 @@ export default function AdminLayout({
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                      isActive
+                    className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive
                         ? 'bg-blue-100 text-blue-700'
                         : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                    }`}
+                      }`}
                     onClick={() => setSidebarOpen(false)}
                   >
                     <item.icon />
@@ -239,16 +238,15 @@ export default function AdminLayout({
                   </Link>
                 );
               })}
-              
+
               {/* Pages Dropdown */}
               <div className="space-y-1">
                 <button
                   onClick={() => setPagesOpen(!pagesOpen)}
-                  className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    pagesNavigation.some(item => pathname === item.href)
+                  className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${pagesNavigation.some(item => pathname === item.href)
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -273,11 +271,10 @@ export default function AdminLayout({
                         <Link
                           key={item.name}
                           href={item.href}
-                          className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                            isActive
+                          className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive
                               ? 'bg-blue-100 text-blue-700'
                               : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                          }`}
+                            }`}
                           onClick={() => setSidebarOpen(false)}
                         >
                           <item.icon />
@@ -306,27 +303,25 @@ export default function AdminLayout({
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    isActive
+                  className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                  }`}
+                    }`}
                 >
                   <item.icon />
                   <span className="ml-3">{item.name}</span>
                 </Link>
               );
             })}
-            
+
             {/* Pages Dropdown */}
             <div className="space-y-1">
               <button
                 onClick={() => setPagesOpen(!pagesOpen)}
-                className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                  pagesNavigation.some(item => pathname === item.href)
+                className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${pagesNavigation.some(item => pathname === item.href)
                     ? 'bg-blue-100 text-blue-700'
                     : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 <div className="flex items-center">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -351,11 +346,10 @@ export default function AdminLayout({
                       <Link
                         key={item.name}
                         href={item.href}
-                        className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                          isActive
+                        className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive
                             ? 'bg-blue-100 text-blue-700'
                             : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                        }`}
+                          }`}
                       >
                         <item.icon />
                         <span className="ml-3">{item.name}</span>
@@ -385,9 +379,9 @@ export default function AdminLayout({
                   </svg>
                 </button>
                 <h1 className="text-2xl font-semibold text-gray-900">
-                  {mainNavigation.find(item => item.href === pathname)?.name || 
-                   pagesNavigation.find(item => item.href === pathname)?.name || 
-                   'Admin'}
+                  {mainNavigation.find(item => item.href === pathname)?.name ||
+                    pagesNavigation.find(item => item.href === pathname)?.name ||
+                    'Admin'}
                 </h1>
               </div>
               <div className="flex items-center space-x-4">
@@ -397,7 +391,7 @@ export default function AdminLayout({
                     localStorage.removeItem('adminToken');
                     router.push('/admin/login');
                   }}
-                  className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
+                  className="bg-[#da0e0e] hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
                 >
                   Logout
                 </button>

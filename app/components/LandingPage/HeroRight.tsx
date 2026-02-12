@@ -2,17 +2,13 @@
 
 import React, { FC } from "react";
 import Image, { StaticImageData } from "next/image";
-import HeroForm from "./HeroForm"; // Direct import for LCP - no dynamic loading
-import Illustration from "@/app/assets/Images/Hero-Group-195.webp";
-import Bg1 from "@/app/assets/Images/Hero-b-1.png";
-import Bg2 from "@/app/assets/Images/Hero-b-2.png";
-import Bg3 from "@/app/assets/Images/Hero-b-3.png";
-import Bg4 from "@/app/assets/Images/Hero-b-4.png";
+import HeroForm from "./HeroForm"; // Default form
+import HeroForm2 from "./HeroForm2"; // Alternate form with different field order
+import Bg1 from "@/app/assets/Images/Hero-b-1.webp";
+import Bg2 from "@/app/assets/Images/Hero-b-2.webp";
+import Bg3 from "@/app/assets/Images/Hero-b-3.webp";
+import Bg4 from "@/app/assets/Images/Hero-b-4.webp";
 import Bg5 from "@/app/assets/Images/rev-icon.svg";
-import Heart from "@/app/assets/Images/Hero-b-Heart.png";
-import Update from "@/app/assets/Images/Hero-b-Update.png";
-import Discount from "@/app/assets/Images/Hero-b-Discount.png";
-import TomIcon from "@/app/assets/Icons/tom.png";
 
 const Star: React.FC = () => (
   <svg
@@ -31,8 +27,11 @@ const Star: React.FC = () => (
 
 interface HeroRightProps {
   formBackImg2?: StaticImageData;
+  useHeroForm2?: boolean;
 }
-const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
+const HeroRight: FC<HeroRightProps> = ({ formBackImg2, useHeroForm2 }) => {
+  const FormComponent = useHeroForm2 ? HeroForm2 : HeroForm;
+
   return (
     <div className="flex w-full flex-col gap-6">
       <div className="relative flex items-start gap-6 z-[999]">
@@ -41,32 +40,40 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
           <Image
             src={Bg1}
             alt=""
-            className="absolute -left-[80px] top-[130px] opacity-50"
-            fetchPriority="high"
+            width={80}
+            height={80}
+            className="absolute w-[80px] h-[80px] -left-[60px] top-[130px] opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg3}
             alt=""
-            className="absolute -left-[80px] -top-10 opacity-50"
-            fetchPriority="high"
+            width={80}
+            height={80}
+            className="absolute w-[80px] h-[80px] -left-[60px] -top-10 opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg2}
             alt=""
-            className="absolute -left-[80px] top-[300px] opacity-50"
-            fetchPriority="high"
+            width={80}
+            height={80}
+            className="absolute w-[80px] h-[80px] -left-[60px] top-[300px] opacity-50"
+            loading="lazy"
           />
           <Image
             src={Bg4}
+            width={80}
+            height={80}
             alt=""
-            className="absolute left-28 -top-20 opacity-50"
-            fetchPriority="high"
+            className="absolute w-[80px] h-[80px] left-28 -top-16 opacity-50"
+            loading="lazy"
           />
         </div>
 
         {/* form sits above decorative layer */}
         <div className="relative z-[99] w-full">
-          <HeroForm formBackImg2={formBackImg2} />
+          <FormComponent formBackImg2={formBackImg2} />
         </div>
 
         {/* right column: illustration + rating stacked; illustration sits slightly under the form */}
@@ -93,12 +100,14 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2 }) => {
 
       {/* mobile rating under the form */}
       <div className="flex max-w-md min-[768px]:flex-col gap-4 md:hidden relative z-20 max-[768px]:p-5 max-[768px]:bg-[#9F92EC1A]">
-        <div className="min-[768px]:hidden"> 
-        <Image
+        <div className="min-[768px]:hidden">
+          <Image
             src={Bg5}
             alt=""
             className=""
             fetchPriority="high"
+            width={80}
+            height={80}
           />
         </div>
         <div className="">

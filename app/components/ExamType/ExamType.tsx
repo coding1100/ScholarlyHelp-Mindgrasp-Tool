@@ -7,7 +7,7 @@ import useBreakpoint from "@/app/(pages)/hooks/useMediabreakpoint";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 // slick-theme.css removed - loads heavy font file, styles in globals.css
-import "./index.css";
+import styles from "./ExamType.module.css";
 import SampleBg from "@/app/assets/Images/sampleBg.webp";
 import { sampleCardContent } from "./content";
 import Proctored from "@/app/assets/Images/proctored.webp";
@@ -23,7 +23,7 @@ interface ExamTypeProps {
 const ExamType: FC<ExamTypeProps> = ({ content }) => {
   return (
     <div
-      className="py-8 relative bg-primary-500 xl:flex justify-center"
+      className={`${styles.examRoot} py-8 relative bg-primary-500 xl:flex justify-center`}
       style={{ backgroundImage: `url(${SampleBg.src})` }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-primary-500 opacity-90"></div>

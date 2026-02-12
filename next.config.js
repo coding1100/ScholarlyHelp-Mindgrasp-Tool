@@ -2,6 +2,31 @@
 const nextConfig = {
   trailingSlash: true,
 
+  // Recompile everything modern to eliminate 12 KiB legacy polyfills
+  transpilePackages: [
+    'react-slick',
+    'slick-carousel',
+    'react-international-phone',
+    '@szhsin/react-accordion',
+    'lucide-react',
+    'dayjs',
+    'axios',
+    'react-loader-spinner',
+    'react-spinners',
+    'google-libphonenumber',
+    'react-hot-toast',
+    'react-markdown',
+    'remark-gfm',
+    'remark-math',
+    'rehype-katex',
+    'rehype-raw',
+    'jsonwebtoken',
+    'jwt-decode',
+    'mongodb',
+    'clsx',
+    'tailwind-merge'
+  ],
+
   // Enable image optimization for better LCP
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -23,9 +48,10 @@ const nextConfig = {
 
   // Optimize production builds
   swcMinify: true,
-
-  // Reduce JS bundle size
   productionBrowserSourceMaps: false,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 
   // Optimize CSS - Next.js automatically removes unused CSS in production
   // Combined with PurgeCSS in postcss.config.js for maximum optimization
@@ -51,8 +77,8 @@ const nextConfig = {
 
   // Enable experimental features for better performance
   experimental: {
-
-    // Optimize heavy package imports - tree shake these libraries
+    inlineCss: true,
+    optimizeCss: true,
     optimizePackageImports: [
       'lucide-react',
       'react-icons',
@@ -68,6 +94,12 @@ const nextConfig = {
       'react-spinners',
       'react-loader-spinner',
       'dayjs',
+      'axios',
+      'jsonwebtoken',
+      'react-markdown',
+      'jwt-decode',
+      'clsx',
+      'tailwind-merge'
     ],
   },
 

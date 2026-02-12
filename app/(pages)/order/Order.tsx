@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import "./index.css";
+// import "./index.css";
 import { steps } from "./contentSteps";
 import TimeLine from "./TimeLine";
 import Button from "@/app/components/Button/Button";
@@ -10,8 +10,8 @@ import Step2 from "./components/Step2";
 import Step3 from "./components/Step3";
 import { useAuthContext } from "@/app/context/auth/AuthContext";
 
-interface OrderProps {}
-const Order: FC<OrderProps> = ({}) => {
+interface OrderProps { }
+const Order: FC<OrderProps> = ({ }) => {
   const [activeStep, setActiveStep] = useState(1);
   const [price, setPrice] = useState(0);
   const { state } = useAuthContext();
