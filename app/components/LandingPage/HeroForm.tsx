@@ -617,11 +617,11 @@ const HeroForm: FC<ZohoForm2Props> = ({
       </div>
 
       {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
-      {showStickyOnMobile && isMobile && !isFormVisible ? (
+      {showStickyOnMobile && !isFormVisible ? (
         <button
           type="button"
           onClick={scrollToForm}
-          className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
+          className="fixed bottom-2 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
         >
           {getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"}
         </button>
