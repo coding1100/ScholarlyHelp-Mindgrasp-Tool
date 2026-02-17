@@ -1,0 +1,441 @@
+"use client";
+
+import React, { FC, useEffect, useState } from "react";
+import { FaChevronDown, FaRegCopy, FaSyncAlt } from "react-icons/fa";
+import axios from "axios";
+import toast from "react-hot-toast";
+
+interface EssayTitleProps {
+  setFlag: (value: boolean) => void;
+}
+
+interface TitleResponse {
+  status: string;
+  topic: string | null;
+  keywords: string | null;
+  tone?: string;
+  style_engagement?: string;
+  academic_level?: string;
+  requested_count: number;
+  titles: string[];
+  raw_output: string;
+  llm_used: string;
+  tokens_used: number;
+}
+
+// Tone options with display labels
+const toneOptions = [
+  { value: "formal", label: "Formal" },
+  { value: "research-based", label: "Research-Based" },
+  { value: "analytical", label: "Analytical" },
+  { value: "argumentative", label: "Argumentative" },
+  { value: "critical", label: "Critical" },
+  { value: "theoretical", label: "Theoretical" },
+  { value: "empirical", label: "Empirical" },
+  { value: "case-study-oriented", label: "Case Study-Oriented" },
+];
+
+// Style & Engagement options with display labels
+const styleEngagementOptions = [
+  { value: "creative", label: "Creative" },
+  { value: "persuasive", label: "Persuasive" },
+  { value: "problem-solution", label: "Problem-Solution" },
+];
+
+// Academic Level options with display labels
+const academicLevelOptions = [
+  { value: "undergraduate", label: "Undergraduate" },
+  { value: "postgraduate", label: "Postgraduate" },
+  { value: "doctoral", label: "Doctoral" },
+  { value: "journal-ready", label: "Journal-Ready" },
+];
+
+const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
+  const [token, setToken] = useState<string | null>(null);
+  const [topic, setTopic] = useState<string>("");
+  const [keywords, setKeywords] = useState<string>("");
+  const [tone, setTone] = useState<string>("");
+  const [styleEngagement, setStyleEngagement] = useState<string>("");
+  const [academicLevel, setAcademicLevel] = useState<string>("");
+  const [count, setCount] = useState<number>(5);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [titles, setTitles] = useState<string[]>([]);
+  const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setToken(localStorage.getItem("access_token"));
+    }
+  }, []);
+
+  const handleClear = () => {
+    setTopic("");
+    setKeywords("");
+    setTone("");
+    setStyleEngagement("");
+    setAcademicLevel("");
+    setCount(5);
+    setTitles([]);
+    setError("");
+  };
+
+  const handleGenerate = async () => {
+    // Validation: Topic is required
+    if (!topic.trim()) {
+      setError("Please provide a topic.");
+      toast.error("Please provide a topic.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError("");
+    setTitles([]);
+
+    try {
+      const payload: {
+        topic?: string;
+        keywords?: string;
+        tone?: string;
+        style_engagement?: string;
+        academic_level?: string;
+        count?: number;
+      } = {};
+
+      if (topic.trim()) {
+        payload.topic = topic.trim();
+      }
+      if (keywords.trim()) {
+        payload.keywords = keywords.trim();
+      }
+      if (tone) {
+        payload.tone = tone;
+      }
+      if (styleEngagement) {
+        payload.style_engagement = styleEngagement;
+      }
+      if (academicLevel) {
+        payload.academic_level = academicLevel;
+      }
+      if (count) {
+        payload.count = count;
+      }
+
+      const baseUrl =
+        process.env.NEXT_PUBLIC_NGROX_URL ||
+        process.env.NEXT_PUBLIC_BASE_URL ||
+        "";
+      const endpoint = `${baseUrl}/tools/essay-title-generator`;
+
+      const response = await axios.post<TitleResponse>(endpoint, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Response:", response.data);
+
+      if (response.data.status === "success" && response.data.titles) {
+        setTitles(response.data.titles);
+        setFlag(true);
+        toast.success("Titles generated successfully!");
+      } else {
+        setError("Failed to generate titles. Please try again.");
+        toast.error("Failed to generate titles.");
+      }
+    } catch (error: any) {
+      console.error("Error generating titles:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCopyTitle = async (title: string) => {
+    try {
+      await navigator.clipboard.writeText(title);
+      toast.success("Title copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      toast.error("Failed to copy title.");
+    }
+  };
+
+  const handleRegenerate = () => {
+    if (topic.trim()) {
+      handleGenerate();
+    }
+  };
+
+  return (
+    <div className="container overflow-y-auto h-[90vh] mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl">
+      <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 overflow-hidden transition-colors duration-300">
+        {/* Main Overview Section */}
+        <div className="pt-6 ">
+          <h2 className="text-2xl text-center font-bold text-gray-800 dark:text-gray-100 mb-3 transition-colors duration-300">
+            Essay Title Generator
+          </h2>
+        </div>
+
+        {/* Input Section */}
+        <div className="p-6 border-b dark:border-gray-700">
+          <div className="space-y-4">
+            {/* Topic Input */}
+            <div>
+              <label
+                htmlFor="topic"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+              >
+                Topic
+              </label>
+              <textarea
+                id="topic"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                placeholder="Enter your essay topic here..."
+                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+              />
+            </div>
+
+            {/* Keywords Input */}
+            <div>
+              <label
+                htmlFor="keywords"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+              >
+                Keywords (Optional)
+              </label>
+              <textarea
+                id="keywords"
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
+                placeholder="Enter keywords separated by commas (e.g., renewable energy, sustainability, solar power)..."
+                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+              />
+            </div>
+
+            {/* Note */}
+            <p className="text-sm text-gray-500 dark:text-gray-400 italic transition-colors duration-300">
+              Note: Topic is required. Keywords are optional.
+            </p>
+
+            {/* Error Message */}
+            {error && (
+              <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                <p className="text-sm text-red-600 dark:text-red-400">
+                  {error}
+                </p>
+              </div>
+            )}
+
+            {/* Options Row - Form order: Tone → Style & Engagement → Academic Level → Number of Titles */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Tone Selector */}
+              <div>
+                <label
+                  htmlFor="tone"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+                >
+                  Tone:
+                </label>
+                <div className="relative">
+                  <select
+                    id="tone"
+                    value={tone}
+                    onChange={(e) => setTone(e.target.value)}
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  >
+                    <option value="">Select tone...</option>
+                    {toneOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                    <FaChevronDown className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Style & Engagement Selector */}
+              <div>
+                <label
+                  htmlFor="styleEngagement"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+                >
+                  Style & Engagement:
+                </label>
+                <div className="relative">
+                  <select
+                    id="styleEngagement"
+                    value={styleEngagement}
+                    onChange={(e) => setStyleEngagement(e.target.value)}
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  >
+                    <option value="">Select style...</option>
+                    {styleEngagementOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                    <FaChevronDown className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Academic Level Selector */}
+              <div>
+                <label
+                  htmlFor="academicLevel"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+                >
+                  Academic Level:
+                </label>
+                <div className="relative">
+                  <select
+                    id="academicLevel"
+                    value={academicLevel}
+                    onChange={(e) => setAcademicLevel(e.target.value)}
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  >
+                    <option value="">Select level...</option>
+                    {academicLevelOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                    <FaChevronDown className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+
+              {/* Count Selector */}
+              <div>
+                <label
+                  htmlFor="count"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
+                >
+                  Number of Titles (1-10):
+                </label>
+                <div className="relative">
+                  <select
+                    id="count"
+                    value={count}
+                    onChange={(e) => setCount(Number.parseInt(e.target.value))}
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  >
+                    {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                      <option key={num} value={num}>
+                        {num}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-500 dark:text-gray-300">
+                    <FaChevronDown className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                onClick={handleGenerate}
+                disabled={isSubmitting || !topic.trim()}
+                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 ${
+                  isSubmitting || !topic.trim()
+                    ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                }`}
+              >
+                {isSubmitting ? "Generating..." : "Generate Titles"}
+              </button>
+
+              {titles.length > 0 && (
+                <button
+                  onClick={handleRegenerate}
+                  disabled={isSubmitting}
+                  className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <FaSyncAlt />
+                  Regenerate
+                </button>
+              )}
+
+              <button
+                onClick={handleClear}
+                disabled={isSubmitting}
+                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Results Section */}
+        {titles.length > 0 && (
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 transition-colors duration-300">
+                Generated Titles ({titles.length})
+              </h2>
+            </div>
+            <div className="space-y-3">
+              {titles.map((title, index) => (
+                <div
+                  key={index}
+                  className="flex items-start justify-between p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300"
+                >
+                  <p className="flex-1 text-gray-800 dark:text-gray-100 pr-4 transition-colors duration-300">
+                    {index + 1}. {title}
+                  </p>
+                  <button
+                    onClick={() => handleCopyTitle(title)}
+                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    title="Copy title"
+                  >
+                    <FaRegCopy />
+                    Copy
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {isSubmitting && titles.length === 0 && (
+          <div className="p-6 text-center">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
+              Generating titles...
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Footer Quote */}
+      <div className="text-sm font-serif text-center pt-8 text-gray-500 dark:text-gray-400 transition-colors duration-300">
+        <q>
+          Struggling to find the perfect essay title? ScholarlyHelp's AI-powered
+          Essay Title Generator creates compelling, academic-appropriate titles
+          that capture your topic's essence and engage your readers from the
+          start.
+        </q>
+      </div>
+    </div>
+  );
+};
+
+export default EssayTitle;

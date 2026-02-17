@@ -2,6 +2,8 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+import DeliveredOn from "@/app/(pages)/take-my-class/DeliveredOn";
 
 // Lightweight skeleton for below-the-fold sections
 const LoadingSkeleton = ({ height = "400px" }: { height?: string }) => (
@@ -78,7 +80,7 @@ type BelowFoldLandingProps = {
  */
 export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const [ready, setReady] = useState(false);
-
+  const currentPath = usePathname();
   useEffect(() => {
     // Defer until after main thread is idle to be extra safe for LCP
     if (typeof window === "undefined") return;
@@ -88,7 +90,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       if (started) return;
       started = true;
       setReady(true);
-      window.removeEventListener('scroll', start);
+      window.removeEventListener("scroll", start);
     };
 
     if ("requestIdleCallback" in window) {
@@ -99,10 +101,10 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     }
 
     // Also start on first scroll (user likely scrolled before timeout)
-    window.addEventListener('scroll', start, { once: true, passive: true });
+    window.addEventListener("scroll", start, { once: true, passive: true });
 
     return () => {
-      window.removeEventListener('scroll', start);
+      window.removeEventListener("scroll", start);
     };
   }, []);
 
@@ -110,7 +112,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
 
   return (
     <>
-      <Ratings />
+      {currentPath === "/take-my-class/" ? <DeliveredOn /> : <Ratings />}
       <CardCarousel />
       <Description />
       <GuaranteedBlock />
@@ -125,5 +127,3 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     </>
   );
 }
-
-
