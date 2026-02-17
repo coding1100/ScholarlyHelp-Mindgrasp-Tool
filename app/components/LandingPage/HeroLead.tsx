@@ -109,34 +109,6 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
         </h1>
       )}
 
-      {pathname === "/take-my-class/" && (
-        <div className="mt-6">
-          <p className="text-[#263238] text-[17px]">
-            Stop sacrificing your paycheck for grades. Our US-Based experts
-            manage your{" "}
-            <span className="font-bold">
-              full course—discussions, quizzes, and finals
-            </span>
-          </p>
-          <div className="mt-6 flex justify-between items-center sm:gap-5 gap-2">
-            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
-              <FaCircleCheck className="text-[#9F92EC] !text-[27px] sm:block hidden" />
-              <p className="sm:text-xl text-sm">
-                Domestic Logins{" "}
-                <span className="sm:font-bold">(No IP Bans)</span>
-              </p>
-            </div>
-            <div className="w-[1px] bg-[#97979A] h-[26px] sm:hidden block"></div>
-            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
-              <FaCircleCheck className="text-[#9F92EC] text-[27px] sm:block hidden" />
-              <p className="sm:text-xl text-sm">
-                <span className="sm:font-bold">Money-Back</span> Grade Guarantee
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {!shouldHideBadges && (
         <div className="mt-6 max-[768px]:mt-3 flex flex-col items-start gap-3 relative">
           <div className="inline-flex items-center gap-2 self-start rounded-full border max-[768px]:bg-[#D3D4F7] border-[#E9E9F1] bg-white/80 px-4 max-[768px]:px-3 py-2 z-[9]">
@@ -231,6 +203,33 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
               )}
             </>
           )}
+        </div>
+      )}
+      {pathname === "/take-my-class/" && (
+        <div className="mt-6">
+          {/* <p className="text-[#263238] text-[17px]">
+            Stop sacrificing your paycheck for grades. Our US-Based experts
+            manage your{" "}
+            <span className="font-bold">
+              full course—discussions, quizzes, and finals
+            </span>
+          </p> */}
+          <div className="flex justify-between items-center sm:gap-5 gap-2">
+            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
+              <FaCircleCheck className="text-[#9F92EC] !text-[27px] sm:block hidden" />
+              <p className="sm:text-xl text-sm">
+                Domestic Logins{" "}
+                <span className="sm:font-bold">(No IP Bans)</span>
+              </p>
+            </div>
+            <div className="w-[1px] bg-[#97979A] h-[26px] sm:hidden block"></div>
+            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
+              <FaCircleCheck className="text-[#9F92EC] text-[27px] sm:block hidden" />
+              <p className="sm:text-xl text-sm">
+                <span className="sm:font-bold">Money-Back</span> Grade Guarantee
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>
