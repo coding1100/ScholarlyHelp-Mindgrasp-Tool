@@ -21,7 +21,7 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const SignInCard = () => {
   const route = useRouter();
   const searchParams = useSearchParams();
-  const returnUrl = searchParams.get('returnUrl');
+  const returnUrl = searchParams.get("returnUrl");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,14 +29,14 @@ const SignInCard = () => {
 
   // Check if user is already authenticated
   useEffect(() => {
-    console.log('SignInCard - returnUrl:', returnUrl);
+    console.log("SignInCard - returnUrl:", returnUrl);
     const token = localStorage.getItem("access_token");
     if (token) {
       // Set cookie for middleware if not already set
       document.cookie = `access_token=${token}; path=/; max-age=86400`;
 
       if (returnUrl) {
-        console.log('Redirecting to:', returnUrl);
+        console.log("Redirecting to:", returnUrl);
         // Small delay to ensure cookie is set before redirect
         setTimeout(() => {
           route.replace(returnUrl);
@@ -73,8 +73,8 @@ const SignInCard = () => {
       // Small delay to ensure cookie is set before redirect
       setTimeout(() => {
         // Redirect to returnUrl if provided, otherwise default to paraphraser tool
-        const redirectUrl = returnUrl || "/tools/paraphraser-tool/";
-        console.log('After sign-in, redirecting to:', redirectUrl);
+        const redirectUrl = returnUrl || "/tools/main-tool/";
+        console.log("After sign-in, redirecting to:", redirectUrl);
         route.replace(redirectUrl);
       }, 100);
     } catch (err: any) {

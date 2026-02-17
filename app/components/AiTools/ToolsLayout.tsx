@@ -84,7 +84,7 @@ const ToolsLayout: React.FC<ToolsLayoutProps> = ({
         )}
 
         {/* Tool content */}
-        <div className="flex-1 h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div className="flex-1 h-screen bg-white dark:bg-gray-900 transition-colors duration-300 w-full">
           {/* {children} */}
           <ToolHeader />
           {React.cloneElement(children as React.ReactElement, { token })}
