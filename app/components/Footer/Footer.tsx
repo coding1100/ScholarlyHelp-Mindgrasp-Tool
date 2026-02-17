@@ -17,11 +17,7 @@ import CopyRight from "./CopyRight";
 import LogoNormal from "@/app/assets/Images/logo.svg";
 import cellPhone from "@/app/assets/Images/cellphone.png";
 import { usePathname } from "next/navigation";
-import {
-  hideFooterLinks,
-  sms,
-  smsHide,
-} from "../HideLinks/HideLinks";
+import { hideFooterLinks, sms, smsHide } from "../HideLinks/HideLinks";
 // import "./footer.css";
 // import ChatBubble from "@/app/assets/Icons/ChatBubble";
 import chatBubble from "@/app/assets/Images/chatBubble.png";
@@ -29,8 +25,8 @@ import axios from "axios";
 import { FaSnapchat } from "react-icons/fa";
 import { SiYoutubemusic } from "react-icons/si";
 
-interface FooterProps { }
-const Footer: FC<FooterProps> = ({ }) => {
+interface FooterProps {}
+const Footer: FC<FooterProps> = ({}) => {
   const currentPage = usePathname();
   const hidelinksfooter = hideFooterLinks.includes(currentPage);
   const ShowSms = sms.includes(currentPage);
@@ -60,7 +56,7 @@ const Footer: FC<FooterProps> = ({ }) => {
         // Start treating footer as "in view" a bit earlier (offset from bottom)
         // so z-[999] drops before it fully reaches the viewport
         rootMargin: "0px 0px 100px 0px",
-      }
+      },
     );
 
     observer.observe(footerRef.current);
@@ -98,12 +94,11 @@ const Footer: FC<FooterProps> = ({ }) => {
     return;
   } else if (hidelinksfooter) {
     return (
-      <div >
+      <div>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className=" w-full max-w-7xl mx-auto md:flex justify-between gap-6 max-[768px]:px-10 text-primary-600">
             <div className="md:max-w-[372px]">
               <Link href="/">
-
                 <Image
                   src={LogoNormal}
                   alt="Scholarly Help"
@@ -217,13 +212,23 @@ const Footer: FC<FooterProps> = ({ }) => {
 
                 <div className="flex my-2">
                   <div className="w-5 mr-1">
-                    <Image width={30} height={30} src={MasterCard} alt="MasterCard" />
+                    <Image
+                      width={30}
+                      height={30}
+                      src={MasterCard}
+                      alt="MasterCard"
+                    />
                   </div>
                   <div className="w-5 mr-1">
                     <Image width={30} height={30} src={Visa} alt="Visa" />
                   </div>
                   <div className="w-5 mr-1">
-                    <Image width={30} height={30} src={AmericanExpress} alt="AmericanExpress" />
+                    <Image
+                      width={30}
+                      height={30}
+                      src={AmericanExpress}
+                      alt="AmericanExpress"
+                    />
                   </div>
                   <div className="w-5 mr-1">
                     <Image width={30} height={30} src={Paypal} alt="Paypal" />
@@ -238,7 +243,11 @@ const Footer: FC<FooterProps> = ({ }) => {
           <>
             {/* SMS module */}
             <div>
-              <button id="sms-chat" className="sms-chat z-[100] hidden" style={{ display: 'none' }}>
+              <button
+                id="sms-chat"
+                className="sms-chat z-[100] hidden"
+                style={{ display: "none" }}
+              >
                 <a
                   href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                   className="blantershow-sms hidden"
@@ -252,7 +261,11 @@ const Footer: FC<FooterProps> = ({ }) => {
                   <span className="sms-text">Send SMS</span>
                 </a>
               </button>
-              <button id="sms-chat2" className="sms-chat z-[100]" onClick={apiCall}>
+              <button
+                id="sms-chat2"
+                className="sms-chat z-[100]"
+                onClick={apiCall}
+              >
                 <a
                   href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                   className="blantershow-sms2"
@@ -272,12 +285,11 @@ const Footer: FC<FooterProps> = ({ }) => {
     );
   } else {
     return (
-      <div >
+      <div>
         <div className="bg-primary-200 md:flex justify-center py-14">
           <div className="w-full max-w-7xl mx-auto md:flex justify-between gap-6 max-[768px]:px-10 text-primary-600">
             <div className="md:max-w-[372px]">
               <Link href="/">
-
                 <Image
                   src={LogoNormal}
                   alt="Scholarly Help"
@@ -345,7 +357,6 @@ const Footer: FC<FooterProps> = ({ }) => {
                         <p>Blog</p>
                       </Link>
                     </div>
-
                   </div>
                 </div>
 
@@ -515,13 +526,23 @@ const Footer: FC<FooterProps> = ({ }) => {
 
                 <div className="flex my-2">
                   <div className="w-5 mr-1">
-                    <Image width={30} height={30} src={MasterCard} alt="MasterCard" />
+                    <Image
+                      width={30}
+                      height={30}
+                      src={MasterCard}
+                      alt="MasterCard"
+                    />
                   </div>
                   <div className="w-5 mr-1">
                     <Image width={30} height={30} src={Visa} alt="Visa" />
                   </div>
                   <div className="w-5 mr-1">
-                    <Image width={30} height={30} src={AmericanExpress} alt="AmericanExpress" />
+                    <Image
+                      width={30}
+                      height={30}
+                      src={AmericanExpress}
+                      alt="AmericanExpress"
+                    />
                   </div>
                   <div className="w-5 mr-1">
                     <Image width={30} height={30} src={Paypal} alt="Paypal" />
@@ -537,7 +558,11 @@ const Footer: FC<FooterProps> = ({ }) => {
         ) : (
           <div>
             {/* sms module */}
-            <button id="sms-chat" className="sms-chat z-[100] hidden" style={{ display: 'none' }}>
+            <button
+              id="sms-chat"
+              className="sms-chat z-[100] hidden"
+              style={{ display: "none" }}
+            >
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                 className="blantershow-sms inline-flex items-center justify-center min-w-[44px] min-h-[44px] hidden"
@@ -554,11 +579,15 @@ const Footer: FC<FooterProps> = ({ }) => {
               </a>
             </button>
 
-            <button id="sms-chat2" className="sms-chat z-[100]" style={{ display: 'none' }}>
+            <button
+              id="sms-chat2"
+              className="sms-chat z-[100]"
+              style={{ display: "none" }}
+            >
               <a
                 href={`sms:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
                 className="blantershow-sms2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Send us an SMS"
@@ -572,7 +601,6 @@ const Footer: FC<FooterProps> = ({ }) => {
             </button>
           </div>
         )}
-
       </div>
     );
   }

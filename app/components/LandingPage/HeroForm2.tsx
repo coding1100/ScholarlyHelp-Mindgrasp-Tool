@@ -183,6 +183,15 @@ const HeroForm2: FC<ZohoForm2Props> = ({
         />
       )}
       <div className="w-full mx-auto cus-div">
+        <div className="w-full bg-[#263238] rounded-t-lg px-2 py-3">
+          <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
+            Check Your{" "}
+            <span className="bg-[#F56200] rounded-full px-4  -rotate-3 inline-block">
+              Class
+            </span>{" "}
+            Price
+          </p>
+        </div>
         <form
           ref={formRef}
           onSubmit={handleSubmit}
@@ -247,7 +256,7 @@ const HeroForm2: FC<ZohoForm2Props> = ({
             {loading ? (
               <ClipLoader color="#fff" size={22} />
             ) : (
-              getQuote?.ctaButton?.text || "Get My Free, Confidential Quoteddd"
+              getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"
             )}
           </button>
         </form>
@@ -258,7 +267,7 @@ const HeroForm2: FC<ZohoForm2Props> = ({
         <button
           type="button"
           onClick={scrollToForm}
-          className="fixed bottom-2 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
+          className="fixed bottom-2 left-1/2 -translate-x-1/2 px-4 sm:w-fit w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
         >
           {getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"}
         </button>
