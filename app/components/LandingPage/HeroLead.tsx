@@ -118,17 +118,19 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
               full course—discussions, quizzes, and finals
             </span>
           </p>
-          <div className="mt-6 md:flex justify-between items-center gap-5">
-            <div className="p-3 flex items-start gap-3 bg-white border border-[#E2E1F3] rounded-lg">
-              <FaCircleCheck className="text-[#9F92EC] !text-[27px]" />
-              <p className="text-xl">
-                Domestic Logins <span className="font-bold">(No IP Bans)</span>
+          <div className="mt-6 flex justify-between items-center sm:gap-5 gap-2">
+            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
+              <FaCircleCheck className="text-[#9F92EC] !text-[27px] sm:block hidden" />
+              <p className="sm:text-xl text-sm">
+                Domestic Logins{" "}
+                <span className="sm:font-bold">(No IP Bans)</span>
               </p>
             </div>
-            <div className="p-3 flex items-start gap-3 bg-white border border-[#E2E1F3] rounded-lg">
-              <FaCircleCheck className="text-[#9F92EC] text-[27px]" />
-              <p className="text-xl">
-                <span className="font-bold">Money-Back</span> Grade Guarantee
+            <div className="w-[1px] bg-[#97979A] h-[26px] sm:hidden block"></div>
+            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
+              <FaCircleCheck className="text-[#9F92EC] text-[27px] sm:block hidden" />
+              <p className="sm:text-xl text-sm">
+                <span className="sm:font-bold">Money-Back</span> Grade Guarantee
               </p>
             </div>
           </div>

@@ -1,0 +1,284 @@
+"use client";
+
+import { ParsedQuestion, parseQuizFromResponse, sendChatMessage } from "@/app/utilities/api";
+import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+
+interface Step10Props {
+    conversationId: string;
+    onComplete: (results: {
+        totalQuestions: number;
+        correctAnswers: number;
+        incorrectQuestionNumbers: number[];
+    }) => void;
+    onBack?: () => void;
+}
+
+export default function Step10({
+    conversationId,
+    onComplete,
+    onBack,
+}: Step10Props) {
+    const [questions, setQuestions] = useState<ParsedQuestion[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const [userAnswers, setUserAnswers] = useState<Map<number, string>>(new Map());
+    const [quizResults, setQuizResults] = useState<{
+        correct: number[];
+        incorrect: number[];
+    }>({ correct: [], incorrect: [] });
+
+    useEffect(() => {
+        const fetchQuiz = async () => {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const message = "Generate a quick 2-3 question micro-quiz about the lesson to test understanding. Use the generate_quiz tool with topic=\"the lesson\", num_questions=2, difficulty=\"medium\".";
+                const response = await sendChatMessage(message, conversationId);
+                const parsedQuestions = parseQuizFromResponse(response.message);
+
+                if (parsedQuestions.length === 0) {
+                    throw new Error("No questions found in the response. Please try again.");
+                }
+
+                setQuestions(parsedQuestions);
+            } catch (err) {
+                const errorMessage =
+                    err instanceof Error
+                        ? err.message
+                        : "Failed to load quiz. Please try again.";
+                setError(errorMessage);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchQuiz();
+    }, [conversationId]);
+
+    const handleOptionClick = (optionLetter: string) => {
+        if (selectedAnswer) return; // Already answered
+
+        setSelectedAnswer(optionLetter);
+        const currentQuestion = questions[currentQuestionIndex];
+        const isCorrect = optionLetter === currentQuestion.answer;
+
+        // Store user's answer
+        const updatedAnswers = new Map(userAnswers);
+        updatedAnswers.set(currentQuestion.number, optionLetter);
+        setUserAnswers(updatedAnswers);
+
+        // Calculate updated results
+        const updatedResults = {
+            correct: [...quizResults.correct],
+            incorrect: [...quizResults.incorrect],
+        };
+
+        // Remove current question from both arrays if it was there
+        updatedResults.correct = updatedResults.correct.filter((n) => n !== currentQuestion.number);
+        updatedResults.incorrect = updatedResults.incorrect.filter((n) => n !== currentQuestion.number);
+
+        // Add to appropriate array
+        if (isCorrect) {
+            updatedResults.correct.push(currentQuestion.number);
+        } else {
+            updatedResults.incorrect.push(currentQuestion.number);
+        }
+
+        // Update results state
+        setQuizResults(updatedResults);
+
+        // Move to next question after a short delay
+        setTimeout(() => {
+            const isLastQuestion = currentQuestionIndex === questions.length - 1;
+
+            if (!isLastQuestion) {
+                setCurrentQuestionIndex(currentQuestionIndex + 1);
+                setSelectedAnswer(null);
+            } else {
+                // Quiz complete - calculate final results
+                const finalResults = {
+                    totalQuestions: questions.length,
+                    correctAnswers: updatedResults.correct.length,
+                    incorrectQuestionNumbers: updatedResults.incorrect,
+                };
+                onComplete(finalResults);
+            }
+        }, 500);
+    };
+
+    if (isLoading) {
+        return (
+            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-[#6C757D] rounded-full animate-bounce"></div>
+                        <div
+                            className="w-3 h-3 bg-[#6C757D] rounded-full animate-bounce"
+                            style={{ animationDelay: "0.1s" }}
+                        ></div>
+                        <div
+                            className="w-3 h-3 bg-[#6C757D] rounded-full animate-bounce"
+                            style={{ animationDelay: "0.2s" }}
+                        ></div>
+                    </div>
+                    <p className="text-[#F0F0F0] text-lg">Generating quiz...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+                <div className="max-w-md w-full bg-[#F0F0F0] rounded-3xl p-8 text-center">
+                    <div className="text-red-500 text-4xl mb-4">⚠️</div>
+                    <h3 className="text-2xl font-bold text-[#333333] mb-2">
+                        Something went wrong
+                    </h3>
+                    <p className="text-[#666666] mb-6">{error}</p>
+                    {onBack && (
+                        <button
+                            onClick={onBack}
+                            className="px-6 py-3 rounded-xl bg-[#6C757D] text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                        >
+                            Go Back
+                        </button>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    if (questions.length === 0) {
+        return (
+            <div className="h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+                <div className="max-w-md w-full bg-[#F0F0F0] rounded-3xl p-8 text-center">
+                    <p className="text-[#666666] mb-6">No questions available.</p>
+                    {onBack && (
+                        <button
+                            onClick={onBack}
+                            className="px-6 py-3 rounded-xl bg-[#6C757D] text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                        >
+                            Go Back
+                        </button>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    const currentQuestion = questions[currentQuestionIndex];
+    const totalQuestions = questions.length;
+
+    return (
+        <div className="h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+            <div className="w-full max-w-3xl">
+                {/* Quiz Card */}
+                <div className="bg-[#F0F0F0] rounded-3xl p-8 md:p-12 shadow-2xl">
+                    {/* Header */}
+                    <div className="sm:flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3">
+                            <p className="text-2xl font-semibold text-[#333333]">
+                                Quick Check
+                            </p>
+                            <span className="text-2xl">🧪</span>
+                        </div>
+                        <div className="text-[#666666] font-semibold text-lg">
+                            Question {currentQuestion.number} of {totalQuestions}
+                        </div>
+                    </div>
+
+                    {/* Question */}
+                    <div className="mb-6">
+                        <div className="prose prose-lg max-w-none">
+                            <ReactMarkdown
+                                components={{
+                                    p: ({ children }) => (
+                                        <p className="text-[#333333] mb-4 leading-relaxed text-lg">
+                                            {children}
+                                        </p>
+                                    ),
+                                    code: ({ children, className }) => {
+                                        const isInline = !className;
+                                        if (isInline) {
+                                            return (
+                                                <code className="bg-[#E0E0E0] px-2 py-1 rounded text-[#333333] font-mono text-sm">
+                                                    {children}
+                                                </code>
+                                            );
+                                        }
+                                        return (
+                                            <pre className="bg-[#E0E0E0] p-4 rounded-lg overflow-x-auto mb-4">
+                                                <code className="text-[#333333] font-mono text-sm">
+                                                    {children}
+                                                </code>
+                                            </pre>
+                                        );
+                                    },
+                                    pre: ({ children }) => (
+                                        <pre className="bg-[#E0E0E0] p-4 rounded-lg overflow-x-auto mb-4">
+                                            {children}
+                                        </pre>
+                                    ),
+                                }}
+                            >
+                                {currentQuestion.question}
+                            </ReactMarkdown>
+                        </div>
+                    </div>
+
+                    {/* Options */}
+                    <div className="space-y-4 mb-8">
+                        {currentQuestion.options.map((option) => {
+                            const isSelected = selectedAnswer === option.letter;
+                            const isCorrect = option.letter === currentQuestion.answer;
+                            const showFeedback = selectedAnswer !== null;
+
+                            let optionClass = "bg-white border-2 border-[#D7D7D7] text-[#333333]";
+
+                            if (showFeedback) {
+                                if (isCorrect) {
+                                    optionClass = "bg-green-100 border-2 border-green-500 text-[#333333]";
+                                } else if (isSelected && !isCorrect) {
+                                    optionClass = "bg-red-100 border-2 border-red-500 text-[#333333]";
+                                }
+                            } else {
+                                optionClass += " hover:border-[#6C757D] hover:shadow-md cursor-pointer transition-all duration-200";
+                            }
+
+                            return (
+                                <button
+                                    key={option.letter}
+                                    onClick={() => handleOptionClick(option.letter)}
+                                    disabled={selectedAnswer !== null}
+                                    className={`w-full p-4 rounded-xl ${optionClass} flex items-center gap-4 text-left`}
+                                >
+                                    <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-base ${showFeedback && isCorrect
+                                        ? "bg-green-500 text-white"
+                                        : showFeedback && isSelected && !isCorrect
+                                            ? "bg-red-500 text-white"
+                                            : "bg-[#5A5A5A] text-white"
+                                        }`}>
+                                        {option.letter}
+                                    </div>
+                                    <span className="flex-1 text-[#333333] font-medium">
+                                        {option.text}
+                                    </span>
+                                    {showFeedback && isCorrect && (
+                                        <span className="text-green-600 text-xl">✓</span>
+                                    )}
+                                    {showFeedback && isSelected && !isCorrect && (
+                                        <span className="text-red-600 text-xl">✗</span>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
