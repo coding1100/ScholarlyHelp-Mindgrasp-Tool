@@ -8,14 +8,14 @@ import AiMission from "@/app/components/AiLandingPage/AiMission";
 import AiFaq from "@/app/components/AiLandingPage/AiFaq";
 import ElevateWriting from "@/app/components/AiLandingPage/ElevateWriting";
 import { AiSummarizerContent } from "@/app/components/AiLandingPage/AiContent";
-import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
+// import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
-interface PageProps { }
-const Page: FC<PageProps> = ({ }) => {
+interface PageProps {}
+const Page: FC<PageProps> = ({}) => {
   // return <div>test</div>
   return (
     <>
-      <ThemeToggle />
+      {/* <ThemeToggle /> */}
 
       <AiHero
         heroContent={AiSummarizerContent.heroContent}
@@ -35,13 +35,17 @@ const Page: FC<PageProps> = ({ }) => {
 export default Page;
 
 export function generateMetadata(): Metadata {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const normalizedBaseUrl = baseUrl.endsWith("/")
+    ? baseUrl.slice(0, -1)
+    : baseUrl;
   const canonicalUrl = `${normalizedBaseUrl}/ai-summarizer`;
 
   return {
     title: "AI Summarizer Tool | Condense Articles & Research Papers Instantly",
-    description: "Turn long chapters, PDFs, notes, or articles into clear, concise summaries. Save study time and capture main ideas quickly with our intelligent AI summarizer.",
+    description:
+      "Turn long chapters, PDFs, notes, or articles into clear, concise summaries. Save study time and capture main ideas quickly with our intelligent AI summarizer.",
     alternates: {
       canonical: canonicalUrl,
     },
