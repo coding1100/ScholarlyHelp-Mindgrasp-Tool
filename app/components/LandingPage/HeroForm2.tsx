@@ -263,7 +263,8 @@ const HeroForm2: FC<ZohoForm2Props> = ({
       </div>
 
       {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
-      {showStickyOnMobile && !isFormVisible ? (
+      {showStickyOnMobile && (!isMobile ? !isFormVisible : true) ? (
+        // {showStickyOnMobile && !isFormVisible ? (
         <button
           type="button"
           onClick={scrollToForm}
