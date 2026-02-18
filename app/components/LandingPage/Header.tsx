@@ -25,12 +25,16 @@ const Star: React.FC<{ className?: string }> = ({ className }) => (
 
 export default function Header() {
   const pathname = usePathname();
-  const isTakeMyClass = pathname === '/take-my-class/' || pathname === '/take-my-class';
-  const isTakeMyExam = pathname === '/take-my-exam/' || pathname === '/take-my-exam';
+  const isTakeMyClass =
+    pathname === "/take-my-class/" || pathname === "/take-my-class";
+  const isTakeMyExam =
+    pathname === "/take-my-exam/" || pathname === "/take-my-exam";
   const isSpecialRoute = isTakeMyClass || isTakeMyExam;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
-  const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(null);
+  const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(
+    null,
+  );
 
   const navItems = [
     {
@@ -45,7 +49,7 @@ export default function Header() {
             },
             {
               name: "Take My Biology Class",
-              href: "/online-class/biology/"
+              href: "/online-class/biology/",
             },
             {
               name: "Take My Economics Class",
@@ -53,26 +57,45 @@ export default function Header() {
             },
             {
               name: "Take My Math Class",
-              href: "/online-class/math/"
+              href: "/online-class/math/",
             },
             {
               name: "Take My Law Class",
               href: "/online-class/law/",
             },
-
           ],
           button: [{ name: "See All Subjects", href: "/online-class/" }],
         },
         {
           title: "How It Works & Proof",
           links: [
-            { name: "100% Confidentiality Pact", href: "/guarantee-anonymity/" },
-            { name: "0% Plagiarism Guarantee", href: "/plagiarism-free-process/" },
-            { name: "A or B Grade Guarantee", href: "/a-or-b-grade-guarantee/" },
-            { name: "On-Time Delivery Guarantee", href: "/on-time-delivery-guarantee/" },
-            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts/" },
+            {
+              name: "100% Confidentiality Pact",
+              href: "/guarantee-anonymity/",
+            },
+            {
+              name: "0% Plagiarism Guarantee",
+              href: "/plagiarism-free-process/",
+            },
+            {
+              name: "A or B Grade Guarantee",
+              href: "/a-or-b-grade-guarantee/",
+            },
+            {
+              name: "On-Time Delivery Guarantee",
+              href: "/on-time-delivery-guarantee/",
+            },
+            {
+              name: "Our US-Based PhD Experts",
+              href: "/us-based-phd-experts/",
+            },
           ],
-          button: [{ name: "Success Stories & Reviews", href: "/success-stories-and-reviews/" }],
+          button: [
+            {
+              name: "Success Stories & Reviews",
+              href: "/success-stories-and-reviews/",
+            },
+          ],
         },
         {
           title: "Online Class Support",
@@ -87,7 +110,7 @@ export default function Header() {
             },
             {
               name: "Work–Study Balance",
-              href: "https://scholarlyhelp.com/blog/how-to-balance-work-and-study/"
+              href: "https://scholarlyhelp.com/blog/how-to-balance-work-and-study/",
             },
             {
               name: "Study Tips & Productivity",
@@ -97,7 +120,6 @@ export default function Header() {
               name: "Tough Math & Study Help",
               href: "https://scholarlyhelp.com/blog/hardest-math-class-in-high-school/",
             },
-
           ],
           button: [{ name: "Ask for Class Help", href: "/online-class/" }],
         },
@@ -121,13 +143,33 @@ export default function Header() {
         {
           title: "How It Works & Proof",
           links: [
-            { name: "100% Confidentiality Pact", href: "/guarantee-anonymity/" },
-            { name: "0% Plagiarism Guarantee", href: "/plagiarism-free-process/" },
-            { name: "A or B Grade Guarantee", href: "/a-or-b-grade-guarantee/" },
-            { name: "On-Time Delivery Guarantee", href: "/on-time-delivery-guarantee/" },
-            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts/" },
+            {
+              name: "100% Confidentiality Pact",
+              href: "/guarantee-anonymity/",
+            },
+            {
+              name: "0% Plagiarism Guarantee",
+              href: "/plagiarism-free-process/",
+            },
+            {
+              name: "A or B Grade Guarantee",
+              href: "/a-or-b-grade-guarantee/",
+            },
+            {
+              name: "On-Time Delivery Guarantee",
+              href: "/on-time-delivery-guarantee/",
+            },
+            {
+              name: "Our US-Based PhD Experts",
+              href: "/us-based-phd-experts/",
+            },
           ],
-          button: [{ name: "Success Stories & Reviews", href: "/success-stories-and-reviews/" }],
+          button: [
+            {
+              name: "Success Stories & Reviews",
+              href: "/success-stories-and-reviews/",
+            },
+          ],
         },
         {
           title: "Exam Help Center",
@@ -140,7 +182,10 @@ export default function Header() {
               name: "Exam Passing Tips",
               href: "https://scholarlyhelp.com/blog/how-to-prepare-for-maths-exam/",
             },
-            { name: "Bonus Questions Strategy", href: "https://scholarlyhelp.com/blog/bonus-questions-in-exam/" },
+            {
+              name: "Bonus Questions Strategy",
+              href: "https://scholarlyhelp.com/blog/bonus-questions-in-exam/",
+            },
             {
               name: "Edgenuity Cumulative Exam Help",
               href: "https://scholarlyhelp.com/blog/edgenuity-cumulative-exam/",
@@ -167,7 +212,7 @@ export default function Header() {
             },
             {
               name: "Finance Assignment Help",
-              href: "/assignment/finance/"
+              href: "/assignment/finance/",
             },
             {
               name: "Marketing Assignment Help",
@@ -175,7 +220,7 @@ export default function Header() {
             },
             {
               name: "Math Assignment Help",
-              href: "/assignment/math/"
+              href: "/assignment/math/",
             },
             {
               name: "Accounting Assignment Help",
@@ -187,17 +232,36 @@ export default function Header() {
         {
           title: "How It Works & Proof",
           links: [
-            { name: "100% Confidentiality Pact", href: "/guarantee-anonymity/" },
-            { name: "0% Plagiarism Guarantee", href: "/plagiarism-free-process/" },
-            { name: "A or B Grade Guarantee", href: "/a-or-b-grade-guarantee/" },
-            { name: "On-Time Delivery Guarantee", href: "/on-time-delivery-guarantee/" },
-            { name: "Our US-Based PhD Experts", href: "/us-based-phd-experts/" },
+            {
+              name: "100% Confidentiality Pact",
+              href: "/guarantee-anonymity/",
+            },
+            {
+              name: "0% Plagiarism Guarantee",
+              href: "/plagiarism-free-process/",
+            },
+            {
+              name: "A or B Grade Guarantee",
+              href: "/a-or-b-grade-guarantee/",
+            },
+            {
+              name: "On-Time Delivery Guarantee",
+              href: "/on-time-delivery-guarantee/",
+            },
+            {
+              name: "Our US-Based PhD Experts",
+              href: "/us-based-phd-experts/",
+            },
           ],
-          button: [{ name: "Success Stories & Reviews", href: "/success-stories-and-reviews/" }],
+          button: [
+            {
+              name: "Success Stories & Reviews",
+              href: "/success-stories-and-reviews/",
+            },
+          ],
         },
       ],
       href: "/assignment/",
-
     },
     {
       title: "Homework",
@@ -212,7 +276,7 @@ export default function Header() {
             {
               name: "Computer science Homework Help",
               href: "/homework/computer-science/",
-            }
+            },
           ],
           button: [{ name: "See All Subjects", href: "/homework/" }],
         },
@@ -228,8 +292,14 @@ export default function Header() {
             { name: "Law essay writing", href: "/essay-writing/law/" },
             { name: "History essay writing", href: "/essay-writing/history/" },
             { name: "Nursing essay writing", href: "/essay-writing/nursing/" },
-            { name: "Psychology essay writing", href: "/essay-writing/psychology/" },
-            { name: "Economics essay writing", href: "/essay-writing/economics/" },
+            {
+              name: "Psychology essay writing",
+              href: "/essay-writing/psychology/",
+            },
+            {
+              name: "Economics essay writing",
+              href: "/essay-writing/economics/",
+            },
           ],
           button: [{ name: "See All Subjects", href: "/essay-writing/" }],
         },
@@ -238,7 +308,7 @@ export default function Header() {
     },
     {
       title: "Tools",
-      href: "/tools/"
+      href: "/tools/",
     },
   ];
 
@@ -271,16 +341,18 @@ export default function Header() {
           <button
             onClick={() => setMobileOpen((prev) => !prev)}
             className="min-[1200px]:hidden text-gray-700 relative z-[10000] p-2"
-            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={
+              mobileOpen ? "Close navigation menu" : "Open navigation menu"
+            }
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? <X size={28} color="#3e42b3" /> : <Menu size={28} color="#3e42b3" />}
+            {mobileOpen ? (
+              <X size={28} color="#3e42b3" />
+            ) : (
+              <Menu size={28} color="#3e42b3" />
+            )}
           </button>
         )}
-
-
-
-
 
         {/* Rating Stars - Only for /take-my-class/ */}
         {isTakeMyClass && (
@@ -292,23 +364,22 @@ export default function Header() {
                   className="w-6 h-6 text-[#facc15] fill-[#facc15]"
                 />
               ))}
-              <span className="text-sm font-semibold text-gray-700 ml-2">4.9/5</span>
+              <span className="text-sm font-semibold text-gray-700 ml-2">
+                4.9/5
+              </span>
               <span className="text-sm ml-4">(1,000+ Satisfied Students)</span>
             </div>
-
-
           </div>
         )}
-
 
         {/* Phone Number - Shown for special routes (take-my-class, take-my-exam): always show number on mobile */}
         {isSpecialRoute && (
           <div className="">
             <a
-              href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || '17167081869'}`}
-              className="flex items-center text-primary-400 text-[#565add] transition"
+              href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || "17167081869"}`}
+              className="flex items-center sm:text-primary-400 sm:text-[#565add] transition sm:bg-white bg-[#9F92EC] sm:rounded-none rounded-full sm:px-0 px-4 sm:py-0 py-1"
             >
-              <span className="w-6 mr-1 text-primary-400">
+              <span className="w-6 mr-1 text-primary-400 sm:block hidden">
                 <Image
                   src={Phone}
                   alt="Phone"
@@ -317,7 +388,8 @@ export default function Header() {
                   fetchPriority="high"
                 />
               </span>
-              <span>1-716-708-1869</span>
+              <span className="sm:block hidden">+1 646 480 6092 </span>
+              <span className="sm:hidden block text-white">Text Us</span>
             </a>
           </div>
         )}
@@ -341,8 +413,9 @@ export default function Header() {
                     {item.submenu && (
                       <ChevronDown
                         size={16}
-                        className={`transition ${activeMenu === index ? "rotate-180" : ""
-                          }`}
+                        className={`transition ${
+                          activeMenu === index ? "rotate-180" : ""
+                        }`}
                       />
                     )}
                   </Link>
@@ -359,7 +432,9 @@ export default function Header() {
                               key={idx}
                               className="flex flex-col justify-between shadow-[0px_0px_31.8px_0px_#00000012] p-[25px] rounded-[5px] w-[350px]"
                             >
-                              <div className="text-gray-900 mb-2 font-semibold">{sub.title}</div>
+                              <div className="text-gray-900 mb-2 font-semibold">
+                                {sub.title}
+                              </div>
                               {sub.links.map((link, linkIdx) => (
                                 <Link
                                   key={linkIdx}
@@ -400,10 +475,10 @@ export default function Header() {
             </nav>
             <div className="">
               <a
-                href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || '17167081869'}`}
-                className="flex items-center text-primary-400 text-[#565add] transition"
+                href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || "17167081869"}`}
+                className="flex items-center sm:text-primary-400 sm:text-[#565add] transition sm:bg-white bg-[#9F92EC] sm:rounded-none rounded-full sm:px-0 px-4 sm:py-0 py-1"
               >
-                <span className="w-6 mr-1 text-primary-400">
+                <span className="w-6 mr-1 text-primary-400 sm:block hidden">
                   <Image
                     src={Phone}
                     alt="Phone"
@@ -412,8 +487,8 @@ export default function Header() {
                     fetchPriority="high"
                   />
                 </span>
-                <span className="max-[450px]:hidden">1-716-708-1869</span>
-                <span className="min-[450px]:hidden font-semibold">Call Now</span>
+                <span className="sm:block hidden">+1 646 480 6092 </span>
+                <span className="sm:hidden block text-white">Text Us</span>
               </a>
             </div>
           </>
@@ -423,12 +498,11 @@ export default function Header() {
         <div className=" md:hidden flex-col items-center flex py-2">
           <div className="flex">
             {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className="w-5 h-5 text-[#facc15] fill-[#facc15]"
-              />
+              <Star key={i} className="w-5 h-5 text-[#facc15] fill-[#facc15]" />
             ))}
-            <span className="text-sm font-semibold text-gray-700 ml-2">4.9/5</span>
+            <span className="text-sm font-semibold text-gray-700 ml-2">
+              4.9/5
+            </span>
             <span className="text-sm ml-4">(1,000+ Satisfied Students)</span>
           </div>
         </div>
@@ -436,16 +510,20 @@ export default function Header() {
       {/* Mobile Navigation - full-width dropdown under header with smooth transition and outside click close */}
       {!isSpecialRoute && (
         <div
-          className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${mobileOpen ? "block pointer-events-auto" : "hidden pointer-events-none"
-            }`}
+          className={`min-[1200px]:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${
+            mobileOpen
+              ? "block pointer-events-auto"
+              : "hidden pointer-events-none"
+          }`}
           onClick={() => {
             setMobileOpen(false);
             setMobileActiveIndex(null);
           }}
         >
           <div
-            className={`absolute inset-x-0 top-[64px] mx-auto max-w-7xl bg-white border-t shadow-lg rounded-b-2xl max-h-[70vh] overflow-auto transform transition-transform duration-300 ease-in-out ${mobileOpen ? "translate-y-[0px]" : "-translate-y-[400px]"
-              }`}
+            className={`absolute inset-x-0 top-[64px] mx-auto max-w-7xl bg-white border-t shadow-lg rounded-b-2xl max-h-[70vh] overflow-auto transform transition-transform duration-300 ease-in-out ${
+              mobileOpen ? "translate-y-[0px]" : "-translate-y-[400px]"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             <ul className="flex flex-col divide-y">
@@ -458,7 +536,7 @@ export default function Header() {
                       onClick={(e) => {
                         e.preventDefault();
                         setMobileActiveIndex(
-                          mobileActiveIndex === index ? null : index
+                          mobileActiveIndex === index ? null : index,
                         );
                       }}
                     >
@@ -517,7 +595,6 @@ export default function Header() {
           </div>
         </div>
       )}
-
     </header>
   );
 }

@@ -133,7 +133,8 @@ const ThankYou: FC<ThankYouProps> = ({}) => {
             overwhelm.
           </p> */}
           <p className="lg:text-xl ">
-          Our academic team is online right now. Start a chat to skip <br /> the queue and get your price instantly.
+            Our academic team is online right now. Start a chat to skip <br />{" "}
+            the queue and get your price instantly.
           </p>
         </div>
       </div>
@@ -235,7 +236,7 @@ const ThankYou: FC<ThankYouProps> = ({}) => {
                   <Phone color="#2B1C50" />
                 </div>
 
-                <p className="text-xl font-semibold">+1-716-708-1869</p>
+                <p className="text-xl font-semibold">++1 646 480 6092 </p>
               </a>
             </div>
           </div>

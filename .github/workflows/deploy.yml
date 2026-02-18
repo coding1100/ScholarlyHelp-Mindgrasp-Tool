@@ -17,8 +17,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -27,7 +27,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_API_URL: https://scholarly.namatechnologlies.com/v1
-          NEXT_PUBLIC_COMPANY_PHONE_NUMBER: 1-716-708-1869
+          NEXT_PUBLIC_COMPANY_PHONE_NUMBER: +1 646 480 6092
           NEXT_PUBLIC_SITE_URL: https://scholarlyhelp.com/
           NEXT_PUBLIC_NGROX_URL: https://scholarlyhelp-test.webdesigningcompanynewyork.com/v1
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
