@@ -206,7 +206,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
         </div>
       )}
       {pathname === "/take-my-class/" && (
-        <div className="mt-6">
+        <div className="sm:mt-6 mt-2">
           {/* <p className="text-[#263238] text-[17px]">
             Stop sacrificing your paycheck for grades. Our US-Based experts
             manage your{" "}

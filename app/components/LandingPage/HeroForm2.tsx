@@ -183,10 +183,10 @@ const HeroForm2: FC<ZohoForm2Props> = ({
         />
       )}
       <div className="w-full mx-auto cus-div">
-        <div className="w-full bg-[#263238] rounded-t-lg px-2 py-3">
+        <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
           <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
             Check Your{" "}
-            <span className="bg-[#F56200] rounded-full px-4  -rotate-3 inline-block">
+            <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
               Class
             </span>{" "}
             Price
@@ -195,7 +195,7 @@ const HeroForm2: FC<ZohoForm2Props> = ({
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className="bg-white max-[768px]:bg-transparent max-[768px]:shadow-none max-[768px]:p-0 rounded-lg shadow-sm p-6 flex flex-col gap-4 -z-[999]"
+          className="bg-white max-[768px]:bg-transparent max-[768px]:shadow-none max-[768px]:p-0 rounded-lg shadow-sm p-6 flex flex-col sm:gap-4 gap-2 -z-[999]"
           id="quote-form"
         >
           {/* 1. What do you need help with? */}
@@ -263,8 +263,8 @@ const HeroForm2: FC<ZohoForm2Props> = ({
       </div>
 
       {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
-      {showStickyOnMobile && (!isMobile ? !isFormVisible : true) ? (
-        // {showStickyOnMobile && !isFormVisible ? (
+      {/* {showStickyOnMobile && (!isMobile ? !isFormVisible : true) ? ( */}
+      {showStickyOnMobile && !isFormVisible ? (
         <button
           type="button"
           onClick={scrollToForm}
