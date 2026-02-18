@@ -100,7 +100,7 @@ const AppNav: FC<AppNavProps> = ({}) => {
               <span className="sm:w-6 w-4 mr-1 text-primary-400">
                 <Phone color="#565add" />
               </span>
-              1-716-708-1869
+              +1 646 480 6092 
             </a>
           </div> */}
             {currentPage !== "/take-my-class/" && (
@@ -112,7 +112,7 @@ const AppNav: FC<AppNavProps> = ({}) => {
                   <span className="w-6 mr-1 text-primary-400">
                     <Phone color="#565ADD" />
                   </span>
-                  1-716-708-1869
+                  +1 646 480 6092
                 </a>
                 {/* <a href="javascript:void(Tawk_API.toggle())">
               <Button className="md:w-36 w-28 ">Chat Now</Button>
@@ -239,7 +239,7 @@ const AppNav: FC<AppNavProps> = ({}) => {
                   <span className="w-6 mr-1 text-primary-400">
                     <Phone color="#565ADD" />
                   </span>
-                  1-716-708-1869
+                  +1 646 480 6092
                 </a>
                 {/* <a
                     href="mailto:support@scholarlyhelp.com"
@@ -263,7 +263,7 @@ const AppNav: FC<AppNavProps> = ({}) => {
                       <span className="sm:w-6 w-4 mr-1 text-primary-400">
                         <Phone color="#565ADD" />
                       </span>
-                      1-716-708-1869
+                      +1 646 480 6092
                     </a>
                     {/* <a
                         href="mailto:support@scholarlyhelp.com"
@@ -398,7 +398,7 @@ const AppNav: FC<AppNavProps> = ({}) => {
                   <span className="sm:w-6 w-4 mr-1 text-primary-400">
                     <Phone color="#565add" />
                   </span>
-                  1-716-708-1869
+                  +1 646 480 6092
                 </a>
               </div>
             )}

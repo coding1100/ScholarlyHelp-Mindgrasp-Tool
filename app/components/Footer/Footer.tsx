@@ -192,7 +192,7 @@ const Footer: FC<FooterProps> = ({}) => {
                     <span className="w-6 mr-1">
                       <Phone color="#2b1c51" />
                     </span>
-                    1-716-708-1869
+                    +1 646 480 6092
                   </p>
                 </div>
                 <div className="flex my-2">
@@ -451,7 +451,7 @@ const Footer: FC<FooterProps> = ({}) => {
                     <span className="w-6 mr-1">
                       <Phone color="#2b1c51" />
                     </span>
-                    1-716-708-1869
+                    +1 646 480 6092
                   </a>
                 </div>
                 <div className="flex my-2">
