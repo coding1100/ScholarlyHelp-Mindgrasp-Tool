@@ -52,9 +52,7 @@ const ContactUs: FC<ContactUsProps> = ({}) => {
               <Image className="max-w-8" src={EmailIcon} alt="icon" />
             </div>
             <div>
-              <p className="sm:text-xl text-[#000] font-bold mb-3">
-                Email
-              </p>
+              <p className="sm:text-xl text-[#000] font-bold mb-3">Email</p>
               <p className="text-[#000] leading-7">
                 Seeking information regarding our services? Email us directly.
               </p>
@@ -68,14 +66,12 @@ const ContactUs: FC<ContactUsProps> = ({}) => {
               <Image className="max-w-8" src={PhoneIcon} alt="icon" />
             </div>
             <div>
-              <p className="text-xl text-[#000] font-bold mb-3">
-                Toll-Free
-              </p>
+              <p className="text-xl text-[#000] font-bold mb-3">Toll-Free</p>
               <p className="text-[#000] leading-7">
                 Call us directly to get your urgent work done.
               </p>
               <p className=" text-[#000] font-semibold leading-7">
-                1-716-708-1869
+                +1 646 480 6092
               </p>
             </div>
           </div>
@@ -89,9 +85,7 @@ const ContactUs: FC<ContactUsProps> = ({}) => {
           </div>
           <div className="grid grid-cols-12 gap-6 mt-9">
             <div className="md:col-span-6 col-span-12 bg-primary-200 rounded-2xl px-5 py-5">
-              <p className="text-xl text-[#000] font-bold">
-                Live Chat Support
-              </p>
+              <p className="text-xl text-[#000] font-bold">Live Chat Support</p>
               <p className="text-[#000]">
                 Communicate with our friendly customer care center and get an
                 immediate response within seconds. Our 24/7 online live chat

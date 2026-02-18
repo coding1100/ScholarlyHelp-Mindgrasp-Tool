@@ -63,11 +63,10 @@ export const academicContent = [
   },
 ];
 
-interface FooterProps { }
+interface FooterProps {}
 
 const Footer: FC<FooterProps> = () => {
   const currentPage = usePathname();
-
 
   const [GCLID, setGCLID] = useState("");
   const [url, setUrl] = useState("");
@@ -104,23 +103,24 @@ const Footer: FC<FooterProps> = () => {
           {/* Logo & Description */}
           <div className="md:max-w-[372px]">
             <Link href="/">
-
               <Image
                 src={LogoNormal}
                 alt="Scholarly Help"
                 className="max-w-[142px] min-w-[142px]"
                 width={142}
-
                 priority
               />
             </Link>
             <div className="mt-3">
               <p className="leading-5 w-full">
-                Scholarly Help delivers academic writing services. Our team of qualified subject experts can help you with your challenging online classes
-                {!isDoMyClassPage && ", homework, assignments, quizzes, and exams"}.
+                Scholarly Help delivers academic writing services. Our team of
+                qualified subject experts can help you with your challenging
+                online classes
+                {!isDoMyClassPage &&
+                  ", homework, assignments, quizzes, and exams"}
+                .
               </p>
             </div>
-
           </div>
 
           {/* Navigation Links - Hidden on specific pages */}
@@ -129,8 +129,17 @@ const Footer: FC<FooterProps> = () => {
             <div>
               <p className="font-semibold text-lg mt-2 mb-3">Explore</p>
               <div className="font-light space-y-1">
-                {["/", "/about-us", "/contact-us", "https://scholarlyhelp.com/blog/"].map((href, i) => (
-                  <Link key={i} href={href} className="block hover:font-normal hover:underline">
+                {[
+                  "/",
+                  "/about-us",
+                  "/contact-us",
+                  "https://scholarlyhelp.com/blog/",
+                ].map((href, i) => (
+                  <Link
+                    key={i}
+                    href={href}
+                    className="block hover:font-normal hover:underline"
+                  >
                     <p>{["Home", "About Us", "Contact Us", "Blog"][i]}</p>
                   </Link>
                 ))}
@@ -148,8 +157,22 @@ const Footer: FC<FooterProps> = () => {
                   "/assignment",
                   "/essay-writing",
                 ].map((href, i) => (
-                  <Link key={i} href={href} className="block hover:font-normal hover:underline">
-                    <p>{["Online Class", "Exam", "Homework", "Assignment", "Essay Writing"][i]}</p>
+                  <Link
+                    key={i}
+                    href={href}
+                    className="block hover:font-normal hover:underline"
+                  >
+                    <p>
+                      {
+                        [
+                          "Online Class",
+                          "Exam",
+                          "Homework",
+                          "Assignment",
+                          "Essay Writing",
+                        ][i]
+                      }
+                    </p>
                   </Link>
                 ))}
               </div>
@@ -159,10 +182,16 @@ const Footer: FC<FooterProps> = () => {
             <div>
               <p className="font-semibold text-lg mt-2 mb-3">Legal Info</p>
               <div className="font-light space-y-1">
-                <Link href="/terms-and-conditions" className="block hover:font-normal hover:underline">
+                <Link
+                  href="/terms-and-conditions"
+                  className="block hover:font-normal hover:underline"
+                >
                   <p>Terms & Conditions</p>
                 </Link>
-                <Link href="/privacy" className="block hover:font-normal hover:underline">
+                <Link
+                  href="/privacy"
+                  className="block hover:font-normal hover:underline"
+                >
                   <p>Privacy Policy</p>
                 </Link>
               </div>
@@ -173,11 +202,14 @@ const Footer: FC<FooterProps> = () => {
           <div>
             <p className="font-semibold text-lg mt-2 mb-3">Contact Info</p>
             <div>
-              <a href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`} className="flex items-center">
+              <a
+                href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
+                className="flex items-center"
+              >
                 <span className="w-6 mr-1">
                   <Image src={Phone} alt="Phone" />
                 </span>
-                1-716-708-1869
+                +1 646 480 6092
               </a>
 
               {/* Social Icons */}
@@ -211,7 +243,9 @@ const Footer: FC<FooterProps> = () => {
                   {
                     href: "https://www.youtube.com/@ScholarlyHelp/",
                     label: "Visit our YouTube channel",
-                    icon: <SiYoutubemusic className="text-[21px] text-[#000]" />,
+                    icon: (
+                      <SiYoutubemusic className="text-[21px] text-[#000]" />
+                    ),
                   },
                 ].map((social, i) => (
                   <a
@@ -231,7 +265,14 @@ const Footer: FC<FooterProps> = () => {
               <div className="flex my-2 space-x-1">
                 {[MasterCard, Visa, AmericanExpress, Paypal].map((src, i) => (
                   <div key={i} className="w-5">
-                    <Image width={30} height={30} src={src} alt={["MasterCard", "Visa", "American Express", "PayPal"][i]} />
+                    <Image
+                      width={30}
+                      height={30}
+                      src={src}
+                      alt={
+                        ["MasterCard", "Visa", "American Express", "PayPal"][i]
+                      }
+                    />
                   </div>
                 ))}
               </div>
@@ -239,8 +280,6 @@ const Footer: FC<FooterProps> = () => {
           </div>
         </div>
       </div>
-
-
 
       {/* <div>
           <button id="sms-chat" className="sms-chat">
@@ -287,7 +326,6 @@ const Footer: FC<FooterProps> = () => {
           <p>Website owned and operated by Eliya Enterprises.</p>
         </div>
       </div>
-
     </div>
   );
 };
