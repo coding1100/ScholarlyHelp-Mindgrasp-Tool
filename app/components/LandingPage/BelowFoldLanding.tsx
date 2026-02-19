@@ -29,6 +29,11 @@ const Description = dynamic(() => import("./Description"), {
   loading: () => <LoadingSkeleton height="300px" />,
 });
 
+const Description2 = dynamic(() => import("./Description2"), {
+  ssr: false,
+  loading: () => <LoadingSkeleton height="300px" />,
+});
+
 const GuaranteedBlock = dynamic(() => import("./GuaranteedBlock"), {
   ssr: false,
   loading: () => <LoadingSkeleton height="400px" />,
@@ -114,7 +119,8 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     <>
       {currentPath === "/take-my-class/" ? <DeliveredOn /> : <Ratings />}
       <CardCarousel />
-      <Description />
+      {/* <Description /> */}
+      <Description2 />
       <GuaranteedBlock />
       <WhySlider />
       <CustomerReviews />
