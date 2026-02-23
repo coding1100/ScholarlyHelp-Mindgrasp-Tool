@@ -1,16 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { usePageData } from "./usePageData";
+
+const CHAR_LIMIT = 20;
 
 const HowWeHelp: React.FC = () => {
   const data = usePageData();
   const description = data?.description;
+  const [expandedIndices, setExpandedIndices] = useState<Set<number>>(
+    new Set(),
+  );
+
+  const toggleExpand = (index: number) => {
+    setExpandedIndices((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  };
 
   const scrollToQuote = () => {
-    const quoteForm = document.getElementById('quote-form');
+    const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
-      quoteForm.scrollIntoView({ behavior: 'smooth' });
+      quoteForm.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -52,43 +66,74 @@ const HowWeHelp: React.FC = () => {
     },
   ];
 
-  const services = description?.services && description.services.length > 0
-    ? description.services
-    : defaultServices;
+  const services =
+    description?.services && description.services.length > 0
+      ? description.services
+      : defaultServices;
 
-  const badges = description?.badges && description.badges.length > 0
-    ? description.badges
-    : ["Online Class Help", "Assignment Help", "Online Exam Help", "Essay Writing Services"];
+  const badges =
+    description?.badges && description.badges.length > 0
+      ? description.badges
+      : [
+          "Online Class Help",
+          "Assignment Help",
+          "Online Exam Help",
+          "Essay Writing Services",
+        ];
 
   return (
     <section className="pt-[45px] pb-5 bg-white text-[#171717]">
       <div className="max-w-7xl mx-auto  max-[1320px]:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-[42px] max-[768px]:text-[28px] text-[#000] font-bold  mb-4">
+          <h2 className="text-[42px] leading-[42px] max-[768px]:text-[28px] text-[#000] font-bold">
+            {description?.mainHeading || "How We Help You Succeed"}
+          </h2>
+          <h2 className="text-[42px] max-[768px]:text-[28px] text-[#F56200] font-bold mb-4">
             {description?.mainHeading || "How We Help You Succeed"}
           </h2>
           <p
             className="text-sm sm:text-base md:text-lg text-gray-600 w-full html font-normal text-[17px] leading[1.4] tracking-normal text-center"
             dangerouslySetInnerHTML={{
-              __html: description?.description ||
-                "Your go-to source for top-notch academic writing services. Get excellence in every assignment. From essays and research papers to online classes and exam assistance, we offer a range of comprehensive services to meet your academic needs. Get A+ grades!<br />Are you finding it difficult to complete your assignment questions correctly and on time? Worry not, Scholarly Help offers 24/7 homework aid with reliable client support at your service."
+              __html:
+                description?.description ||
+                "Your go-to source for top-notch academic writing services. Get excellence in every assignment. From essays and research papers to online classes and exam assistance, we offer a range of comprehensive services to meet your academic needs. Get A+ grades!<br />Are you finding it difficult to complete your assignment questions correctly and on time? Worry not, Scholarly Help offers 24/7 homework aid with reliable client support at your service.",
             }}
           />
         </div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-64 gap-y-8 mb-12">
-          {services.map((service: ServiceType, index: number) => (
-            <div key={index} className="bg-white">
-              <h3 className="font-semibold text-[19.22px] leading-[120%] tracking-normal mb-3 text-[#171717]">
-                {service.title}
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed font-normal text-[17px] leading-none tracking-normal">
-                {service.description}
-              </p>
-            </div>
-          ))}
+          {services.map((service: ServiceType, index: number) => {
+            const text = service.description;
+            const isLong = text.length > CHAR_LIMIT;
+            const isExpanded = expandedIndices.has(index);
+            const displayText =
+              isLong && !isExpanded
+                ? text.slice(0, CHAR_LIMIT).trim() +
+                  (text.length > CHAR_LIMIT ? "..." : "")
+                : text;
+
+            return (
+              <div key={index} className="bg-white">
+                <h3 className="font-semibold text-[19.22px] leading-[120%] tracking-normal mb-3 text-[#171717]">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 text-sm font-normal text-[17px] leading-relaxed tracking-normal">
+                  {displayText}
+                  {isLong && (
+                    <button
+                      type="button"
+                      onClick={() => toggleExpand(index)}
+                      className="ml-1 font-medium"
+                    >
+                      {isExpanded ? "Read less" : "Read more"}
+                    </button>
+                  )}
+                </p>
+              </div>
+            );
+          })}
         </div>
 
         {/* Badges Row */}
