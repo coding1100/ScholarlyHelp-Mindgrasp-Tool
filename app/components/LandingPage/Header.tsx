@@ -464,7 +464,7 @@ export default function Header() {
                             width={325}
                             height={250}
                             fetchPriority="high"
-                            className="h-[100%]"
+                            className="h-[100%] max-w-[280px]"
                           />
                         </div>
                       </div>
