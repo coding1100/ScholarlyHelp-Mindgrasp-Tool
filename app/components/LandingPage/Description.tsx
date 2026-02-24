@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import { usePageData } from "./usePageData";
+import { styleDescriptionMainHeading } from "./descriptionHeadingUtils";
 
-const CHAR_LIMIT = 20;
+const CHAR_LIMIT = 150;
 
 const HowWeHelp: React.FC = () => {
   const data = usePageData();
@@ -86,12 +87,14 @@ const HowWeHelp: React.FC = () => {
       <div className="max-w-7xl mx-auto  max-[1320px]:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-[42px] leading-[42px] max-[768px]:text-[28px] text-[#000] font-bold">
-            {description?.mainHeading || "How We Help You Succeed"}
-          </h2>
-          <h2 className="text-[42px] max-[768px]:text-[28px] text-[#F56200] font-bold mb-4">
-            {description?.mainHeading || "How We Help You Succeed"}
-          </h2>
+          <h2
+            className="text-[42px] leading-[42px] max-[768px]:text-[28px] text-[#000] font-bold mb-4"
+            dangerouslySetInnerHTML={{
+              __html: styleDescriptionMainHeading(
+                description?.mainHeading || "How We Help You Succeed",
+              ),
+            }}
+          />
           <p
             className="text-sm sm:text-base md:text-lg text-gray-600 w-full html font-normal text-[17px] leading[1.4] tracking-normal text-center"
             dangerouslySetInnerHTML={{
@@ -103,7 +106,7 @@ const HowWeHelp: React.FC = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-64 gap-y-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-20 gap-y-8 mb-12">
           {services.map((service: ServiceType, index: number) => {
             const text = service.description;
             const isLong = text.length > CHAR_LIMIT;
