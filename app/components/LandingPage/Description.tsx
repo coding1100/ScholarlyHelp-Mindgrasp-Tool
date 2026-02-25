@@ -140,7 +140,7 @@ const HowWeHelp: React.FC = () => {
         </div>
 
         {/* Badges Row */}
-        <div className="flex flex-wrap sm:justify-center gap-4 md:gap-8 mb-10">
+        {/* <div className="flex flex-wrap sm:justify-center gap-4 md:gap-8 mb-10">
           {badges.map((badge: string, idx: number) => (
             <div
               key={idx}
@@ -162,7 +162,7 @@ const HowWeHelp: React.FC = () => {
               </p>
             </div>
           ))}
-        </div>
+        </div> */}
         <div className="flex justify-center mt-[30px]">
           <button
             type="button"
