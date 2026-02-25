@@ -30,8 +30,7 @@ export const MainAiLanding = {
   },
   academicTools: {
     heading1: "AI Designed Tools for Students Educational Success",
-    description1:
-      `At ScholarlyHelp, we believe academic work should be smarter, simpler, and more accessible. Our AI-powered tools are created to help you learn faster, write better, and complete your tasks with confidence. Whether you're <a href="/essay-writing/" class="text-[#323dd6] hover:underline">generating essays</a>, <a href="/ai-paraphraser" class="text-[#323dd6] hover:underline">paraphrasing content</a>, <a href="/ai-summarizer" class="text-[#323dd6] hover:underline">summarizing long readings</a>, or <a href="/ai-thesis-generator" class="text-[#323dd6] hover:underline">crafting a thesis statement</a>, our tools are here to support you instantly and for free.`,
+    description1: `At ScholarlyHelp, we believe academic work should be smarter, simpler, and more accessible. Our AI-powered tools are created to help you learn faster, write better, and complete your tasks with confidence. Whether you're <a href="/essay-writing/" class="text-[#323dd6] hover:underline">generating essays</a>, <a href="/ai-paraphraser" class="text-[#323dd6] hover:underline">paraphrasing content</a>, <a href="/ai-summarizer" class="text-[#323dd6] hover:underline">summarizing long readings</a>, or <a href="/ai-thesis-generator" class="text-[#323dd6] hover:underline">crafting a thesis statement</a>, our tools are here to support you instantly and for free.`,
 
     heading2: "Our AI Academic Tools",
     description2:
@@ -39,8 +38,7 @@ export const MainAiLanding = {
     tools: [
       {
         title: "AI Essay Generator sdadsd",
-        description:
-          `Create structured, high-quality essays in minutes with our intelligent essay builder. Our <a href="/ai-essay-generator" class="text-[#323dd6] hover:underline">AI Essay Generator</a> helps you:`,
+        description: `Create structured, high-quality essays in minutes with our intelligent essay builder. Our <a href="/ai-essay-generator" class="text-[#323dd6] hover:underline">AI Essay Generator</a> helps you:`,
         list: [
           "Build strong introductions with a clear focus",
           "Develop organized and logical body paragraphs",
@@ -55,8 +53,7 @@ export const MainAiLanding = {
       },
       {
         title: "AI Paraphraser",
-        description:
-          `Rewrite content into fresh, original wording while keeping the meaning intact. Our <a href="/ai-paraphraser" class="text-[#323dd6] hover:underline">AI Paraphraser</a> helps you:`,
+        description: `Rewrite content into fresh, original wording while keeping the meaning intact. Our <a href="/ai-paraphraser" class="text-[#323dd6] hover:underline">AI Paraphraser</a> helps you:`,
         list: [
           "Avoid repetitive phrasing",
           "Improve clarity and readability",
@@ -71,8 +68,7 @@ export const MainAiLanding = {
       },
       {
         title: "AI Summarizer",
-        description:
-          `Turn long chapters, PDFs, notes, or articles into clear, concise summaries instantly. Our <a href="/ai-summarizer" class="text-[#323dd6] hover:underline">AI Summarizer</a> helps you:`,
+        description: `Turn long chapters, PDFs, notes, or articles into clear, concise summaries instantly. Our <a href="/ai-summarizer" class="text-[#323dd6] hover:underline">AI Summarizer</a> helps you:`,
         list: [
           "Capture the main ideas quickly",
           "Extract important arguments",
@@ -87,8 +83,7 @@ export const MainAiLanding = {
       },
       {
         title: "AI Thesis Generator",
-        description:
-          `Craft a compelling, academically sound thesis statement with guided suggestions. Our <a href="/ai-thesis-generator" class="text-[#323dd6] hover:underline">AI Thesis Generator</a> helps you:`,
+        description: `Craft a compelling, academically sound thesis statement with guided suggestions. Our <a href="/ai-thesis-generator" class="text-[#323dd6] hover:underline">AI Thesis Generator</a> helps you:`,
         list: [
           "Build a focused research direction",
           "Create strong, argument-driven statements",
@@ -284,8 +279,7 @@ export const MainAiLanding = {
 export const AiSummarizerContent = {
   heroContent: {
     mainHeading: "Smarter Summaries for Sharper Writing",
-    description:
-      `Scholarly AI is your all-in-one academic writing assistant designed to simplify and elevate your work. Its powerful AI summarizer and summary generator make it easy to condense lengthy research papers, articles, or essays into clear, concise insights. With Scholarly AI, you can focus more on your analysis while it handles the heavy lifting of summarization—helping you write smarter, faster, and with confidence.`,
+    description: `Scholarly AI is your all-in-one academic writing assistant designed to simplify and elevate your work. Its powerful AI summarizer and summary generator make it easy to condense lengthy research papers, articles, or essays into clear, concise insights. With Scholarly AI, you can focus more on your analysis while it handles the heavy lifting of summarization—helping you write smarter, faster, and with confidence.`,
     buttonText: "Start writing",
     buttonUrl: "/sign-in?returnUrl=/tools/summarizer-tool",
   },
@@ -352,8 +346,7 @@ export const AiSummarizerContent = {
       {
         icon: "PiNotePencilDuotone",
         title: "Paste Your Text",
-        description:
-          `Copy and paste your chosen content—whether it's a <a href="/assignment/" class="text-[#323dd6] hover:underline">research paper</a>, essay, or report—and let Scholarly AI get to work.`,
+        description: `Copy and paste your chosen content—whether it's a <a href="/assignment/" class="text-[#323dd6] hover:underline">research paper</a>, essay, or report—and let Scholarly AI get to work.`,
       },
       {
         icon: "GrMagic",
@@ -424,8 +417,7 @@ export const AiSummarizerContent = {
 export const AiParahrasingContent = {
   heroContent: {
     mainHeading: "AI-Powered Paraphrasing Tool for Smarter Writing",
-    description:
-      `Struggling to express your ideas clearly? Scholarly AI is your intelligent writing partner. Our advanced AI paraphrasing tool helps you reword academic content effortlessly, enhancing clarity, fluency, and originality while preserving your true meaning.`,
+    description: `Struggling to express your ideas clearly? Scholarly AI is your intelligent writing partner. Our advanced AI paraphrasing tool helps you reword academic content effortlessly, enhancing clarity, fluency, and originality while preserving your true meaning.`,
     buttonText: "Start writing",
     buttonUrl: "/sign-in?returnUrl=/tools/paraphraser-tool",
   },
@@ -454,8 +446,7 @@ export const AiParahrasingContent = {
       },
       {
         heading: "Achieve Crystal-Clear Expression",
-        description:
-          `Scholarly AI refines your sentences while maintaining their core meaning—improving clarity, coherence, and tone so your <a href="/essay-writing/" class="text-[#323dd6] hover:underline">academic writing</a> reads effortlessly and professionally.`,
+        description: `Scholarly AI refines your sentences while maintaining their core meaning—improving clarity, coherence, and tone so your <a href="/essay-writing/" class="text-[#323dd6] hover:underline">academic writing</a> reads effortlessly and professionally.`,
         linkText: "Get Started",
         url: "/sign-in?returnUrl=/tools/paraphraser-tool",
         img: interactive,
@@ -473,8 +464,7 @@ export const AiParahrasingContent = {
   missionSection: {
     subTitle: "OUR PURPOSE",
     heading: "Upholding Integrity, Empowering Expression",
-    description:
-      `At Scholarly AI, we believe great writing starts with your own voice. Our goal is to help you express your thoughts more effectively while preserving authenticity. Scholarly AI isn’t about shortcuts—it’s about empowering you to communicate your ideas clearly, confidently, and ethically.`,
+    description: `At Scholarly AI, we believe great writing starts with your own voice. Our goal is to help you express your thoughts more effectively while preserving authenticity. Scholarly AI isn’t about shortcuts—it’s about empowering you to communicate your ideas clearly, confidently, and ethically.`,
     buttonText: "Get Started",
     buttonUrl: "/sign-in?returnUrl=/tools/paraphraser-tool",
   },
@@ -618,8 +608,7 @@ export const AiEssayContent = {
   missionSection: {
     subTitle: "OUR MISSION",
     heading: "Empowering Academic Integrity",
-    description:
-      `At Scholarly AI, we believe great writing starts with great structure. Our mission is to support your learning and creativity—not replace it. The essay outline generator helps you plan with clarity, ensuring your writing reflects both originality and academic honesty.`,
+    description: `At Scholarly AI, we believe great writing starts with great structure. Our mission is to support your learning and creativity—not replace it. The essay outline generator helps you plan with clarity, ensuring your writing reflects both originality and academic honesty.`,
     buttonText: "Get Started",
     buttonUrl: "/sign-in?returnUrl=/tools/essay-outline-tool",
   },
@@ -703,8 +692,7 @@ export const AiEssayContent = {
 export const AiThesisContent = {
   heroContent: {
     mainHeading: "AI Thesis Statement Generator",
-    description:
-      `Scholarly Help's Thesis Statement Generator is a sophisticated AI-powered writing assistant designed to help students and researchers craft compelling, focused thesis statements that form the backbone of exceptional academic essays. Whether you're developing an argumentative position, formulating an analytical interpretation, or articulating an expository claim, our intelligent thesis statement maker transforms your ideas into clear, specific, and arguable statements that capture your essay's central argument. By analyzing your topic, essay type, and perspective, our tool generates multiple high-quality thesis options complete with proper scope, logical structure, and academic rigor. Scholarly Help empowers you to articulate your arguments with clarity and confidence—we provide the framework that helps your original thinking shine, never replacing your intellectual contribution with automated content.`,
+    description: `Scholarly Help's Thesis Statement Generator is a sophisticated AI-powered writing assistant designed to help students and researchers craft compelling, focused thesis statements that form the backbone of exceptional academic essays. Whether you're developing an argumentative position, formulating an analytical interpretation, or articulating an expository claim, our intelligent thesis statement maker transforms your ideas into clear, specific, and arguable statements that capture your essay's central argument. By analyzing your topic, essay type, and perspective, our tool generates multiple high-quality thesis options complete with proper scope, logical structure, and academic rigor. Scholarly Help empowers you to articulate your arguments with clarity and confidence—we provide the framework that helps your original thinking shine, never replacing your intellectual contribution with automated content.`,
     buttonText: "Make Your Thesis Statement Free",
     buttonUrl: "/sign-in?returnUrl=/tools/thesis-generator-tool",
   },
@@ -720,13 +708,11 @@ export const AiThesisContent = {
   featuresSection: {
     subTitle: "POWERFUL FEATURES",
     heading: "Why Our Thesis Statement Maker Stands Above the Rest",
-    description:
-      `Discover the intelligent features that make <a href="/" class="text-[#323dd6] hover:underline">Scholarly Help</a> the premier choice for crafting exceptional thesis statements`,
+    description: `Discover the intelligent features that make <a href="/" class="text-[#323dd6] hover:underline">Scholarly Help</a> the premier choice for crafting exceptional thesis statements`,
     features: [
       {
         heading: "Precision Thesis Crafting",
-        description:
-          `Our AI thesis statement generator analyzes your topic, essay type, and perspective to create focused, arguable thesis statements that meet academic standards. Whether you're writing an argumentative essay requiring a clear position, an analytical paper needing an interpretive claim, or an expository piece demanding a factual assertion, our intelligent system formulates thesis statements with the perfect scope and specificity. Each generated statement includes a clear subject, a definitive stance, and supporting reasoning—the three essential elements professors look for in strong thesis statements across all academic disciplines.`,
+        description: `Our AI thesis statement generator analyzes your topic, essay type, and perspective to create focused, arguable thesis statements that meet academic standards. Whether you're writing an argumentative essay requiring a clear position, an analytical paper needing an interpretive claim, or an expository piece demanding a factual assertion, our intelligent system formulates thesis statements with the perfect scope and specificity. Each generated statement includes a clear subject, a definitive stance, and supporting reasoning—the three essential elements professors look for in strong thesis statements across all academic disciplines.`,
         linkText: "Get Started",
         url: "/sign-in?returnUrl=/tools/thesis-generator-tool",
         img: effortless,
@@ -752,8 +738,7 @@ export const AiThesisContent = {
   missionSection: {
     subTitle: "OUR MISSION",
     heading: "Empowering Your Voice, Enhancing Your Arguments",
-    description:
-      `At <a href="/" class="text-[#323dd6] hover:underline">Scholarly Help</a>, we believe that strong thesis statements are the foundation of persuasive, well-structured academic writing. Our AI thesis statement generator is built on the principle that technology should amplify your intellectual capabilities, not substitute for them. We provide sophisticated tools that help you articulate your arguments with precision and clarity, while you maintain complete ownership of your ideas, research, and critical thinking. Our free thesis statement maker serves as your writing partner—offering structure, suggestions, and refinement that enable you to communicate your unique perspective more effectively. We're committed to supporting authentic academic work that reflects your voice, analytical skills, and scholarly growth.`,
+    description: `At <a href="/" class="text-[#323dd6] hover:underline">Scholarly Help</a>, we believe that strong thesis statements are the foundation of persuasive, well-structured academic writing. Our AI thesis statement generator is built on the principle that technology should amplify your intellectual capabilities, not substitute for them. We provide sophisticated tools that help you articulate your arguments with precision and clarity, while you maintain complete ownership of your ideas, research, and critical thinking. Our free thesis statement maker serves as your writing partner—offering structure, suggestions, and refinement that enable you to communicate your unique perspective more effectively. We're committed to supporting authentic academic work that reflects your voice, analytical skills, and scholarly growth.`,
     buttonText: "Start Creating Thesis Statements Free",
     buttonUrl: "/sign-in?returnUrl=/tools/thesis-generator-tool",
   },
@@ -832,5 +817,550 @@ export const AiThesisContent = {
       "Join hundreds of thousands of students using Scholarly Help's free AI thesis statement generator to write more focused, persuasive essays. Create your first thesis statement in seconds—no credit card required, no hidden fees, completely free forever.",
     buttonText: "Generate Your Thesis Statement Now",
     buttonUrl: "/sign-in?returnUrl=/tools/thesis-generator-tool",
+  },
+};
+
+export const EssayTitleGeneratorContent = {
+  heroContent: {
+    mainHeading: "AI Essay Title Generator for Strong Academic Headings",
+    description: `Scholarly AI Essay Title Generator is an advanced academic tool that helps students quickly create relevant, engaging, and academically appropriate essay titles. Whether you are writing an argumentative, analytical, or descriptive essay, our tool provides title suggestions that perfectly align with your topic and assignment requirements. Instead of spending time struggling to phrase the perfect title, Scholarly AI’s title generator for essay ensures your titles are precise, topic-focused, and professional.`,
+    buttonText: "Generate Essay Titles",
+    buttonUrl: "/sign-in?returnUrl=/tools/essay-title",
+  },
+  imgSection: {
+    img: AiDashboard,
+  },
+  trustSection: {
+    heading: "Trusted by Students at Top Universities Worldwide",
+    description:
+      "Thousands of students from leading institutions use Scholarly Help's free thesis statement generator to strengthen their academic writing",
+    sliderImgs: [slide1, slide2, slide3, slide4, slide5],
+  },
+  featuresSection: {
+    subTitle: "POWERFUL FEATURES",
+    heading: "Why Scholarly AI Essay Title Generator Is Different",
+    description:
+      "Scholarly AI focuses on clarity, academic alignment, and usability. The tool is designed to support students across disciplines by generating titles that reflect strong academic language without being overly complex or misleading. Each title suggestion is created to match the intent of your essay while maintaining originality and academic tone.",
+    features: [
+      {
+        heading: "Topic-Focused Title Generation",
+        description: `Our AI title generator essay uses your keywords and subject details to produce titles directly aligned with your essay’s main argument. This ensures your title is specific, meaningful, and not generic or vague.`,
+        linkText: "Start Generating",
+        url: "/sign-in?returnUrl=/tools/essay-title",
+        img: effortless,
+      },
+      {
+        heading: "Support for Multiple Essay Types",
+        description:
+          "Different essays require different title styles. Scholarly AI creative essay title generator adapts suggestions for argumentative, analytical, descriptive, or explanatory essays, ensuring each title matches your essay’s tone and structure.",
+        linkText: "Start Generating Titles",
+        url: "/sign-in?returnUrl=/tools/essay-title",
+        img: interactive,
+      },
+      {
+        heading: "Clear and Academic Language",
+        description:
+          "The generated titles follow proper academic conventions. Our AI essay title generator free avoids casual phrasing while remaining professional and readable perfect for meeting instructor expectations across academic levels.",
+        linkText: "Get Started",
+        url: "/sign-in?returnUrl=/tools/essay-title",
+        img: learning,
+      },
+    ],
+  },
+  missionSection: {
+    subTitle: "OUR Purpose",
+    heading: "Helping Students Present Their Ideas More Effectively",
+    description:
+      "At Scholarly Help, we believe strong academic writing starts with clear presentation. Scholarly AI Essay Title Generator is built to support students by simplifying one of the most overlooked yet important parts of an essay its title. While encouraging originality and clarity.",
+    buttonText: "Start Generating Essay Titles",
+    buttonUrl: "/sign-in?returnUrl=/tools/essay-title",
+  },
+  guideSection: {
+    subTitle: "GUIDE",
+    heading: "How Scholarly AI Essay Title Generator Works",
+    steps: [
+      {
+        icon: "IoCheckmarkCircle",
+        title: "Enter Your Topic or Keywords",
+        description:
+          "Start by entering your essay topic or adding relevant keywords that describe your subject. You can provide either one or both. Scholarly AI uses this information to understand the focus, context, and direction of your essay, making it easier to generate meaningful titles that align with your content. If you are still developing your essay, you may also find guidance helpful from our AI Essay Generator to refine your ideas before creating a title.",
+      },
+      {
+        icon: "PiNotePencilDuotone",
+        title: "Select the Desired Tone",
+        description:
+          "Choose the tone that best fits your academic needs, such as formal, creative, or research-based. This helps Scholarly AI generate titles that match the writing style and expectations of your assignment.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Choose the Number of Title Suggestions",
+        description:
+          "Decide how many titles you want to generate. Our title of essay generator provides multiple variations so you can pick the best one.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Generate and Use with Confidence",
+        description:
+          "Click Generate Titles to instantly receive clear, relevant, and academically appropriate essay titles. Review the results and use the title that best represents your essay’s purpose and direction.",
+      },
+    ],
+  },
+  FaqSestion: {
+    subTitle: "SUPPORT",
+    heading: "Frequently Asked Questions",
+    faqs: [
+      {
+        question: "What is an AI essay title generator?",
+        answer:
+          "An AI essay title generator helps students create relevant and well-structured titles based on their topic and essay type. Scholarly AI analyzes your input and provides multiple title options that align with academic standards and writing conventions.",
+      },
+      {
+        question: "Is the essay title generator free to use?",
+        answer:
+          "Yes. Scholarly AI Essay Title Generator is free to use, allowing students to generate essay title ideas without subscriptions or hidden charges.",
+      },
+      {
+        question: "Can I use the generated titles directly in my assignment?",
+        answer:
+          "Yes. The titles generated by Scholarly AI are designed to be academically appropriate. You may use them directly or modify them slightly to better fit your instructor’s guidelines.",
+      },
+      {
+        question: "Does the tool work for different subjects?",
+        answer:
+          "Absolutely. Scholarly AI supports essay topics across a wide range of academic subjects, including humanities, social sciences, business, and science-related disciplines.",
+      },
+      {
+        question: "Will using an essay title generator affect originality?",
+        answer:
+          "No. The tool generates original title suggestions based on your topic. It does not copy existing titles or reuse predefined templates, helping maintain originality in your work.",
+      },
+      {
+        question: "Is my topic or data stored?",
+        answer:
+          "No. Scholarly Help values user privacy. Topics entered into Scholarly AI Essay Title Generator are not stored or shared beyond the session.",
+      },
+    ],
+  },
+  elevateSection: {
+    heading: "Create Strong Essay Titles in Seconds",
+    description:
+      "Join students who rely on Scholarly AI to simplify academic writing tasks. Generate clear, relevant essay titles quickly and focus more on developing strong arguments and content.",
+    buttonText: "Generate Essay Titles with Scholarly AI",
+    buttonUrl: "/sign-in?returnUrl=/tools/essay-title",
+  },
+};
+
+export const CitationGeneratorContent = {
+  heroContent: {
+    mainHeading: "AI Citation Generator Tool for Accurate Academic Referencing",
+    description:
+      "Scholarly AI citation generator is a powerful tool that helps students, researchers, and academic writers create accurate references quickly. Whether you need an APA citation generator, MLA citation generator, Chicago citation generator, Turabian citation generator, AMA citation generator, ACS citation generator, CSE citation generator, or BibTeX citation generator, this tool simplifies formatting and ensures your citations meet academic standards. Stop spending hours manually formatting sources. Scholarly AI allows you to focus on research quality while ensuring every reference is precise and consistent.",
+    buttonText: "Generate Citations",
+    buttonUrl: "/sign-in?returnUrl=/tools/citation-tool",
+  },
+  imgSection: {
+    img: AiDashboard,
+  },
+  trustSection: {
+    heading: "Trusted by Students at Top Universities Worldwide",
+    description:
+      "Thousands of students from leading institutions use Scholarly Help's free thesis statement generator to strengthen their academic writing",
+    sliderImgs: [slide1, slide2, slide3, slide4, slide5],
+  },
+  featuresSection: {
+    subTitle: "POWERFUL FEATURES",
+    heading: "Why Scholarly AI Is a Smarter Citation Tool",
+    description:
+      "Scholarly AI combines intelligent automation with academic best practices to help users generate citations that are both accurate and adaptable. The tool is designed to work across disciplines and academic levels, making it suitable for high school, undergraduate, postgraduate, and research-level work. Our goal is not just speed, but consistency, clarity, and adherence to academic integrity.",
+    features: [
+      {
+        heading: "Intelligent Citation Formatting",
+        description:
+          "The tool automatically adjusts citation style based on your selected format. Enter the type of source book, journal, website, article, or research paper and the AI citation generator APA, MLA citation generator or other style tools apply the correct structure. This reduces common mistakes and ensures each reference meets academic expectations.",
+        linkText: "Get Started with Scholarly AI",
+        url: "/sign-in?returnUrl=/tools/citation-tool",
+        img: effortless,
+      },
+      {
+        heading: "Support for Multiple Citation Styles",
+        description:
+          "Different institutions require different citation styles, which can often be confusing to manage. Scholarly AI supports widely used citation formats, allowing users to switch between styles without re-entering source information. This flexibility makes our free citation generator, APA citation generator free, MLA format citation generator and other tools suitable for multiple assignments and disciplines.",
+        linkText: "Generate Citations",
+        url: "/sign-in?returnUrl=/tools/citation-tool",
+        img: interactive,
+      },
+      {
+        heading: "Reduced Citation Errors",
+        description:
+          "Manual referencing often leads to missing details, incorrect punctuation, or inconsistent formatting. Scholarly AI minimizes these errors by following updated citation guidelines and applying them consistently across all generated references. This ensures your Chicago style citation generator, Turabian citation generator, ACS citation generator, CSE citation generator and BibTeX citation generator output is accurate throughout your work.",
+        linkText: "Get Started with Scholarly AI",
+        url: "/sign-in?returnUrl=/tools/citation-tool",
+        img: learning,
+      },
+    ],
+  },
+  missionSection: {
+    subTitle: "OUR Mission",
+    heading: "Making Academic Referencing Clear and Reliable",
+    description:
+      "At Scholarly Help, we believe accurate referencing is essential for maintaining academic honesty and credibility. Scholarly AI was created to help students acknowledge their sources correctly, strengthen their academic writing, and build confidence in their work without relying on guesswork or outdated templates.",
+    buttonText: "Start Generating Citations",
+    buttonUrl: "/sign-in?returnUrl=/tools/citation-tool",
+  },
+  guideSection: {
+    subTitle: "GUIDE",
+    heading: "How Scholarly AI Works",
+    steps: [
+      {
+        icon: "IoCheckmarkCircle",
+        title: "Select Citation Style & Source Type",
+        description:
+          "Begin by choosing your required citation style, such as APA, MLA, Chicago, Turabian, AMA, ACS, CSE or BibTeX and select the source type book, website, journal or article. Scholarly AI adjusts the input fields automatically based on your selection, ensuring the correct citation structure from the start.",
+      },
+      {
+        icon: "PiNotePencilDuotone",
+        title: "Enter Source Information",
+        description:
+          "Provide author names, titles, publisher details, year, pages, or URLs. The AI APA citation generator, MLA citation generator or other style tools format everything automatically.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Generate and Review Citation",
+        description:
+          "Click Generate Citation to instantly create a properly formatted reference. You can review the citation, include in-text citations if needed, and make small edits before using it in your document.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Use or Copy with Confidence",
+        description:
+          "Once generated, copy the citation directly into your assignment, essay, or research paper, knowing it follows accepted academic formatting and referencing guidelines.",
+      },
+    ],
+  },
+  FaqSestion: {
+    subTitle: "SUPPORT",
+    heading: "Frequently Asked Questions",
+    faqs: [
+      {
+        question: "What is an AI citation tool and how does it work?",
+        answer:
+          "An AI citation generator helps users generate formatted academic references by analyzing source details and applying citation rules automatically. Scholarly AI identifies the source type and formats the citation according to your selected academic style, saving time and reducing errors.",
+      },
+      {
+        question: "Is Scholarly AI free to use for students?",
+        answer:
+          "Yes. Our free citation generator access to citation generation so students can create accurate references without upfront costs. This allows users to explore the tool and support their academic work without financial barriers.",
+      },
+      {
+        question: "Which citation styles are supported by Scholarly AI?",
+        answer:
+          "Scholarly AI supports APA citation generator, MLA citation generator, Chicago citation generator, Chicago style citation generator, Turabian citation generator, AMA citation generator, ACS citation generator, CSE citation generator, BibTeX citation generator and other widely accepted formats.",
+      },
+      {
+        question:
+          "Can I customize or edit the citations generated by the tool?",
+        answer:
+          "Absolutely. All citations generated by Scholarly AI can be reviewed and edited. This is useful if your instructor has specific formatting preferences or if additional details need to be included.",
+      },
+      {
+        question:
+          "Is using an AI citation generator allowed in academic writing?",
+        answer:
+          "Yes. AI citation generators are widely accepted academic tools when used responsibly. Scholarly AI formats references but does not generate content, ensuring your work remains original and ethically sound.",
+      },
+      {
+        question: "Does Scholarly AI store my sources or personal data?",
+        answer:
+          "No. Scholarly Help prioritizes user privacy. Source details entered into Scholarly AI are not permanently stored or shared, ensuring a secure and private user experience.",
+      },
+    ],
+  },
+  elevateSection: {
+    heading: "Start Referencing with Accuracy and Confidence",
+    description:
+      "Join thousands of students who rely on Scholarly AI to simplify academic referencing. Use our APA citation generator, MLA citation generator, Chicago citation generator, Turabian citation generator, AMA citation generator, ACS citation generator, CSE citation generator, BibTeX citation generator, or free citation generator to create clean, consistent, and correct references quickly.",
+    buttonText: "Generate Citations with Scholarly AI",
+    buttonUrl: "/sign-in?returnUrl=/tools/citation-tool",
+  },
+};
+
+export const PythagorasSolverContent = {
+  heroContent: {
+    mainHeading:
+      "Free Pythagoras Theorem Calculator: Solve Right Triangles Instantly",
+    description:
+      "Stuck on a geometry problem? The Scholarly Help Pythagoras equation solver is your intelligent academic companion for mastering right-angled triangles. Whether you need to find the hypotenuse or calculate a missing leg, our AI Pythagoras equation solver eliminates manual errors and delivers instant, accurate solutions. Stop struggling with formulas and start understanding math.",
+    buttonText: "Solve My Triangle Now",
+    buttonUrl: "/sign-in?returnUrl=/tools/pythagoras-solver",
+  },
+  imgSection: {
+    img: AiDashboard,
+  },
+  trustSection: {
+    heading: "Why Students Trust Scholarly AI",
+    description:
+      "We combine mathematical rigor with a user-friendly interface to support students at every level. Unlike basic calculators, this pythagoras equation solver enhances learning by providing clear, reliable outputs aligned with standard academic requirements for geometry and trigonometry. It serves as a reliable checkpoint for anyone mastering right-angled triangles or solving trig equations with Pythagorean identities.",
+    sliderImgs: [slide1, slide2, slide3, slide4, slide5],
+  },
+  featuresSection: {
+    subTitle: "POWERFUL FEATURES",
+    heading: "Why Scholarly AI Is a Smarter Pythagoras Solver",
+    description:
+      "We combine mathematical rigor with a user-friendly interface to support students at every level. Our Pythagoras equation solver delivers accurate results and clear steps so you can master right-angled triangles and strengthen your geometry skills without manual errors or guesswork.",
+    features: [
+      {
+        heading: "Eliminate Calculation Errors",
+        description:
+          "The Pythagorean theorem equation solver removes arithmetic slips and squaring errors under pressure. Students can trust the final output when submitting assignments or double-checking manual calculations.",
+        linkText: "Try the Tool for Free",
+        url: "/sign-in?returnUrl=/tools/pythagoras-solver",
+        img: effortless,
+      },
+      {
+        heading: "Deepen Mathematical Understanding",
+        description:
+          "Scholarly AI is not just about getting the answer; it's about seeing the relationship between perpendicular sides and the hypotenuse. By testing different values and seeing immediate results, students gain an intuitive grasp of triangle structure. This tool also supports solving trig equations with Pythagorean identities worksheet exercises for practice and revision.",
+        linkText: "Try the Tool for Free",
+        url: "/sign-in?returnUrl=/tools/pythagoras-solver",
+        img: interactive,
+      },
+      {
+        heading: "Secure and Private Learning",
+        description:
+          "We believe that academic tools should be safe, private, and accessible for every student user. Scholarly Help does not store your input data, track your specific homework problems, or share your usage history. You can perform unlimited calculations with the assurance that your session data vanishes the moment you close the tab or refresh the page.",
+        linkText: "Try the Tool for Free",
+        url: "/sign-in?returnUrl=/tools/pythagoras-solver",
+        img: learning,
+      },
+    ],
+  },
+  missionSection: {
+    subTitle: "OUR Mission",
+    heading: "Making Right-Angled Triangles Simple and Accurate",
+    description:
+      "At Scholarly Help, we believe every student deserves access to reliable, stress-free tools for geometry and trigonometry. Our Pythagoras equation solver was created to help you solve right triangles with confidence, verify your work instantly, and build a deeper understanding of the Pythagorean theorem—without manual errors or guesswork.",
+    buttonText: "Start Calculation",
+    buttonUrl: "/sign-in?returnUrl=/tools/pythagoras-solver",
+  },
+  guideSection: {
+    subTitle: "GUIDE",
+    heading: "How to Use the Pythagoras Solver",
+    steps: [
+      {
+        icon: "IoCheckmarkCircle",
+        title: "Select the Target Side",
+        description:
+          "Start by choosing whether you want to calculate the Hypotenuse (the longest side) or one of the Perpendicular Legs.",
+      },
+      {
+        icon: "PiNotePencilDuotone",
+        title: "Enter Known Lengths",
+        description:
+          "Input the numerical values of the two known sides into the designated fields, ensuring you use consistent units of measurement.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Generate the Solution",
+        description:
+          "Click the Solve button to instantly process the Pythagoras equation solver formula and display the precise missing value.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Verify and Apply",
+        description:
+          "Review the clear output and use the result to complete your geometry problem or verify your manual calculations.",
+      },
+    ],
+  },
+  FaqSestion: {
+    subTitle: "SUPPORT",
+    heading: "Frequently Asked Questions",
+    faqs: [
+      {
+        question: "What is a Pythagoras solver tool?",
+        answer:
+          "A pythagoras equation solver is a digital calculator that applies the Pythagorean theorem (a² + b² = c²) to find missing side lengths of right-angled triangles.",
+      },
+      {
+        question: "Is the Scholarly AI Pythagoras Solver free?",
+        answer:
+          "Yes, our tool is completely free to use. There are no hidden subscriptions or limits on the number of calculations you can perform.",
+      },
+      {
+        question: "Can this tool calculate the hypotenuse?",
+        answer:
+          "Absolutely. Enter the two legs (sides a and b), and the Pythagorean theorem equation solver calculates the hypotenuse instantly.",
+      },
+      {
+        question: "Can I find a missing leg if I have the hypotenuse?",
+        answer:
+          "Yes. You can input the hypotenuse and one known leg, and the solver will rearrange the formula to find the missing perpendicular side.",
+      },
+      {
+        question: "Is this tool suitable for exam preparation?",
+        answer:
+          "Yes. Use the pythagorean theorem equation solver to check practice answers and reinforce correct formula application.",
+      },
+      {
+        question: "Does it show decimal answers?",
+        answer:
+          "Yes, the solver provides precise results, including decimal values, which is essential for advanced geometry where perfect squares are rare.",
+      },
+      {
+        question: "Do I need to sign up to use it?",
+        answer:
+          "No account is required. Access the Pythagoras equation solver instantly and start solving.",
+      },
+      {
+        question: "Is my data stored?",
+        answer:
+          "No. Scholarly Help prioritizes user privacy; your calculations are processed in real-time and are never stored on our servers.",
+      },
+    ],
+  },
+  elevateSection: {
+    heading: "Start Solving with Confidence",
+    description:
+      "Join students who use Scholarly AI to master geometry without manual stress. Use our pythagoras equation solver, pythagorean theorem equation solver, solving trig equations with Pythagorean identities, or solving trig equations with Pythagorean identities worksheet to get fast, accurate results and strengthen your understanding of right-angled triangles.",
+    buttonText: "Use Solver Now",
+    buttonUrl: "/sign-in?returnUrl=/tools/pythagoras-solver",
+  },
+};
+
+export const ResearchQuestionContent = {
+  heroContent: {
+    mainHeading:
+      "AI Research Question Generator: Craft Perfect Academic Inquiries",
+    description:
+      "The Scholarly Help research question generator is an advanced academic tool designed to transform vague ideas into precise, researchable inquiries. Whether you are drafting a thesis, working on an extended essay, or starting a term paper, our smart algorithm helps you define clear boundaries for your study. Stop struggling with writer's block and instantly generate focused questions that align with academic standards and guide your research direction.",
+    buttonText: "Create Questions Now",
+    buttonUrl: "/sign-in?returnUrl=/tools/research-question",
+  },
+  imgSection: {
+    img: AiDashboard,
+  },
+  trustSection: {
+    heading: "Turn Vague Ideas into Concrete Research",
+    description:
+      "Formulating a strong question is often the hardest hurdle in academic writing. Broad topics lead to unfocused analysis. Our tool bridges the gap between general interest and specific investigation, ensuring your project starts with a solid foundation. Use our research topic question generator or free online research question generator to focus your ideas effectively.",
+    sliderImgs: [slide1, slide2, slide3, slide4, slide5],
+  },
+  featuresSection: {
+    subTitle: "POWERFUL FEATURES",
+    heading: "Why Scholarly AI is the Best Research Companion",
+    description:
+      "We combine academic logic with natural language processing to create questions that are grammatically correct, methodologically sound, and feasible. This research questions generator is designed to support critical thinking, ensuring every output is measurable, relevant, and research-ready.",
+    features: [
+      {
+        heading: "Topic-Specific Contextual Analysis",
+        description:
+          "Scholarly AI doesn't just randomize words; it analyzes your keywords and subject area to maintain contextual relevance. This ensures the generated questions stay within your discipline. Our AI research question generator free and AI research questions generator features make this process efficient for all students.",
+        linkText: "Get Started",
+        url: "/sign-in?returnUrl=/tools/research-question",
+        img: effortless,
+      },
+      {
+        heading: "Adaptive to Academic Levels",
+        description:
+          "High school essays, undergraduate theses, and PhD dissertations require different scopes. Our tool adapts to your academic level. Whether using the extended essay research question generator or generating questions for a professional thesis, you can tailor the output for your assignment.",
+        linkText: "Get Started",
+        url: "/sign-in?returnUrl=/tools/research-question",
+        img: interactive,
+      },
+      {
+        heading: "Feasible and Measurable Outcomes",
+        description:
+          "Good research requires data that can actually be collected and analyzed. The tool focuses on creating open-ended, specific questions rather than simple \"yes or no\" answers. Students can also use the quantitative research question generator or qualitative research question generator for targeted methodology-based questions.",
+        linkText: "Get Started",
+        url: "/sign-in?returnUrl=/tools/research-question",
+        img: learning,
+      },
+    ],
+  },
+  missionSection: {
+    subTitle: "OUR Mission",
+    heading: "Making Research Questions Clear and Actionable",
+    description:
+      "At Scholarly Help, we believe every research project deserves a strong starting point. Our research question generator was created to help you move from broad topics to precise, researchable inquiries—so you can focus on quality analysis and credible sources instead of getting stuck on the first sentence.",
+    buttonText: "Try Scholarly AI For Free",
+    buttonUrl: "/sign-in?returnUrl=/tools/research-question",
+  },
+  guideSection: {
+    subTitle: "GUIDE",
+    heading: "How to Generate Your Research Question",
+    steps: [
+      {
+        icon: "IoCheckmarkCircle",
+        title: "Input Your Topic",
+        description:
+          "Enter your broad subject area or specific keywords. Our research paper question generator and research proposal question generator analyze these inputs to produce high-quality questions.",
+      },
+      {
+        icon: "PiNotePencilDuotone",
+        title: "Select Education Level",
+        description:
+          "Choose your academic tier (Undergraduate, Master's, or PhD) to adjust the depth and complexity of the results.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Generate Options",
+        description:
+          "Click generate to receive a list of distinct, high-quality research questions. The create a research question generator tool ensures relevance and originality.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Refine and Select",
+        description:
+          "Review suggestions, pick the one that fits your goals, or tweak it slightly to perfectly match your thesis. You can also explore research question generator AI free or research questions generator AI for additional AI-driven refinements.",
+      },
+    ],
+  },
+  FaqSestion: {
+    subTitle: "SUPPORT",
+    heading: "Frequently Asked Questions",
+    faqs: [
+      {
+        question: "What is a research question generator?",
+        answer:
+          "It is an AI-powered tool that converts broad topics into specific, researchable questions suitable for academic papers and projects.",
+      },
+      {
+        question: "Is this tool free to use?",
+        answer:
+          "Yes. The Scholarly AI free research question generator allows brainstorming without subscription fees.",
+      },
+      {
+        question: "Can I use these questions in my thesis?",
+        answer:
+          "Absolutely. The output is designed to be academically sound, though we recommend checking with your supervisor to ensure it fits your specific assignment.",
+      },
+      {
+        question: "Does it work for all subjects?",
+        answer:
+          "Yes. From Humanities and Social Sciences to STEM fields, the AI adapts to the vocabulary and structure of various disciplines.",
+      },
+      {
+        question: "Will using this be considered plagiarism?",
+        answer:
+          "No. The tool generates original suggestions based on your unique inputs; it does not copy pre-existing content from other sources.",
+      },
+      {
+        question: "Does the tool store my research ideas?",
+        answer:
+          "No. Scholarly Help values your intellectual property and privacy; we do not store or share your topics or generated questions.",
+      },
+      {
+        question: "How specific do my keywords need to be?",
+        answer:
+          "You can start broad, but specific keywords help the research topic question generator and research questions generator produce targeted and useful questions.",
+      },
+    ],
+  },
+  elevateSection: {
+    heading: "Start Your Academic Journey Today",
+    description:
+      "Don't let the initial planning stage slow your progress. Join thousands of students who use Scholarly AI to clarify their research goals. Generate a powerful question with the AI research question generator free, free online research question generator or extended essay research question generator and build your paper on a foundation of clarity and precision.",
+    buttonText: "Try It Now",
+    buttonUrl: "/sign-in?returnUrl=/tools/research-question",
   },
 };
