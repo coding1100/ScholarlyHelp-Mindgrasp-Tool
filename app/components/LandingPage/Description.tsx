@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { usePageData } from "./usePageData";
 import { styleDescriptionMainHeading } from "./descriptionHeadingUtils";
 
-const CHAR_LIMIT = 150;
+const CHAR_LIMIT = 195;
 
 const HowWeHelp: React.FC = () => {
   const data = usePageData();
@@ -122,8 +122,8 @@ const HowWeHelp: React.FC = () => {
                 <h3 className="font-semibold text-[19.22px] leading-[120%] tracking-normal mb-3 text-[#171717]">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 text-sm font-normal text-[17px] leading-relaxed tracking-normal">
-                  {displayText}
+                <p className="text-gray-600 text-sm font-normal text-[17px] leading-relaxed tracking-normal text-justify">
+                  <span dangerouslySetInnerHTML={{ __html: displayText }} />
                   {isLong && (
                     <button
                       type="button"
