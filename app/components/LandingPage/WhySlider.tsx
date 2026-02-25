@@ -72,10 +72,7 @@ function SliderRow({
       className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth will-change-scroll"
     >
       {items.map((item, index) => (
-        <div
-          key={index}
-          className="snap-start"
-        >
+        <div key={index} className="snap-start">
           <HeroWhySliderCard
             icon={item.icon}
             text={item.text}
@@ -121,53 +118,53 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
       mongoItems.length > 0
         ? mongoItems
         : [
-          {
-            icon: icon2,
-            text: "Highly-Skilled Subject Experts",
-            alt: "",
-          },
-          {
-            icon: icon1,
-            text: "Highly Affordable Rates",
-            alt: "",
-          },
-          {
-            icon: icon3,
-            text: "100% User Confidentiality",
-            alt: "",
-          },
-          {
-            icon: icon4,
-            text: "Deliver Resourceful Solutions",
-            alt: "",
-          },
-          {
-            icon: icon5,
-            text: "Produce Premium Content",
-            alt: "",
-          },
-          {
-            icon: icon6,
-            text: "Zero Grammatical Mistakes",
-            alt: "",
-          },
-          {
-            icon: icon7,
-            text: "Non-Plagiarized Content",
-            alt: "",
-          },
-          {
-            icon: icon8,
-            text: "Live Chat Support Availability",
-            alt: "",
-          },
-        ],
-    [mongoItems]
+            {
+              icon: icon2,
+              text: "Highly-Skilled Subject Experts",
+              alt: "",
+            },
+            {
+              icon: icon1,
+              text: "Highly Affordable Rates",
+              alt: "",
+            },
+            {
+              icon: icon3,
+              text: "100% User Confidentiality",
+              alt: "",
+            },
+            {
+              icon: icon4,
+              text: "Deliver Resourceful Solutions",
+              alt: "",
+            },
+            {
+              icon: icon5,
+              text: "Produce Premium Content",
+              alt: "",
+            },
+            {
+              icon: icon6,
+              text: "Zero Grammatical Mistakes",
+              alt: "",
+            },
+            {
+              icon: icon7,
+              text: "Non-Plagiarized Content",
+              alt: "",
+            },
+            {
+              icon: icon8,
+              text: "Live Chat Support Availability",
+              alt: "",
+            },
+          ],
+    [mongoItems],
   );
 
   const items: SliderItem[] = useMemo(
     () => [...baseItems, ...baseItems],
-    [baseItems]
+    [baseItems],
   );
 
   return (

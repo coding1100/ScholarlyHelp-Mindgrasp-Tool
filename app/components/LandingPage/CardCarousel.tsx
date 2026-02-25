@@ -16,7 +16,7 @@ import slid5 from "@/app/assets/Images/slide5.webp";
 import slid6 from "@/app/assets/Images/slide6.webp";
 
 // Card data
-const cardData = [
+const fallbackCardData = [
   {
     id: 1,
     image: slid1,
@@ -86,15 +86,24 @@ export default function CardCarousel() {
   // Use MongoDB data if available, otherwise use default
   // Use index-based IDs to prevent hydration mismatch (Date.now() differs server/client)
   const cards = useMemo(() => {
-    if (cardCarousel?.cards && Array.isArray(cardCarousel.cards) && cardCarousel.cards.length > 0) {
+    // Static images we cycle through when admin doesn't provide explicit images
+    const images = [slid1, slid2, slid3, slid4, slid5, slid6];
+
+    if (
+      cardCarousel?.cards &&
+      Array.isArray(cardCarousel.cards) &&
+      cardCarousel.cards.length > 0
+    ) {
       return cardCarousel.cards.map((card: any, index: number) => ({
         id: card.id || `card-${index}`,
-        image: card.image || slid1,
-        title: card.title || '',
-        description: card.description || ''
+        // Use admin image if present, otherwise rotate through static images
+        image: card.image || images[index % images.length],
+        title: card.title || "",
+        description: card.description || "",
       }));
     }
-    return cardData;
+
+    return fallbackCardData;
   }, [cardCarousel]);
 
   // Responsive slides
@@ -158,7 +167,8 @@ export default function CardCarousel() {
             {cardCarousel?.mainHeading || "The Academic Pressure You're Facing Every Day"}
           </h2>
           <p className="sm:text-lg text-sm text-gray-600 max-w-3xl mx-auto">
-            {cardCarousel?.description || "We understand the weight on your shoulders — and we're here to lighten the load."}
+            {cardCarousel?.description ||
+              "We understand the weight on your shoulders — and we're here to lighten the load."}
           </p>
         </div>
 
@@ -210,6 +220,21 @@ export default function CardCarousel() {
         <ChevronRight size={20} className="cursor-pointer" onClick={goNext} />
       </div>
 
+      {/* CTA Button (text comes from admin if available) */}
+      <div className="flex justify-center mt-[30px] mb-[10px]">
+        <button
+          type="button"
+          className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
+          onClick={() => {
+            const form = document.getElementById("quote-form");
+            if (form) {
+              form.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+        >
+          {cardCarousel?.ctaButton?.text || "Take my online class"}
+        </button>
+      </div>
     </section>
   );
 }
