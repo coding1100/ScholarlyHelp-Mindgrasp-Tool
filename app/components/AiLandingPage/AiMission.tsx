@@ -26,7 +26,7 @@ interface AiMissionProps {
   guideSection: {
     subTitle: string;
     heading: string;
-    description: string;
+    description?: string;
     steps: {
       icon: string;
       title: string;
@@ -48,7 +48,7 @@ const AiMission: FC<AiMissionProps> = ({ missionSection, guideSection }) => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (sectionRef.current) {
@@ -69,7 +69,7 @@ const AiMission: FC<AiMissionProps> = ({ missionSection, guideSection }) => {
               setVisibleSteps((prev) => new Set(prev).add(index));
             }
           },
-          { threshold: 0.3 }
+          { threshold: 0.3 },
         );
         observer.observe(ref);
         observers.push(observer);
@@ -88,21 +88,24 @@ const AiMission: FC<AiMissionProps> = ({ missionSection, guideSection }) => {
     >
       <div className="mx-auto flex w-full flex-col pb-24 px-5 sm:px-10 xl:container xl:px-10">
         <p
-          className={`mb-4 text-center text-xs font-semibold uppercase tracking-[4px] text-[#8953e6] dark:text-[#a78bfa] transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          className={`mb-4 text-center text-xs font-semibold uppercase tracking-[4px] text-[#8953e6] dark:text-[#a78bfa] transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
           {missionSection.subTitle}
         </p>
         <p
-          className={`mb-4 text-center text-[32px] font-medium leading-[40px] text-[#1e2938] dark:text-gray-100 sm:text-[36px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          className={`mb-4 text-center text-[32px] font-medium leading-[40px] text-[#1e2938] dark:text-gray-100 sm:text-[36px] sm:leading-[44px] lg:text-[40px] lg:leading-[48px] transition-all duration-1000 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
           dangerouslySetInnerHTML={{
             __html: missionSection.heading,
           }}
         />
         <p
-          className={`mx-auto mb-10 max-w-[922px] text-center text-base text-[#364153] dark:text-gray-300 sm:text-lg transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          className={`mx-auto mb-10 max-w-[922px] text-center text-base text-[#364153] dark:text-gray-300 sm:text-lg transition-all duration-1000 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
           dangerouslySetInnerHTML={{ __html: missionSection.description }}
         />
 
@@ -113,10 +116,11 @@ const AiMission: FC<AiMissionProps> = ({ missionSection, guideSection }) => {
               ref={(el) => {
                 stepRefs.current[index] = el;
               }}
-              className={`group space-y-2 rounded-xl px-6 py-6 bg-white dark:bg-[#1a1a2e] transition-all duration-500 hover:shadow-2xl dark:hover:shadow-[#8953e6]/20 hover:-translate-y-2 ${visibleSteps.has(index)
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-                }`}
+              className={`group space-y-2 rounded-xl px-6 py-6 bg-white dark:bg-[#1a1a2e] transition-all duration-500 hover:shadow-2xl dark:hover:shadow-[#8953e6]/20 hover:-translate-y-2 ${
+                visibleSteps.has(index)
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
               style={{
                 boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                 transitionDelay: `${index * 100}ms`,
@@ -142,8 +146,9 @@ const AiMission: FC<AiMissionProps> = ({ missionSection, guideSection }) => {
           ))}
         </div>
         <div
-          className={`flex flex-col items-center transition-all duration-1000 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          className={`flex flex-col items-center transition-all duration-1000 delay-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
           <Link
             href={missionSection.buttonUrl}
