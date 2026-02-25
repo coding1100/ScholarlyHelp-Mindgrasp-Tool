@@ -156,9 +156,10 @@ export default function HomeworkAdmin() {
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
-              ctaButton: { text: 'Take my online class' }
+              ctaButton: { text: 'Take my online class' },
+              sliderItems: []
             },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
             processSection: {
@@ -187,9 +188,10 @@ export default function HomeworkAdmin() {
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
-              ctaButton: { text: 'Take my online class' }
+              ctaButton: { text: 'Take my online class' },
+              sliderItems: []
             },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
             processSection: {
@@ -249,9 +251,10 @@ export default function HomeworkAdmin() {
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
-              ctaButton: { text: 'Take my online class' }
+              ctaButton: { text: 'Take my online class' },
+              sliderItems: []
             },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
             processSection: {
@@ -291,9 +294,10 @@ export default function HomeworkAdmin() {
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
-              ctaButton: { text: 'Take my online class' }
+              ctaButton: { text: 'Take my online class' },
+              sliderItems: []
             },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
             processSection: {
@@ -324,9 +328,10 @@ export default function HomeworkAdmin() {
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
-              ctaButton: { text: 'Take my online class' }
+              ctaButton: { text: 'Take my online class' },
+              sliderItems: []
             },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
             processSection: {
@@ -359,9 +364,10 @@ export default function HomeworkAdmin() {
             whySlider: {
               mainHeading: 'Why choose Scholarly',
               description: 'Scholarly Help offers plenty of services through skilled online class helpers and various subject experts.',
-              ctaButton: { text: 'Take my online class' }
+              ctaButton: { text: 'Take my online class' },
+              sliderItems: []
             },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
             processSection: {
@@ -767,6 +773,46 @@ export default function HomeworkAdmin() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Slider Items (cards in the scrolling rows)</label>
+              {(pageData.whySlider?.sliderItems || []).map((item: any, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Item {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('whySlider.sliderItems', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input
+                      type="text"
+                      value={item.text || ''}
+                      onChange={(e) => updateArrayItem('whySlider.sliderItems', index, 'text', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Card text (e.g. Highly-Skilled Subject Experts)"
+                    />
+                    <input
+                      type="text"
+                      value={item.alt || ''}
+                      onChange={(e) => updateArrayItem('whySlider.sliderItems', index, 'alt', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Alt text for icon (optional)"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('whySlider.sliderItems', { text: '', alt: '' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Slider Item
+              </button>
+            </div>
           </div>
         </div>
 
@@ -800,6 +846,46 @@ export default function HomeworkAdmin() {
                 onChange={(e) => updatePageData('cardCarousel.ctaButton.text', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Carousel Cards (slides)</label>
+              {(pageData.cardCarousel?.cards || []).map((card: any, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Card {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('cardCarousel.cards', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input
+                      type="text"
+                      value={card.title || ''}
+                      onChange={(e) => updateArrayItem('cardCarousel.cards', index, 'title', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Card title"
+                    />
+                    <textarea
+                      rows={2}
+                      value={card.description || ''}
+                      onChange={(e) => updateArrayItem('cardCarousel.cards', index, 'description', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Card description"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('cardCarousel.cards', { id: Date.now(), title: '', description: '' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Carousel Card
+              </button>
             </div>
           </div>
         </div>
