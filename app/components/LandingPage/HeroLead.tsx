@@ -64,7 +64,9 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     "/take-my-exam/",
   ];
 
-  const shouldHideBadges = hiddenRoutes.includes(pathname || "");
+  const isOnlineClassPage = (pathname || "").includes("online-class");
+  const shouldHideBadges =
+    hiddenRoutes.includes(pathname || "") || isOnlineClassPage;
 
   // Routes where buttons should be hidden
   const buttonHiddenRoutes = [
@@ -72,9 +74,27 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     "/take-my-class/",
     "/take-my-exam",
     "/take-my-exam/",
+    "/online-class/",
   ];
 
-  const shouldHideButtons = buttonHiddenRoutes.includes(pathname || "");
+  const shouldHideButtons = buttonHiddenRoutes.includes(
+    pathname || "online-class",
+  );
+
+  const getStyledMainHeading = (heading: string) => {
+    if (!isOnlineClassPage) {
+      return styleParentheticalText(heading);
+    }
+
+    const words = heading.trim().split(/\s+/);
+    if (words.length <= 4) {
+      return `<span class="text-[#F56200]">${styleParentheticalText(heading)}</span>`;
+    }
+
+    const prefix = words.slice(0, -4).join(" ");
+    const suffix = words.slice(-4).join(" ");
+    return `${styleParentheticalText(prefix)} <span class="text-[#F56200]">${styleParentheticalText(suffix)}</span>`;
+  };
 
   return (
     <div className="max-w-2xl">
@@ -90,7 +110,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
               {heroContent?.mainHeading ? (
                 <span
                   dangerouslySetInnerHTML={{
-                    __html: styleParentheticalText(heroContent.mainHeading),
+                    __html: getStyledMainHeading(heroContent.mainHeading),
                   }}
                 />
               ) : (
@@ -147,22 +167,49 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
         </div>
       )}
 
-      {heroContent?.subHeading && shouldHideBadges && (
+      {/* {heroContent?.subHeading && shouldHideBadges && (
         <div
           className="text-black text-[19px] mt-3 font-semibold "
           dangerouslySetInnerHTML={{ __html: heroContent.subHeading }}
         />
-      )}
-      {heroContent?.description && shouldHideBadges && (
+      )} */}
+
+      {/* Done */}
+      {((heroContent?.description && shouldHideBadges) ||
+        pathname?.includes("/online-class/")) && (
         <div
           className="text-[#263238] text-[16px] mt-3 "
           dangerouslySetInnerHTML={{
-            __html: styleParentheticalText(heroContent.description),
+            __html: styleParentheticalText(heroContent?.description || ""),
           }}
         />
       )}
 
-      {!shouldHideButtons && (
+      {/* Done */}
+      {(pathname === "/take-my-class/" ||
+        pathname.includes("online-class")) && (
+        <div className="sm:mt-6 mt-2">
+          <div className="flex justify-between items-center sm:gap-5 gap-2">
+            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
+              <FaCircleCheck className="text-[#9F92EC] !text-[27px] sm:block hidden" />
+              <p className="sm:text-xl text-sm">
+                Domestic Logins{" "}
+                <span className="sm:font-bold">(No IP Bans)</span>
+              </p>
+            </div>
+            <div className="w-[1px] bg-[#97979A] h-[26px] sm:hidden block"></div>
+            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
+              <FaCircleCheck className="text-[#9F92EC] text-[27px] sm:block hidden" />
+              <p className="sm:text-xl text-sm">
+                <span className="sm:font-bold">Money-Back</span> Grade Guarantee
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Done */}
+      {!shouldHideButtons && !pathname?.includes("/online-class/") && (
         <div className="mt-6 max-[768px]:mt-2 flex gap-4">
           {heroContent?.btn1Url ? (
             <Link
@@ -203,33 +250,6 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
               )}
             </>
           )}
-        </div>
-      )}
-      {pathname === "/take-my-class/" && (
-        <div className="sm:mt-6 mt-2">
-          {/* <p className="text-[#263238] text-[17px]">
-            Stop sacrificing your paycheck for grades. Our US-Based experts
-            manage your{" "}
-            <span className="font-bold">
-              full course—discussions, quizzes, and finals
-            </span>
-          </p> */}
-          <div className="flex justify-between items-center sm:gap-5 gap-2">
-            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
-              <FaCircleCheck className="text-[#9F92EC] !text-[27px] sm:block hidden" />
-              <p className="sm:text-xl text-sm">
-                Domestic Logins{" "}
-                <span className="sm:font-bold">(No IP Bans)</span>
-              </p>
-            </div>
-            <div className="w-[1px] bg-[#97979A] h-[26px] sm:hidden block"></div>
-            <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
-              <FaCircleCheck className="text-[#9F92EC] text-[27px] sm:block hidden" />
-              <p className="sm:text-xl text-sm">
-                <span className="sm:font-bold">Money-Back</span> Grade Guarantee
-              </p>
-            </div>
-          </div>
         </div>
       )}
     </div>

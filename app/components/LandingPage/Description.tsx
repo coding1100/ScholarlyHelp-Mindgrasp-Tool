@@ -6,6 +6,19 @@ import { styleDescriptionMainHeading } from "./descriptionHeadingUtils";
 
 const CHAR_LIMIT = 195;
 
+function styleLinksOrange(html: string): string {
+  return html.replace(/<a\b([^>]*)>/gi, (match, attrs: string) => {
+    if (/style\s*=\s*["'][^"']*["']/i.test(attrs)) {
+      return `<a${attrs.replace(
+        /style\s*=\s*["']([^"']*)["']/i,
+        (_m: string, styleValue: string) =>
+          `style="${styleValue}; color: #F56200;"`,
+      )}>`;
+    }
+    return `<a${attrs} style="color: #F56200;">`;
+  });
+}
+
 const HowWeHelp: React.FC = () => {
   const data = usePageData();
   const description = data?.description;
@@ -82,6 +95,11 @@ const HowWeHelp: React.FC = () => {
           "Essay Writing Services",
         ];
 
+  const descriptionHtml = styleLinksOrange(
+    description?.description ||
+      "Your go-to source for top-notch academic writing services. Get excellence in every assignment. From essays and research papers to online classes and exam assistance, we offer a range of comprehensive services to meet your academic needs. Get A+ grades!<br />Are you finding it difficult to complete your assignment questions correctly and on time? Worry not, Scholarly Help offers 24/7 homework aid with reliable client support at your service.",
+  );
+
   return (
     <section className="pt-[45px] pb-5 bg-white text-[#171717]">
       <div className="max-w-7xl mx-auto  max-[1320px]:px-8">
@@ -98,9 +116,7 @@ const HowWeHelp: React.FC = () => {
           <p
             className="text-sm sm:text-base md:text-lg text-gray-600 w-full html font-normal text-[17px] leading[1.4] tracking-normal text-center"
             dangerouslySetInnerHTML={{
-              __html:
-                description?.description ||
-                "Your go-to source for top-notch academic writing services. Get excellence in every assignment. From essays and research papers to online classes and exam assistance, we offer a range of comprehensive services to meet your academic needs. Get A+ grades!<br />Are you finding it difficult to complete your assignment questions correctly and on time? Worry not, Scholarly Help offers 24/7 homework aid with reliable client support at your service.",
+              __html: descriptionHtml,
             }}
           />
         </div>
@@ -116,6 +132,7 @@ const HowWeHelp: React.FC = () => {
                 ? text.slice(0, CHAR_LIMIT).trim() +
                   (text.length > CHAR_LIMIT ? "..." : "")
                 : text;
+            const styledDisplayText = styleLinksOrange(displayText);
 
             return (
               <div key={index} className="bg-white">
@@ -123,7 +140,7 @@ const HowWeHelp: React.FC = () => {
                   {service.title}
                 </h3>
                 <p className="text-gray-600 text-sm font-normal text-[17px] leading-relaxed tracking-normal text-justify">
-                  <span dangerouslySetInnerHTML={{ __html: displayText }} />
+                  <span dangerouslySetInnerHTML={{ __html: styledDisplayText }} />
                   {isLong && (
                     <button
                       type="button"
