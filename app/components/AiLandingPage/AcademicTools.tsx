@@ -33,8 +33,16 @@ const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
         return "/ai-summarizer";
       case "Generate Your Thesis Statement":
         return "/ai-thesis-generator";
+      case "Generate Your Essay Title Instant":
+        return "/tools/essay-title";
+      case "Generate Your Citation Now ":
+        return "/tools/citation-tool";
+      case "Solve Pythagoras Equation Quickly":
+        return "/tools/pythagoras-solver";
+      case "Generate Your Research Questions ":
+        return "/tools/research-question";
       default:
-        return btnUrl || '';
+        return btnUrl || "";
     }
   };
   return (
@@ -79,7 +87,7 @@ const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
             <div className="px-9 py-5 bg-[#EDEFFE] rounded-[5px] mb-[17px]">
               <p className="text-[15px] text-[#263238]">{tool.text}</p>
             </div>
-            <Link 
+            <Link
               href={getToolUrl(tool.btnText, tool.btnUrl)}
               className="bg-[#9F92EC] text-center block !w-full rounded-md px-5 py-3 sm:text-lg text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#8B7EE8] focus:outline-none focus:ring-2 focus:ring-[#9F92EC] focus:ring-offset-2"
             >
