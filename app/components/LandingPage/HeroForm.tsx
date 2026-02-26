@@ -504,7 +504,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
             )}
           </form>
         </div>
-
         {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
         {showStickyOnMobile && isMobile && !isFormVisible ? (
           <button
@@ -542,7 +541,17 @@ const HeroForm: FC<ZohoForm2Props> = ({
           fetchPriority="high"
         />
       )}
+
       <div className="w-full mx-auto cus-div">
+        <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
+          <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
+            Check Your{" "}
+            <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
+              Class
+            </span>{" "}
+            Price
+          </p>
+        </div>
         <form
           ref={formRef}
           onSubmit={handleSubmit}
@@ -615,7 +624,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
           </button>
         </form>
       </div>
-
       {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
       {showStickyOnMobile && !isFormVisible ? (
         <button

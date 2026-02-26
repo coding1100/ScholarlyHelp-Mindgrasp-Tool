@@ -83,7 +83,6 @@ export default function GetQuote() {
                 zIndex: "8",
               }}
             />
-
             <Image
               src="/assets/Icon/ag-2.png"
               alt=""
