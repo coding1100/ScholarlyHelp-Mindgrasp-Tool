@@ -117,7 +117,12 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
 
   return (
     <>
-      {currentPath === "/take-my-class/" ? <DeliveredOn /> : <Ratings />}
+      {currentPath?.includes("take-my-class") ||
+      currentPath?.includes("online-class") ? (
+        <DeliveredOn />
+      ) : (
+        <Ratings />
+      )}
       <CardCarousel />
       <Description />
       {/* <Description2 /> */}
