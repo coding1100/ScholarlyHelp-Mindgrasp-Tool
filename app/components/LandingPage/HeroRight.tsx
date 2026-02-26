@@ -99,7 +99,7 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2, useHeroForm2 }) => {
       </div>
 
       {/* mobile rating under the form */}
-      <div className="flex max-w-md min-[768px]:flex-col gap-4 md:hidden relative z-20 max-[768px]:p-5 max-[768px]:bg-[#9F92EC1A]">
+      <div className="flex max-w-md min-[768px]:flex-col gap-4 hidden relative z-20 max-[768px]:p-5 max-[768px]:bg-[#9F92EC1A]">
         <div className="min-[768px]:hidden">
           <Image
             src={Bg5}
@@ -133,7 +133,12 @@ const HeroRight: FC<HeroRightProps> = ({ formBackImg2, useHeroForm2 }) => {
             </span> */}
             <div className="text-[12px] text-[#6A6F7A]">
               <div></div>
-              <div><span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A] border border-[#c7c7c7] mr-[5px] bg-[#eee]">T</span> Engineering Student, Devry University</div>
+              <div>
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F2F3F8] text-[12px] text-[#6A6F7A] border border-[#c7c7c7] mr-[5px] bg-[#eee]">
+                  T
+                </span>{" "}
+                Engineering Student, Devry University
+              </div>
             </div>
           </div>
         </div>
