@@ -117,8 +117,8 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
 
   return (
     <>
-      {currentPath?.includes("take-my-class") ||
-      currentPath?.includes("online-class") ? (
+      {currentPath.includes("take-my-class") ||
+      currentPath.includes("online-class/") ? (
         <DeliveredOn />
       ) : (
         <Ratings />
