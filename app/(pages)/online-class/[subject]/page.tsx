@@ -1,6 +1,6 @@
 import MainLayout from "@/app/MainLayout";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
-import Ratings from "@/app/components/LandingPage/Ratings";
+import DeliveredOn from "@/app/(pages)/take-my-class/DeliveredOn";
 import WhySlider from "@/app/components/LandingPage/WhySlider";
 import CardCarousel from "@/app/components/LandingPage/CardCarousel";
 import Description from "@/app/components/LandingPage/Description";
@@ -143,7 +143,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <OnlineClassDataProvider data={defaultPageData}>
         <MainLayout>
           <HeroSection />
-          <Ratings />
+          <DeliveredOn />
           <CardCarousel />
           <Description />
           <GuaranteedBlock />
@@ -173,7 +173,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     <OnlineClassDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Ratings />
+        <DeliveredOn />
         <CardCarousel />
         <Description />
         <GuaranteedBlock />
