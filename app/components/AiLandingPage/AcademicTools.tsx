@@ -34,9 +34,9 @@ const AcademicTools: FC<AcademicToolsProps> = ({ content }) => {
       case "Generate Your Thesis Statement":
         return "/ai-thesis-generator";
       case "Generate Your Essay Title Instant":
-        return "/essay-title";
+        return "/essay-title-generator";
       case "Generate Your Citation Now ":
-        return "/citation-tool";
+        return "/citation-generator";
       case "Solve Pythagoras Equation Quickly":
         return "/pythagoras-solver";
       case "Generate Your Research Questions ":
