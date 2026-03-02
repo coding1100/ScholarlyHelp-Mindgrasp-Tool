@@ -86,14 +86,14 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
       return styleParentheticalText(heading);
     }
 
-    const words = heading.trim().split(/\s+/);
-    if (words.length <= 4) {
-      return `<span class="text-[#F56200]">${styleParentheticalText(heading)}</span>`;
+    if (!heading.includes("|")) {
+      return styleParentheticalText(heading);
     }
 
-    const prefix = words.slice(0, -4).join(" ");
-    const suffix = words.slice(-4).join(" ");
-    return `${styleParentheticalText(prefix)} <span class="text-[#F56200]">${styleParentheticalText(suffix)}</span>`;
+    const [beforePipe, ...afterPipeParts] = heading.split("|");
+    const afterPipe = afterPipeParts.join("|");
+
+    return `${styleParentheticalText(beforePipe)}|<span class="text-[#F56200]">${styleParentheticalText(afterPipe)}</span>`;
   };
 
   return (
