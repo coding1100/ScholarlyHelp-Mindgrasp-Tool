@@ -35,7 +35,7 @@ export default function HomeAdmin() {
           description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
           guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
           processSection: { mainHeading: '', description: '', steps: [] },
-          success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          success: { mainHeading: '', description: '', ctaButton: { text: '' }, course: '', beforeAfter: '', total: '' },
           academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
           subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
           getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -53,7 +53,7 @@ export default function HomeAdmin() {
           description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
           guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
           processSection: { mainHeading: '', description: '', steps: [] },
-          success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          success: { mainHeading: '', description: '', ctaButton: { text: '' }, course: '', beforeAfter: '', total: '' },
           academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
           subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
           getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -642,6 +642,36 @@ export default function HomeAdmin() {
                 value={pageData.success?.ctaButton?.text || ''}
                 onChange={(e) => updatePageData('success.ctaButton.text', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Course value</label>
+              <input
+                type="text"
+                value={pageData.success?.course || ''}
+                onChange={(e) => updatePageData('success.course', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., Chemistry 101"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Before → After value</label>
+              <input
+                type="text"
+                value={pageData.success?.beforeAfter || ''}
+                onChange={(e) => updatePageData('success.beforeAfter', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., A+ Grades"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Total value</label>
+              <input
+                type="text"
+                value={pageData.success?.total || ''}
+                onChange={(e) => updatePageData('success.total', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., 96.66%"
               />
             </div>
             <div>
