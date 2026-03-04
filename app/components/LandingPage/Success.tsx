@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useMemo, FC } from "react";
 import Image from "next/image";
 import { usePageData } from "./usePageData";
+import { usePathname } from "next/navigation";
 const proof5 = "/images/proof-3.webp";
 const proof1 = "/images/proof-2.webp";
 const proof2 = "/images/proof-2.webp";
@@ -20,6 +21,8 @@ const Success: FC<SuccessProps> = ({ content }) => {
   const success =
     content?.mainHeading && content?.description ? content : data?.success;
 
+  const currentPath = usePathname();
+  const isOnlineClassPage = currentPath.includes("online-class");
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
@@ -52,6 +55,10 @@ const Success: FC<SuccessProps> = ({ content }) => {
     return defaultSlides;
   }, [success]);
 
+  const courseName = (success as any)?.course || "Chemistry 101";
+  const gradeChange = (success as any)?.beforeAfter || "A+ Grades";
+  const totalScore = (success as any)?.total || "96.66%";
+
   // Auto-slide every 8 seconds
   useEffect(() => {
     const timer = setInterval(() => {
@@ -62,7 +69,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
 
   return (
     <section className="pt-9 pb-20 px-5 overflow-hidden text-[#171717]">
-      <div className="max-w-6xl max-[992px]:max-w-4xl mx-auto">
+      <div className="max-w-6xl max-[992px]:max-w-4xl mx-auto ">
         <div className="py-10 ">
           <h2 className="text-[42px] max-[768px]:text-[28px] mb-[20px] text-[#000] font-bold text-center">
             {success?.mainHeading || "What Success Looks Like"}
@@ -121,22 +128,49 @@ const Success: FC<SuccessProps> = ({ content }) => {
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                className={`w-3 h-3 rounded-full transition-all ${i === active ? "bg-gray-700 scale-110" : "bg-gray-400"
-                  }`}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  i === active ? "bg-gray-700 scale-110" : "bg-gray-400"
+                }`}
               />
             ))}
           </div>
         </div>
       </div>
-      <div className="flex justify-center mt-[60px]">
-        <button
-          type="button"
-          onClick={scrollToQuote}
-          className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] "
+      {isOnlineClassPage && (
+        <div
+          className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex justify-between items-center gap-5 relative z-50"
+          style={{
+            boxShadow:
+              "rgba(231, 235, 255, 0.85) 0px 50px 100px -20px, rgba(231, 235, 255, 0.6) 0px 30px 60px -30px, rgba(231, 235, 255, 0.4) -30px 30px 60px -30px, rgba(231, 235, 255, 0.4) 30px 30px 60px -30px",
+          }}
         >
-          {success?.ctaButton?.text || "Take my online class"}
-        </button>
-      </div>
+          <div>
+            <p className="text-[16px]">Course:</p>
+            <p className="text-[27px] font-bold uppercase">{courseName}</p>
+          </div>
+          <div className="flex justify-end items-center gap-5">
+            <div>
+              <p className="text-[16px]">Before → After:</p>
+              <p className="text-[27px] font-bold uppercase">{gradeChange}</p>
+            </div>
+            <div>
+              <p className="text-[16px]">Total</p>
+              <p className="text-[27px] font-bold uppercase">{totalScore}</p>
+            </div>
+          </div>
+        </div>
+      )}
+      {!isOnlineClassPage && (
+        <div className="flex justify-center mt-[60px]">
+          <button
+            type="button"
+            onClick={scrollToQuote}
+            className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] "
+          >
+            {success?.ctaButton?.text || "Take my online class"}
+          </button>
+        </div>
+      )}
     </section>
   );
 };
