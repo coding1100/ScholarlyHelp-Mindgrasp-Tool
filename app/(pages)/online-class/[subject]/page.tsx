@@ -143,6 +143,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <OnlineClassDataProvider data={defaultPageData}>
         <MainLayout>
           <HeroSection />
+          <Success />
           <DeliveredOn />
           <CardCarousel />
           <Description />
@@ -150,7 +151,6 @@ const Page: React.FC<PageProps> = async ({ params }) => {
           <WhySlider />
           <CustomerReviews />
           <ProcessSection />
-          <Success />
           <Subjects defaultSubjects={onlineClassSubjects} />
           <AcademicPartners />
           <GetQouteDynamic />
@@ -173,6 +173,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     <OnlineClassDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
+        <Success />
         <DeliveredOn />
         <CardCarousel />
         <Description />
@@ -180,7 +181,6 @@ const Page: React.FC<PageProps> = async ({ params }) => {
         <WhySlider />
         <CustomerReviews />
         <ProcessSection />
-        <Success />
         <Subjects defaultSubjects={onlineClassSubjects} />
         <AcademicPartners />
         <GetQouteDynamic />
