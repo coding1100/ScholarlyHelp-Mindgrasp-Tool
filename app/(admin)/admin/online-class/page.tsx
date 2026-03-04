@@ -1263,16 +1263,26 @@ export default function OnlineClassAdmin() {
                         placeholder="e.g., /assets/Icon/english.png"
                       />
                     </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs text-gray-500 mb-1">Description (optional)</label>
+                      <textarea
+                        rows={2}
+                        value={subject.description || ''}
+                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'description', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Short description shown under the subject name"
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
-              {/* <button
+              <button
                 type="button"
                 onClick={() => addArrayItem('subjects.subjectsContent', { title: '', icon: '', url: '' })}
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Subject Card
-              </button> */}
+              </button>
             </div>
           </div>
         </div>

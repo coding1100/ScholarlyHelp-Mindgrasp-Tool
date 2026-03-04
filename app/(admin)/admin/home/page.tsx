@@ -790,13 +790,13 @@ export default function HomeAdmin() {
                   </div>
                 </div>
               ))}
-              {/* <button
+              <button
                 type="button"
                 onClick={() => addArrayItem('subjects.subjectsContent', { title: '', icon: '', url: '' })}
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Subject Card
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
