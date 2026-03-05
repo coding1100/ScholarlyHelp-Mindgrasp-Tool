@@ -10,6 +10,7 @@ type SubjectType = {
   src: string;
   label: string;
   url: string;
+  description?: string;
 };
 
 export default function SubjectsSection({
@@ -22,6 +23,10 @@ export default function SubjectsSection({
   const currentPage = usePathname();
   const rawBasePath = currentPage.split("/").slice(0, 2).join("/");
   const basePath = rawBasePath === "/" ? "" : rawBasePath;
+  // Show detailed subject cards only on subpages like /online-class/english, not on /online-class or /online-class/
+  const isOnlineClassSubpage =
+    currentPage.startsWith("/online-class/") &&
+    currentPage.length > "/online-class/".length;
 
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
@@ -156,7 +161,9 @@ export default function SubjectsSection({
   //   },
   // ];
 
-  // Use MongoDB subjects if available, otherwise use default
+  // Use admin-configured subjects if available, otherwise use defaults.
+  // Admin can override icon, label, and link; if any field is missing,
+  // we fall back to the original default values so nothing breaks.
   const subjects = useMemo(() => {
     let subjectsList: SubjectType[] = [];
 
@@ -166,31 +173,46 @@ export default function SubjectsSection({
       subjectsData.subjectsContent.length > 0
     ) {
       subjectsList = subjectsData.subjectsContent
-        .map((item: any) => {
-          // Extract slug from URL if available
-          let url = item.url || "";
-          if (url && !url.startsWith("/")) {
-            url = `${basePath}${url.startsWith("/") ? "" : "/"}${url}`;
-          } else if (!url && item.title) {
-            // Generate URL from title if not provided
-            const slug = item.title.toLowerCase().replace(/\s+/g, "-");
+        .map((item: any, index: number) => {
+          const fallback = defaultSubjects[index] as SubjectType | undefined;
+
+          const label =
+            (item.title && String(item.title)) || fallback?.label || "";
+
+          const src =
+            (item.icon && String(item.icon)) ||
+            fallback?.src ||
+            "/assets/Icon/english.png";
+
+          let url = (item.url && String(item.url)) || fallback?.url || "";
+
+          const description =
+            (item.description && String(item.description)) ||
+            fallback?.description ||
+            "";
+
+          // If admin hasn't provided a URL and no default URL exists,
+          // generate a slug-based path so links still work.
+          if (!url && label) {
+            const slug = label.toLowerCase().replace(/\s+/g, "-");
             url = `${basePath}/${slug}`;
           }
 
           return {
-            src: item.icon || "/assets/Icon/english.png",
-            label: item.title || "",
-            url: url,
+            src,
+            label,
+            url,
+            description,
           };
         })
-        .filter((s: any) => s.label); // Filter out items without labels
+        .filter((s: SubjectType) => s.label); // Filter out items without labels
     } else {
       subjectsList = defaultSubjects;
     }
 
     // Filter out the current page's subject
     return subjectsList.filter(
-      (subject: SubjectType) => subject.url !== currentPage
+      (subject: SubjectType) => subject.url !== currentPage,
     );
   }, [subjectsData, basePath, currentPage, defaultSubjects]);
 
@@ -204,12 +226,81 @@ export default function SubjectsSection({
           {subjectsData?.description ||
             "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way."}
         </p>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-12">
-          {subjects.map((subject: SubjectType, index: number) =>
-            subject.url ? (
-              <Link key={index} href={subject.url}>
-                <div className="bg-[#F2F2FD] rounded-lg p-6 h-[200px] flex flex-col items-center justify-center cursor-pointer">
+        {isOnlineClassSubpage ? (
+          <div className="grid grid-cols-2 gap-8">
+            {subjects.slice(0, 4).map(
+              (subject: SubjectType, index: number) =>
+                subject.url && (
+                  <Link key={index} href={subject.url}>
+                    <div className="col-span-1 bg-[#FFFFFFad] px-8 py-[34px] flex items-start justify-start gap-7 rounded-lg">
+                      <div className="min-w-[65px] h-[65px] relative">
+                        <Image
+                          src={subject.src}
+                          alt={subject.label}
+                          fill
+                          className="object-contain"
+                          sizes="65px"
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <p className="text-2xl text-start font-semibold text-black">
+                          {subject.label}
+                        </p>
+                        {(() => {
+                          const description =
+                            subject.description ||
+                            (subject.label === "Chemistry"
+                              ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields. The course focuses on essential chemical principles and real-world applications relevant to healthcare, helping students build a strong foundation for understanding topics."
+                              : "");
+                          return description ? (
+                            <p className="text-[17px] text-start text-[#263238]">
+                              {description}
+                            </p>
+                          ) : null;
+                        })()}
+                      </div>
+                    </div>
+                  </Link>
+                ),
+            )}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-12 max-h-[580px] overflow-y-auto custom-scrollbar">
+            {subjects.map((subject: SubjectType, index: number) =>
+              subject.url ? (
+                <Link key={index} href={subject.url}>
+                  <div className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer">
+                    <div className="w-12 h-12 mb-3 relative">
+                      <Image
+                        src={subject.src}
+                        alt={subject.label}
+                        fill
+                        className="object-contain"
+                        sizes="48px"
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
+                      {subject.label}
+                    </span>
+                    {(() => {
+                      const description =
+                        subject.description ||
+                        (subject.label === "Chemistry"
+                          ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
+                          : "");
+                      return description ? (
+                        <p className="text-[17px] mt-3 text-start text-[#263238]">
+                          {description}
+                        </p>
+                      ) : null;
+                    })()}
+                  </div>
+                </Link>
+              ) : (
+                <div
+                  key={index}
+                  className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer"
+                >
                   <div className="w-12 h-12 mb-3 relative">
                     <Image
                       src={subject.src}
@@ -222,30 +313,23 @@ export default function SubjectsSection({
                   <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
                     {subject.label}
                   </span>
+                  {(() => {
+                    const description =
+                      subject.description ||
+                      (subject.label === "Chemistry"
+                        ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
+                        : "");
+                    return description ? (
+                      <p className="text-[17px] text-start text-[#263238]">
+                        {description}
+                      </p>
+                    ) : null;
+                  })()}
                 </div>
-              </Link>
-            ) : (
-              <div
-                key={index}
-                className="bg-[#F2F2FD] rounded-lg p-6 h-[200px] flex flex-col items-center justify-center cursor-pointer"
-              >
-                <div className="w-12 h-12 mb-3 relative">
-                  <Image
-                    src={subject.src}
-                    alt={subject.label}
-                    fill
-                    className="object-contain"
-                    sizes="48px"
-                  />
-                </div>
-                <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
-                  {subject.label}
-                </span>
-              </div>
-            )
-          )}
-        </div>
-
+              ),
+            )}
+          </div>
+        )}
         <div className="flex justify-center mt-[60px]">
           <button
             type="button"
