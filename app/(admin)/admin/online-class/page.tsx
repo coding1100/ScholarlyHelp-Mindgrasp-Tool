@@ -3,6 +3,18 @@
 import { useState, useEffect } from "react";
 import { subjects } from "@/app/(pages)/online-class/subjectContent";
 
+const ONLINE_PLATFORM_KEYS = ["canvas", "moodle", "blackboard", "cengage", "wgu", "study"] as const;
+
+function normalizeOnlinePlatformPlatforms(platforms: any[] | undefined) {
+  const arr = Array.isArray(platforms) ? platforms : [];
+  return ONLINE_PLATFORM_KEYS.map((key) => {
+    const found = arr.find((p: any) => p?.key === key);
+    return { key, name: found?.name ?? "", description: found?.description ?? "" };
+  });
+}
+
+const DEFAULT_EMPTY_ONLINE_PLATFORMS = ONLINE_PLATFORM_KEYS.map((key) => ({ key, name: "", description: "" }));
+
 export default function OnlineClassAdmin() {
   const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
   const [selectedPage, setSelectedPage] = useState<string>('online_class_page');
@@ -182,8 +194,10 @@ export default function OnlineClassAdmin() {
               ]
             },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            onlinePlatform: { mainHeading: '', subHeading: '', platforms: DEFAULT_EMPTY_ONLINE_PLATFORMS },
+            priceSection: { mainHeadingLine1: '', mainHeadingLine2: '', description1: '', description2: '', cardHeading: '', buttonText: '', benefits: [], priceItems: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -214,8 +228,10 @@ export default function OnlineClassAdmin() {
               ]
             },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            onlinePlatform: { mainHeading: '', subHeading: '', platforms: DEFAULT_EMPTY_ONLINE_PLATFORMS },
+            priceSection: { mainHeadingLine1: '', mainHeadingLine2: '', description1: '', description2: '', cardHeading: '', buttonText: '', benefits: [], priceItems: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -260,7 +276,24 @@ export default function OnlineClassAdmin() {
           // online-class page structure
           setPageData(data && Object.keys(data).length > 0 ? {
             ...data,
-            pageType: data.id || data.pageType || 'online_class_page'
+            pageType: data.id || data.pageType || 'online_class_page',
+            onlinePlatform: {
+              mainHeading: data.onlinePlatform?.mainHeading ?? '',
+              subHeading: data.onlinePlatform?.subHeading ?? '',
+              platforms: normalizeOnlinePlatformPlatforms(data.onlinePlatform?.platforms)
+            },
+            priceSection: {
+              mainHeadingLine1: data.priceSection?.mainHeadingLine1 ?? '',
+              mainHeadingLine2: data.priceSection?.mainHeadingLine2 ?? '',
+              description1: data.priceSection?.description1 ?? '',
+              description2: data.priceSection?.description2 ?? '',
+              cardHeading: data.priceSection?.cardHeading ?? '',
+              buttonText: data.priceSection?.buttonText ?? '',
+              benefits: Array.isArray(data.priceSection?.benefits)
+                ? data.priceSection.benefits.map((b: any) => (typeof b === 'object' && b != null && 'text' in b) ? b : { text: typeof b === 'string' ? b : '' })
+                : [],
+              priceItems: Array.isArray(data.priceSection?.priceItems) ? data.priceSection.priceItems : []
+            }
           } : {
             id: 'online_class_page',
             pageType: 'online_class_page',
@@ -286,8 +319,10 @@ export default function OnlineClassAdmin() {
               ]
             },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            onlinePlatform: { mainHeading: '', subHeading: '', platforms: DEFAULT_EMPTY_ONLINE_PLATFORMS },
+            priceSection: { mainHeadingLine1: '', mainHeadingLine2: '', description1: '', description2: '', cardHeading: '', buttonText: '', benefits: [], priceItems: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -329,8 +364,10 @@ export default function OnlineClassAdmin() {
               ]
             },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            onlinePlatform: { mainHeading: '', subHeading: '', platforms: DEFAULT_EMPTY_ONLINE_PLATFORMS },
+            priceSection: { mainHeadingLine1: '', mainHeadingLine2: '', description1: '', description2: '', cardHeading: '', buttonText: '', benefits: [], priceItems: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -363,8 +400,10 @@ export default function OnlineClassAdmin() {
               ]
             },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            onlinePlatform: { mainHeading: '', subHeading: '', platforms: DEFAULT_EMPTY_ONLINE_PLATFORMS },
+            priceSection: { mainHeadingLine1: '', mainHeadingLine2: '', description1: '', description2: '', cardHeading: '', buttonText: '', benefits: [], priceItems: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -399,8 +438,10 @@ export default function OnlineClassAdmin() {
               ]
             },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+            academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            onlinePlatform: { mainHeading: '', subHeading: '', platforms: DEFAULT_EMPTY_ONLINE_PLATFORMS },
+            priceSection: { mainHeadingLine1: '', mainHeadingLine2: '', description1: '', description2: '', cardHeading: '', buttonText: '', benefits: [], priceItems: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -1263,19 +1304,224 @@ export default function OnlineClassAdmin() {
                         placeholder="e.g., /assets/Icon/english.png"
                       />
                     </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs text-gray-500 mb-1">Description (optional)</label>
+                      <textarea
+                        rows={2}
+                        value={subject.description || ''}
+                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'description', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Short description shown under the subject name"
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
-              {/* <button
+              <button
                 type="button"
                 onClick={() => addArrayItem('subjects.subjectsContent', { title: '', icon: '', url: '' })}
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Subject Card
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
+
+        {selectedPage === 'online_class_page' && (
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Online Platforms Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <input
+                type="text"
+                value={pageData.onlinePlatform?.mainHeading || ''}
+                onChange={(e) => updatePageData('onlinePlatform.mainHeading', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Let's Take Your Online Chemistry Exam on All Online Platforms"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Sub Heading / Description</label>
+              <textarea
+                rows={4}
+                value={pageData.onlinePlatform?.subHeading || ''}
+                onChange={(e) => updatePageData('onlinePlatform.subHeading', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="At The Online Class Help, our experts have mastery over multiple online exam platforms..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Platform Cards (name and description per platform)</label>
+              {(pageData.onlinePlatform?.platforms ?? DEFAULT_EMPTY_ONLINE_PLATFORMS).map((platform: { key: string; name: string; description: string }, index: number) => (
+                <div key={platform.key} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="font-medium text-gray-700 mb-2 capitalize">{platform.key}</div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input
+                      type="text"
+                      value={platform.name || ''}
+                      onChange={(e) => updateArrayItem('onlinePlatform.platforms', index, 'name', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Platform name (e.g. Canvas)"
+                    />
+                    <textarea
+                      rows={2}
+                      value={platform.description || ''}
+                      onChange={(e) => updateArrayItem('onlinePlatform.platforms', index, 'description', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Card description"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        )}
+
+        {selectedPage === 'online_class_page' && (
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Price Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading Line 1</label>
+              <input
+                type="text"
+                value={pageData.priceSection?.mainHeadingLine1 || ''}
+                onChange={(e) => updatePageData('priceSection.mainHeadingLine1', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="The Best Price"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading Line 2</label>
+              <input
+                type="text"
+                value={pageData.priceSection?.mainHeadingLine2 || ''}
+                onChange={(e) => updatePageData('priceSection.mainHeadingLine2', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Offer You've Seen"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description (first paragraph)</label>
+              <textarea
+                rows={3}
+                value={pageData.priceSection?.description1 || ''}
+                onChange={(e) => updatePageData('priceSection.description1', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="At The Online Class Help, our experts have mastery over multiple online exam platforms..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description (second paragraph)</label>
+              <textarea
+                rows={3}
+                value={pageData.priceSection?.description2 || ''}
+                onChange={(e) => updatePageData('priceSection.description2', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Our qualified chemistry expert offers the top services..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Card Heading</label>
+              <input
+                type="text"
+                value={pageData.priceSection?.cardHeading || ''}
+                onChange={(e) => updatePageData('priceSection.cardHeading', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="The Best Price Offer You've Seen"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
+              <input
+                type="text"
+                value={pageData.priceSection?.buttonText || ''}
+                onChange={(e) => updatePageData('priceSection.buttonText', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Order Now"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Blue ticks / Benefits (add as many as you want)</label>
+              {(pageData.priceSection?.benefits || []).map((benefit: string | { text?: string }, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={typeof benefit === 'string' ? benefit : (benefit?.text || '')}
+                    onChange={(e) => updateArrayItem('priceSection.benefits', index, 'text', e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                    placeholder="e.g. Built by Students, for Students"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeArrayItem('priceSection.benefits', index)}
+                    className="text-red-600 hover:text-red-800 text-sm whitespace-nowrap"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('priceSection.benefits', { text: '' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Benefit
+              </button>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Price Items (service, price, unit)</label>
+              {(pageData.priceSection?.priceItems || []).map((item: { service?: string; price?: string; unit?: string }, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Item {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('priceSection.priceItems', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input
+                      type="text"
+                      value={item.service || ''}
+                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'service', e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Service (e.g. Class)"
+                    />
+                    <input
+                      type="text"
+                      value={item.price || ''}
+                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'price', e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Price (e.g. $70)"
+                    />
+                    <input
+                      type="text"
+                      value={item.unit || ''}
+                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'unit', e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Unit (e.g. /week or leave empty)"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('priceSection.priceItems', { service: '', price: '', unit: '' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Price Item
+              </button>
+            </div>
+          </div>
+        </div>
+        )}
 
         {/* Academic Partners Section */}
         <div className="bg-white shadow rounded-lg p-6">
@@ -1346,6 +1592,53 @@ export default function OnlineClassAdmin() {
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Card
+              </button>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Performances / Stats (number, title, subtitle)</label>
+              {(pageData.academicPartners?.performances || []).map((perf: { number?: string; title?: string; subtitle?: string }, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Stat {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('academicPartners.performances', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input
+                      type="text"
+                      value={perf.number || ''}
+                      onChange={(e) => updateArrayItem('academicPartners.performances', index, 'number', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Number (e.g. 15K+, 24/7)"
+                    />
+                    <input
+                      type="text"
+                      value={perf.title || ''}
+                      onChange={(e) => updateArrayItem('academicPartners.performances', index, 'title', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Title (e.g. Happy)"
+                    />
+                    <input
+                      type="text"
+                      value={perf.subtitle || ''}
+                      onChange={(e) => updateArrayItem('academicPartners.performances', index, 'subtitle', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Subtitle (e.g. Students)"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('academicPartners.performances', { number: '', title: '', subtitle: '' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Performance
               </button>
             </div>
           </div>
