@@ -22,7 +22,7 @@ import { onlineClassSubjects } from "../content";
 
 const GetQouteDynamic = dynamicImport(
   () => import("@/app/components/LandingPage/GetQoute"),
-  { ssr: false }
+  { ssr: false },
 );
 
 // Force dynamic rendering to prevent caching
@@ -34,8 +34,6 @@ interface PageProps {
     subject: string;
   };
 }
-
-
 
 async function fetchPageData(slug: string) {
   try {
@@ -63,7 +61,7 @@ async function fetchPageData(slug: string) {
 
     console.log(
       `Querying online_classes with slug: ${slug}, query:`,
-      JSON.stringify(query)
+      JSON.stringify(query),
     );
     const content = await db.collection("online_classes").findOne(query);
     console.log("Found content:", content ? "Yes" : "No");
@@ -77,7 +75,7 @@ async function fetchPageData(slug: string) {
         .toArray();
       console.log(
         "Sample documents matching slug:",
-        allDocs.map((d) => ({ id: d.id, slug: d.slug }))
+        allDocs.map((d) => ({ id: d.id, slug: d.slug })),
       );
     }
 
@@ -143,12 +141,13 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <OnlineClassDataProvider data={defaultPageData}>
         <MainLayout>
           <HeroSection />
-          <Success />
           <DeliveredOn />
+          <Success />
+
           <CardCarousel />
           <Description />
-          <GuaranteedBlock />
-          <WhySlider />
+          {/* <GuaranteedBlock />
+          <WhySlider /> */}
           <CustomerReviews />
           <ProcessSection />
           <Subjects defaultSubjects={onlineClassSubjects} />
@@ -173,12 +172,13 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     <OnlineClassDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Success />
         <DeliveredOn />
+
+        <Success />
         <CardCarousel />
         <Description />
-        <GuaranteedBlock />
-        <WhySlider />
+        {/* <GuaranteedBlock />
+        <WhySlider /> */}
         <CustomerReviews />
         <ProcessSection />
         <Subjects defaultSubjects={onlineClassSubjects} />
@@ -228,25 +228,27 @@ export async function generateMetadata({
     }
     const query = { $or: orConditions, status: { $ne: "draft" } };
 
-    const pageData: any = await db
-      .collection("online_classes")
-      .findOne(query);
+    const pageData: any = await db.collection("online_classes").findOne(query);
     // Do not close shared client
 
     if (pageData) {
-      const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-      const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+      const rawBaseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const baseUrl = rawBaseUrl.endsWith("/")
+        ? rawBaseUrl.slice(0, -1)
+        : rawBaseUrl;
 
       const metaTitle =
         pageData.meta?.title ||
-        `${params.subject.charAt(0).toUpperCase() +
-        params.subject.slice(1).replace(/-/g, " ")
+        `${
+          params.subject.charAt(0).toUpperCase() +
+          params.subject.slice(1).replace(/-/g, " ")
         } Online Class Help`;
       const metaDescription =
         pageData.meta?.description ||
         `Get expert help with your ${params.subject.replace(
           /-/g,
-          " "
+          " ",
         )} online classes.`;
       const canonicalUrl =
         pageData.meta?.canonicalUrl ||
@@ -267,8 +269,11 @@ export async function generateMetadata({
     params.subject.charAt(0).toUpperCase() +
     params.subject.slice(1).replace(/-/g, " ");
 
-  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-  const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+  const rawBaseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const baseUrl = rawBaseUrl.endsWith("/")
+    ? rawBaseUrl.slice(0, -1)
+    : rawBaseUrl;
 
   const canonicalUrl = `${baseUrl}/online-class/${params.subject}`;
 
@@ -276,7 +281,7 @@ export async function generateMetadata({
     title: `${subjectTitle} Online Class Help - Professional Assistance`,
     description: `Get expert help with your ${params.subject.replace(
       /-/g,
-      " "
+      " ",
     )} online classes.`,
     alternates: {
       canonical: canonicalUrl,

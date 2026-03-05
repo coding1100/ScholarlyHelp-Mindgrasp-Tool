@@ -1,9 +1,14 @@
 "use client";
 
 import React, { useMemo } from "react";
+import Image from "next/image";
 import { FaShield } from "react-icons/fa6";
 import { RiCheckboxCircleFill } from "react-icons/ri";
 import { usePageData } from "@/app/components/LandingPage/usePageData";
+import VisaCard from "@/app/assets/Images/visaIcon.webp";
+import MasterCard from "@/app/assets/Images/masterCardIcon.webp";
+import AmericanExpress from "@/app/assets/Images/americanExpressIcon.webp";
+import Discover from "@/app/assets/Images/discovercard.png";
 
 const DEFAULT_MAIN_HEADING_LINE1 = "The Best Price";
 const DEFAULT_MAIN_HEADING_LINE2 = "Offer You've Seen";
@@ -139,17 +144,23 @@ export default function PriceSection() {
     const benefits =
       Array.isArray(section?.benefits) && section.benefits.length > 0
         ? section.benefits
-            .map((b) => (typeof b === "string" ? b : (b as { text?: string })?.text ?? ""))
+            .map((b) =>
+              typeof b === "string"
+                ? b
+                : ((b as { text?: string })?.text ?? ""),
+            )
             .map((s) => (s != null ? String(s).trim() : ""))
             .filter(Boolean)
         : DEFAULT_BENEFITS;
     const priceItems: PriceItem[] =
       Array.isArray(section?.priceItems) && section.priceItems.length > 0
-        ? section.priceItems.map((p) => ({
-            service: (p?.service && String(p.service).trim()) || "",
-            price: (p?.price && String(p.price).trim()) || "",
-            unit: (p?.unit && String(p.unit).trim()) || "",
-          })).filter((p) => p.service || p.price)
+        ? section.priceItems
+            .map((p) => ({
+              service: (p?.service && String(p.service).trim()) || "",
+              price: (p?.price && String(p.price).trim()) || "",
+              unit: (p?.unit && String(p.unit).trim()) || "",
+            }))
+            .filter((p) => p.service || p.price)
         : DEFAULT_PRICE_ITEMS;
     return {
       mainHeadingLine1,
@@ -217,7 +228,7 @@ export default function PriceSection() {
                     <span className="text-center text-sm font-medium text-gray-600 sm:text-base">
                       {item.service}
                     </span>
-                    <div className="mt-8 flex items-baseline justify-center gap-0.5 text-[#ff641a]">
+                    <div className="sm:mt-8 mt-3 flex items-baseline justify-center gap-0.5 text-[#ff641a]">
                       <span className="text-xl font-bold sm:text-[45px]">
                         {item.price}
                       </span>
@@ -237,40 +248,56 @@ export default function PriceSection() {
               </button>
               <div className=" flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 pt-5">
                 <div className="flex flex-wrap items-center gap-4">
-                  <div className="flex items-center gap-2 border border-[#c4c4d1] rounded-full px-4 py-2">
+                  <div className="flex items-center gap-2 border border-[#c4c4d1] rounded-full px-3 py-1">
                     <FaShield className="!w-4 !h-4" />
-                    <span className="!text-[10px] font-medium uppercase tracking-wide text-gray-600 sm:text-sm">
+                    <span className="!text-[10px] font-bold uppercase tracking-wide text-gray-600 sm:text-sm">
                       Money back guarantee
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 border border-[#c4c4d1] rounded-full px-4 py-2">
+                  <div className="flex items-center gap-2 border border-[#c4c4d1] rounded-full px-3 py-1">
                     <RiCheckboxCircleFill className="!w-4 !h-4" />
-                    <span className="!text-[10px] font-medium uppercase tracking-wide text-gray-600 sm:text-sm">
+                    <span className="!text-[10px] font-bold uppercase tracking-wide text-gray-600 sm:text-sm">
                       No hidden charges
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 ml-auto">
-                  <span
-                    className="inline-block h-6 w-10 rounded bg-[#1A1F71]"
-                    title="Visa"
-                    aria-hidden
-                  />
-                  <span
-                    className="inline-block h-6 w-10 rounded bg-[#EB001B]"
-                    title="Mastercard"
-                    aria-hidden
-                  />
-                  <span
-                    className="inline-block h-6 w-10 rounded bg-[#006FCF]"
-                    title="American Express"
-                    aria-hidden
-                  />
-                  <span
-                    className="inline-block h-6 w-10 rounded bg-[#006FCF]"
-                    title="Discover"
-                    aria-hidden
-                  />
+                <div className="flex items-center gap12 ml-auto">
+                  <div className="relative h-6 w-10">
+                    <Image
+                      src={VisaCard}
+                      alt="Visa"
+                      fill
+                      className="object-contain"
+                      sizes="40px"
+                    />
+                  </div>
+                  <div className="relative h-6 w-10">
+                    <Image
+                      src={MasterCard}
+                      alt="Mastercard"
+                      fill
+                      className="object-contain"
+                      sizes="40px"
+                    />
+                  </div>
+                  <div className="relative h-6 w-10">
+                    <Image
+                      src={AmericanExpress}
+                      alt="American Express"
+                      fill
+                      className="object-contain"
+                      sizes="40px"
+                    />
+                  </div>
+                  <div className="relative h-6 w-10">
+                    <Image
+                      src={Discover}
+                      alt="Discover"
+                      fill
+                      className="object-contain"
+                      sizes="40px"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

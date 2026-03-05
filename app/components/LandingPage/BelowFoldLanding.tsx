@@ -129,17 +129,20 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       <CardCarousel />
       <Description />
       {/* <Description2 /> */}
-      <GuaranteedBlock />
-      <WhySlider />
+      {!isOnlineClassPage && (
+        <>
+          <GuaranteedBlock />
+          <WhySlider />
+        </>
+      )}
       <CustomerReviews />
       <ProcessSection />
       {!isOnlineClassPage && <Success />}
       {children}
-      {isOnlineClassPage && <OnlinePlatform />}
+      {/* {isOnlineClassPage && <OnlinePlatform />} */}
       <AcademicPartners />
-      {!isOnlineClassPage && <PriceSection />}
-      <PriceSection />
-      <GetQouteDynamic />
+      {isOnlineClassPage && <PriceSection />}
+      {!isOnlineClassPage && <GetQouteDynamic />}
       <Faq />
     </>
   );
