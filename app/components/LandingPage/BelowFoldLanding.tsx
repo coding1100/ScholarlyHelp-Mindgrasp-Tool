@@ -4,6 +4,8 @@ import { ReactNode, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import DeliveredOn from "@/app/(pages)/take-my-class/DeliveredOn";
+import OnlinePlatform from "../OnlinePlatform/OnlinePlatform";
+import PriceSection from "../PriceSection/PriceSection";
 
 // Lightweight skeleton for below-the-fold sections
 const LoadingSkeleton = ({ height = "400px" }: { height?: string }) => (
@@ -133,7 +135,10 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       <ProcessSection />
       {!isOnlineClassPage && <Success />}
       {children}
+      {isOnlineClassPage && <OnlinePlatform />}
       <AcademicPartners />
+      {!isOnlineClassPage && <PriceSection />}
+      <PriceSection />
       <GetQouteDynamic />
       <Faq />
     </>

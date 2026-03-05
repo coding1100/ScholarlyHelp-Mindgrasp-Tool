@@ -13,6 +13,8 @@ interface OnlineClassPageData {
   processSection?: any;
   success?: any;
   subjects?: any;
+  onlinePlatform?: any;
+  priceSection?: any;
   academicPartners?: any;
   getQuote?: any;
   faq?: any;

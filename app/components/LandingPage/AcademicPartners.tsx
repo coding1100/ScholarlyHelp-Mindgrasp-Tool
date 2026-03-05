@@ -5,6 +5,12 @@ import Image from "next/image";
 import { usePageData } from "./usePageData";
 import { useMemo, useState, useEffect, FC } from "react";
 
+type PerformanceItem = {
+  number?: string;
+  title?: string;
+  subtitle?: string;
+};
+
 interface AcademicPartnersProps {
   content?: {
     mainHeading?: string;
@@ -14,22 +20,44 @@ interface AcademicPartnersProps {
       title: string;
       description: string;
     }[];
-    cards?: { // Add support for 'cards' from admin panel
+    cards?: {
       id: number;
       title: string;
       description: string;
     }[];
+    performances?: PerformanceItem[];
     ctaButton?: {
       text: string;
     };
   };
 }
 
-const AcademicPartners: FC<AcademicPartnersProps> = ({ content: propsContent }) => {
+const DEFAULT_PERFORMANCES: PerformanceItem[] = [
+  { number: "15K+", title: "Happy", subtitle: "Students" },
+  { number: "400+", title: "Academic", subtitle: "Experts" },
+  { number: "500+", title: "Assignments", subtitle: "Delivered Monthly" },
+  { number: "24/7", title: "Support", subtitle: "Available" },
+];
+
+const AcademicPartners: FC<AcademicPartnersProps> = ({
+  content: propsContent,
+}) => {
   const pageData = usePageData();
 
   // Use props content if available, otherwise fallback to pageData
   const content = propsContent || pageData?.academicPartners;
+
+  const performances: PerformanceItem[] = useMemo(() => {
+    const list = content?.performances;
+    if (Array.isArray(list) && list.length > 0) {
+      return list.map((p) => ({
+        number: p?.number ?? "",
+        title: p?.title ?? "",
+        subtitle: p?.subtitle ?? "",
+      }));
+    }
+    return DEFAULT_PERFORMANCES;
+  }, [content?.performances]);
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -116,6 +144,28 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content: propsContent }) 
               {content?.ctaButton?.text || "Take my online class"}
             </button>
           </div>
+          <div className="mt-10 space-y-5 max-w-xs">
+            {performances.map((perf, index) => (
+              <React.Fragment key={index}>
+                <div className="flex items-center gap-4">
+                  <div className="text-[1.7rem] font-extrabold text-[#111827] leading-tight min-w-[64px]">
+                    {perf.number || ""}
+                  </div>
+                  <div>
+                    <div className="text-[16px] font-medium text-[#111827] leading-tight">
+                      {perf.title || ""}
+                    </div>
+                    <div className="text-[15px] text-[#7B7B93] font-normal -mt-1">
+                      {perf.subtitle || ""}
+                    </div>
+                  </div>
+                </div>
+                {index < performances.length - 1 && (
+                  <hr className="border-dotted border-t border-[#E6E7F7] my-3" />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
         {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto w-[60%] relative min-h-[600px] mb-[120px] max-[1450px]:w-[100%] max-[1450px]:mb-[0px]">
@@ -128,76 +178,81 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({ content: propsContent }) 
           />
 
           {/* Cards from MongoDB - Fallback to default if array is missing or empty */}
-          {((content?.cards?.length ? content.cards : null) ?? (content?.defaultCard?.length ? content.defaultCard : null) ?? defaultCards).map(
-            (card: CardType, index: number) => {
-              const rotations = isMobile ? [0, 0, 0, 0, 0] : [3, -9, 6, -6, 0];
-              const positions: Position[] = [
-                { top: 30, left: 54 },
-                { top: 2, right: 80 },
-                { left: -186, bottom: -110 },
-                { bottom: -120, left: 165 },
-                { bottom: -100, right: -45 },
-              ];
-              const bgColors = [
-                "#FEF6D3",
-                "#ECF5DF",
-                "#F5E2FE",
-                "#CFE4FF",
-                "#DDF3F1",
-              ];
-              const imagePaths = [
-                "/assets/Icon/img-card-1.png",
-                "/assets/Icon/img-card-2.png",
-                "/assets/Icon/img-card-3.png",
-                "/assets/Icon/img-card-4.png",
-                "/assets/Icon/img-card-5.png",
-              ];
+          {(
+            (content?.cards?.length ? content.cards : null) ??
+            (content?.defaultCard?.length ? content.defaultCard : null) ??
+            defaultCards
+          ).map((card: CardType, index: number) => {
+            const rotations = isMobile ? [0, 0, 0, 0, 0] : [3, -9, 6, -6, 0];
+            const positions: Position[] = [
+              { top: 30, left: 54 },
+              { top: 2, right: 80 },
+              { left: -186, bottom: -110 },
+              { bottom: -120, left: 165 },
+              { bottom: -100, right: -45 },
+            ];
+            const bgColors = [
+              "#FEF6D3",
+              "#ECF5DF",
+              "#F5E2FE",
+              "#CFE4FF",
+              "#DDF3F1",
+            ];
+            const imagePaths = [
+              "/assets/Icon/img-card-1.png",
+              "/assets/Icon/img-card-2.png",
+              "/assets/Icon/img-card-3.png",
+              "/assets/Icon/img-card-4.png",
+              "/assets/Icon/img-card-5.png",
+            ];
 
-              const rotation = rotations[index % rotations.length];
-              const position = positions[index % positions.length];
-              const bgColor = bgColors[index % bgColors.length];
-              const imagePath = imagePaths[index % imagePaths.length];
+            const rotation = rotations[index % rotations.length];
+            const position = positions[index % positions.length];
+            const bgColor = bgColors[index % bgColors.length];
+            const imagePath = imagePaths[index % imagePaths.length];
 
-              const cardStyle: React.CSSProperties = {
-                backgroundColor: bgColor,
-                transform: `rotate(${rotation}deg)`,
-              };
+            const cardStyle: React.CSSProperties = {
+              backgroundColor: bgColor,
+              transform: `rotate(${rotation}deg)`,
+            };
 
-              if (position.top !== undefined) cardStyle.top = `${position.top}px`;
-              if (position.bottom !== undefined) cardStyle.bottom = `${position.bottom}px`;
-              if (position.left !== undefined) cardStyle.left = `${position.left}px`;
-              if (position.right !== undefined) cardStyle.right = `${position.right}px`;
+            if (position.top !== undefined) cardStyle.top = `${position.top}px`;
+            if (position.bottom !== undefined)
+              cardStyle.bottom = `${position.bottom}px`;
+            if (position.left !== undefined)
+              cardStyle.left = `${position.left}px`;
+            if (position.right !== undefined)
+              cardStyle.right = `${position.right}px`;
 
-              return (
-                <div
-                  key={card.id || index}
-                  className="p-6 py-7 border-yellow-200 shadow-md hover:shadow-xl transition-shadow rounded-[21px] min-h-[310px] w-[289px] absolute z-[9] max-[1450px]:[position:unset] max-[1450px]:rotate-[0deg] max-[1450px]:min-h-fit max-[1450px]:w-full"
-                  style={cardStyle}
-                >
-                  <div className="flex items-start space-x-4 flex-col">
-                    <div className="flex-shrink-0 mb-2">
-                      <Image
-                        src={imagePath}
-                        alt={card.title || ""}
-                        width={52}
-                        height={52}
-                        className="object-contain"
-                        style={{ transform: `rotate(${-rotation}deg)` }}
-                      />
-                    </div>
-                    <div className="flex flex-col !ml-0">
-                      <h3 className="font-semibold text-gray-900 mb-2 font-poppins sm:text-2xl text-xl leading-[1.2] tracking-normal font-poppins">
-                        {card.title || ""}
-                      </h3>
-                      <p className="text-sm text-gray-600 font-poppins font-normal text-[15px] leading-[1.4] tracking-normal">
-                        {card.description || ""}
-                      </p>
-                    </div>
+            return (
+              <div
+                key={card.id || index}
+                className="p-6 py-7 border-yellow-200 shadow-md hover:shadow-xl transition-shadow rounded-[21px] min-h-[310px] w-[289px] absolute z-[9] max-[1450px]:[position:unset] max-[1450px]:rotate-[0deg] max-[1450px]:min-h-fit max-[1450px]:w-full"
+                style={cardStyle}
+              >
+                <div className="flex items-start space-x-4 flex-col">
+                  <div className="flex-shrink-0 mb-2">
+                    <Image
+                      src={imagePath}
+                      alt={card.title || ""}
+                      width={52}
+                      height={52}
+                      className="object-contain"
+                      style={{ transform: `rotate(${-rotation}deg)` }}
+                    />
+                  </div>
+                  <div className="flex flex-col !ml-0">
+                    <h3 className="font-semibold text-gray-900 mb-2 font-poppins sm:text-2xl text-xl leading-[1.2] tracking-normal font-poppins">
+                      {card.title || ""}
+                    </h3>
+                    <p className="text-sm text-gray-600 font-poppins font-normal text-[15px] leading-[1.4] tracking-normal">
+                      {card.description || ""}
+                    </p>
                   </div>
                 </div>
-              );
-            }
-          )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
