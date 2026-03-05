@@ -6,6 +6,7 @@ import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 // slick-theme.css removed - loads heavy font file, styles in globals.css
+import { usePathname } from "next/navigation";
 import { usePageData } from "./usePageData";
 
 // Icons & Images
@@ -575,6 +576,8 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
 }) => {
   const data = usePageData();
   const customerReviews = data?.customerReviews;
+  const pathname = usePathname();
+  const isOnlineClassPage = pathname.includes("online-class");
   const btnText =
     propBtnText || customerReviews?.ctaButton?.text || "Place an Order Now";
 
@@ -643,10 +646,13 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
 
   const displayedReviews = mongoReviews || getUniqueReviews();
 
-  // Group reviews into chunks of 6 (3 columns x 2 rows per slide)
+  // Group reviews into chunks:
+  // - Default: 6 (3 columns x 2 rows per slide)
+  // - Online-class pages: 3 (single row of 3 cards per slide)
+  const chunkSize = isOnlineClassPage ? 3 : 6;
   const groupedReviews = [];
-  for (let i = 0; i < displayedReviews.length; i += 6) {
-    groupedReviews.push(displayedReviews.slice(i, i + 6));
+  for (let i = 0; i < displayedReviews.length; i += chunkSize) {
+    groupedReviews.push(displayedReviews.slice(i, i + chunkSize));
   }
 
   const settings = {

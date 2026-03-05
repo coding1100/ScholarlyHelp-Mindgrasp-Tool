@@ -265,11 +265,11 @@ export default function SubjectsSection({
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-12">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-12 max-h-[580px] overflow-y-auto custom-scrollbar">
             {subjects.map((subject: SubjectType, index: number) =>
               subject.url ? (
                 <Link key={index} href={subject.url}>
-                  <div className="bg-[#F2F2FD] rounded-lg p-6 h-[200px] flex flex-col items-center justify-center cursor-pointer">
+                  <div className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer">
                     <div className="w-12 h-12 mb-3 relative">
                       <Image
                         src={subject.src}
@@ -282,12 +282,24 @@ export default function SubjectsSection({
                     <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
                       {subject.label}
                     </span>
+                    {(() => {
+                      const description =
+                        subject.description ||
+                        (subject.label === "Chemistry"
+                          ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
+                          : "");
+                      return description ? (
+                        <p className="text-[17px] mt-3 text-start text-[#263238]">
+                          {description}
+                        </p>
+                      ) : null;
+                    })()}
                   </div>
                 </Link>
               ) : (
                 <div
                   key={index}
-                  className="bg-[#F2F2FD] rounded-lg p-6 h-[200px] flex flex-col items-center justify-center cursor-pointer"
+                  className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer"
                 >
                   <div className="w-12 h-12 mb-3 relative">
                     <Image
@@ -301,6 +313,18 @@ export default function SubjectsSection({
                   <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
                     {subject.label}
                   </span>
+                  {(() => {
+                    const description =
+                      subject.description ||
+                      (subject.label === "Chemistry"
+                        ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
+                        : "");
+                    return description ? (
+                      <p className="text-[17px] text-start text-[#263238]">
+                        {description}
+                      </p>
+                    ) : null;
+                  })()}
                 </div>
               ),
             )}
