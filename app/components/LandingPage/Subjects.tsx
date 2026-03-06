@@ -210,10 +210,16 @@ export default function SubjectsSection({
       subjectsList = defaultSubjects;
     }
 
-    // Filter out the current page's subject
-    return subjectsList.filter(
-      (subject: SubjectType) => subject.url !== currentPage,
-    );
+    // Filter out the current page's subject only when we have
+    // more than enough cards to still fill the grid on subpages.
+    // If admin configured exactly 4 cards, keep all 4 visible.
+    if (subjectsList.length > 4) {
+      return subjectsList.filter(
+        (subject: SubjectType) => subject.url !== currentPage,
+      );
+    }
+
+    return subjectsList;
   }, [subjectsData, basePath, currentPage, defaultSubjects]);
 
   return (

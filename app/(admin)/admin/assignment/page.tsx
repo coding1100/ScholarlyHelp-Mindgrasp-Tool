@@ -140,6 +140,7 @@ export default function AssignmentAdmin() {
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -158,6 +159,7 @@ export default function AssignmentAdmin() {
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -207,6 +209,7 @@ export default function AssignmentAdmin() {
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -236,6 +239,7 @@ export default function AssignmentAdmin() {
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -256,6 +260,7 @@ export default function AssignmentAdmin() {
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -278,6 +283,7 @@ export default function AssignmentAdmin() {
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
+            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
             getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
             faq: { mainHeading: '', faqs: [] }
           });
@@ -1175,6 +1181,80 @@ export default function AssignmentAdmin() {
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Card
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Customer Reviews Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Customer Reviews Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <input
+                type="text"
+                value={pageData.customerReviews?.mainHeading || ''}
+                onChange={(e) => updatePageData('customerReviews.mainHeading', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="How Students Rate Us!"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Trustpilot Rating Text</label>
+              <input
+                type="text"
+                value={pageData.customerReviews?.trustpilotRating || ''}
+                onChange={(e) => updatePageData('customerReviews.trustpilotRating', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Rated 4.6/5 Based on 1000+ Reviews"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Review Cards (card heading + description; leave empty to use default list)</label>
+              {(pageData.customerReviews?.reviews || []).map((review: { title?: string; description?: string; image?: string }, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Review {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('customerReviews.reviews', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input
+                      type="text"
+                      value={review.title || ''}
+                      onChange={(e) => updateArrayItem('customerReviews.reviews', index, 'title', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Card heading / title"
+                    />
+                    <textarea
+                      rows={3}
+                      value={review.description || ''}
+                      onChange={(e) => updateArrayItem('customerReviews.reviews', index, 'description', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Card description"
+                    />
+                    <input
+                      type="text"
+                      value={review.image || ''}
+                      onChange={(e) => updateArrayItem('customerReviews.reviews', index, 'image', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Star image path (e.g. /images/fivestar.svg, optional)"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('customerReviews.reviews', { title: '', description: '', image: '/images/fivestar.svg' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Review Card
               </button>
             </div>
           </div>
