@@ -646,6 +646,10 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
 
   const displayedReviews = mongoReviews || getUniqueReviews();
 
+  const mainHeading =
+    (customerReviews?.mainHeading && String(customerReviews.mainHeading).trim()) ||
+    "How Students Rate Us!";
+
   // Group reviews into chunks:
   // - Default: 6 (3 columns x 2 rows per slide)
   // - Online-class pages: 3 (single row of 3 cards per slide)
@@ -682,7 +686,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
       <div className="max-w-7xl mx-auto pt-2 pb-3  max-[1320px]:px-8">
         {/* Header */}
         <h2 className="font-bold text-[#000] text-center [992px]:text-[42px] text-[30px] max-[768px]:text-[28px] mb-3">
-          How Students Rate Us!
+          {mainHeading}
         </h2>
         {/* <p className="md:text-5xl text-2xl text-[#00B67A] text-center mt-2">
           Excellent
