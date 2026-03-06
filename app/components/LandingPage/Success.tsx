@@ -136,7 +136,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
           </div>
         </div>
       </div>
-      {/* {isOnlineClassPage && (
+      {isOnlineClassPage && (
         <div
           className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex justify-between items-center gap-5 relative z-50"
           style={{
@@ -159,7 +159,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
             </div>
           </div>
         </div>
-      )} */}
+      )}
       {!isOnlineClassPage && (
         <div className="flex justify-center mt-[60px]">
           <button

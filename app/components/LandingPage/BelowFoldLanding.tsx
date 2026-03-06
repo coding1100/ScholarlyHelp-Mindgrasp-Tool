@@ -139,7 +139,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       <ProcessSection />
       {!isOnlineClassPage && <Success />}
       {children}
-      {/* {isOnlineClassPage && <OnlinePlatform />} */}
+      {isOnlineClassPage && <OnlinePlatform />}
       <AcademicPartners />
       {isOnlineClassPage && <PriceSection />}
       {!isOnlineClassPage && <GetQouteDynamic />}
