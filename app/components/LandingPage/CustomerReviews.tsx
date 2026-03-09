@@ -619,7 +619,8 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
       const titleLower = review.title.toLowerCase();
       const descLower = review.description.toLowerCase();
       return !negativeKeywords.some(
-        (keyword) => titleLower.includes(keyword) || descLower.includes(keyword)
+        (keyword) =>
+          titleLower.includes(keyword) || descLower.includes(keyword),
       );
     });
 
@@ -647,7 +648,8 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   const displayedReviews = mongoReviews || getUniqueReviews();
 
   const mainHeading =
-    (customerReviews?.mainHeading && String(customerReviews.mainHeading).trim()) ||
+    (customerReviews?.mainHeading &&
+      String(customerReviews.mainHeading).trim()) ||
     "How Students Rate Us!";
 
   // Group reviews into chunks:
@@ -664,18 +666,31 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    dots: false,
+    dots: true,
     arrows: false,
     autoplay: true,
     autoplaySpeed: 7000,
     cssEase: "linear",
     pauseOnHover: true,
+    appendDots: (dots: React.ReactNode) => (
+      <div className="mt-6">
+        <ul className="!flex !items-center !justify-center gap-2 !m-0">{dots}</ul>
+      </div>
+    ),
+    dotsClass: "slick-dots customer-review-dots",
+    customPaging: (_index: number) => (
+      <button
+        type="button"
+        aria-label="Go to slide"
+        className="h-2.5 w-2.5 rounded-full bg-[#b9b9c6] transition-colors duration-200 hover:bg-[#8f8fa1]"
+      />
+    ),
     responsive: [
       {
         breakpoint: 992,
         settings: {
           arrows: false,
-          dots: false,
+          dots: true,
         },
       },
     ],
@@ -700,7 +715,13 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         )}
         <div className="flex justify-center items-center gap-2 mt-4">
           <div className="flex items-end gap-1">
-            <Image src={Trustpilot} width={40} height={39} alt="Trustpilot" className="md:w-10 w-8" />
+            <Image
+              src={Trustpilot}
+              width={40}
+              height={39}
+              alt="Trustpilot"
+              className="md:w-10 w-8"
+            />
             <p className="md:text-3xl text-xl font-bold">Trustpilot</p>
           </div>
           <Image src={StarGroup} alt="5 Stars" className="max-w-32" />
@@ -719,7 +740,6 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
                   {group.map((review: ReviewType, index: number) => (
                     <div key={index}>
                       <div className="border border-[#DCDCDC] rounded-md py-[30px] px-[24px] h-full">
-
                         {review.image && (
                           <div className="my-2 flex space-x-2">
                             <Image
@@ -785,6 +805,11 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
           </div>
         )} */}
       </div>
+      <style jsx global>{`
+        .customer-review-dots li.slick-active button {
+          background-color: #565add !important;
+        }
+      `}</style>
     </div>
   );
 };

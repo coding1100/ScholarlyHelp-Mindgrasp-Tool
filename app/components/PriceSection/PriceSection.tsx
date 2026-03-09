@@ -182,24 +182,24 @@ export default function PriceSection() {
   };
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 lg:py-20">
+    <section className="w-full bg-white pt-12 md:pt-16 lg:pt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 max-[1320px]:px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Left column - content */}
           <div className="col-span-1">
             <p className="font-bold text-gray-900 text-3xl leading-tight sm:text-4xl md:text-[2.5rem] lg:text-5xl">
               {mainHeadingLine1}
-              <br />
+              {/* <br />
               <span className="text-4xl sm:text-[2.75rem] md:text-5xl lg:text-[3rem]">
                 {mainHeadingLine2}
-              </span>
+              </span> */}
             </p>
             <p className="mt-5 text-base text-gray-600 sm:text-lg">
               {description1}
             </p>
-            <p className="mt-3 text-base text-gray-600 sm:text-lg">
+            {/* <p className="mt-3 text-base text-gray-600 sm:text-lg">
               {description2}
-            </p>
+            </p> */}
             <ul className="mt-6 space-y-4">
               {benefits.map((benefit, index) => (
                 <li
