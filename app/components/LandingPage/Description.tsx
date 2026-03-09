@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { usePageData } from "./usePageData";
 import { styleDescriptionMainHeading } from "./descriptionHeadingUtils";
 
-const CHAR_LIMIT = 195;
+const CHAR_LIMIT = 200;
 
 function styleLinksOrange(html: string): string {
   return html.replace(/<a\b([^>]*)>/gi, (match, attrs: string) => {

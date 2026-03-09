@@ -20,6 +20,7 @@ import { OnlineClassDataProvider } from "../OnlineClassDataProvider";
 import dynamicImport from "next/dynamic";
 import { onlineClassSubjects } from "../content";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
+import PriceSection from "@/app/components/PriceSection/PriceSection";
 
 const GetQouteDynamic = dynamicImport(
   () => import("@/app/components/LandingPage/GetQoute"),
@@ -154,7 +155,8 @@ const Page: React.FC<PageProps> = async ({ params }) => {
           <Subjects defaultSubjects={onlineClassSubjects} />
           <OnlinePlatform />
           <AcademicPartners />
-          <GetQouteDynamic />
+          <PriceSection />
+          {/* <GetQouteDynamic /> */}
           <Faq />
         </MainLayout>
       </OnlineClassDataProvider>
@@ -186,7 +188,8 @@ const Page: React.FC<PageProps> = async ({ params }) => {
         <Subjects defaultSubjects={onlineClassSubjects} />
         <OnlinePlatform />
         <AcademicPartners />
-        <GetQouteDynamic />
+        <PriceSection />
+        {/* <GetQouteDynamic /> */}
         <Faq />
       </MainLayout>
     </OnlineClassDataProvider>
