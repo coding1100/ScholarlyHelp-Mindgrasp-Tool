@@ -295,7 +295,7 @@ export default function SubjectsSection({
                           ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
                           : "");
                       return description ? (
-                        <p className="text-[17px] mt-3 text-[#263238] text-justify">
+                        <p className="text-[17px] mt-3 text-[#263238] text-center">
                           {description}
                         </p>
                       ) : null;
