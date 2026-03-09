@@ -82,36 +82,44 @@ type AdminPlatform = {
 };
 
 export default function OnlinePlatform() {
-  const pageData = usePageData() as { onlinePlatform?: { mainHeading?: string; subHeading?: string; platforms?: AdminPlatform[] } } | null;
+  const pageData = usePageData() as {
+    onlinePlatform?: {
+      mainHeading?: string;
+      subHeading?: string;
+      platforms?: AdminPlatform[];
+    };
+  } | null;
   const adminSection = pageData?.onlinePlatform;
 
-  const { mainHeading, subHeading, platforms, useAdminPlatforms } = useMemo(() => {
-    const mainHeading =
-      (adminSection?.mainHeading && String(adminSection.mainHeading).trim()) ||
-      DEFAULT_MAIN_HEADING;
-    const subHeading =
-      (adminSection?.subHeading && String(adminSection.subHeading).trim()) ||
-      DEFAULT_SUB_HEADING;
-    const adminPlatforms = Array.isArray(adminSection?.platforms)
-      ? adminSection.platforms.filter((p: AdminPlatform) => p?.key != null)
-      : [];
-    const useAdminPlatforms = adminPlatforms.length > 0;
-    const platforms = useAdminPlatforms
-      ? adminPlatforms.map((p: AdminPlatform) => ({
-          key: String(p.key),
-          name: (p.name && String(p.name).trim()) || "",
-          description: (p.description && String(p.description).trim()) || "",
-          logoUrl: (p.logoUrl && String(p.logoUrl).trim()) || undefined,
-        }))
-      : DEFAULT_PLATFORMS.map((def) => {
-          return {
-            ...def,
-            name: def.name,
-            description: def.description,
-          };
-        });
-    return { mainHeading, subHeading, platforms, useAdminPlatforms };
-  }, [adminSection]);
+  const { mainHeading, subHeading, platforms, useAdminPlatforms } =
+    useMemo(() => {
+      const mainHeading =
+        (adminSection?.mainHeading &&
+          String(adminSection.mainHeading).trim()) ||
+        DEFAULT_MAIN_HEADING;
+      const subHeading =
+        (adminSection?.subHeading && String(adminSection.subHeading).trim()) ||
+        DEFAULT_SUB_HEADING;
+      const adminPlatforms = Array.isArray(adminSection?.platforms)
+        ? adminSection.platforms.filter((p: AdminPlatform) => p?.key != null)
+        : [];
+      const useAdminPlatforms = adminPlatforms.length > 0;
+      const platforms = useAdminPlatforms
+        ? adminPlatforms.map((p: AdminPlatform) => ({
+            key: String(p.key),
+            name: (p.name && String(p.name).trim()) || "",
+            description: (p.description && String(p.description).trim()) || "",
+            logoUrl: (p.logoUrl && String(p.logoUrl).trim()) || undefined,
+          }))
+        : DEFAULT_PLATFORMS.map((def) => {
+            return {
+              ...def,
+              name: def.name,
+              description: def.description,
+            };
+          });
+      return { mainHeading, subHeading, platforms, useAdminPlatforms };
+    }, [adminSection]);
 
   return (
     <section className="bg-white py-16">
@@ -132,7 +140,9 @@ export default function OnlinePlatform() {
             >
               <div className="mb-4 flex items-center gap-4">
                 <div className="relative h-10 w-28 flex-shrink-0">
-                  {useAdminPlatforms && "logoUrl" in platform && platform.logoUrl ? (
+                  {useAdminPlatforms &&
+                  "logoUrl" in platform &&
+                  platform.logoUrl ? (
                     <Image
                       src={platform.logoUrl}
                       alt={(platform as AdminPlatform).name || "Platform logo"}
@@ -155,7 +165,7 @@ export default function OnlinePlatform() {
                   )}
                 </div>
               </div>
-              <p className="text-sm leading-relaxed text-gray-700 sm:text-[15px]">
+              <p className="text-sm leading-relaxed text-gray-700 sm:text-[15px] text-justify">
                 {platform.description}
               </p>
             </div>
