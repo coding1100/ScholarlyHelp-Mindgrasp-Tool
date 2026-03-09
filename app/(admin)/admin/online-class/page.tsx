@@ -1449,7 +1449,6 @@ export default function OnlineClassAdmin() {
           </div>
         </div>
 
-        {selectedPage === 'online_class_page' && (
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Online Platforms Section</h2>
           <div className="grid grid-cols-1 gap-6">
@@ -1522,9 +1521,7 @@ export default function OnlineClassAdmin() {
             </div>
           </div>
         </div>
-        )}
 
-        {selectedPage === 'online_class_page' && (
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Price Section</h2>
           <div className="grid grid-cols-1 gap-6">
@@ -1665,7 +1662,6 @@ export default function OnlineClassAdmin() {
             </div>
           </div>
         </div>
-        )}
 
         {/* Academic Partners Section */}
         <div className="bg-white shadow rounded-lg p-6">
