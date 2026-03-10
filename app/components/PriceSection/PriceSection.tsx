@@ -9,6 +9,7 @@ import VisaCard from "@/app/assets/Images/visaIcon.webp";
 import MasterCard from "@/app/assets/Images/masterCardIcon.webp";
 import AmericanExpress from "@/app/assets/Images/americanExpressIcon.webp";
 import Discover from "@/app/assets/Images/discovercard.png";
+import Link from "next/link";
 
 const DEFAULT_MAIN_HEADING_LINE1 = "The Best Price";
 const DEFAULT_MAIN_HEADING_LINE2 = "Offer You've Seen";
@@ -239,13 +240,15 @@ export default function PriceSection() {
                   </div>
                 ))}
               </div>
-              <button
-                type="button"
-                onClick={scrollToQuote}
-                className="mt-6 w-full rounded-lg bg-[#ff641a] py-3.5 text-base font-semibold text-white transition duration-300 hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent sm:py-4 sm:text-lg"
-              >
-                {buttonText}
-              </button>
+              <Link href="/">
+                <button
+                  type="button"
+                  onClick={scrollToQuote}
+                  className="mt-6 w-full rounded-lg bg-[#ff641a] py-3.5 text-base font-semibold text-white transition duration-300 hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent sm:py-4 sm:text-lg"
+                >
+                  {buttonText}
+                </button>
+              </Link>
               <div className=" flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 pt-5">
                 <div className="flex flex-wrap items-center gap-4">
                   <div className="flex items-center gap-2 border border-[#c4c4d1] rounded-full px-3 py-1">
