@@ -194,7 +194,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
     try {
       await axiosInstance.post(
         `/order/quote`,
-        fd
+        fd,
         // , {
         //   headers: {
         //     "Content-Type": "multipart/form-data",
@@ -312,7 +312,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                 type="submit"
                 className={twMerge(
                   `${submitBtnClass} bg-[#fd7636] `,
-                  withPhoneLoading && "bg-gray-400"
+                  withPhoneLoading && "bg-gray-400",
                 )}
               >
                 {withPhoneLoading ? (
@@ -325,7 +325,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                     />
                   </div>
                 ) : (
-                  "Get my free quote "
+                  "Secure My 'A' or 'B' Grades"
                 )}
               </button>
             </form>
@@ -390,7 +390,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                       // }`}
                       className={twMerge(
                         `${submitBtnClass} bg-[#fd7636] hidden md:block`,
-                        withEmailLoading && "bg-gray-400"
+                        withEmailLoading && "bg-gray-400",
                       )}
                       onClick={submitWithEmail}
                     >
@@ -410,14 +410,14 @@ const Step4: FC<Step4Props> = ({ text }) => {
                           />
                         </div>
                       ) : (
-                        "Get A Free Quote"
+                        "Secure My 'A' or 'B' Grades"
                       )}
                     </button>
                   </div>
                   <button
                     className={twMerge(
                       `${submitBtnClass} bg-[#fd7636] block md:hidden mt-3`,
-                      withEmailLoading && "bg-gray-400"
+                      withEmailLoading && "bg-gray-400",
                     )}
                     onClick={submitWithEmail}
                   >
@@ -431,7 +431,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                         />
                       </div>
                     ) : (
-                      "Email Me Free Quote"
+                      "Secure My 'A' or 'B' Grades"
                     )}
                   </button>
                   {emailErr && (
@@ -477,7 +477,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                               />
                             </div>
                           ) : (
-                            "Text Me Free Quote"
+                            "Secure My 'A' or 'B' Grades"
                           )}
                         </button>
                       </form>
@@ -498,7 +498,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                         <button
                           className={twMerge(
                             `${submitBtnClass} bg-[#fd7636] hidden md:block`,
-                            withPhoneLoading && "bg-gray-400"
+                            withPhoneLoading && "bg-gray-400",
                           )}
                           onClick={submitWithPhone}
                         >
@@ -518,14 +518,14 @@ const Step4: FC<Step4Props> = ({ text }) => {
                               />
                             </div>
                           ) : (
-                            "Text Me Free Quote"
+                            "Secure My 'A' or 'B' Grades"
                           )}
                         </button>
                       </div>
                       <button
                         className={twMerge(
                           `${submitBtnClass} bg-[#fd7636] block md:hidden mt-2`,
-                          withPhoneLoading && "bg-gray-400"
+                          withPhoneLoading && "bg-gray-400",
                         )}
                         onClick={submitWithPhone}
                       >
@@ -545,7 +545,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                             />
                           </div>
                         ) : (
-                          "Text Me Free Quote"
+                          "Secure My 'A' or 'B' Grades"
                         )}
                       </button>
                       {phoneErr && (
