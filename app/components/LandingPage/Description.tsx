@@ -140,7 +140,9 @@ const HowWeHelp: React.FC = () => {
                   {service.title}
                 </h3>
                 <p className="text-gray-600 text-sm font-normal text-[17px] leading-relaxed tracking-normal text-justify">
-                  <span dangerouslySetInnerHTML={{ __html: styledDisplayText }} />
+                  <span
+                    dangerouslySetInnerHTML={{ __html: styledDisplayText }}
+                  />
                   {isLong && (
                     <button
                       type="button"
@@ -186,7 +188,7 @@ const HowWeHelp: React.FC = () => {
             onClick={scrollToQuote}
             className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
           >
-            {description?.ctaButton?.text || "Take my online class"}
+            {description?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
           </button>
         </div>
       </div>

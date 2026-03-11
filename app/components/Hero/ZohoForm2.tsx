@@ -52,7 +52,7 @@ const ZohoForm2: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
       ([entry]) => {
         setIsFormVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 } // Trigger when 10% of the form is visible
+      { threshold: 0.1 }, // Trigger when 10% of the form is visible
     );
 
     if (formRef.current) {
@@ -67,7 +67,7 @@ const ZohoForm2: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -137,13 +137,14 @@ const ZohoForm2: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
     if (!isFormVisible && formRef.current) {
       setTimeout(() => {
         if (formRef.current) {
-          const formTop = formRef.current.getBoundingClientRect().top + window.scrollY;
+          const formTop =
+            formRef.current.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
-            top: formTop - 80, 
+            top: formTop - 80,
             behavior: "smooth",
           });
         }
-      }, 10); 
+      }, 10);
     }
   };
 
@@ -252,7 +253,7 @@ const ZohoForm2: FC<ZohoForm2Props> = ({ nameValue, textAreaRows = 4 }) => {
             {loading ? (
               <ClipLoader color="#D1D2F8" size={20} />
             ) : (
-              "Get My Free Quote"
+              "Secure My 'A' or 'B' Grades"
             )}
           </button>
         </div>
