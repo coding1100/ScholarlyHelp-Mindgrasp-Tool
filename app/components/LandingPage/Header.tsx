@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import megaMenuImage from "@/app/assets/Images/mega-menu-image.webp";
 import Image from "next/image";
 import LogoSmall from "@/app/assets/Images/logoSmall.png";
@@ -25,6 +25,8 @@ const Star: React.FC<{ className?: string }> = ({ className }) => (
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const prefetchedRoutesRef = useRef<Set<string>>(new Set());
   const isTakeMyClass =
     pathname === "/take-my-class/" || pathname === "/take-my-class";
   const isTakeMyExam =
@@ -312,6 +314,27 @@ export default function Header() {
     },
   ];
 
+  const prefetchRoute = (href?: string) => {
+    if (!href || !href.startsWith("/")) return;
+    if (prefetchedRoutesRef.current.has(href)) return;
+    prefetchedRoutesRef.current.add(href);
+    router.prefetch(href);
+  };
+
+  const prefetchNavItem = (item: (typeof navItems)[number]) => {
+    prefetchRoute(item.href);
+    if (!item.submenu) return;
+    item.submenu.forEach((sub) => {
+      sub.links.forEach((link) => prefetchRoute(link.href));
+      sub.button?.forEach((btn) => prefetchRoute(btn.href));
+    });
+  };
+
+  useEffect(() => {
+    // Warm common routes to reduce page-switch delay from header links.
+    navItems.forEach((item) => prefetchRoute(item.href));
+  }, []);
+
   return (
     <header className="bg-white z-[9999] relative">
       {/* Header Top Bar */}
@@ -339,7 +362,15 @@ export default function Header() {
         </Link>
         {!isSpecialRoute && (
           <button
-            onClick={() => setMobileOpen((prev) => !prev)}
+            onClick={() => {
+              setMobileOpen((prev) => {
+                const next = !prev;
+                if (next) {
+                  navItems.forEach((item) => prefetchNavItem(item));
+                }
+                return next;
+              });
+            }}
             className="min-[1200px]:hidden text-gray-700 relative z-[10000] p-2"
             aria-label={
               mobileOpen ? "Close navigation menu" : "Open navigation menu"
@@ -402,7 +433,10 @@ export default function Header() {
                 <div
                   key={index}
                   className="gap-2"
-                  onMouseEnter={() => setActiveMenu(index)}
+                  onMouseEnter={() => {
+                    setActiveMenu(index);
+                    prefetchNavItem(item);
+                  }}
                   onMouseLeave={() => setActiveMenu(null)}
                 >
                   <Link
