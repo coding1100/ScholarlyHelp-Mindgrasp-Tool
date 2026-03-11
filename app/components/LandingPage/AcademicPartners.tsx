@@ -143,7 +143,7 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({
               onClick={scrollToQuote}
               className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
             >
-              {content?.ctaButton?.text || "Take my online class"}
+              {content?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
             </button>
           </div>
           {isOnlineClassPage && (

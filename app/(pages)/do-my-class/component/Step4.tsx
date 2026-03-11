@@ -154,7 +154,7 @@ const Step4: FC<Step4Props> = ({}) => {
               <button
                 className={twMerge(
                   `${submitBtnClass} bg-[#fd7636] hidden md:block`,
-                  withPhoneLoading && "bg-gray-400"
+                  withPhoneLoading && "bg-gray-400",
                 )}
                 onClick={submitWithPhone}
               >
@@ -168,14 +168,14 @@ const Step4: FC<Step4Props> = ({}) => {
                     />
                   </div>
                 ) : (
-                  "Text Me Free Quote"
+                  "Secure My 'A' or 'B' Grades"
                 )}
               </button>
             </div>
             <button
               className={twMerge(
                 `${submitBtnClass} bg-[#fd7636] block md:hidden mt-2`,
-                withPhoneLoading && "bg-gray-400"
+                withPhoneLoading && "bg-gray-400",
               )}
               onClick={submitWithPhone}
             >
@@ -189,7 +189,7 @@ const Step4: FC<Step4Props> = ({}) => {
                   />
                 </div>
               ) : (
-                "Text Me Free Quote"
+                "Secure My 'A' or 'B' Grades"
               )}
             </button>
             {phoneErr && (

@@ -210,7 +210,7 @@ const WhySlider: FC<WhySliderProps> = ({ whyData: propWhyData }) => {
               }
             }}
           >
-            {whyData?.ctaButton?.text || "Take my online class"}
+            {whyData?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
           </button>
         </div>
       </div>

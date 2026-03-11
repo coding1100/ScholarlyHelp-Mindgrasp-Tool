@@ -511,7 +511,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
             onClick={scrollToForm}
             className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
           >
-            {getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"}
+            {getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
           </button>
         ) : null}
       </div>
@@ -621,7 +621,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
             {loading ? (
               <ClipLoader color="#fff" size={22} />
             ) : (
-              getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"
+              getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"
             )}
           </button>
         </form>
@@ -633,7 +633,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
           onClick={scrollToForm}
           className="fixed bottom-2 left-1/2 -translate-x-1/2 px-4 h-12 sm:w-fit w-[75%] rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
         >
-          {getQuote?.ctaButton?.text || "Get My Free, Confidential Quote"}
+          {getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
         </button>
       ) : null}
     </div>
