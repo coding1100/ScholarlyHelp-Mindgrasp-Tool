@@ -138,24 +138,30 @@ const Success: FC<SuccessProps> = ({ content }) => {
       </div>
       {isOnlineClassPage && (
         <div
-          className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex justify-between items-center gap-5 relative z-50"
+          className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 relative z-50"
           style={{
             boxShadow:
               "rgba(231, 235, 255, 0.85) 0px 50px 100px -20px, rgba(231, 235, 255, 0.6) 0px 30px 60px -30px, rgba(231, 235, 255, 0.4) -30px 30px 60px -30px, rgba(231, 235, 255, 0.4) 30px 30px 60px -30px",
           }}
         >
-          <div>
-            <p className="text-[16px]">Course:</p>
-            <p className="text-[27px] font-bold uppercase">{courseName}</p>
+          <div className="w-auto text-center sm:text-left">
+            <p className="text-sm sm:text-[16px]">Course:</p>
+            <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
+              {courseName}
+            </p>
           </div>
-          <div className="flex justify-end items-center gap-5">
-            <div>
-              <p className="text-[16px]">Before → After:</p>
-              <p className="text-[27px] font-bold uppercase">{gradeChange}</p>
+          <div className="w-auto grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 sm:gap-5">
+            <div className="text-center sm:text-left">
+              <p className="text-sm sm:text-[16px]">Before → After:</p>
+              <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
+                {gradeChange}
+              </p>
             </div>
-            <div>
-              <p className="text-[16px]">Total</p>
-              <p className="text-[27px] font-bold uppercase">{totalScore}</p>
+            <div className="text-center sm:text-left">
+              <p className="text-sm sm:text-[16px]">Total</p>
+              <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
+                {totalScore}
+              </p>
             </div>
           </div>
         </div>

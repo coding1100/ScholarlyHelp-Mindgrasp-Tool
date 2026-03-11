@@ -10,6 +10,7 @@ import MasterCard from "@/app/assets/Images/masterCardIcon.webp";
 import AmericanExpress from "@/app/assets/Images/americanExpressIcon.webp";
 import Discover from "@/app/assets/Images/discovercard.png";
 import Link from "next/link";
+import AllPayments from "@/app/assets/Images/allpayment.webp";
 
 const DEFAULT_MAIN_HEADING_LINE1 = "The Best Price";
 const DEFAULT_MAIN_HEADING_LINE2 = "Offer You've Seen";
@@ -34,6 +35,19 @@ const DEFAULT_BENEFITS = [
   "Confidential Academic Partner",
   "100% Confidentiality Commitment",
 ];
+
+function styleLinksOrange(html: string): string {
+  return html.replace(/<a\b([^>]*)>/gi, (match, attrs: string) => {
+    if (/style\s*=\s*["'][^"']*["']/i.test(attrs)) {
+      return `<a${attrs.replace(
+        /style\s*=\s*["']([^"']*)["']/i,
+        (_m: string, styleValue: string) =>
+          `style="${styleValue}; color: #ff641a; cursor: pointer;"`,
+      )}>`;
+    }
+    return `<a${attrs} style="color: #ff641a; cursor: pointer;">`;
+  });
+}
 
 function PurpleCheckIcon() {
   return (
@@ -175,6 +189,8 @@ export default function PriceSection() {
     };
   }, [pageData?.priceSection]);
 
+  const description1Html = styleLinksOrange(description1);
+
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
@@ -195,9 +211,10 @@ export default function PriceSection() {
                 {mainHeadingLine2}
               </span> */}
             </p>
-            <p className="mt-5 text-base text-gray-600 sm:text-lg">
-              {description1}
-            </p>
+            <p
+              className="mt-5 text-base text-gray-600 sm:text-lg"
+              dangerouslySetInnerHTML={{ __html: description1Html }}
+            />
             {/* <p className="mt-3 text-base text-gray-600 sm:text-lg">
               {description2}
             </p> */}
@@ -249,8 +266,8 @@ export default function PriceSection() {
                   {buttonText}
                 </button>
               </Link>
-              <div className=" flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 pt-5">
-                <div className="flex flex-wrap items-center gap-4">
+              <div className="pt-5">
+                <div className="flex flex-wrap items-center justify-center gap-4">
                   <div className="flex items-center gap-2 border border-[#c4c4d1] rounded-full px-3 py-1">
                     <FaShield className="!w-4 !h-4" />
                     <span className="!text-[10px] font-bold uppercase tracking-wide text-gray-600 sm:text-sm">
@@ -264,8 +281,8 @@ export default function PriceSection() {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap12 ml-auto">
-                  <div className="relative h-6 w-10">
+                <div className="flex items-center justify-center gap-4 ml-auto mt-5">
+                  {/* <div className="relative h-6 w-10">
                     <Image
                       src={VisaCard}
                       alt="Visa"
@@ -300,7 +317,8 @@ export default function PriceSection() {
                       className="object-contain"
                       sizes="40px"
                     />
-                  </div>
+                  </div> */}
+                  <Image src={AllPayments} alt="Payment Icons" />
                 </div>
               </div>
             </div>
