@@ -7,7 +7,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePageData } from "./usePageData";
 import styles from "./CardCarousel.module.css";
 
-
 import slid1 from "@/app/assets/Images/slide1.webp";
 import slid2 from "@/app/assets/Images/slide2.webp";
 import slid3 from "@/app/assets/Images/slide3.webp";
@@ -146,7 +145,7 @@ export default function CardCarousel() {
     autoplay: true,
     autoplaySpeed: 3000,
     // Use CSS transform instead of layout properties to avoid reflows
-    cssEase: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    cssEase: "cubic-bezier(0.4, 0, 0.2, 1)",
     useCSS: true,
     useTransform: true,
     afterChange: (current: number) => setCenterIndex(current),
@@ -164,7 +163,8 @@ export default function CardCarousel() {
         {/* Header */}
         <div className="text-center mb-12 mx-auto max-w-[740px]">
           <h2 className="text-[42px] max-[768px]:text-[28px] text-[#000] font-bold   mb-3">
-            {cardCarousel?.mainHeading || "The Academic Pressure You're Facing Every Day"}
+            {cardCarousel?.mainHeading ||
+              "The Academic Pressure You're Facing Every Day"}
           </h2>
           <p className="sm:text-lg text-sm text-gray-600 max-w-3xl mx-auto">
             {cardCarousel?.description ||
@@ -181,7 +181,9 @@ export default function CardCarousel() {
                   onClick={() => goToSlide(index)}
                   className={[
                     "p-6 shadow-md rounded-[21px] cursor-pointer h-[510px] flex flex-col bg-white transition-all hover:!scale-100 duration-300 relative",
-                    isCenter ? styles.centerCard : `scale-90 ${styles.nonCenterCard}`,
+                    isCenter
+                      ? styles.centerCard
+                      : `scale-90 ${styles.nonCenterCard}`,
                   ].join(" ")}
                 >
                   <div className="">
@@ -195,14 +197,16 @@ export default function CardCarousel() {
                   </div>
                   <div className="flex flex-col h-full justify-center relative top-[-35px]">
                     <h3
-                      className={`font-semibold text-[19px] leading-[1.5] ${isCenter ? "text-white" : "text-gray-900"
-                        }`}
+                      className={`font-semibold text-[19px] leading-[1.5] ${
+                        isCenter ? "text-white" : "text-gray-900"
+                      }`}
                     >
                       {card.title}
                     </h3>
                     <p
-                      className={`text-[16px] leading-[1.5] mt-2 ${isCenter ? "text-white" : "text-gray-600"
-                        }`}
+                      className={`text-[16px] leading-[1.5] mt-2 ${
+                        isCenter ? "text-white" : "text-gray-600"
+                      }`}
                     >
                       {card.description}
                     </p>
@@ -221,7 +225,7 @@ export default function CardCarousel() {
       </div>
 
       {/* CTA Button (text comes from admin if available) */}
-      <div className="flex justify-center mt-[30px] mb-[10px]">
+      {/* <div className="flex justify-center mt-[30px] mb-[10px]">
         <button
           type="button"
           className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px]"
@@ -234,7 +238,7 @@ export default function CardCarousel() {
         >
           {cardCarousel?.ctaButton?.text || "Take my online class"}
         </button>
-      </div>
+      </div> */}
     </section>
   );
 }

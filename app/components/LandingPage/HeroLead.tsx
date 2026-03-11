@@ -225,7 +225,9 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
               className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
               style={{ backgroundColor: PRIMARY_BG }}
             >
-              {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
+              {heroContent?.btn1
+                ? heroContent.btn1
+                : "Secure My 'A' or 'B' Grades"}
             </button>
           )}
 

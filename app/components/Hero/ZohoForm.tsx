@@ -118,7 +118,7 @@ const ZohoForm: FC<ZohoFormProps> = ({ nameValue }) => {
             className="bg-orange-500 text-white rounded cursor-pointer min-w-[200px] min-h-[40px] "
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Get A Free Quote"}
+            {isSubmitting ? "Submitting..." : "Secure My 'A' or 'B' Grades"}
           </button>
         </div>
       </form>

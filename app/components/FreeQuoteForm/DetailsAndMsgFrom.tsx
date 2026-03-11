@@ -141,7 +141,7 @@ const DetailsAndMsgForm: FC<DetailsAndMsgFormProps> = ({}) => {
                       />
                     </div>
                   ) : (
-                    "Email Me Free Quote"
+                    "Secure My 'A' or 'B' Grades"
                   )}
                 </button>
               </form>
