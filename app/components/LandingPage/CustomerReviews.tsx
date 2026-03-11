@@ -674,7 +674,9 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     pauseOnHover: true,
     appendDots: (dots: React.ReactNode) => (
       <div className="mt-6">
-        <ul className="!flex !items-center !justify-center gap-2 !m-0">{dots}</ul>
+        <ul className="!flex !items-center !justify-center gap-2 !m-0">
+          {dots}
+        </ul>
       </div>
     ),
     dotsClass: "slick-dots customer-review-dots",
@@ -708,11 +710,11 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         </p> */}
 
         {/* Trustpilot Rating */}
-        {customerReviews?.trustpilotRating && (
+        {/* {customerReviews?.trustpilotRating && (
           <p className="text-center text-gray-600 mb-4">
             {customerReviews.trustpilotRating}
           </p>
-        )}
+        )} */}
         <div className="flex justify-center items-center gap-2 mt-4">
           <div className="flex items-end gap-1">
             <Image
