@@ -66,7 +66,9 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
 
   const isOnlineClassPage = (pathname || "").includes("online-class");
   const shouldHideBadges =
-    hiddenRoutes.includes(pathname || "") || isOnlineClassPage;
+    hiddenRoutes.includes(pathname || "") ||
+    isOnlineClassPage ||
+    pathname === "/";
 
   // Routes where buttons should be hidden
   const buttonHiddenRoutes = [
@@ -78,7 +80,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   ];
 
   const shouldHideButtons = buttonHiddenRoutes.includes(
-    pathname || "online-class",
+    pathname || "/online-class/",
   );
 
   const getStyledMainHeading = (heading: string) => {
@@ -175,8 +177,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
       )} */}
 
       {/* Done */}
-      {((heroContent?.description && shouldHideBadges) ||
-        pathname?.includes("/online-class/")) && (
+      {heroContent?.description && shouldHideBadges && (
         <div
           className="text-[#263238] text-[16px] mt-3 "
           dangerouslySetInnerHTML={{
@@ -186,8 +187,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
       )}
 
       {/* Done */}
-      {(pathname === "/take-my-class/" ||
-        pathname.includes("online-class")) && (
+      {(pathname === "/take-my-class/" || shouldHideBadges) && (
         <div className="sm:mt-6 mt-2">
           <div className="flex justify-between items-center sm:gap-5 gap-2">
             <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">
@@ -209,51 +209,53 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
       )}
 
       {/* Done */}
-      {!shouldHideButtons && !pathname?.includes("/online-class/") && (
-        <div className="mt-6 max-[768px]:mt-2 flex gap-4">
-          {heroContent?.btn1Url ? (
-            <Link
-              href={heroContent.btn1Url}
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
-              style={{ backgroundColor: PRIMARY_BG }}
-            >
-              {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
-            </Link>
-          ) : (
-            <button
-              type="button"
-              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
-              style={{ backgroundColor: PRIMARY_BG }}
-            >
-              {heroContent?.btn1
-                ? heroContent.btn1
-                : "Secure My 'A' or 'B' Grades"}
-            </button>
-          )}
+      {!shouldHideButtons &&
+        !pathname?.includes("/online-class/") &&
+        pathname !== "/" && (
+          <div className="mt-6 max-[768px]:mt-2 flex gap-4">
+            {heroContent?.btn1Url ? (
+              <Link
+                href={heroContent.btn1Url}
+                className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
+                style={{ backgroundColor: PRIMARY_BG }}
+              >
+                {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
+                style={{ backgroundColor: PRIMARY_BG }}
+              >
+                {heroContent?.btn1
+                  ? heroContent.btn1
+                  : "Secure My 'A' or 'B' Grades"}
+              </button>
+            )}
 
-          {!pathname?.includes("/take-my-class") && (
-            <>
-              {heroContent?.btn2Url ? (
-                <Link
-                  href={heroContent.btn2Url}
-                  className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
-                  style={{ backgroundColor: SECONDARY_BG }}
-                >
-                  {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-                </Link>
-              ) : (
-                <button
-                  type="button"
-                  className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
-                  style={{ backgroundColor: SECONDARY_BG }}
-                >
-                  {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-                </button>
-              )}
-            </>
-          )}
-        </div>
-      )}
+            {!pathname?.includes("/take-my-class") && (
+              <>
+                {heroContent?.btn2Url ? (
+                  <Link
+                    href={heroContent.btn2Url}
+                    className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
+                    style={{ backgroundColor: SECONDARY_BG }}
+                  >
+                    {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
+                    style={{ backgroundColor: SECONDARY_BG }}
+                  >
+                    {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+        )}
     </div>
   );
 };

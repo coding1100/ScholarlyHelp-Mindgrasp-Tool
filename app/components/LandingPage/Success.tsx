@@ -136,47 +136,49 @@ const Success: FC<SuccessProps> = ({ content }) => {
           </div>
         </div>
       </div>
-      {isOnlineClassPage && (
-        <div
-          className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 relative z-50"
-          style={{
-            boxShadow:
-              "rgba(231, 235, 255, 0.85) 0px 50px 100px -20px, rgba(231, 235, 255, 0.6) 0px 30px 60px -30px, rgba(231, 235, 255, 0.4) -30px 30px 60px -30px, rgba(231, 235, 255, 0.4) 30px 30px 60px -30px",
-          }}
-        >
-          <div className="w-auto text-center sm:text-left">
-            <p className="text-sm sm:text-[16px]">Course:</p>
-            <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
-              {courseName}
-            </p>
-          </div>
-          <div className="w-auto grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 sm:gap-5">
-            <div className="text-center sm:text-left">
-              <p className="text-sm sm:text-[16px]">Before → After:</p>
-              <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
-                {gradeChange}
-              </p>
-            </div>
-            <div className="text-center sm:text-left">
-              <p className="text-sm sm:text-[16px]">Total</p>
-              <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
-                {totalScore}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-      {!isOnlineClassPage && (
-        <div className="flex justify-center mt-[60px]">
-          <button
-            type="button"
-            onClick={scrollToQuote}
-            className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] "
+      {isOnlineClassPage ||
+        (currentPath === "/" && (
+          <div
+            className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 relative z-50"
+            style={{
+              boxShadow:
+                "rgba(231, 235, 255, 0.85) 0px 50px 100px -20px, rgba(231, 235, 255, 0.6) 0px 30px 60px -30px, rgba(231, 235, 255, 0.4) -30px 30px 60px -30px, rgba(231, 235, 255, 0.4) 30px 30px 60px -30px",
+            }}
           >
-            {success?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
-          </button>
-        </div>
-      )}
+            <div className="w-auto text-center sm:text-left">
+              <p className="text-sm sm:text-[16px]">Course:</p>
+              <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
+                {courseName}
+              </p>
+            </div>
+            <div className="w-auto grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 sm:gap-5">
+              <div className="text-center sm:text-left">
+                <p className="text-sm sm:text-[16px]">Before → After:</p>
+                <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
+                  {gradeChange}
+                </p>
+              </div>
+              <div className="text-center sm:text-left">
+                <p className="text-sm sm:text-[16px]">Total</p>
+                <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
+                  {totalScore}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      {!isOnlineClassPage ||
+        (currentPath === "/" && (
+          <div className="flex justify-center mt-[60px]">
+            <button
+              type="button"
+              onClick={scrollToQuote}
+              className="rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] max-[768px]:w-full font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] "
+            >
+              {success?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
+            </button>
+          </div>
+        ))}
     </section>
   );
 };
