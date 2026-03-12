@@ -655,7 +655,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   // Group reviews into chunks:
   // - Default: 6 (3 columns x 2 rows per slide)
   // - Online-class pages: 3 (single row of 3 cards per slide)
-  const chunkSize = isOnlineClassPage ? 3 : 6;
+  const chunkSize = isOnlineClassPage || pathname === "/" ? 3 : 6;
   const groupedReviews = [];
   for (let i = 0; i < displayedReviews.length; i += chunkSize) {
     groupedReviews.push(displayedReviews.slice(i, i + chunkSize));
