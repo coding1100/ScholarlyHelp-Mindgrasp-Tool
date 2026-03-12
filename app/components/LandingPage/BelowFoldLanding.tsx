@@ -120,31 +120,33 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
 
   return (
     <>
-      {currentPath.includes("take-my-class") || isOnlineClassPage ? (
+      {currentPath.includes("take-my-class") ||
+      isOnlineClassPage ||
+      currentPath === "/" ? (
         <DeliveredOn />
       ) : (
         <Ratings />
       )}{" "}
-      {isOnlineClassPage && <Success />}
+      {isOnlineClassPage || (currentPath === "/" && <Success />)}
       <CardCarousel />
       <Description />
       {/* <Description2 /> */}
-      {!isOnlineClassPage && (
-        <>
-          <GuaranteedBlock />
-          <WhySlider />
-        </>
-      )}
+      {!isOnlineClassPage ||
+        (currentPath === "/" && (
+          <>
+            <GuaranteedBlock />
+            <WhySlider />
+          </>
+        ))}
       <CustomerReviews />
       <ProcessSection />
-      {!isOnlineClassPage && <Success />}
+      {!isOnlineClassPage || (currentPath === "/" && <Success />)}
       {children}
-      {isOnlineClassPage && <OnlinePlatform />}
+      {isOnlineClassPage || (currentPath === "/" && <OnlinePlatform />)}
       <AcademicPartners />
-      {isOnlineClassPage && <PriceSection />}
-      {!isOnlineClassPage && <GetQouteDynamic />}
+      {isOnlineClassPage || (currentPath === "/" && <PriceSection />)}
+      {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       <Faq />
     </>
   );
 }
- 
