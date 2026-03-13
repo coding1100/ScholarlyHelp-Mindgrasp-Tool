@@ -32,8 +32,6 @@ export default function SubSubjectsSection({
     }
   };
 
-  const isHomePage = currentPage === "/";
-
   // Use admin-configured SubSubjects if available, otherwise use defaults.
   // Admin can override icon, label, and link; if any field is missing,
   // we fall back to the original default values so nothing breaks.
@@ -106,70 +104,139 @@ export default function SubSubjectsSection({
             "Beyond the SubSubjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way."}
         </p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-12">
-          {SubSubjects.slice(0, 6).map((subject: SubjectType, index: number) =>
-            subject.url ? (
-              <Link key={index} href={subject.url}>
-                <div className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer">
-                  <div className="w-12 h-12 mb-3 relative">
-                    <Image
-                      src={subject.src}
-                      alt={subject.label}
-                      fill
-                      className="object-contain"
-                      sizes="48px"
-                    />
+        {currentPage === "/" ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-12">
+            {SubSubjects.slice(0, 5).map(
+              (subject: SubjectType, index: number) =>
+                subject.url ? (
+                  <Link key={index} href={subject.url}>
+                    <div className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer">
+                      <div className="w-12 h-12 mb-3 relative">
+                        <Image
+                          src={subject.src}
+                          alt={subject.label}
+                          fill
+                          className="object-contain"
+                          sizes="48px"
+                        />
+                      </div>
+                      <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
+                        {subject.label}
+                      </span>
+                      {(() => {
+                        const description =
+                          subject.description ||
+                          (subject.label === "Chemistry"
+                            ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
+                            : "");
+                        return description ? (
+                          <p className="text-[17px] mt-3 text-[#263238] text-center">
+                            {description}
+                          </p>
+                        ) : null;
+                      })()}
+                    </div>
+                  </Link>
+                ) : (
+                  <div
+                    key={index}
+                    className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer"
+                  >
+                    <div className="w-12 h-12 mb-3 relative">
+                      <Image
+                        src={subject.src}
+                        alt={subject.label}
+                        fill
+                        className="object-contain"
+                        sizes="48px"
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
+                      {subject.label}
+                    </span>
+                    {(() => {
+                      const description =
+                        subject.description ||
+                        (subject.label === "Chemistry"
+                          ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
+                          : "");
+                      return description ? (
+                        <p className="text-[17px] text-start text-[#263238]">
+                          {description}
+                        </p>
+                      ) : null;
+                    })()}
                   </div>
-                  <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
-                    {subject.label}
-                  </span>
-                  {(() => {
-                    const description =
-                      subject.description ||
-                      (subject.label === "Chemistry"
-                        ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
-                        : "");
-                    return description ? (
-                      <p className="text-[17px] mt-3 text-[#263238] text-center">
-                        {description}
-                      </p>
-                    ) : null;
-                  })()}
-                </div>
-              </Link>
-            ) : (
-              <div
-                key={index}
-                className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer"
-              >
-                <div className="w-12 h-12 mb-3 relative">
-                  <Image
-                    src={subject.src}
-                    alt={subject.label}
-                    fill
-                    className="object-contain"
-                    sizes="48px"
-                  />
-                </div>
-                <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
-                  {subject.label}
-                </span>
-                {(() => {
-                  const description =
-                    subject.description ||
-                    (subject.label === "Chemistry"
-                      ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
-                      : "");
-                  return description ? (
-                    <p className="text-[17px] text-start text-[#263238]">
-                      {description}
-                    </p>
-                  ) : null;
-                })()}
-              </div>
-            ),
-          )}
-        </div>
+                ),
+            )}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-12">
+            {SubSubjects.slice(0, 6).map(
+              (subject: SubjectType, index: number) =>
+                subject.url ? (
+                  <Link key={index} href={subject.url}>
+                    <div className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer">
+                      <div className="w-12 h-12 mb-3 relative">
+                        <Image
+                          src={subject.src}
+                          alt={subject.label}
+                          fill
+                          className="object-contain"
+                          sizes="48px"
+                        />
+                      </div>
+                      <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
+                        {subject.label}
+                      </span>
+                      {(() => {
+                        const description =
+                          subject.description ||
+                          (subject.label === "Chemistry"
+                            ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
+                            : "");
+                        return description ? (
+                          <p className="text-[17px] mt-3 text-[#263238] text-center">
+                            {description}
+                          </p>
+                        ) : null;
+                      })()}
+                    </div>
+                  </Link>
+                ) : (
+                  <div
+                    key={index}
+                    className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer"
+                  >
+                    <div className="w-12 h-12 mb-3 relative">
+                      <Image
+                        src={subject.src}
+                        alt={subject.label}
+                        fill
+                        className="object-contain"
+                        sizes="48px"
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-gray-800 text-center sm:text-[23px]">
+                      {subject.label}
+                    </span>
+                    {(() => {
+                      const description =
+                        subject.description ||
+                        (subject.label === "Chemistry"
+                          ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields."
+                          : "");
+                      return description ? (
+                        <p className="text-[17px] text-start text-[#263238]">
+                          {description}
+                        </p>
+                      ) : null;
+                    })()}
+                  </div>
+                ),
+            )}
+          </div>
+        )}
 
         <div className="flex justify-center mt-[60px]">
           <button
