@@ -4,8 +4,8 @@ import { ReactNode, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import DeliveredOn from "@/app/(pages)/take-my-class/DeliveredOn";
-import OnlinePlatform from "../OnlinePlatform/OnlinePlatform";
-import PriceSection from "../PriceSection/PriceSection";
+import { onlineClassSubjects } from "@/app/(pages)/online-class/content";
+import SubSubjectsSection from "./SubSubjects";
 
 // Lightweight skeleton for below-the-fold sections
 const LoadingSkeleton = ({ height = "400px" }: { height?: string }) => (
@@ -21,11 +21,25 @@ const Ratings = dynamic(() => import("./Ratings"), {
   loading: () => <LoadingSkeleton height="104px" />,
 });
 
+const OnlinePlatform = dynamic(
+  () => import("../OnlinePlatform/OnlinePlatform"),
+  {
+    ssr: false,
+    loading: () => <LoadingSkeleton height="600px" />,
+  },
+);
+const PriceSection = dynamic(() => import("../PriceSection/PriceSection"), {
+  ssr: false,
+  loading: () => <LoadingSkeleton height="600px" />,
+});
+// const Subjects = dynamic(() => import("./Subjects"), {
+//   ssr: false,
+//   loading: () => <LoadingSkeleton height="600px" />,
+// });
 const CardCarousel = dynamic(() => import("./CardCarousel"), {
   ssr: false,
   loading: () => <LoadingSkeleton height="600px" />,
 });
-
 const Description = dynamic(() => import("./Description"), {
   ssr: false,
   loading: () => <LoadingSkeleton height="300px" />,
@@ -140,13 +154,14 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
         ))}
       <CustomerReviews />
       <ProcessSection />
-      {!isOnlineClassPage || (currentPath === "/" && <Success />)}
+      <SubSubjectsSection defaultSubSubjects={onlineClassSubjects} />
+      {(!isOnlineClassPage || currentPath === "/") && <Success />}
       {children}
       {isOnlineClassPage || (currentPath === "/" && <OnlinePlatform />)}
       <AcademicPartners />
       {isOnlineClassPage || (currentPath === "/" && <PriceSection />)}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
-      <Faq />
+      {currentPath !== "/" && <Faq />}
     </>
   );
 }

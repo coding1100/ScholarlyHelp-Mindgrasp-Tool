@@ -11,6 +11,7 @@ import AmericanExpress from "@/app/assets/Images/americanExpressIcon.webp";
 import Discover from "@/app/assets/Images/discovercard.png";
 import Link from "next/link";
 import AllPayments from "@/app/assets/Images/allpayment.webp";
+import { usePathname } from "next/navigation";
 
 const DEFAULT_MAIN_HEADING_LINE1 = "The Best Price";
 const DEFAULT_MAIN_HEADING_LINE2 = "Offer You've Seen";
@@ -114,6 +115,7 @@ function CheckCircleIcon() {
 type PriceItem = { service: string; price: string; unit: string };
 
 export default function PriceSection() {
+  const currentPath = usePathname();
   const pageData = usePageData() as {
     priceSection?: {
       mainHeadingLine1?: string;
@@ -199,7 +201,9 @@ export default function PriceSection() {
   };
 
   return (
-    <section className="w-full bg-white pt-12 md:pt-16 lg:pt-20">
+    <section
+      className={`w-full bg-white pt-12 md:pt-16 lg:pt-20  ${currentPath === "/" && "pb-[80px]"}`}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 max-[1320px]:px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Left column - content */}

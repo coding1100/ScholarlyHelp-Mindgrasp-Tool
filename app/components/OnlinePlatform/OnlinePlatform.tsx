@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
 import CanvasImg from "@/app/assets/Images/canvas.png";
 import MoodleImg from "@/app/assets/Images/moodle.png";
 import BlackboardImg from "@/app/assets/Images/blackboard.png";
@@ -9,6 +11,7 @@ import CengageImg from "@/app/assets/Images/cengage.png";
 import StudyImg from "@/app/assets/Images/studyImg.png";
 import WguImg from "@/app/assets/Images/wguImg.png";
 import { usePageData } from "@/app/components/LandingPage/usePageData";
+import { usePathname } from "next/navigation";
 
 const DEFAULT_MAIN_HEADING =
   "Let's Take Your Online Chemistry Exam on All Online Platforms";
@@ -82,6 +85,7 @@ type AdminPlatform = {
 };
 
 export default function OnlinePlatform() {
+  const currentPath = usePathname();
   const pageData = usePageData() as {
     onlinePlatform?: {
       mainHeading?: string;
@@ -121,6 +125,47 @@ export default function OnlinePlatform() {
       return { mainHeading, subHeading, platforms, useAdminPlatforms };
     }, [adminSection]);
 
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    speed: 500,
+    arrows: false,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    pauseOnHover: true,
+    appendDots: (dots: ReactNode) => (
+      <div className="mt-6">
+        <ul className="!m-0 !flex !items-center !justify-center gap-2">
+          {dots}
+        </ul>
+      </div>
+    ),
+    customPaging: () => (
+      <button
+        type="button"
+        aria-label="Go to slide"
+        className="h-2.5 w-2.5 rounded-full bg-[#c7c7d6] transition-colors duration-200 hover:bg-[#8f8fa1]"
+      />
+    ),
+    dotsClass: "slick-dots online-platform-dots",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto max-[1320px]:px-4 text-center">
@@ -132,45 +177,99 @@ export default function OnlinePlatform() {
             {subHeading}
           </p>
         </div>
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {platforms.map((platform) => (
-            <div
-              key={platform.key}
-              className="h-full rounded-xl border border-gray-200 bg-white p-6 text-left shadow-sm transition-shadow duration-200 hover:shadow-md"
-            >
-              <div className="mb-4 flex items-center gap-4">
-                <div className="relative h-10 w-28 flex-shrink-0">
-                  {useAdminPlatforms &&
-                  "logoUrl" in platform &&
-                  platform.logoUrl ? (
-                    <Image
-                      src={platform.logoUrl}
-                      alt={(platform as AdminPlatform).name || "Platform logo"}
-                      fill
-                      className="object-contain"
-                      sizes="112px"
-                    />
-                  ) : !useAdminPlatforms && "logo" in platform ? (
-                    <Image
-                      src={platform.logo}
-                      alt={platform.alt}
-                      fill
-                      className="object-contain"
-                      sizes="112px"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-gray-100 rounded flex items-center justify-center text-gray-400 text-xs">
-                      Logo
+        {currentPath === "/" ? (
+          <div className="mt-10">
+            <Slider {...sliderSettings}>
+              {platforms.map((platform) => (
+                <div key={platform.key} className="px-3">
+                  <div className="h-full min-h-[220px] rounded-xl border border-gray-200 bg-white p-6 text-left shadow-sm transition-shadow duration-200 hover:shadow-md">
+                    <div className="mb-4 flex items-center gap-4">
+                      <div className="relative h-10 w-28 flex-shrink-0">
+                        {useAdminPlatforms &&
+                        "logoUrl" in platform &&
+                        platform.logoUrl ? (
+                          <Image
+                            src={platform.logoUrl}
+                            alt={
+                              (platform as AdminPlatform).name ||
+                              "Platform logo"
+                            }
+                            fill
+                            className="object-contain"
+                            sizes="112px"
+                          />
+                        ) : !useAdminPlatforms && "logo" in platform ? (
+                          <Image
+                            src={platform.logo}
+                            alt={platform.alt}
+                            fill
+                            className="object-contain"
+                            sizes="112px"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center rounded bg-gray-100 text-xs text-gray-400">
+                            Logo
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
+                    <p className="text-sm leading-relaxed text-gray-700 sm:text-[15px] text-justify">
+                      {platform.description}
+                    </p>
+                  </div>
                 </div>
+              ))}
+            </Slider>
+          </div>
+        ) : (
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {platforms.map((platform) => (
+              <div
+                key={platform.key}
+                className="h-full rounded-xl border border-gray-200 bg-white p-6 text-left shadow-sm transition-shadow duration-200 hover:shadow-md"
+              >
+                <div className="mb-4 flex items-center gap-4">
+                  <div className="relative h-10 w-28 flex-shrink-0">
+                    {useAdminPlatforms &&
+                    "logoUrl" in platform &&
+                    platform.logoUrl ? (
+                      <Image
+                        src={platform.logoUrl}
+                        alt={
+                          (platform as AdminPlatform).name || "Platform logo"
+                        }
+                        fill
+                        className="object-contain"
+                        sizes="112px"
+                      />
+                    ) : !useAdminPlatforms && "logo" in platform ? (
+                      <Image
+                        src={platform.logo}
+                        alt={platform.alt}
+                        fill
+                        className="object-contain"
+                        sizes="112px"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-gray-100 rounded flex items-center justify-center text-gray-400 text-xs">
+                        Logo
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <p className="text-sm leading-relaxed text-gray-700 sm:text-[15px] text-justify">
+                  {platform.description}
+                </p>
               </div>
-              <p className="text-sm leading-relaxed text-gray-700 sm:text-[15px] text-justify">
-                {platform.description}
-              </p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
+
+        <style jsx global>{`
+          .online-platform-dots li.slick-active button {
+            background-color: #565add !important;
+          }
+        `}</style>
       </div>
     </section>
   );
