@@ -36,7 +36,7 @@ export default function HomeAdmin() {
           guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
           processSection: { mainHeading: '', description: '', steps: [] },
           success: { mainHeading: '', description: '', ctaButton: { text: '' }, course: '', beforeAfter: '', total: '' },
-          academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+          academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
           subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
           customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
           getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -55,7 +55,7 @@ export default function HomeAdmin() {
           guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
           processSection: { mainHeading: '', description: '', steps: [] },
           success: { mainHeading: '', description: '', ctaButton: { text: '' }, course: '', beforeAfter: '', total: '' },
-          academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
+          academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
           subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
           customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
           getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -1209,6 +1209,53 @@ export default function HomeAdmin() {
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
               >
                 + Add Card
+              </button>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Performances / Stats (number, title, subtitle)</label>
+              {(pageData.academicPartners?.performances || []).map((perf: { number?: string; title?: string; subtitle?: string }, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Stat {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('academicPartners.performances', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input
+                      type="text"
+                      value={perf.number || ''}
+                      onChange={(e) => updateArrayItem('academicPartners.performances', index, 'number', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Number (e.g. 15K+, 24/7)"
+                    />
+                    <input
+                      type="text"
+                      value={perf.title || ''}
+                      onChange={(e) => updateArrayItem('academicPartners.performances', index, 'title', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Title (e.g. Happy)"
+                    />
+                    <input
+                      type="text"
+                      value={perf.subtitle || ''}
+                      onChange={(e) => updateArrayItem('academicPartners.performances', index, 'subtitle', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Subtitle (e.g. Students)"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => addArrayItem('academicPartners.performances', { number: '', title: '', subtitle: '' })}
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Performance
               </button>
             </div>
           </div>
