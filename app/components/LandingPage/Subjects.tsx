@@ -37,130 +37,6 @@ export default function SubjectsSection({
 
   const isHomePage = currentPage === "/";
 
-  // const defaultSubjects: SubjectType[] = [
-  //   {
-  //     src: "/assets/Icon/english.png",
-  //     label: "English",
-  //     url: `${basePath}/english`,
-  //   },
-  //   { src: "/assets/Icon/math.png", label: "Math", url: `${basePath}/math` },
-  //   {
-  //     src: "/assets/Icon/anatomyandphysiology.png",
-  //     label: "Anatomy and Physiology",
-  //     url: `${basePath}/anatomy`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/statistics.png",
-  //     label: "Statistics",
-  //     url: `${basePath}/statistics`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/hrmclass.png",
-  //     label: "HRM Class",
-  //     url: `${basePath}/human-resource`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/operationmanagement.png",
-  //     label: "Operation Management",
-  //     url: `${basePath}/operation-management`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/computerscience.png",
-  //     label: "Computer Science",
-  //     url: `${basePath}/computer-science`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/accounting.png",
-  //     label: "Accounting",
-  //     url: `${basePath}/accounting`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/history.png",
-  //     label: "History",
-  //     url: `${basePath}/history`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/marketing.png",
-  //     label: "Marketing",
-  //     url: `${basePath}/marketing`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/psychology.png",
-  //     label: "Psychology",
-  //     url: `${basePath}/psychology`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/philosophy.png",
-  //     label: "Philosophy",
-  //     url: `${basePath}/philosophy`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/finance.png",
-  //     label: "Finance",
-  //     url: `${basePath}/finance`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/law.png",
-  //     label: "Law",
-  //     url: `${basePath}/law`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/economics.png",
-  //     label: "Economics",
-  //     url: `${basePath}/economics`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/chemistry.png",
-  //     label: "Chemistry",
-  //     url: `${basePath}/chemistry`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/engineering.png",
-  //     label: "Engineering",
-  //     url: `${basePath}/engineering`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/linguistics.png",
-  //     label: "Linguistics",
-  //     url: `${basePath}/linguistics`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/physics.png",
-  //     label: "Physics",
-  //     url: `${basePath}/physics`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/architecture.png",
-  //     label: "Architecture",
-  //     url: `${basePath}/architecture`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/pharmacology.png",
-  //     label: "Pharmacology",
-  //     url: `${basePath}/pharmacology`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/biology.png",
-  //     label: "Biology",
-  //     url: `${basePath}/biology`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/nursing.png",
-  //     label: "Nursing",
-  //     url: `${basePath}/nursing`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/organizational-behavior.png",
-  //     label: "Organizational Behavior",
-  //     url: `${basePath}/organizational-behavior`,
-  //   },
-  //   {
-  //     src: "/assets/Icon/sociology.png",
-  //     label: "Sociology",
-  //     url: `${basePath}/sociology`,
-  //   },
-  // ];
-
   // Use admin-configured subjects if available, otherwise use defaults.
   // Admin can override icon, label, and link; if any field is missing,
   // we fall back to the original default values so nothing breaks.
@@ -234,41 +110,39 @@ export default function SubjectsSection({
         </p>
         {isOnlineClassSubpage ? (
           <div className="grid grid-cols-2 gap-8">
-            {subjects.slice(0, 4).map(
-              (subject: SubjectType, index: number) =>
-                subject.url && (
-                  <Link key={index} href={subject.url}>
-                    <div className="col-span-1 bg-[#FFFFFFad] px-8 py-[34px] flex items-start justify-start gap-7 rounded-lg">
-                      <div className="min-w-[65px] h-[65px] relative">
-                        <Image
-                          src={subject.src}
-                          alt={subject.label}
-                          fill
-                          className="object-contain"
-                          sizes="65px"
-                        />
-                      </div>
-                      <div className="space-y-3">
-                        <p className="text-2xl text-start font-semibold text-black">
-                          {subject.label}
-                        </p>
-                        {(() => {
-                          const description =
-                            subject.description ||
-                            (subject.label === "Chemistry"
-                              ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields. The course focuses on essential chemical principles and real-world applications relevant to healthcare, helping students build a strong foundation for understanding topics."
-                              : "");
-                          return description ? (
-                            <p className="text-[17px] text-start text-[#263238]">
-                              {description}
-                            </p>
-                          ) : null;
-                        })()}
-                      </div>
-                    </div>
-                  </Link>
-                ),
-            )}
+            {subjects.slice(0, 4).map((subject: SubjectType, index: number) => (
+              <div
+                key={index}
+                className="col-span-1 bg-[#FFFFFFad] px-8 py-[34px] flex items-start justify-start gap-7 rounded-lg"
+              >
+                <div className="min-w-[65px] h-[65px] relative">
+                  <Image
+                    src={subject.src}
+                    alt={subject.label}
+                    fill
+                    className="object-contain"
+                    sizes="65px"
+                  />
+                </div>
+                <div className="space-y-3">
+                  <p className="text-2xl text-start font-semibold text-black">
+                    {subject.label}
+                  </p>
+                  {(() => {
+                    const description =
+                      subject.description ||
+                      (subject.label === "Chemistry"
+                        ? "Chemistry for Nursing & Allied Health is a specialized course designed to provide targeted chemistry support for students pursuing careers in nursing and allied health fields. The course focuses on essential chemical principles and real-world applications relevant to healthcare, helping students build a strong foundation for understanding topics."
+                        : "");
+                    return description ? (
+                      <p className="text-[17px] text-start text-[#263238]">
+                        {description}
+                      </p>
+                    ) : null;
+                  })()}
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 mb-12 max-h-[580px] overflow-y-auto custom-scrollbar">
@@ -305,7 +179,7 @@ export default function SubjectsSection({
               ) : (
                 <div
                   key={index}
-                  className="bg-[#F2F2FD] rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer"
+                  className="bg-[#F2F2FD]  rounded-lg p-6 min-h-[200px] flex flex-col items-center justify-center cursor-pointer"
                 >
                   <div className="w-12 h-12 mb-3 relative">
                     <Image
