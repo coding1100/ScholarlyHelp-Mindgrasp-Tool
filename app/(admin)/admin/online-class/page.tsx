@@ -1449,6 +1449,139 @@ export default function OnlineClassAdmin() {
           </div>
         </div>
 
+        {/* SubSubjects Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">SubSubjects Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <input
+                type="text"
+                value={pageData.SubSubjects?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("SubSubjects.mainHeading", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea
+                rows={3}
+                value={pageData.SubSubjects?.description || ""}
+                onChange={(e) =>
+                  updatePageData("SubSubjects.description", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <input
+                type="text"
+                value={pageData.SubSubjects?.ctaText || ""}
+                onChange={(e) =>
+                  updatePageData("SubSubjects.ctaText", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">SubSubject Cards</label>
+              {(pageData.SubSubjects?.SubSubjectsContent || []).map(
+                (subject: any, index: number) => (
+                  <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">SubSubject {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("SubSubjects.SubSubjectsContent", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <input
+                        type="text"
+                        value={subject.title || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                            "title",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Title"
+                      />
+                      <input
+                        type="text"
+                        value={subject.url || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                            "url",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="URL"
+                      />
+                      <input
+                        type="text"
+                        value={subject.icon || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                            "icon",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm md:col-span-2"
+                        placeholder="Icon path"
+                      />
+                      <textarea
+                        rows={2}
+                        value={subject.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm md:col-span-2"
+                        placeholder="Description"
+                      />
+                    </div>
+                  </div>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  addArrayItem("SubSubjects.SubSubjectsContent", {
+                    title: "",
+                    icon: "",
+                    url: "",
+                    description: "",
+                  })
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add SubSubject Card
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Online Platforms Section</h2>
           <div className="grid grid-cols-1 gap-6">
