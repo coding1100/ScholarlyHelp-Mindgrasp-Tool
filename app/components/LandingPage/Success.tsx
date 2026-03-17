@@ -23,6 +23,10 @@ const Success: FC<SuccessProps> = ({ content }) => {
 
   const currentPath = usePathname();
   const isOnlineClassPage = currentPath.includes("online-class");
+  const shouldUseNewSliderDesign =
+    currentPath === "/" ||
+    currentPath === "/online-class" ||
+    currentPath.startsWith("/online-class/");
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
@@ -81,35 +85,52 @@ const Success: FC<SuccessProps> = ({ content }) => {
         </div>
         <div
           className="relative max-[992px]:h-[400px] max-[768px]:h-[250px] max-[480px]:h-[150px] lg:h-[500px]"
-          style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
+          style={
+            shouldUseNewSliderDesign
+              ? undefined
+              : { perspective: "1000px", transformStyle: "preserve-3d" }
+          }
         >
           {slides.map((slide: SlideType, i: number) => {
             const next = (active + 1) % slides.length;
             const prev = (active + slides.length - 1) % slides.length;
-
-            let transform = "";
-            let opacity = "opacity-40";
+            const isActive = i === active;
+            let oldTransform = "translate3d(0,0,-500px)";
+            let oldOpacity = "opacity-0";
 
             if (i === active) {
-              transform = "translate3d(0,0,0)";
-              opacity = "opacity-100";
+              oldTransform = "translate3d(0,0,0)";
+              oldOpacity = "opacity-100";
             } else if (i === next) {
-              transform = "translate3d(25%,0,-250px)";
+              oldTransform = "translate3d(25%,0,-250px)";
+              oldOpacity = "opacity-40";
             } else if (i === prev) {
-              transform = "translate3d(-25%,0,-250px)";
-            } else {
-              transform = "translate3d(0,0,-500px)";
-              opacity = "opacity-0";
+              oldTransform = "translate3d(-25%,0,-250px)";
+              oldOpacity = "opacity-40";
             }
 
             return (
               <div
                 key={i}
                 onClick={() => setActive(i)}
-                className={`absolute inset-0 transition-all duration-700 ease-in-out cursor-pointer ${opacity}`}
-                style={{ transform }}
+                className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                  shouldUseNewSliderDesign
+                    ? isActive
+                      ? "opacity-100 scale-100 z-20 cursor-pointer"
+                      : "opacity-0 scale-[0.98] z-0 pointer-events-none"
+                    : `${oldOpacity} cursor-pointer`
+                }`}
+                style={
+                  shouldUseNewSliderDesign ? undefined : { transform: oldTransform }
+                }
               >
-                <div className="relative w-full h-full rounded-lg overflow-hidden lg:shadow-2xl">
+                <div
+                  className={`relative w-full h-full overflow-hidden ${
+                    shouldUseNewSliderDesign
+                      ? "rounded-xl border border-[#E7E8F0] bg-[#F7F8FC] lg:shadow-[0_10px_35px_rgba(40,60,136,0.12)]"
+                      : "rounded-lg lg:shadow-2xl"
+                  }`}
+                >
                   <Image
                     src={slide.image}
                     alt={`Slide ${i + 1}`}
@@ -123,7 +144,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
           })}
 
           {/* Pagination Dots */}
-          <div className="absolute hidden -bottom-12 left-0 right-0 flex justify-center space-x-3">
+          <div className="absolute hidden -bottom-12 left-0 right-0 justify-center space-x-3">
             {slides.map((_: SlideType, i: number) => (
               <button
                 key={i}
