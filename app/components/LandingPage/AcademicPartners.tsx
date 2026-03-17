@@ -45,7 +45,10 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({
 }) => {
   const pageData = usePageData();
   const currentPathname = usePathname();
-  const isOnlineClassPage = currentPathname.includes("online-class");
+  const shouldShowPerformances =
+    currentPathname === "/" ||
+    currentPathname === "/online-class" ||
+    currentPathname.startsWith("/online-class/");
   // Use props content if available, otherwise fallback to pageData
   const content = propsContent || pageData?.academicPartners;
 
@@ -146,31 +149,30 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({
               {content?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
             </button>
           </div>
-          {isOnlineClassPage ||
-            (currentPathname === "/" && (
-              <div className="mt-10 space-y-5 max-w-xs">
-                {performances.map((perf, index) => (
-                  <React.Fragment key={index}>
-                    <div className="flex items-center gap-4">
-                      <div className="text-[1.7rem] font-extrabold text-[#111827] leading-tight min-w-[64px]">
-                        {perf.number || ""}
+          {shouldShowPerformances && (
+            <div className="mt-10 space-y-5 max-w-xs">
+              {performances.map((perf, index) => (
+                <React.Fragment key={index}>
+                  <div className="flex items-center gap-4">
+                    <div className="text-[1.7rem] font-extrabold text-[#111827] leading-tight min-w-[64px]">
+                      {perf.number || ""}
+                    </div>
+                    <div>
+                      <div className="text-[16px] font-medium text-[#111827] leading-tight">
+                        {perf.title || ""}
                       </div>
-                      <div>
-                        <div className="text-[16px] font-medium text-[#111827] leading-tight">
-                          {perf.title || ""}
-                        </div>
-                        <div className="text-[15px] text-[#7B7B93] font-normal -mt-1">
-                          {perf.subtitle || ""}
-                        </div>
+                      <div className="text-[15px] text-[#7B7B93] font-normal -mt-1">
+                        {perf.subtitle || ""}
                       </div>
                     </div>
-                    {index < performances.length - 1 && (
-                      <hr className="border-dotted border-t border-[#E6E7F7] my-3" />
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
-            ))}
+                  </div>
+                  {index < performances.length - 1 && (
+                    <hr className="border-dotted border-t border-[#E6E7F7] my-3" />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
         </div>
         {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto w-[60%] relative min-h-[600px] mb-[120px] max-[1450px]:w-[100%] max-[1450px]:mb-[0px]">
