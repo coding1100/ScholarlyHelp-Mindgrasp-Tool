@@ -155,7 +155,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       <CustomerReviews />
       <ProcessSection />
       <SubSubjectsSection defaultSubSubjects={onlineClassSubjects} />
-      {(!isOnlineClassPage || currentPath === "/") && <Success />}
+      {!isOnlineClassPage || (currentPath !== "/" && <Success />)}
       {children}
       {isOnlineClassPage || (currentPath === "/" && <OnlinePlatform />)}
       <AcademicPartners />
