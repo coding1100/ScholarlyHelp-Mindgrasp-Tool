@@ -154,12 +154,16 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
         ))}
       <CustomerReviews />
       <ProcessSection />
-      <SubSubjectsSection defaultSubSubjects={onlineClassSubjects} />
+      {(currentPath === "/" ||
+        (currentPath.startsWith("/online-class/") &&
+          currentPath !== "/online-class/")) && (
+        <SubSubjectsSection defaultSubSubjects={onlineClassSubjects} />
+      )}
       {!isOnlineClassPage || (currentPath !== "/" && <Success />)}
       {children}
       {isOnlineClassPage || (currentPath === "/" && <OnlinePlatform />)}
       <AcademicPartners />
-      {isOnlineClassPage || (currentPath === "/" && <PriceSection />)}
+      {(isOnlineClassPage || currentPath === "/") && <PriceSection />}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
     </>
