@@ -695,6 +695,13 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
           dots: true,
         },
       },
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          dots: false,
+        },
+      },
     ],
   };
 

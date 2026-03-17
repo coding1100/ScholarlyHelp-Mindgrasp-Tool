@@ -56,7 +56,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
   const handleSolve = async () => {
     // Count how many sides are provided
     const sidesProvided = [sideA.trim(), sideB.trim(), sideC.trim()].filter(
-      (side) => side !== ""
+      (side) => side !== "",
     ).length;
 
     if (sidesProvided !== 2) {
@@ -115,7 +115,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       console.log("Response:", response.data);
@@ -272,7 +272,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
                   isSubmitting ||
                   (!sideA.trim() && !sideB.trim() && !sideC.trim())
                     ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    : "bg-[#155dfc] hover:bg-[#4147fb]"
                 }`}
               >
                 {isSubmitting ? "Solving..." : "Solve"}
