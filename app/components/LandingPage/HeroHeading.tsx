@@ -18,7 +18,13 @@ export default function HeroHeading({ mainHeading }: { mainHeading: string }) {
       </h1>
     );
   }
-  const styled = styleParentheticalText(mainHeading);
+  const styled = mainHeading.includes("|")
+    ? (() => {
+        const [beforePipe, ...afterPipeParts] = mainHeading.split("|");
+        const afterPipe = afterPipeParts.join("|");
+        return `${styleParentheticalText(beforePipe)}|<span class="text-[#F56200]">${styleParentheticalText(afterPipe)}</span>`;
+      })()
+    : styleParentheticalText(mainHeading);
   return (
     <h1 className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black">
       <span dangerouslySetInnerHTML={{ __html: styled }} />
