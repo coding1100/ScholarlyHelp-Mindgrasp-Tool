@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import DeliveredOn from "@/app/(pages)/take-my-class/DeliveredOn";
 import { onlineClassSubjects } from "@/app/(pages)/online-class/content";
 import SubSubjectsSection from "./SubSubjects";
+import FinalCTA from "../FinalCTA/FinalCTA";
 
 // Lightweight skeleton for below-the-fold sections
 const LoadingSkeleton = ({ height = "400px" }: { height?: string }) => (
@@ -141,7 +142,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       ) : (
         <Ratings />
       )}{" "}
-      {isOnlineClassPage || (currentPath === "/" && <Success />)}
+      {(isOnlineClassPage || currentPath === "/") && <Success />}
       <CardCarousel />
       <Description />
       {/* <Description2 /> */}
@@ -166,6 +167,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       {(isOnlineClassPage || currentPath === "/") && <PriceSection />}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
+      {/* <FinalCTA /> */}
     </>
   );
 }
