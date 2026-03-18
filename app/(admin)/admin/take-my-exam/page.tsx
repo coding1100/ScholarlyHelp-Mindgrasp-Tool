@@ -37,6 +37,7 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
           processSection: { mainHeading: '', description: '', steps: [] },
           success: { mainHeading: '', description: '', ctaButton: { text: '' } },
           academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
+          finalCta: { textBefore: '', highlightedText: '', textAfter: '', description: '', buttonText: '' },
           customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
           getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
           faq: { mainHeading: '', faqs: [] }
@@ -55,6 +56,7 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
           processSection: { mainHeading: '', description: '', steps: [] },
           success: { mainHeading: '', description: '', ctaButton: { text: '' } },
           academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
+          finalCta: { textBefore: '', highlightedText: '', textAfter: '', description: '', buttonText: '' },
           customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
           getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
           faq: { mainHeading: '', faqs: [] }
@@ -670,6 +672,60 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
               >
                 + Add Slide
               </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Final CTA Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Final CTA Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Heading (before highlight)</label>
+                <input
+                  type="text"
+                  value={pageData.finalCta?.textBefore || ''}
+                  onChange={(e) => updatePageData('finalCta.textBefore', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Highlighted Text</label>
+                <input
+                  type="text"
+                  value={pageData.finalCta?.highlightedText || ''}
+                  onChange={(e) => updatePageData('finalCta.highlightedText', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Heading (after highlight)</label>
+                <input
+                  type="text"
+                  value={pageData.finalCta?.textAfter || ''}
+                  onChange={(e) => updatePageData('finalCta.textAfter', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea
+                rows={3}
+                value={pageData.finalCta?.description || ''}
+                onChange={(e) => updatePageData('finalCta.description', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
+              <input
+                type="text"
+                value={pageData.finalCta?.buttonText || ''}
+                onChange={(e) => updatePageData('finalCta.buttonText', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              />
             </div>
           </div>
         </div>
