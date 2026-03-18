@@ -37,6 +37,7 @@ export default function HomeAdmin() {
           processSection: { mainHeading: '', description: '', steps: [] },
           success: { mainHeading: '', description: '', ctaButton: { text: '' }, course: '', beforeAfter: '', total: '' },
           academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
+          finalCta: { textBefore: '', highlightedText: '', textAfter: '', description: '', buttonText: '' },
           subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
           customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
           getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -56,6 +57,7 @@ export default function HomeAdmin() {
           processSection: { mainHeading: '', description: '', steps: [] },
           success: { mainHeading: '', description: '', ctaButton: { text: '' }, course: '', beforeAfter: '', total: '' },
           academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
+          finalCta: { textBefore: '', highlightedText: '', textAfter: '', description: '', buttonText: '' },
           subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
           customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
           getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
@@ -1136,6 +1138,64 @@ export default function HomeAdmin() {
               >
                 + Add Subject Card
               </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Final CTA Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Final CTA Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Heading (before highlight)</label>
+                <input
+                  type="text"
+                  value={pageData.finalCta?.textBefore || ''}
+                  onChange={(e) => updatePageData('finalCta.textBefore', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                  placeholder="e.g., Pass Your"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Highlighted Text</label>
+                <input
+                  type="text"
+                  value={pageData.finalCta?.highlightedText || ''}
+                  onChange={(e) => updatePageData('finalCta.highlightedText', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                  placeholder="e.g., Chemistry"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Heading (after highlight)</label>
+                <input
+                  type="text"
+                  value={pageData.finalCta?.textAfter || ''}
+                  onChange={(e) => updatePageData('finalCta.textAfter', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                  placeholder="e.g., Class Without Burning Out."
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea
+                rows={3}
+                value={pageData.finalCta?.description || ''}
+                onChange={(e) => updatePageData('finalCta.description', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
+              <input
+                type="text"
+                value={pageData.finalCta?.buttonText || ''}
+                onChange={(e) => updatePageData('finalCta.buttonText', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                placeholder="e.g., Secure My Grades Now"
+              />
             </div>
           </div>
         </div>
