@@ -45,6 +45,8 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
           guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
           processSection: { mainHeading: '', description: '', steps: [] },
           success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          onlinePlatform: { mainHeading: '', subHeading: '', platforms: [] },
+          priceSection: { mainHeadingLine1: '', mainHeadingLine2: '', description1: '', description2: '', cardHeading: '', buttonText: '', benefits: [], priceItems: [] },
           academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
           subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
           customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
@@ -64,6 +66,8 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
           guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
           processSection: { mainHeading: '', description: '', steps: [] },
           success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+          onlinePlatform: { mainHeading: '', subHeading: '', platforms: [] },
+          priceSection: { mainHeadingLine1: '', mainHeadingLine2: '', description1: '', description2: '', cardHeading: '', buttonText: '', benefits: [], priceItems: [] },
           academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
           subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
           customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
@@ -771,6 +775,235 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Subject Card
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Online Platforms Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Online Platforms Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <input
+                type="text"
+                value={pageData.onlinePlatform?.mainHeading || ''}
+                onChange={(e) => updatePageData('onlinePlatform.mainHeading', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Sub Heading / Description</label>
+              <textarea
+                rows={4}
+                value={pageData.onlinePlatform?.subHeading || ''}
+                onChange={(e) => updatePageData('onlinePlatform.subHeading', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Platform Cards</label>
+              {(pageData.onlinePlatform?.platforms || []).map((platform: { key?: string; name?: string; description?: string; logoUrl?: string }, index: number) => (
+                <div key={platform.key || index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium text-gray-700">Card {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('onlinePlatform.platforms', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <input
+                      type="text"
+                      value={platform.name || ''}
+                      onChange={(e) => updateArrayItem('onlinePlatform.platforms', index, 'name', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Platform name"
+                    />
+                    <input
+                      type="url"
+                      value={platform.logoUrl || ''}
+                      onChange={(e) => updateArrayItem('onlinePlatform.platforms', index, 'logoUrl', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Logo URL"
+                    />
+                    <textarea
+                      rows={2}
+                      value={platform.description || ''}
+                      onChange={(e) => updateArrayItem('onlinePlatform.platforms', index, 'description', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Card description"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() =>
+                  updatePageData('onlinePlatform.platforms', [
+                    ...(pageData.onlinePlatform?.platforms || []),
+                    { key: `platform_${Date.now()}`, name: '', description: '', logoUrl: '' },
+                  ])
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Platform Card
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Price Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Price Section</h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading Line 1</label>
+              <input
+                type="text"
+                value={pageData.priceSection?.mainHeadingLine1 || ''}
+                onChange={(e) => updatePageData('priceSection.mainHeadingLine1', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading Line 2</label>
+              <input
+                type="text"
+                value={pageData.priceSection?.mainHeadingLine2 || ''}
+                onChange={(e) => updatePageData('priceSection.mainHeadingLine2', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description (first paragraph)</label>
+              <textarea
+                rows={3}
+                value={pageData.priceSection?.description1 || ''}
+                onChange={(e) => updatePageData('priceSection.description1', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description (second paragraph)</label>
+              <textarea
+                rows={3}
+                value={pageData.priceSection?.description2 || ''}
+                onChange={(e) => updatePageData('priceSection.description2', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Card Heading</label>
+              <input
+                type="text"
+                value={pageData.priceSection?.cardHeading || ''}
+                onChange={(e) => updatePageData('priceSection.cardHeading', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
+              <input
+                type="text"
+                value={pageData.priceSection?.buttonText || ''}
+                onChange={(e) => updatePageData('priceSection.buttonText', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Benefits</label>
+              {(pageData.priceSection?.benefits || []).map((benefit: string, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={benefit || ''}
+                    onChange={(e) => {
+                      const next = [...(pageData.priceSection?.benefits || [])];
+                      next[index] = e.target.value;
+                      updatePageData('priceSection.benefits', next);
+                    }}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = (pageData.priceSection?.benefits || []).filter((_: string, i: number) => i !== index);
+                      updatePageData('priceSection.benefits', next);
+                    }}
+                    className="text-red-600 hover:text-red-800 text-sm whitespace-nowrap"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() =>
+                  updatePageData('priceSection.benefits', [
+                    ...(pageData.priceSection?.benefits || []),
+                    '',
+                  ])
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Benefit
+              </button>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">Price Items</label>
+              {(pageData.priceSection?.priceItems || []).map((item: { service?: string; price?: string; unit?: string }, index: number) => (
+                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium">Item {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeArrayItem('priceSection.priceItems', index)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input
+                      type="text"
+                      value={item.service || ''}
+                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'service', e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Service"
+                    />
+                    <input
+                      type="text"
+                      value={item.price || ''}
+                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'price', e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Price"
+                    />
+                    <input
+                      type="text"
+                      value={item.unit || ''}
+                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'unit', e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="Unit"
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() =>
+                  updatePageData('priceSection.priceItems', [
+                    ...(pageData.priceSection?.priceItems || []),
+                    { service: '', price: '', unit: '' },
+                  ])
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Price Item
               </button>
             </div>
           </div>

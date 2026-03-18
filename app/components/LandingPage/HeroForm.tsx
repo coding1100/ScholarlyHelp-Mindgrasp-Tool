@@ -294,6 +294,16 @@ const HeroForm: FC<ZohoForm2Props> = ({
           />
         )}
         <div className="max-w-[600px] mx-auto cus-div">
+          <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
+            <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
+              Check Your{" "}
+              <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
+                Class
+              </span>{" "}
+              Price
+            </p>
+          </div>
+
           <form
             ref={formRef}
             onSubmit={handleSubmit}
@@ -301,7 +311,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
             id="quote-form"
           >
             {/* Step Indicator */}
-            <div className="flex items-center justify-center gap-2 mb-4">
+            {/* <div className="flex items-center justify-center gap-2 mb-4">
               {[1, 2, 3].map((step) => (
                 <React.Fragment key={step}>
                   <div
@@ -322,14 +332,14 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   )}
                 </React.Fragment>
               ))}
-            </div>
+            </div> */}
 
             {/* Step 1: Subject Selection */}
             {currentStep === 1 && (
               <>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
+                {/* <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
                   What Subject You Need Help With?
-                </h3>
+                </h3> */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   {subjects.map((subject, index) => (
                     <button
@@ -547,16 +557,16 @@ const HeroForm: FC<ZohoForm2Props> = ({
           currentPage === "/online-class" ||
           currentPage === "/online-class/" ||
           currentPage?.startsWith("/online-class/")) && (
-            <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
-              <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
-                Check Your{" "}
-                <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
-                  Class
-                </span>{" "}
-                Price
-              </p>
-            </div>
-          )}
+          <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
+            <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
+              Check Your{" "}
+              <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
+                Class
+              </span>{" "}
+              Price
+            </p>
+          </div>
+        )}
         <form
           ref={formRef}
           onSubmit={handleSubmit}
