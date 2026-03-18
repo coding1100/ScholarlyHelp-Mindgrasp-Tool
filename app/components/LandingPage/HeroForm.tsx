@@ -543,8 +543,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
       )}
 
       <div className="w-full mx-auto cus-div">
-        {currentPage?.includes("online-class") ||
-          (currentPage === "/" && (
+        {(currentPage === "/" ||
+          currentPage === "/online-class" ||
+          currentPage === "/online-class/" ||
+          currentPage?.startsWith("/online-class/")) && (
             <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
               <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
                 Check Your{" "}
@@ -554,7 +556,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                 Price
               </p>
             </div>
-          ))}
+          )}
         <form
           ref={formRef}
           onSubmit={handleSubmit}
