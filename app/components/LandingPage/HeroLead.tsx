@@ -48,6 +48,7 @@ interface HeroLeadProps {
 }
 const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   const pathname = usePathname();
+  const normalizedPath = (pathname || "").replace(/\/+$/, "");
 
   // Routes where badges section should be hidden
   const hiddenRoutes = [
@@ -68,12 +69,15 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   const shouldHideBadges =
     hiddenRoutes.includes(pathname || "") ||
     isOnlineClassPage ||
-    pathname === "/";
+    normalizedPath === "/" ||
+    normalizedPath === "/take-my-class-2";
 
   // Routes where buttons should be hidden
   const buttonHiddenRoutes = [
     "/take-my-class",
     "/take-my-class/",
+    "/take-my-class-2",
+    "/take-my-class-2/",
     "/take-my-exam",
     "/take-my-exam/",
     "/online-class/",
@@ -84,7 +88,10 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   );
 
   const getStyledMainHeading = (heading: string) => {
-    if (!isOnlineClassPage) {
+    const shouldHighlightAfterPipe =
+      isOnlineClassPage || normalizedPath === "/take-my-class-2";
+
+    if (!shouldHighlightAfterPipe) {
       return styleParentheticalText(heading);
     }
 
@@ -102,7 +109,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     <div className="max-w-2xl">
       {!hideHeading && (
         <h1 className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black">
-          {pathname === "/take-my-class/" ? (
+          {normalizedPath === "/take-my-class" ? (
             <div className="md:pt-5">
               We Take Your Online Class |{" "}
               <span className="text-[#F56200]">Guaranteed A or B</span>
@@ -246,7 +253,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
                 ) : (
                   <button
                     type="button"
-                    className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors transition-colors"
+                    className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors"
                     style={{ backgroundColor: SECONDARY_BG }}
                   >
                     {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}

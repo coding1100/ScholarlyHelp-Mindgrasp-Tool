@@ -15,21 +15,24 @@ import Ratings from "@/app/components/LandingPage/Ratings";
 import { HomeDataProvider } from "../HomeDataProvider";
 import dynamicImport from "next/dynamic";
 
-const GetQouteDynamic = dynamicImport(() => import("@/app/components/LandingPage/GetQoute"), { ssr: false });
+const GetQouteDynamic = dynamicImport(
+  () => import("@/app/components/LandingPage/GetQoute"),
+  { ssr: false },
+);
 
 // Force dynamic rendering to prevent caching
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 async function fetchTakeMyClass2Data() {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
-      console.error('Database URL not configured');
+      console.error("Database URL not configured");
       return null;
     }
 
-    const { MongoClient } = await import('mongodb');
+    const { MongoClient } = await import("mongodb");
     const client = new MongoClient(databaseUrl, {
       serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 10000,
@@ -38,41 +41,47 @@ async function fetchTakeMyClass2Data() {
     });
 
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db("scholarly_help");
 
     // Query for take-my-class-2 page using id or pageType
     const query = {
-      $or: [
-        { id: "take-my-class-2" },
-        { pageType: "take-my-class-2" }
-      ]
+      $or: [{ id: "take-my-class-2" }, { pageType: "take-my-class-2" }],
     };
 
-    console.log('Querying pages collection with query:', JSON.stringify(query));
+    console.log("Querying pages collection with query:", JSON.stringify(query));
     // Use findOne with no caching
-    const content = await db.collection('pages').findOne(query, {
+    const content = await db.collection("pages").findOne(query, {
       // Disable any potential caching
-      readPreference: 'primary',
+      readPreference: "primary",
     });
-    console.log('Found content:', content ? 'Yes' : 'No');
+    console.log("Found content:", content ? "Yes" : "No");
 
     // Debug: Log the heroSection data to verify it's being fetched correctly
     if (content) {
-      console.log('Fetched take-my-class-2 data - heroSection:', JSON.stringify(content.heroSection));
-      console.log('Fetched take-my-class-2 data - heroSection.mainHeading:', content.heroSection?.mainHeading);
+      console.log(
+        "Fetched take-my-class-2 data - heroSection:",
+        JSON.stringify(content.heroSection),
+      );
+      console.log(
+        "Fetched take-my-class-2 data - heroSection.mainHeading:",
+        content.heroSection?.mainHeading,
+      );
     }
 
     // If no content found, try to see what's in the collection
     if (!content) {
-      const allDocs = await db.collection('pages').find({}).limit(5).toArray();
-      console.log('Sample documents in pages:', allDocs.map(d => ({ id: d.id, pageType: d.pageType, slug: d.slug })));
+      const allDocs = await db.collection("pages").find({}).limit(5).toArray();
+      console.log(
+        "Sample documents in pages:",
+        allDocs.map((d) => ({ id: d.id, pageType: d.pageType, slug: d.slug })),
+      );
     }
 
     await client.close();
 
     return content as any;
   } catch (error) {
-    console.error('Error fetching take-my-class-2 data:', error);
+    console.error("Error fetching take-my-class-2 data:", error);
     return null;
   }
 }
@@ -87,17 +96,23 @@ const TakeMyClass2 = async () => {
       <MainLayout>
         <HeroSection />
         <DelayedBelowFold>
-          <Ratings />
+          {/* <Ratings /> */}
+          <DeliveredOn />
+          <Success />
           <CardCarousel />
           <Description />
-          <GuaranteedBlock />
-          <WhySlider />
+          {/* <GuaranteedBlock /> */}
+          {/* <WhySlider /> */}
+          <Subjects defaultSubjects={onlineClassSubjects} />
+          <OnlinePlatform />
           <CustomerReviews />
           <ProcessSection />
-          <Success />
-          {/* <Subjects /> */}
           <AcademicPartners />
-          <GetQouteDynamic />
+
+          {/* <Subjects /> */}
+          {/* <GetQouteDynamic /> */}
+
+          <PriceSection />
           <Faq />
         </DelayedBelowFold>
       </MainLayout>
@@ -108,35 +123,42 @@ const TakeMyClass2 = async () => {
 export default TakeMyClass2;
 
 import type { Metadata } from "next";
+import DeliveredOn from "../take-my-class/DeliveredOn";
+import { onlineClassSubjects } from "../online-class/content";
+import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
+import PriceSection from "@/app/components/PriceSection/PriceSection";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (databaseUrl) {
-      const { MongoClient } = await import('mongodb');
+      const { MongoClient } = await import("mongodb");
       const client = new MongoClient(databaseUrl, {
         serverSelectionTimeoutMS: 5000,
         connectTimeoutMS: 10000,
       });
 
       await client.connect();
-      const db = client.db('scholarly_help');
+      const db = client.db("scholarly_help");
 
       const query = {
-        $or: [
-          { id: "take-my-class-2" },
-          { pageType: "take-my-class-2" }
-        ]
+        $or: [{ id: "take-my-class-2" }, { pageType: "take-my-class-2" }],
       };
 
-      const pageData: any = await db.collection('pages').findOne(query);
+      const pageData: any = await db.collection("pages").findOne(query);
       await client.close();
 
       if (pageData) {
-        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
-        const metaTitle = pageData.meta?.title || "Take My Class 2 - Academic Writing Services For You";
-        const metaDescription = pageData.meta?.description || "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!";
-        const canonicalUrl = pageData.meta?.canonicalUrl || `${baseUrl}/take-my-class-2`;
+        const baseUrl =
+          process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+        const metaTitle =
+          pageData.meta?.title ||
+          "Take My Class 2 - Academic Writing Services For You";
+        const metaDescription =
+          pageData.meta?.description ||
+          "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!";
+        const canonicalUrl =
+          pageData.meta?.canonicalUrl || `${baseUrl}/take-my-class-2`;
 
         return {
           title: metaTitle,
@@ -148,10 +170,11 @@ export async function generateMetadata(): Promise<Metadata> {
       }
     }
   } catch (error) {
-    console.error('Error fetching metadata:', error);
+    console.error("Error fetching metadata:", error);
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
   const canonicalUrl = `${baseUrl}take-my-class-2`;
   return {
     title: "Take My Class 2 - Academic Writing Services For You",
@@ -162,4 +185,3 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 }
-
