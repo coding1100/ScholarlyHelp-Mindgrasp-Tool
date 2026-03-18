@@ -21,12 +21,15 @@ export default function SubjectsSection({
   const data = usePageData();
   const subjectsData = data?.subjects;
   const currentPage = usePathname();
+  const normalizedPath = (currentPage || "").replace(/\/+$/, "");
   const rawBasePath = currentPage.split("/").slice(0, 2).join("/");
   const basePath = rawBasePath === "/" ? "" : rawBasePath;
   // Show detailed subject cards only on subpages like /online-class/english, not on /online-class or /online-class/
   const isOnlineClassSubpage =
     currentPage.startsWith("/online-class/") &&
     currentPage.length > "/online-class/".length;
+  const isTakeMyClass2Page = normalizedPath === "/take-my-class-2";
+  const showDetailedSubjectCards = isOnlineClassSubpage || isTakeMyClass2Page;
 
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
@@ -108,7 +111,7 @@ export default function SubjectsSection({
           {subjectsData?.description ||
             "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way."}
         </p>
-        {isOnlineClassSubpage ? (
+        {showDetailedSubjectCards ? (
           <div className="grid grid-cols-2 gap-8">
             {subjects.slice(0, 4).map((subject: SubjectType, index: number) => (
               <div
