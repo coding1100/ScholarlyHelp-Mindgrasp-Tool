@@ -104,6 +104,8 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const [ready, setReady] = useState(false);
   const currentPath = usePathname();
   const isOnlineClassPage = currentPath.includes("online-class");
+  const showFinalCTA =
+    currentPath === "/online-class" || currentPath.startsWith("/online-class/");
   useEffect(() => {
     // Defer until after main thread is idle to be extra safe for LCP
     if (typeof window === "undefined") return;
@@ -167,7 +169,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       {(isOnlineClassPage || currentPath === "/") && <PriceSection />}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
-      {/* <FinalCTA /> */}
+      {showFinalCTA && <FinalCTA />}
     </>
   );
 }
