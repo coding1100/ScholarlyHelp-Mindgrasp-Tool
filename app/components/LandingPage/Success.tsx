@@ -22,7 +22,13 @@ const Success: FC<SuccessProps> = ({ content }) => {
     content?.mainHeading && content?.description ? content : data?.success;
 
   const currentPath = usePathname();
+  const normalizedPath = (currentPath || "").replace(/\/+$/, "");
   const isOnlineClassPage = currentPath.includes("online-class");
+  const showStatsBar =
+    normalizedPath === "/" ||
+    normalizedPath === "/take-my-class-2" ||
+    normalizedPath === "/online-class" ||
+    normalizedPath.startsWith("/online-class/");
   const shouldUseNewSliderDesign =
     currentPath === "/" ||
     currentPath === "/online-class" ||
@@ -157,8 +163,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
           </div>
         </div>
       </div>
-      {isOnlineClassPage ||
-        (currentPath === "/" && (
+      {showStatsBar && (
           <div
             className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 relative z-50"
             style={{
@@ -187,7 +192,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
               </div>
             </div>
           </div>
-        ))}
+        )}
       {!isOnlineClassPage ||
         (currentPath === "/" && (
           <div className="flex justify-center mt-[60px]">
