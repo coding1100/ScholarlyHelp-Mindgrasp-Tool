@@ -98,21 +98,23 @@ const TakeMyClass2 = async () => {
         <DelayedBelowFold>
           {/* <Ratings /> */}
           <DeliveredOn />
-          <Success />
           <CardCarousel />
           <Description />
-          {/* <GuaranteedBlock /> */}
-          {/* <WhySlider /> */}
-          <Subjects defaultSubjects={onlineClassSubjects} />
-          <OnlinePlatform />
           <CustomerReviews />
           <ProcessSection />
+          <Success />
+
+          {/* <GuaranteedBlock /> */}
+          {/* <WhySlider /> */}
+          {/* <Subjects defaultSubjects={onlineClassSubjects} /> */}
+          {/* <OnlinePlatform /> */}
+
           <AcademicPartners />
 
           {/* <Subjects /> */}
           {/* <GetQouteDynamic /> */}
 
-          <PriceSection />
+          {/* <PriceSection /> */}
           <Faq />
         </DelayedBelowFold>
       </MainLayout>
