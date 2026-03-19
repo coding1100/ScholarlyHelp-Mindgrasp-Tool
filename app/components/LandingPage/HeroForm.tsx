@@ -39,11 +39,12 @@ const HeroForm: FC<ZohoForm2Props> = ({
   // Multi-step form state
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [selectedSubject, setSelectedSubject] = useState<string>("");
-  const [selectedDeadline, setSelectedDeadline] = useState<string>("");
+  // Step 2 state (deadline) kept commented for later reuse.
+  // const [selectedDeadline, setSelectedDeadline] = useState<string>("");
   const [otherSubjectDescription, setOtherSubjectDescription] =
     useState<string>("");
-  const [otherDeadlineDescription, setOtherDeadlineDescription] =
-    useState<string>("");
+  // const [otherDeadlineDescription, setOtherDeadlineDescription] =
+  //   useState<string>("");
 
   const [formData, setFormData] = useState({
     Email: "",
@@ -68,11 +69,12 @@ const HeroForm: FC<ZohoForm2Props> = ({
     { emoji: "📂", label: "Other" },
   ];
 
-  const deadlines = [
-    { emoji: "🔥", label: "Urgent" },
-    { emoji: "🗓️", label: "This Week" },
-    { emoji: "📝", label: "Other" },
-  ];
+  // Step 2 options (deadline) kept commented for later reuse.
+  // const deadlines = [
+  //   { emoji: "🔥", label: "Urgent" },
+  //   { emoji: "🗓️", label: "This Week" },
+  //   { emoji: "📝", label: "Other" },
+  // ];
 
   useEffect(() => {
     setWholeUrl(window.location?.href ?? currentPage);
@@ -166,36 +168,38 @@ const HeroForm: FC<ZohoForm2Props> = ({
     setSelectedSubject(subject);
     if (subject !== "Other") {
       setOtherSubjectDescription("");
-      setCurrentStep(2);
-    }
-  };
-
-  const handleDeadlineSelect = (deadline: string) => {
-    setSelectedDeadline(deadline);
-    if (deadline !== "Other") {
-      setOtherDeadlineDescription("");
       setCurrentStep(3);
     }
   };
 
-  useEffect(() => {
-    if (!isMultiStepRoute) return;
-    if (currentStep === 1 && selectedSubject === "Other") {
-      if (otherSubjectDescription.trim()) setCurrentStep(2);
-    }
-  }, [currentStep, isMultiStepRoute, otherSubjectDescription, selectedSubject]);
+  // Step 2 handler (deadline) kept commented for later reuse.
+  // const handleDeadlineSelect = (deadline: string) => {
+  //   setSelectedDeadline(deadline);
+  //   if (deadline !== "Other") {
+  //     setOtherDeadlineDescription("");
+  //     setCurrentStep(3);
+  //   }
+  // };
 
   useEffect(() => {
     if (!isMultiStepRoute) return;
-    if (currentStep === 2 && selectedDeadline === "Other") {
-      if (otherDeadlineDescription.trim()) setCurrentStep(3);
+    if (currentStep === 1 && selectedSubject === "Other") {
+      if (otherSubjectDescription.trim()) setCurrentStep(3);
     }
-  }, [
-    currentStep,
-    isMultiStepRoute,
-    otherDeadlineDescription,
-    selectedDeadline,
-  ]);
+  }, [currentStep, isMultiStepRoute, otherSubjectDescription, selectedSubject]);
+
+  // Step 2 auto-advance effect kept commented for later reuse.
+  // useEffect(() => {
+  //   if (!isMultiStepRoute) return;
+  //   if (currentStep === 2 && selectedDeadline === "Other") {
+  //     if (otherDeadlineDescription.trim()) setCurrentStep(3);
+  //   }
+  // }, [
+  //   currentStep,
+  //   isMultiStepRoute,
+  //   otherDeadlineDescription,
+  //   selectedDeadline,
+  // ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -222,13 +226,14 @@ const HeroForm: FC<ZohoForm2Props> = ({
         }
         description += `\n`;
       }
-      if (selectedDeadline) {
-        description += `Deadline: ${selectedDeadline}`;
-        if (selectedDeadline === "Other" && otherDeadlineDescription.trim()) {
-          description += ` - ${otherDeadlineDescription.trim()}`;
-        }
-        description += `\n`;
-      }
+      // Step 2 payload kept commented for later reuse.
+      // if (selectedDeadline) {
+      //   description += `Deadline: ${selectedDeadline}`;
+      //   if (selectedDeadline === "Other" && otherDeadlineDescription.trim()) {
+      //     description += ` - ${otherDeadlineDescription.trim()}`;
+      //   }
+      //   description += `\n`;
+      // }
       if (formData.Description)
         description += `Additional Info: ${formData.Description}`;
       if (description) fd.append("instructions", description);
@@ -247,9 +252,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
       });
       if (isMultiStepRoute) {
         setSelectedSubject("");
-        setSelectedDeadline("");
         setOtherSubjectDescription("");
-        setOtherDeadlineDescription("");
+        // Step 2 resets kept commented for later reuse.
+        // setSelectedDeadline("");
+        // setOtherDeadlineDescription("");
         setCurrentStep(1);
       }
       setLoading(false);
@@ -380,8 +386,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
               </>
             )}
 
-            {/* Step 2: Deadline Selection */}
-            {currentStep === 2 && (
+            {/* Step 2: Deadline Selection (temporarily disabled for later use) */}
+            {/* {currentStep === 2 && (
               <>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
                   When is your deadline?
@@ -404,7 +410,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   ))}
                 </div>
 
-                {/* Textarea for "Other" deadline */}
                 {selectedDeadline === "Other" && (
                   <div className="mb-4">
                     <textarea
@@ -419,7 +424,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   </div>
                 )}
               </>
-            )}
+            )} */}
 
             {/* Step 3: Contact Information */}
             {currentStep === 3 && (
