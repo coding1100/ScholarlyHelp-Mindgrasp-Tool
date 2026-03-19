@@ -47,7 +47,6 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({
   const currentPathname = usePathname();
   const shouldShowPerformances =
     currentPathname === "/" ||
-    currentPathname === "/take-my-class-2/" ||
     currentPathname === "/online-class" ||
     currentPathname.startsWith("/online-class/");
   // Use props content if available, otherwise fallback to pageData
