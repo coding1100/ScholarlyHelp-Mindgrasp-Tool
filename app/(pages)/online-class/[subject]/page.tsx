@@ -22,6 +22,7 @@ import { onlineClassSubjects } from "../content";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
 import PriceSection from "@/app/components/PriceSection/PriceSection";
 import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
+import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
 
 const GetQouteDynamic = dynamicImport(
   () => import("@/app/components/LandingPage/GetQoute"),
@@ -160,6 +161,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
           <PriceSection />
           {/* <GetQouteDynamic /> */}
           <Faq />
+          <FinalCTA />
         </MainLayout>
       </OnlineClassDataProvider>
     );
@@ -194,6 +196,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
         <PriceSection />
         {/* <GetQouteDynamic /> */}
         <Faq />
+        <FinalCTA />
       </MainLayout>
     </OnlineClassDataProvider>
   );
