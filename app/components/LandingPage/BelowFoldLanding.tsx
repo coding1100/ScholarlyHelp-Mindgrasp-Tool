@@ -103,9 +103,12 @@ type BelowFoldLandingProps = {
 export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const [ready, setReady] = useState(false);
   const currentPath = usePathname();
+  const normalizedPath = (currentPath || "").replace(/\/+$/, "");
   const isOnlineClassPage = currentPath.includes("online-class");
-  const showFinalCTA =
-    currentPath === "/online-class" || currentPath.startsWith("/online-class/");
+  const showSuccessTop =
+    normalizedPath === "/" ||
+    normalizedPath === "/online-class" ||
+    normalizedPath.startsWith("/online-class/");
   useEffect(() => {
     // Defer until after main thread is idle to be extra safe for LCP
     if (typeof window === "undefined") return;
@@ -144,7 +147,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       ) : (
         <Ratings />
       )}{" "}
-      {(isOnlineClassPage || currentPath === "/") && <Success />}
+      {showSuccessTop && <Success />}
       <CardCarousel />
       <Description />
       {/* <Description2 /> */}
@@ -162,14 +165,14 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
           currentPath !== "/online-class/")) && (
         <SubSubjectsSection defaultSubSubjects={onlineClassSubjects} />
       )}
-      {!isOnlineClassPage || (currentPath !== "/" && <Success />)}
+      {!showSuccessTop && <Success />}
       {children}
       {isOnlineClassPage || (currentPath === "/" && <OnlinePlatform />)}
       <AcademicPartners />
       {(isOnlineClassPage || currentPath === "/") && <PriceSection />}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
-      {showFinalCTA && <FinalCTA />}
+      {currentPath.includes("/online-class/") && <FinalCTA />}
     </>
   );
 }
