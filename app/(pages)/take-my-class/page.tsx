@@ -11,11 +11,11 @@ async function fetchTakeMyClassData() {
   try {
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
-      console.error('Database URL not configured');
+      console.error("Database URL not configured");
       return null;
     }
 
-    const { MongoClient } = await import('mongodb');
+    const { MongoClient } = await import("mongodb");
     const client = new MongoClient(databaseUrl, {
       serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 10000,
@@ -23,22 +23,25 @@ async function fetchTakeMyClassData() {
     });
 
     await client.connect();
-    const db = client.db('scholarly_help');
+    const db = client.db("scholarly_help");
 
     const query = {
-      id: "take-my-class"
+      id: "take-my-class",
     };
 
-    console.log('Querying pages collection for take-my-class, query:', JSON.stringify(query));
-    const content = await db.collection('pages').findOne(query, {
-      readPreference: 'primary',
+    console.log(
+      "Querying pages collection for take-my-class, query:",
+      JSON.stringify(query),
+    );
+    const content = await db.collection("pages").findOne(query, {
+      readPreference: "primary",
     });
-    console.log('Found content:', content ? 'Yes' : 'No');
+    console.log("Found content:", content ? "Yes" : "No");
 
     await client.close();
     return content as any;
   } catch (error) {
-    console.error('Error fetching take-my-class data:', error);
+    console.error("Error fetching take-my-class data:", error);
     return null;
   }
 }
@@ -61,14 +64,16 @@ const Page = async () => {
 };
 export default Page;
 
-export async function generateMetadata({ }): Promise<Metadata> {
+export async function generateMetadata({}): Promise<Metadata> {
   const pageData = await fetchTakeMyClassData();
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = pageData?.meta?.canonicalUrl || `${baseUrl}${MetaData.takeMyClass.url}`;
+  const canonicalUrl =
+    pageData?.meta?.canonicalUrl || `${baseUrl}${MetaData.takeMyClass.url}`;
   return {
     title: pageData?.meta?.title || MetaData.takeMyClass.title,
-    description: pageData?.meta?.description || MetaData.takeMyClass.description,
+    description:
+      pageData?.meta?.description || MetaData.takeMyClass.description,
     alternates: {
       canonical: canonicalUrl,
     },

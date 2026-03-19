@@ -182,7 +182,6 @@ const HeroForm2: FC<ZohoForm2Props> = ({
           fetchPriority="high"
         />
       )}
-      <p className="text-black">helloo</p>
       <div className="w-full mx-auto cus-div">
         <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
           <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
