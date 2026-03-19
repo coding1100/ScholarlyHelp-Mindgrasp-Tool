@@ -106,6 +106,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const normalizedPath = (currentPath || "").replace(/\/+$/, "");
   const isOnlineClassPage = currentPath.includes("online-class");
   const showSuccessTop =
+    normalizedPath === "" ||
     normalizedPath === "/" ||
     normalizedPath === "/online-class" ||
     normalizedPath.startsWith("/online-class/");
