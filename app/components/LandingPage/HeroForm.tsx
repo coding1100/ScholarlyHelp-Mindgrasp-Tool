@@ -166,6 +166,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
     setSelectedSubject(subject);
     if (subject !== "Other") {
       setOtherSubjectDescription("");
+      setCurrentStep(2);
     }
   };
 
@@ -173,24 +174,28 @@ const HeroForm: FC<ZohoForm2Props> = ({
     setSelectedDeadline(deadline);
     if (deadline !== "Other") {
       setOtherDeadlineDescription("");
-    }
-  };
-
-  const handleNext = () => {
-    if (currentStep === 1 && selectedSubject) {
-      if (selectedSubject === "Other" && !otherSubjectDescription.trim()) {
-        alert("Please describe what kind of subject help you are seeking.");
-        return;
-      }
-      setCurrentStep(2);
-    } else if (currentStep === 2 && selectedDeadline) {
-      if (selectedDeadline === "Other" && !otherDeadlineDescription.trim()) {
-        alert("Please specify your deadline.");
-        return;
-      }
       setCurrentStep(3);
     }
   };
+
+  useEffect(() => {
+    if (!isMultiStepRoute) return;
+    if (currentStep === 1 && selectedSubject === "Other") {
+      if (otherSubjectDescription.trim()) setCurrentStep(2);
+    }
+  }, [currentStep, isMultiStepRoute, otherSubjectDescription, selectedSubject]);
+
+  useEffect(() => {
+    if (!isMultiStepRoute) return;
+    if (currentStep === 2 && selectedDeadline === "Other") {
+      if (otherDeadlineDescription.trim()) setCurrentStep(3);
+    }
+  }, [
+    currentStep,
+    isMultiStepRoute,
+    otherDeadlineDescription,
+    selectedDeadline,
+  ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -372,25 +377,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
                     />
                   </div>
                 )}
-
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  disabled={
-                    !selectedSubject ||
-                    (selectedSubject === "Other" &&
-                      !otherSubjectDescription.trim())
-                  }
-                  className={`rounded-md px-3 cursor-pointer border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center h-[54px] w-full ${
-                    selectedSubject &&
-                    (selectedSubject !== "Other" ||
-                      otherSubjectDescription.trim())
-                      ? "bg-[#ff641a] text-white hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a]"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  Next
-                </button>
               </>
             )}
 
@@ -432,25 +418,6 @@ const HeroForm: FC<ZohoForm2Props> = ({
                     />
                   </div>
                 )}
-
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  disabled={
-                    !selectedDeadline ||
-                    (selectedDeadline === "Other" &&
-                      !otherDeadlineDescription.trim())
-                  }
-                  className={`rounded-md px-3 cursor-pointer border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center h-[54px] w-full ${
-                    selectedDeadline &&
-                    (selectedDeadline !== "Other" ||
-                      otherDeadlineDescription.trim())
-                      ? "bg-[#ff641a] text-white hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a]"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  Next
-                </button>
               </>
             )}
 
@@ -619,7 +586,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
               value={formData.Description}
               onChange={handleChange}
               required
-              className="flex-1 bg-transparent text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] outline-none min-[768px]:min-h-[130px] max-[768px]:h-[50px]"
+              className="flex-1 text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] min-[768px]:min-h-[130px] max-[768px]:h-[50px]"
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
             <IoChatbubbles className="text-[#9ea9bf] text-xl mt-1 flex-shrink-0" />
