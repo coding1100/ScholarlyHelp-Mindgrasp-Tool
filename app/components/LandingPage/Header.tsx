@@ -28,7 +28,10 @@ export default function Header() {
   const router = useRouter();
   const prefetchedRoutesRef = useRef<Set<string>>(new Set());
   const isTakeMyClass =
-    pathname === "/take-my-class/" || pathname === "/take-my-class";
+    pathname === "/take-my-class/" ||
+    pathname === "/take-my-class" ||
+    pathname === "/take-my-class-2/" ||
+    pathname === "/take-my-class-2";
   const isTakeMyExam =
     pathname === "/take-my-exam/" || pathname === "/take-my-exam";
   const isSpecialRoute = isTakeMyClass || isTakeMyExam;
