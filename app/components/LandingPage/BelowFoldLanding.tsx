@@ -173,7 +173,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       {(isOnlineClassPage || currentPath === "/") && <PriceSection />}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
-      {currentPath.includes("/online-class/") && <FinalCTA />}
+      {showSuccessTop && <FinalCTA />}
     </>
   );
 }
