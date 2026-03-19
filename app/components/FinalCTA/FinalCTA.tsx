@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { FC } from "react";
 import SemiCircle from "@/app/assets/Images/finalCtaBg.png";
@@ -23,6 +23,12 @@ const FinalCTA: FC<FinalCTAProps> = ({}) => {
     (finalCta?.buttonText && String(finalCta.buttonText).trim()) ||
     "Secure My Grades Now";
 
+  const scrollToQuote = () => {
+    const quoteForm = document.getElementById("quote-form");
+    if (quoteForm) {
+      quoteForm.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <div className="bg-[#3C3D5D]">
       <div className="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-12 px-4 sm:px-6">
@@ -55,6 +61,7 @@ const FinalCTA: FC<FinalCTAProps> = ({}) => {
           }}
         >
           <button
+            onClick={scrollToQuote}
             type="button"
             className="w-full sm:w-[80%] lg:w-[75%] py-4 sm:py-6 rounded-md px-6 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-base sm:text-lg font-bold flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a]"
             style={{
