@@ -22,13 +22,12 @@ const Success: FC<SuccessProps> = ({ content }) => {
     content?.mainHeading && content?.description ? content : data?.success;
 
   const currentPath = usePathname();
-  const normalizedPath = (currentPath || "").replace(/\/+$/, "");
   const isOnlineClassPage = currentPath.includes("online-class");
   const showStatsBar =
-    normalizedPath === "/" ||
-    normalizedPath === "/take-my-class-2" ||
-    normalizedPath === "/online-class" ||
-    normalizedPath.startsWith("/online-class/");
+    currentPath === "/" ||
+    // currentPath === "/take-my-class-2/" ||
+    currentPath === "/online-class/" ||
+    currentPath.startsWith("/online-class/");
   const shouldUseNewSliderDesign =
     currentPath === "/" ||
     currentPath === "/online-class" ||
@@ -127,7 +126,9 @@ const Success: FC<SuccessProps> = ({ content }) => {
                     : `${oldOpacity} cursor-pointer`
                 }`}
                 style={
-                  shouldUseNewSliderDesign ? undefined : { transform: oldTransform }
+                  shouldUseNewSliderDesign
+                    ? undefined
+                    : { transform: oldTransform }
                 }
               >
                 <div
@@ -164,35 +165,35 @@ const Success: FC<SuccessProps> = ({ content }) => {
         </div>
       </div>
       {showStatsBar && (
-          <div
-            className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 relative z-50"
-            style={{
-              boxShadow:
-                "rgba(231, 235, 255, 0.85) 0px 50px 100px -20px, rgba(231, 235, 255, 0.6) 0px 30px 60px -30px, rgba(231, 235, 255, 0.4) -30px 30px 60px -30px, rgba(231, 235, 255, 0.4) 30px 30px 60px -30px",
-            }}
-          >
-            <div className="w-auto text-center sm:text-left">
-              <p className="text-sm sm:text-[16px]">Course:</p>
+        <div
+          className="max-w-6xl max-[992px]:max-w-6xl mx-auto bg-white py-4 px-4 rounded-b-lg flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 relative z-50"
+          style={{
+            boxShadow:
+              "rgba(231, 235, 255, 0.85) 0px 50px 100px -20px, rgba(231, 235, 255, 0.6) 0px 30px 60px -30px, rgba(231, 235, 255, 0.4) -30px 30px 60px -30px, rgba(231, 235, 255, 0.4) 30px 30px 60px -30px",
+          }}
+        >
+          <div className="w-auto text-center sm:text-left">
+            <p className="text-sm sm:text-[16px]">Course:</p>
+            <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
+              {courseName}
+            </p>
+          </div>
+          <div className="w-auto grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 sm:gap-5">
+            <div className="text-center sm:text-left">
+              <p className="text-sm sm:text-[16px]">Before → After:</p>
               <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
-                {courseName}
+                {gradeChange}
               </p>
             </div>
-            <div className="w-auto grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 sm:gap-5">
-              <div className="text-center sm:text-left">
-                <p className="text-sm sm:text-[16px]">Before → After:</p>
-                <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
-                  {gradeChange}
-                </p>
-              </div>
-              <div className="text-center sm:text-left">
-                <p className="text-sm sm:text-[16px]">Total</p>
-                <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
-                  {totalScore}
-                </p>
-              </div>
+            <div className="text-center sm:text-left">
+              <p className="text-sm sm:text-[16px]">Total</p>
+              <p className="text-xl sm:text-[27px] font-bold uppercase break-words">
+                {totalScore}
+              </p>
             </div>
           </div>
-        )}
+        </div>
+      )}
       {!isOnlineClassPage ||
         (currentPath === "/" && (
           <div className="flex justify-center mt-[60px]">
