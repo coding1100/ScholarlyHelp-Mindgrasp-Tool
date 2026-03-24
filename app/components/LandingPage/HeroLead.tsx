@@ -48,7 +48,7 @@ interface HeroLeadProps {
 }
 const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   const pathname = usePathname();
-  const normalizedPath = (pathname || "").replace(/\/+$/, "");
+  // const normalizedPath = (pathname || "").replace(/\/+$/, "");
 
   // Routes where badges section should be hidden
   const hiddenRoutes = [
@@ -65,12 +65,12 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     "/take-my-exam/",
   ];
 
-  const isOnlineClassPage = (pathname || "").includes("online-class");
+  const isOnlineClassPage = (pathname || "").includes("/online-class/");
   const shouldHideBadges =
     hiddenRoutes.includes(pathname || "") ||
     isOnlineClassPage ||
-    normalizedPath === "/" ||
-    normalizedPath === "/take-my-class-2";
+    pathname === "/" ||
+    pathname === "/take-my-class-2/";
 
   // Routes where buttons should be hidden
   const buttonHiddenRoutes = [
@@ -89,7 +89,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
 
   const getStyledMainHeading = (heading: string) => {
     const shouldHighlightAfterPipe =
-      isOnlineClassPage || normalizedPath === "/take-my-class-2";
+      isOnlineClassPage || pathname === "/take-my-class-2/";
 
     if (!shouldHighlightAfterPipe) {
       return styleParentheticalText(heading);
@@ -109,7 +109,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     <div className="max-w-2xl">
       {!hideHeading && (
         <h1 className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black">
-          {normalizedPath === "/take-my-class" ? (
+          {pathname === "/take-my-class/" ? (
             <div className="md:pt-5">
               We Take Your Online Class |{" "}
               <span className="text-[#F56200]">Guaranteed A or B</span>
