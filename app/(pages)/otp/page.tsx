@@ -43,7 +43,7 @@ const OTPPage = () => {
             name,
             email,
           },
-        }
+        },
       );
       localStorage.removeItem("user_password");
       const userData = response.data;
@@ -92,7 +92,7 @@ const OTPPage = () => {
           <OTPInput length={6} onChange={handleOTPChange} />
           <button
             type="submit"
-            className="mt-8 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 text-base cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+            className="mt-8 w-full bg-[#fe6e2b] hover:bg-[#ff641a] text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 text-base cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
             disabled={otp.length !== 6 || loading}
           >
             {loading ? (

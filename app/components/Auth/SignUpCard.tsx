@@ -79,7 +79,7 @@ const SignUpCard = () => {
       // Sign up API only
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_NGROX_URL}/auth/signup`,
-        payload
+        payload,
       );
       // Only proceed if response is OK
       toast.success(res?.data?.message || "Sign up successfully!");
@@ -93,7 +93,7 @@ const SignUpCard = () => {
       route.push("/otp");
     } catch (err: any) {
       toast.error(
-        err?.response?.data?.message || err?.message || "Something went wrong."
+        err?.response?.data?.message || err?.message || "Something went wrong.",
       );
     } finally {
       setLoading(false);
@@ -130,7 +130,7 @@ const SignUpCard = () => {
             />
           </div>
           {nameError && (
-            <p className="text-red-500 text-xs mt-1">{nameError}</p>
+            <p className="text-[#ff641a] text-xs mt-1">{nameError}</p>
           )}
         </div>
         <div>
@@ -171,7 +171,7 @@ const SignUpCard = () => {
             </button>
           </div>
           {passwordError ? (
-            <p className="text-red-500 text-xs mt-1">{passwordError}</p>
+            <p className="text-[#ff641a] text-xs mt-1">{passwordError}</p>
           ) : (
             <div className="h-5"></div>
           )}

@@ -103,13 +103,13 @@ type BelowFoldLandingProps = {
 export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const [ready, setReady] = useState(false);
   const currentPath = usePathname();
-  const normalizedPath = (currentPath || "").replace(/\/+$/, "");
+  // const normalizedPath = (currentPath || "").replace(/\/+$/, "");
   const isOnlineClassPage = currentPath.includes("online-class");
   const showSuccessTop =
-    normalizedPath === "" ||
-    normalizedPath === "/" ||
-    normalizedPath === "/online-class" ||
-    normalizedPath.startsWith("/online-class/");
+    currentPath === "" ||
+    currentPath === "/" ||
+    currentPath === "/online-class" ||
+    currentPath.startsWith("/online-class/");
   useEffect(() => {
     // Defer until after main thread is idle to be extra safe for LCP
     if (typeof window === "undefined") return;
