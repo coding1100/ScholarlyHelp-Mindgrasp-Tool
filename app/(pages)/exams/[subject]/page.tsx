@@ -1,10 +1,7 @@
 import MainLayout from "@/app/MainLayout";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
-import Ratings from "@/app/components/LandingPage/Ratings";
-import WhySlider from "@/app/components/LandingPage/WhySlider";
 import CardCarousel from "@/app/components/LandingPage/CardCarousel";
 import Description from "@/app/components/LandingPage/Description";
-import GuaranteedBlock from "@/app/components/LandingPage/GuaranteedBlock";
 import ProcessSection from "@/app/components/LandingPage/ProcessSection";
 import Success from "@/app/components/LandingPage/Success";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
@@ -18,6 +15,9 @@ import clientPromise from "@/app/lib/mongodb";
 import { Metadata } from "next";
 import { ExamDataProvider } from "../../exam/ExamDataProvider";
 import { examsSubjects } from "../content";
+import DeliveredOn from "../../take-my-class/DeliveredOn";
+import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
+import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -28,8 +28,6 @@ interface PageProps {
     subject: string;
   };
 }
-
-
 
 async function fetchPageData(slug: string) {
   try {
@@ -117,17 +115,17 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <ExamDataProvider data={defaultPageData}>
         <MainLayout>
           <HeroSection />
-          <Ratings />
+          <DeliveredOn />
+          <Success />
           <CardCarousel />
           <Description />
-          <GuaranteedBlock />
-          <WhySlider />
+
           <CustomerReviews />
           <ProcessSection />
-          <Success />
           <Subjects defaultSubjects={examsSubjects} />
+          <SubSubjectsSection defaultSubSubjects={examsSubjects} />
+          <OnlinePlatform />
           <AcademicPartners />
-          <GetQoute />
           <Faq />
         </MainLayout>
       </ExamDataProvider>
@@ -147,17 +145,17 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     <ExamDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Ratings />
+        <DeliveredOn />
+        <Success />
         <CardCarousel />
         <Description />
-        <GuaranteedBlock />
-        <WhySlider />
+
         <CustomerReviews />
         <ProcessSection />
-        <Success />
         <Subjects defaultSubjects={examsSubjects} />
+        <SubSubjectsSection defaultSubSubjects={examsSubjects} />
+        <OnlinePlatform />
         <AcademicPartners />
-        <GetQoute />
         <Faq />
       </MainLayout>
     </ExamDataProvider>
@@ -206,8 +204,11 @@ export async function generateMetadata({
     // Do not close shared client
 
     if (pageData) {
-      const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-      const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+      const rawBaseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const baseUrl = rawBaseUrl.endsWith("/")
+        ? rawBaseUrl.slice(0, -1)
+        : rawBaseUrl;
 
       const metaTitle =
         pageData.meta?.title ||
@@ -232,8 +233,11 @@ export async function generateMetadata({
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
 
-  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-  const safeBaseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+  const rawBaseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const safeBaseUrl = rawBaseUrl.endsWith("/")
+    ? rawBaseUrl.slice(0, -1)
+    : rawBaseUrl;
 
   const canonicalUrl = `${safeBaseUrl}/exams/${params.subject}`;
 
