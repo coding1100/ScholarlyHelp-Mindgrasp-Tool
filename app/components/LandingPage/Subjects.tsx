@@ -28,8 +28,14 @@ export default function SubjectsSection({
   const isOnlineClassSubpage =
     currentPage.startsWith("/online-class/") &&
     currentPage.length > "/online-class/".length;
+  const isExamPage =
+    currentPage.includes("exam") ||
+    currentPage.includes("exams") ||
+    currentPage === "/exam/" ||
+    currentPage === "/exams/";
   const isTakeMyClass2Page = normalizedPath === "/take-my-class-2";
-  const showDetailedSubjectCards = isOnlineClassSubpage || isTakeMyClass2Page;
+  const showDetailedSubjectCards =
+    isOnlineClassSubpage || isExamPage || isTakeMyClass2Page;
 
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");

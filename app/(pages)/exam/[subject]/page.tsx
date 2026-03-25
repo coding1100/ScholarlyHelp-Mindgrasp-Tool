@@ -18,6 +18,9 @@ import clientPromise from "@/app/lib/mongodb";
 import { Metadata } from "next";
 import { ExamDataProvider } from "../ExamDataProvider";
 import { examsSubjects } from "../../exams/content";
+import DeliveredOn from "../../take-my-class/DeliveredOn";
+import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
+import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -26,8 +29,6 @@ export const revalidate = 0;
 interface PageProps {
   params: { subject: string };
 }
-
-
 
 async function fetchPageData(slug: string) {
   try {
@@ -117,17 +118,17 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <ExamDataProvider data={defaultPageData}>
         <MainLayout>
           <HeroSection />
-          <Ratings />
+          <DeliveredOn />
+          <Success />
           <CardCarousel />
           <Description />
-          <GuaranteedBlock />
-          <WhySlider />
+
           <CustomerReviews />
           <ProcessSection />
-          <Success />
           <Subjects defaultSubjects={examsSubjects} />
+          <SubSubjectsSection defaultSubSubjects={examsSubjects} />
+          <OnlinePlatform />
           <AcademicPartners />
-          <GetQoute />
           <Faq />
         </MainLayout>
       </ExamDataProvider>
@@ -147,17 +148,17 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     <ExamDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Ratings />
+        <DeliveredOn />
+        <Success />
         <CardCarousel />
         <Description />
-        <GuaranteedBlock />
-        <WhySlider />
+
         <CustomerReviews />
         <ProcessSection />
-        <Success />
         <Subjects defaultSubjects={examsSubjects} />
+        <SubSubjectsSection defaultSubSubjects={examsSubjects} />
+        <OnlinePlatform />
         <AcademicPartners />
-        <GetQoute />
         <Faq />
       </MainLayout>
     </ExamDataProvider>
@@ -204,20 +205,21 @@ export async function generateMetadata({
     // Do not close shared client
 
     if (pageData) {
-      const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-      const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+      const rawBaseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const baseUrl = rawBaseUrl.endsWith("/")
+        ? rawBaseUrl.slice(0, -1)
+        : rawBaseUrl;
 
       const metaTitle =
         pageData.meta?.title ||
-        `${params.subject.charAt(0).toUpperCase() +
-        params.subject.slice(1).replace(/-/g, " ")
+        `${
+          params.subject.charAt(0).toUpperCase() +
+          params.subject.slice(1).replace(/-/g, " ")
         } Exam Help`;
       const metaDescription =
         pageData.meta?.description ||
-        `Get expert help with your ${params.subject.replace(
-          /-/g,
-          " "
-        )} exam.`;
+        `Get expert help with your ${params.subject.replace(/-/g, " ")} exam.`;
       const canonicalUrl =
         pageData.meta?.canonicalUrl || `${baseUrl}/exam/${params.subject}`;
 
@@ -236,8 +238,11 @@ export async function generateMetadata({
     params.subject.charAt(0).toUpperCase() +
     params.subject.slice(1).replace(/-/g, " ");
 
-  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-  const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+  const rawBaseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const baseUrl = rawBaseUrl.endsWith("/")
+    ? rawBaseUrl.slice(0, -1)
+    : rawBaseUrl;
 
   const canonicalUrl = `${baseUrl}/exam/${params.subject}`;
 
@@ -245,7 +250,7 @@ export async function generateMetadata({
     title: `${subjectTitle} Exam Help - Professional Assistance`,
     description: `Get expert help with your ${params.subject.replace(
       /-/g,
-      " "
+      " ",
     )} exam.`,
     alternates: { canonical: canonicalUrl },
   };

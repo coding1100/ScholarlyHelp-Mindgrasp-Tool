@@ -48,6 +48,11 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({
   const shouldShowPerformances =
     currentPathname === "/" ||
     currentPathname === "/online-class" ||
+    currentPathname === "/exams/" ||
+    currentPathname === "/exam/" ||
+    currentPathname === "/take-my-proctored-exam-for-me/" ||
+    currentPathname.startsWith("/exams/") ||
+    currentPathname.startsWith("/exam/") ||
     currentPathname.startsWith("/online-class/");
   // Use props content if available, otherwise fallback to pageData
   const content = propsContent || pageData?.academicPartners;

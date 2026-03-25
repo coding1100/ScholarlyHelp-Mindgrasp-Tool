@@ -23,11 +23,16 @@ const Success: FC<SuccessProps> = ({ content }) => {
 
   const currentPath = usePathname();
   const isOnlineClassPage = currentPath.includes("online-class");
+  const isExamPage =
+    currentPath.includes("exam") || currentPath.includes("exams");
   const showStatsBar =
     currentPath === "/" ||
     // currentPath === "/take-my-class-2/" ||
     currentPath === "/online-class/" ||
-    currentPath.startsWith("/online-class/");
+    currentPath.startsWith("/online-class/") ||
+    isExamPage ||
+    currentPath.startsWith("/exam/") ||
+    currentPath.startsWith("/exams/");
   const shouldUseNewSliderDesign =
     currentPath === "/" ||
     currentPath === "/online-class" ||
