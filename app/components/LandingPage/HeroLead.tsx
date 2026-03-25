@@ -48,44 +48,64 @@ interface HeroLeadProps {
 }
 const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   const pathname = usePathname();
-  // const normalizedPath = (pathname || "").replace(/\/+$/, "");
+  const normalizedPath = (pathname || "").replace(/\/+$/, "") || "/";
 
   // Routes where badges section should be hidden
-  const hiddenRoutes = [
-    "/a-or-b-grade-guarantee",
-    "/on-time-delivery-guarantee",
-    "/success-stories-and-reviews",
-    "/tools",
-    "/guarantee-anonymity",
-    "/plagiarism-free-process",
-    "/us-based-phd-experts",
-    "/take-my-class",
-    "/take-my-class/",
-    "/take-my-exam",
-    "/take-my-exam/",
-  ];
+  const hiddenRoutes = new Set(
+    [
+      "/a-or-b-grade-guarantee",
+      "/on-time-delivery-guarantee",
+      "/success-stories-and-reviews",
+      "/tools",
+      "/guarantee-anonymity",
+      "/plagiarism-free-process",
+      "/us-based-phd-experts",
+      "/take-my-class",
+      "/take-my-class/",
+      "/take-my-exam",
+      "/take-my-exam/",
+    ].map((route) => route.replace(/\/+$/, "") || "/"),
+  );
 
   const isOnlineClassPage = (pathname || "").includes("/online-class/");
+  const isExamsPage =
+    normalizedPath === "/exams" ||
+    normalizedPath === "/exam" ||
+    normalizedPath.startsWith("/exams/") ||
+    normalizedPath.startsWith("/exam/");
   const shouldHideBadges =
-    hiddenRoutes.includes(pathname || "") ||
+    hiddenRoutes.has(normalizedPath) ||
     isOnlineClassPage ||
-    pathname === "/" ||
-    pathname === "/take-my-class-2/";
+    normalizedPath === "/" ||
+    isExamsPage ||
+    normalizedPath === "/take-my-class-2" ||
+    normalizedPath === "/take-my-proctored-exam-for-me";
 
   // Routes where buttons should be hidden
-  const buttonHiddenRoutes = [
-    "/take-my-class",
-    "/take-my-class/",
-    "/take-my-class-2",
-    "/take-my-class-2/",
-    "/take-my-exam",
-    "/take-my-exam/",
-    "/online-class/",
-  ];
-
-  const shouldHideButtons = buttonHiddenRoutes.includes(
-    pathname || "/online-class/",
+  const buttonHiddenRoutes = new Set(
+    [
+      "/take-my-class",
+      "/take-my-class/",
+      "/take-my-class-2",
+      "/take-my-class-2/",
+      "/take-my-exam",
+      "/take-my-exam/",
+      "/take-my-proctored-exam-for-me",
+    ].map((route) => route.replace(/\/+$/, "") || "/"),
   );
+  const isOnlineClassRoute =
+    normalizedPath === "/online-class" ||
+    normalizedPath.startsWith("/online-class/");
+  const isExamRoute =
+    normalizedPath === "/exams" ||
+    normalizedPath.startsWith("/exams/") ||
+    normalizedPath === "/exam" ||
+    normalizedPath.startsWith("/exam/");
+  const shouldHideButtons =
+    normalizedPath === "/" ||
+    buttonHiddenRoutes.has(normalizedPath) ||
+    isOnlineClassRoute ||
+    isExamRoute;
 
   const getStyledMainHeading = (heading: string) => {
     const shouldHighlightAfterPipe =
@@ -216,53 +236,51 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
       )}
 
       {/* Done */}
-      {!shouldHideButtons &&
-        !pathname?.includes("/online-class/") &&
-        pathname !== "/" && (
-          <div className="mt-6 max-[768px]:mt-2 flex gap-4">
-            {heroContent?.btn1Url ? (
-              <Link
-                href={heroContent.btn1Url}
-                className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
-                style={{ backgroundColor: PRIMARY_BG }}
-              >
-                {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
-              </Link>
-            ) : (
-              <button
-                type="button"
-                className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
-                style={{ backgroundColor: PRIMARY_BG }}
-              >
-                {heroContent?.btn1
-                  ? heroContent.btn1
-                  : "Secure My 'A' or 'B' Grades"}
-              </button>
-            )}
+      {!shouldHideButtons && (
+        <div className="mt-6 max-[768px]:mt-2 flex gap-4">
+          {heroContent?.btn1Url ? (
+            <Link
+              href={heroContent.btn1Url}
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
+              style={{ backgroundColor: PRIMARY_BG }}
+            >
+              {heroContent?.btn1 ? heroContent.btn1 : "Take My Full Class"}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
+              style={{ backgroundColor: PRIMARY_BG }}
+            >
+              {heroContent?.btn1
+                ? heroContent.btn1
+                : "Secure My 'A' or 'B' Grades"}
+            </button>
+          )}
 
-            {!pathname?.includes("/take-my-class") && (
-              <>
-                {heroContent?.btn2Url ? (
-                  <Link
-                    href={heroContent.btn2Url}
-                    className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
-                    style={{ backgroundColor: SECONDARY_BG }}
-                  >
-                    {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-                  </Link>
-                ) : (
-                  <button
-                    type="button"
-                    className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors"
-                    style={{ backgroundColor: SECONDARY_BG }}
-                  >
-                    {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
-                  </button>
-                )}
-              </>
-            )}
-          </div>
-        )}
+          {!pathname?.includes("/take-my-class") && (
+            <>
+              {heroContent?.btn2Url ? (
+                <Link
+                  href={heroContent.btn2Url}
+                  className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors cursor-pointer max-[768px]:flex-grow  max-[768px]:text-center"
+                  style={{ backgroundColor: SECONDARY_BG }}
+                >
+                  {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className="rounded-md px-5 py-3 sm:text-[15px] text-sm font-medium text-white shadow-sm transition-colors"
+                  style={{ backgroundColor: SECONDARY_BG }}
+                >
+                  {heroContent?.btn2 ? heroContent.btn2 : "Pass My Exam"}
+                </button>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -105,10 +105,15 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const currentPath = usePathname();
   // const normalizedPath = (currentPath || "").replace(/\/+$/, "");
   const isOnlineClassPage = currentPath.includes("online-class");
+  const isExamPage =
+    currentPath.includes("exam") || currentPath.includes("exams");
   const showSuccessTop =
     currentPath === "" ||
     currentPath === "/" ||
     currentPath === "/online-class" ||
+    isExamPage ||
+    currentPath.startsWith("/exam/") ||
+    currentPath.startsWith("/exams/") ||
     currentPath.startsWith("/online-class/");
   useEffect(() => {
     // Defer until after main thread is idle to be extra safe for LCP
@@ -143,6 +148,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     <>
       {currentPath.includes("take-my-class") ||
       isOnlineClassPage ||
+      isExamPage ||
       currentPath === "/" ? (
         <DeliveredOn />
       ) : (
@@ -153,6 +159,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       <Description />
       {/* <Description2 /> */}
       {!isOnlineClassPage ||
+        !isExamPage ||
         (currentPath === "/" && (
           <>
             <GuaranteedBlock />
@@ -168,9 +175,13 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       )}
       {!showSuccessTop && <Success />}
       {children}
-      {isOnlineClassPage || (currentPath === "/" && <OnlinePlatform />)}
+      {(isOnlineClassPage || isExamPage || currentPath === "/") && (
+        <OnlinePlatform />
+      )}
       <AcademicPartners />
-      {(isOnlineClassPage || currentPath === "/") && <PriceSection />}
+      {(isOnlineClassPage || isExamPage || currentPath === "/") && (
+        <PriceSection />
+      )}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
       {showSuccessTop && <FinalCTA />}

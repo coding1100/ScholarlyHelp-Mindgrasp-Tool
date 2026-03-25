@@ -1,59 +1,80 @@
-import { FC } from "react";
-import { content } from "./content";
-import Hero from "@/app/components/Hero/Hero";
-import Qualities from "@/app/components/Qualities/Qualities";
-import SiteReviews from "@/app/components/SiteReviews/SiteReviews";
-import AcademicPartner from "@/app/components/AcademicPartner/AcademicPartner";
-import ExcellenceProof from "@/app/components/ExcellenceProof/ExcellenceProof";
-import Process from "@/app/components/Process/Process";
-import { processContent } from "@/app/components/Process/content";
-import Samples from "@/app/components/Samples/Samples";
-import CustomerReviews from "@/app/components/CustomerReviews/CustomerReviews";
-import Faq from "@/app/components/Faq/Faq";
 import MainLayout from "@/app/MainLayout";
-import Subjects from "@/app/components/Subjects/Subjects";
-import dynamic from "next/dynamic";
-import ExamType from "@/app/components/ExamType/ExamType";
-import VariousName from "@/app/components/VariousName/VariousName";
-import Reasons from "@/app/components/Reasons/Reasons";
+import HeroSection from "@/app/components/LandingPage/HeroSection";
+import BelowFoldLanding from "@/app/components/LandingPage/BelowFoldLanding";
 import { MetaData } from "@/app/metadata/metadata";
+import { TakeMyProctoredExamDataProvider } from "../TakeMyProctoredExamDataProvider";
+import type { Metadata } from "next";
+import Subjects from "@/app/components/LandingPage/Subjects";
+import { examsSubjects } from "../exams/content";
 
-const WhyScholarly = dynamic(
-  () => import("@/app/components/WhyScholarly/WhyScholarly"),
-  {
-    ssr: false,
+export const revalidate = 0;
+
+async function fetchTakeMyProctoredExamData() {
+  try {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      console.error("Database URL not configured");
+      return null;
+    }
+
+    const { MongoClient } = await import("mongodb");
+    const client = new MongoClient(databaseUrl, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+      maxPoolSize: 1,
+    });
+
+    await client.connect();
+    const db = client.db("scholarly_help");
+
+    const query = {
+      id: "take-my-proctored-exam-for-me",
+    };
+
+    console.log(
+      "Querying pages collection for take-my-proctored-exam-for-me, query:",
+      JSON.stringify(query),
+    );
+    const content = await db.collection("pages").findOne(query, {
+      readPreference: "primary",
+    });
+    console.log("Found content:", content ? "Yes" : "No");
+
+    await client.close();
+    return content as any;
+  } catch (error) {
+    console.error("Error fetching take-my-proctored-exam-for-me data:", error);
+    return null;
   }
-);
-interface PageProps {}
-const Page: FC<PageProps> = ({}) => {
+}
+
+const Page = async () => {
+  const pageData = await fetchTakeMyProctoredExamData();
+
   return (
-    <MainLayout>
-      <Hero content={content.heroContent} />
-      <Qualities />
-      <SiteReviews />
-      <Reasons />
-      <WhyScholarly
-        header={content.whyScholarly}
-        content={content.whyScholarly.whyScholarlyContent}
-      />
-      <AcademicPartner
-        btnText={content.btnText}
-        mainHeading={content.academic.mainheading}
-        content={content.academic.academicContent}
-      />
-      <CustomerReviews btnText={content.btnText} />
-      <Faq content={content.faqContent} />
-    </MainLayout>
+    <TakeMyProctoredExamDataProvider data={pageData}>
+      <MainLayout>
+        <HeroSection />
+        <BelowFoldLanding>
+          <Subjects defaultSubjects={examsSubjects} />
+        </BelowFoldLanding>
+      </MainLayout>
+    </TakeMyProctoredExamDataProvider>
   );
 };
 export default Page;
-export function generateMetadata({}) {
+
+export async function generateMetadata({}): Promise<Metadata> {
+  const pageData = await fetchTakeMyProctoredExamData();
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com/";
-  const canonicalUrl = `${baseUrl}${MetaData.takeMyProctoredExam.url}`;
+  const canonicalUrl =
+    pageData?.meta?.canonicalUrl ||
+    `${baseUrl}${MetaData.takeMyProctoredExam.url}`;
   return {
-    title: `${MetaData.takeMyProctoredExam.title}`,
-    description: `${MetaData.takeMyProctoredExam.description}`,
+    title: pageData?.meta?.title || MetaData.takeMyProctoredExam.title,
+    description:
+      pageData?.meta?.description || MetaData.takeMyProctoredExam.description,
     alternates: {
       canonical: canonicalUrl,
     },
