@@ -71,7 +71,7 @@ export const sms = [
   // "/pay-someone-to-take-my-online-exam/",
 ];
 
-export const smsHide = ["/take-my-class/"];
+export const smsHide = ["/take-my-class/", "/take-my-proctored-exam-for-me/"];
 
 export const phoneEmail = ["/pay-for-someone-to-write-my-paper/"];
 

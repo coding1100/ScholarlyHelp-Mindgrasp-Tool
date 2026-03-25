@@ -27,6 +27,16 @@ const HeroForm: FC<ZohoForm2Props> = ({
   const data = usePageData();
   const getQuote = data?.getQuote;
   const currentPage = usePathname();
+  const normalizedPage = (currentPage || "").replace(/\/+$/, "") || "/";
+  const shouldShowPriceHeader =
+    normalizedPage === "/" ||
+    normalizedPage === "/online-class" ||
+    normalizedPage === "/exam" ||
+    normalizedPage === "/exams" ||
+    normalizedPage === "/take-my-proctored-exam-for-me" ||
+    normalizedPage.startsWith("/online-class/") ||
+    normalizedPage.startsWith("/exam/") ||
+    normalizedPage.startsWith("/exams/");
   const router = useRouter();
 
   // Check if we're on the multi-step form route
@@ -309,7 +319,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
             <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
               Check Your{" "}
               <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
-                Class
+                {currentPage.includes("online-class") ? "Class" : "Exam"}
               </span>{" "}
               Price
             </p>
@@ -525,15 +535,12 @@ const HeroForm: FC<ZohoForm2Props> = ({
       )}
 
       <div className="w-full mx-auto cus-div">
-        {(currentPage === "/" ||
-          currentPage === "/online-class" ||
-          currentPage === "/online-class/" ||
-          currentPage?.startsWith("/online-class/")) && (
+        {shouldShowPriceHeader && (
           <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
             <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
               Check Your{" "}
               <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
-                Class
+                {currentPage.includes("exam") ? "Exam" : "Class"}
               </span>{" "}
               Price
             </p>
