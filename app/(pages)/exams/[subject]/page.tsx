@@ -18,6 +18,8 @@ import { examsSubjects } from "../content";
 import DeliveredOn from "../../take-my-class/DeliveredOn";
 import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
+import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
+import PriceSection from "@/app/components/PriceSection/PriceSection";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -156,7 +158,10 @@ const Page: React.FC<PageProps> = async ({ params }) => {
         <SubSubjectsSection defaultSubSubjects={examsSubjects} />
         <OnlinePlatform />
         <AcademicPartners />
+        <PriceSection />
+
         <Faq />
+        <FinalCTA />
       </MainLayout>
     </ExamDataProvider>
   );

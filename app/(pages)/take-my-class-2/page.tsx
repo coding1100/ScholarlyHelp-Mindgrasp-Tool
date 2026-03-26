@@ -1,17 +1,12 @@
 import MainLayout from "@/app/MainLayout";
 import HeroSection from "@/app/components/LandingPage/HeroSection";
-import WhySlider from "@/app/components/LandingPage/WhySlider";
 import ProcessSection from "@/app/components/LandingPage/ProcessSection";
 import Success from "@/app/components/LandingPage/Success";
-import Subjects from "@/app/components/LandingPage/Subjects";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
-import GetQoute from "@/app/components/LandingPage/GetQoute";
 import Faq from "@/app/components/LandingPage/Faq";
 import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import CardCarousel from "@/app/components/LandingPage/CardCarousel";
-import GuaranteedBlock from "@/app/components/LandingPage/GuaranteedBlock";
 import Description from "@/app/components/LandingPage/Description";
-import Ratings from "@/app/components/LandingPage/Ratings";
 import { HomeDataProvider } from "../HomeDataProvider";
 import dynamicImport from "next/dynamic";
 
@@ -126,9 +121,6 @@ export default TakeMyClass2;
 
 import type { Metadata } from "next";
 import DeliveredOn from "../take-my-class/DeliveredOn";
-import { onlineClassSubjects } from "../online-class/content";
-import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
-import PriceSection from "@/app/components/PriceSection/PriceSection";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
