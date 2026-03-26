@@ -1,9 +1,10 @@
 "use client";
 
-import { FC, useMemo } from "react";
+import { FC, useMemo, useRef, useState } from "react";
 import React from "react";
 import Image from "next/image";
 import Slider from "react-slick";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 // slick-theme.css removed - loads heavy font file, styles in globals.css
 import { usePathname } from "next/navigation";
@@ -672,6 +673,9 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     normalizedPath === "/"
       ? 3
       : 6;
+  const isSingleRowSlider = chunkSize === 3;
+  const sliderRef = useRef<Slider | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
   const groupedReviews = [];
   for (let i = 0; i < displayedReviews.length; i += chunkSize) {
     groupedReviews.push(displayedReviews.slice(i, i + chunkSize));
@@ -682,12 +686,16 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    dots: true,
+    dots: !isSingleRowSlider,
     arrows: false,
     autoplay: true,
     autoplaySpeed: 7000,
     cssEase: "linear",
     pauseOnHover: true,
+    afterChange: (current: number) => {
+      const safeLength = groupedReviews.length || 1;
+      setActiveSlide(current % safeLength);
+    },
     appendDots: (dots: React.ReactNode) => (
       <div className="mt-6">
         <ul className="!flex !items-center !justify-center gap-2 !m-0">
@@ -708,7 +716,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
         breakpoint: 992,
         settings: {
           arrows: false,
-          dots: true,
+          dots: !isSingleRowSlider,
         },
       },
       {
@@ -720,6 +728,10 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
       },
     ],
   };
+
+  const goPrev = () => sliderRef.current?.slickPrev();
+  const goNext = () => sliderRef.current?.slickNext();
+  const goToSlide = (index: number) => sliderRef.current?.slickGoTo(index);
 
   return (
     <div className="bg-white text-[#171717] w-full">
@@ -758,7 +770,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
 
         {/* Desktop Slider - 3 cards per row, 2 rows per slide */}
         <div className="my-6 md:block hidden">
-          <Slider {...settings}>
+          <Slider ref={sliderRef} {...settings}>
             {groupedReviews.map((group, groupIndex) => (
               <div key={groupIndex}>
                 <div className="grid grid-cols-3 gap-6">
@@ -789,6 +801,33 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
               </div>
             ))}
           </Slider>
+          {isSingleRowSlider && (
+            <div className="w-[150px] mx-auto flex items-center justify-between mt-[10px] relative z-[9]">
+              <ChevronLeft
+                size={20}
+                className="cursor-pointer"
+                onClick={goPrev}
+              />
+              <div className="flex items-center gap-2">
+                {groupedReviews.map((_, index) => (
+                  <button
+                    key={`custom-dot-${index}`}
+                    type="button"
+                    aria-label={`Go to slide ${index + 1}`}
+                    onClick={() => goToSlide(index)}
+                    className={`h-2 w-2 rounded-full transition-colors duration-200 ${
+                      index === activeSlide ? "bg-[#73737c]" : "bg-[#b9b9c6]"
+                    }`}
+                  />
+                ))}
+              </div>
+              <ChevronRight
+                size={20}
+                className="cursor-pointer"
+                onClick={goNext}
+              />
+            </div>
+          )}
         </div>
 
         {/* Mobile Slider - 1 card per slide */}

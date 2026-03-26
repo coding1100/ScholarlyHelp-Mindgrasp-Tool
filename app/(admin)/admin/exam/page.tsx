@@ -2300,6 +2300,25 @@ export default function ExamAdmin() {
                           placeholder="e.g., /assets/Icon/english.png"
                         />
                       </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Description (optional)
+                        </label>
+                        <textarea
+                          rows={3}
+                          value={subject.description || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "subjects.subjectsContent",
+                              index,
+                              "description",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="Short subject description shown on cards"
+                        />
+                      </div>
                     </div>
                   </div>
                 ),
@@ -2311,6 +2330,7 @@ export default function ExamAdmin() {
                     title: "",
                     icon: "",
                     url: "",
+                    description: "",
                   })
                 }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"

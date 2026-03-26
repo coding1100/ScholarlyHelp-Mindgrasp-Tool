@@ -29,8 +29,9 @@ export default function SubjectsSection({
     currentPage.startsWith("/online-class/") &&
     currentPage.length > "/online-class/".length;
   const isExamSubPages =
-    currentPage.startsWith("exam") || currentPage.startsWith("exams");
-
+    (currentPage.startsWith("/exams/") &&
+      currentPage.length > "/exams/".length) ||
+    (currentPage.startsWith("/exam/") && currentPage.length > "/exam/".length);
   const isTakeMyClass2Page = normalizedPath === "/take-my-class-2";
   const showDetailedSubjectCards =
     isOnlineClassSubpage || isExamSubPages || isTakeMyClass2Page;
