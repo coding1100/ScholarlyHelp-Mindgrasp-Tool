@@ -28,6 +28,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
   const getQuote = data?.getQuote;
   const currentPage = usePathname();
   const normalizedPage = (currentPage || "").replace(/\/+$/, "") || "/";
+  const isTakeMyClass2Route = normalizedPage === "/take-my-class-2";
   const shouldShowPriceHeader =
     normalizedPage === "/" ||
     normalizedPage === "/online-class" ||
@@ -309,7 +310,11 @@ const HeroForm: FC<ZohoForm2Props> = ({
             alt="Academic success illustration"
             width={526}
             height={551}
-            className="cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+            className={
+              isTakeMyClass2Route
+                ? "cus-img absolute w-[302px] min-[1200px]:right-[-205px] -z-[1] max-[1025px]:hidden"
+                : "cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+            }
             priority
             fetchPriority="high"
           />
