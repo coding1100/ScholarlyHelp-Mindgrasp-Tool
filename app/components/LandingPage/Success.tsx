@@ -25,12 +25,16 @@ const Success: FC<SuccessProps> = ({ content }) => {
   const isOnlineClassPage = currentPath.includes("online-class");
   const isExamPage =
     currentPath.includes("exam") || currentPath.includes("exams");
+  const isTakeMyProctoredExamPage = currentPath.includes(
+    "take-my-proctored-exam-for-me",
+  );
   const showStatsBar =
     currentPath === "/" ||
     // currentPath === "/take-my-class-2/" ||
     currentPath === "/online-class/" ||
     currentPath.startsWith("/online-class/") ||
     isExamPage ||
+    isTakeMyProctoredExamPage ||
     currentPath.startsWith("/exam/") ||
     currentPath.startsWith("/exams/");
   const shouldUseNewSliderDesign =
