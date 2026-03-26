@@ -580,6 +580,13 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   const isOnlineClassPage = pathname.includes("online-class");
   const normalizedPath = (pathname || "").replace(/\/+$/, "");
   const isTakeMyClass2Page = normalizedPath === "/take-my-class-2";
+  const isExamRelatedPage =
+    normalizedPath === "/exam" ||
+    normalizedPath === "/exams" ||
+    normalizedPath.startsWith("/exam/") ||
+    normalizedPath.startsWith("/exams/");
+  const isTakeMyProctoredExamPage =
+    normalizedPath === "/take-my-proctored-exam-for-me";
   const btnText =
     propBtnText || customerReviews?.ctaButton?.text || "Place an Order Now";
 
@@ -656,9 +663,15 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
 
   // Group reviews into chunks:
   // - Default: 6 (3 columns x 2 rows per slide)
-  // - Online-class pages: 3 (single row of 3 cards per slide)
+  // - Online-class/exam/proctored pages: 3 (single row of 3 cards per slide)
   const chunkSize =
-    isOnlineClassPage || isTakeMyClass2Page || normalizedPath === "/" ? 3 : 6;
+    isOnlineClassPage ||
+    isTakeMyClass2Page ||
+    isExamRelatedPage ||
+    isTakeMyProctoredExamPage ||
+    normalizedPath === "/"
+      ? 3
+      : 6;
   const groupedReviews = [];
   for (let i = 0; i < displayedReviews.length; i += chunkSize) {
     groupedReviews.push(displayedReviews.slice(i, i + chunkSize));

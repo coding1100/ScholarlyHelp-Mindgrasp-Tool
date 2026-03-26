@@ -5,46 +5,52 @@ import { examSubjects } from "@/app/(pages)/exam/subjectContent";
 
 const processPages = (rawPages: any[]) => {
   // Use a Map to deduplicate by normalized ID
-  const pagesMap = new Map<string, { id: string; slug: string; title: string }>();
+  const pagesMap = new Map<
+    string,
+    { id: string; slug: string; title: string }
+  >();
 
   rawPages.forEach((page: any) => {
-    let pageId = (page.id || page.slug || '').toLowerCase();
+    let pageId = (page.id || page.slug || "").toLowerCase();
 
     // Normalize "main" to "exam_page"
-    if (pageId === 'main') {
-      pageId = 'exam_page';
+    if (pageId === "main") {
+      pageId = "exam_page";
     }
 
     // Normalize IDs: if it's a subject page without exam_ prefix, add it
-    if (pageId && pageId !== 'exam_page' && !pageId.startsWith('exam_')) {
+    if (pageId && pageId !== "exam_page" && !pageId.startsWith("exam_")) {
       // If it's a subject slug like "english", make it "exam_english"
       pageId = `exam_${pageId}`;
     }
 
     // Determine normalized key for deduplication (replace _ with - in slug part)
     let normalizationKey = pageId;
-    if (pageId.startsWith('exam_') && pageId !== 'exam_page') {
+    if (pageId.startsWith("exam_") && pageId !== "exam_page") {
       // Keep 'exam_' prefix intact, normalize the rest
-      const suffix = pageId.substring(5).replace(/_/g, '-');
+      const suffix = pageId.substring(5).replace(/_/g, "-");
       normalizationKey = `exam_${suffix}`;
     }
 
     // Extract slug from exam_ prefixed IDs
     let slug = pageId;
-    if (pageId.startsWith('exam_') && pageId !== 'exam_page') {
-      slug = pageId.replace('exam_', '');
+    if (pageId.startsWith("exam_") && pageId !== "exam_page") {
+      slug = pageId.replace("exam_", "");
     }
 
     // Format title
-    let title = '';
-    if (pageId === 'exam_page') {
-      title = 'Exam';
-    } else if (pageId.startsWith('exam_')) {
+    let title = "";
+    if (pageId === "exam_page") {
+      title = "Exam";
+    } else if (pageId.startsWith("exam_")) {
       // Normalize subject name for title: replace _ and - with space
-      const subjectName = pageId.replace('exam_', '').replace(/[_-]/g, ' ');
-      title = `Exam ${subjectName.split(' ').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
+      const subjectName = pageId.replace("exam_", "").replace(/[_-]/g, " ");
+      title = `Exam ${subjectName
+        .split(" ")
+        .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")}`;
     } else {
-      title = page.title || page.meta?.title || pageId.replace(/[_-]/g, ' ');
+      title = page.title || page.meta?.title || pageId.replace(/[_-]/g, " ");
     }
 
     // Add to map. If duplication, prioritize the "cleaner" ID (kebab-case) if the new one is cleaner.
@@ -54,14 +60,14 @@ const processPages = (rawPages: any[]) => {
     const newItem = {
       id: pageId,
       slug: slug,
-      title: title
+      title: title,
     };
 
     if (!existing) {
       pagesMap.set(normalizationKey, newItem);
     } else {
       // If we already have an entry, check if the new one is "better"
-      // "Better" criteria: 
+      // "Better" criteria:
       // 1. Matches normalizationKey exactly (standard kebab-case)
       // 2. Or if current one doesn't match and new one doesn't either, maybe just keep existing
       if (pageId === normalizationKey && existing.id !== normalizationKey) {
@@ -71,17 +77,21 @@ const processPages = (rawPages: any[]) => {
   });
 
   // Add any missing subjects from examSubjects
-  examSubjects.forEach(subject => {
+  examSubjects.forEach((subject) => {
     const id = `exam_${subject}`; // Canonical ID (kebab-case)
     const normalizationKey = id; // Since subject comes from canonical list, it is already normalized
 
     if (!pagesMap.has(normalizationKey)) {
       // Format title
-      const title = `Exam ${subject.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
+      const title = `Exam ${subject
+        .replace(/-/g, " ")
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")}`;
       pagesMap.set(id, {
         id: id,
         slug: subject,
-        title: title
+        title: title,
       });
     }
   });
@@ -90,15 +100,15 @@ const processPages = (rawPages: any[]) => {
   const pages = Array.from(pagesMap.values());
 
   // Ensure exam_page is in the list
-  const hasExamPage = pages.some((p: any) => p.id === 'exam_page');
+  const hasExamPage = pages.some((p: any) => p.id === "exam_page");
   if (!hasExamPage) {
-    pages.unshift({ id: 'exam_page', slug: 'exam_page', title: 'Exam' });
+    pages.unshift({ id: "exam_page", slug: "exam_page", title: "Exam" });
   }
 
   // Sort: exam_page first, then alphabetically by TITLE
   pages.sort((a: any, b: any) => {
-    if (a.id === 'exam_page') return -1;
-    if (b.id === 'exam_page') return 1;
+    if (a.id === "exam_page") return -1;
+    if (b.id === "exam_page") return 1;
     return a.title.localeCompare(b.title);
   });
 
@@ -106,8 +116,10 @@ const processPages = (rawPages: any[]) => {
 };
 
 export default function ExamAdmin() {
-  const [availablePages, setAvailablePages] = useState<Array<{ id: string; slug?: string; title?: string }>>([]);
-  const [selectedPage, setSelectedPage] = useState<string>('exam_page');
+  const [availablePages, setAvailablePages] = useState<
+    Array<{ id: string; slug?: string; title?: string }>
+  >([]);
+  const [selectedPage, setSelectedPage] = useState<string>("exam_page");
   const [pageData, setPageData] = useState<any>(null);
   const [pageLoading, setPageLoading] = useState(false);
 
@@ -115,14 +127,14 @@ export default function ExamAdmin() {
   useEffect(() => {
     const fetchAvailablePages = async () => {
       try {
-        const res = await fetch('/api/admin/exam?list=all');
+        const res = await fetch("/api/admin/exam?list=all");
         if (!res.ok) {
-          console.error('Failed to fetch pages:', res.status, res.statusText);
+          console.error("Failed to fetch pages:", res.status, res.statusText);
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
         if (data.error) {
-          console.error('API error:', data.error);
+          console.error("API error:", data.error);
           throw new Error(data.error);
         }
         if (data.pages && Array.isArray(data.pages)) {
@@ -130,19 +142,21 @@ export default function ExamAdmin() {
         } else {
           // Default pages if none found
           setAvailablePages([
-            { id: 'exam_page', slug: 'exam_page', title: 'Exam' },
-            { id: 'exam_english', slug: 'english', title: 'exam English' },
-            { id: 'exam_math', slug: 'math', title: 'exam Math' }
+            { id: "exam_page", slug: "exam_page", title: "Exam" },
+            { id: "exam_english", slug: "english", title: "exam English" },
+            { id: "exam_math", slug: "math", title: "exam Math" },
           ]);
         }
       } catch (error) {
-        console.error('Error fetching available pages:', error);
-        alert(`Error loading pages: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your DATABASE_URL environment variable in Vercel.`);
+        console.error("Error fetching available pages:", error);
+        alert(
+          `Error loading pages: ${error instanceof Error ? error.message : "Unknown error"}. Please check your DATABASE_URL environment variable in Vercel.`,
+        );
         // Default pages on error
         setAvailablePages([
-          { id: 'exam_page', slug: 'exam_page', title: 'Exam' },
-          { id: 'exam_english', slug: 'english', title: 'exam English' },
-          { id: 'exam_math', slug: 'math', title: 'exam Math' }
+          { id: "exam_page", slug: "exam_page", title: "Exam" },
+          { id: "exam_english", slug: "english", title: "exam English" },
+          { id: "exam_math", slug: "math", title: "exam Math" },
         ]);
       }
     };
@@ -151,59 +165,182 @@ export default function ExamAdmin() {
 
   // Auto-select exam_page when pages are loaded
   useEffect(() => {
-    if (availablePages.length > 0 && selectedPage === 'exam_page' && !pageData && !pageLoading) {
+    if (
+      availablePages.length > 0 &&
+      selectedPage === "exam_page" &&
+      !pageData &&
+      !pageLoading
+    ) {
       const loadExamPage = async () => {
         setPageLoading(true);
         try {
           const res = await fetch(`/api/admin/exam?slug=exam_page`);
           if (!res.ok) {
-            console.error('Failed to fetch exam page:', res.status, res.statusText);
+            console.error(
+              "Failed to fetch exam page:",
+              res.status,
+              res.statusText,
+            );
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
           if (data.error) {
-            console.error('API error:', data.error);
+            console.error("API error:", data.error);
             throw new Error(data.error);
           }
 
-          setPageData(data && Object.keys(data).length > 0 ? {
-            ...data,
-            pageType: data.id || data.pageType || 'exam_page'
-          } : {
-            id: 'exam_page',
-            pageType: 'exam_page',
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderItems: [] },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
-            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
+          setPageData(
+            data && Object.keys(data).length > 0
+              ? {
+                  ...data,
+                  pageType: data.id || data.pageType || "exam_page",
+                }
+              : {
+                  id: "exam_page",
+                  pageType: "exam_page",
+                  meta: { title: "", description: "" },
+                  heroSection: {
+                    mainHeading: "",
+                    subHeading: "",
+                    description: "",
+                    btn1: "",
+                    btn2: "",
+                    btn1Url: "",
+                    btn2Url: "",
+                  },
+                  whySlider: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                    sliderItems: [],
+                  },
+                  cardCarousel: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                    cards: [],
+                  },
+                  description: {
+                    mainHeading: "",
+                    description: "",
+                    services: [],
+                    badges: [],
+                    ctaButton: { text: "" },
+                  },
+                  guaranteedBlock: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                  },
+                  processSection: {
+                    mainHeading: "",
+                    description: "",
+                    steps: [],
+                  },
+                  success: {
+                    mainHeading: "",
+                    description: "",
+                    course: "",
+                    beforeAfter: "",
+                    total: "",
+                    ctaButton: { text: "" },
+                  },
+                  academicPartners: {
+                    mainHeading: "",
+                    description: "",
+                    cards: [],
+                    performances: [],
+                    ctaButton: { text: "" },
+                  },
+                  subjects: {
+                    mainHeading: "",
+                    description: "",
+                    ctaText: "",
+                    subjectsContent: [],
+                  },
+                  customerReviews: {
+                    mainHeading: "",
+                    trustpilotRating: "",
+                    reviews: [],
+                  },
+                  getQuote: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                  },
+                  faq: { mainHeading: "", faqs: [] },
+                },
+          );
         } catch (error) {
-          console.error('Error fetching exam page:', error);
+          console.error("Error fetching exam page:", error);
           setPageData({
-            id: 'exam_page',
-            pageType: 'exam_page',
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderItems: [] },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
-            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
+            id: "exam_page",
+            pageType: "exam_page",
+            meta: { title: "", description: "" },
+            heroSection: {
+              mainHeading: "",
+              subHeading: "",
+              description: "",
+              btn1: "",
+              btn2: "",
+            },
+            whySlider: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+              sliderItems: [],
+            },
+            cardCarousel: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+              cards: [],
+            },
+            description: {
+              mainHeading: "",
+              description: "",
+              services: [],
+              badges: [],
+              ctaButton: { text: "" },
+            },
+            guaranteedBlock: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+            },
+            processSection: { mainHeading: "", description: "", steps: [] },
+            success: {
+              mainHeading: "",
+              description: "",
+              course: "",
+              beforeAfter: "",
+              total: "",
+              ctaButton: { text: "" },
+            },
+            academicPartners: {
+              mainHeading: "",
+              description: "",
+              cards: [],
+              performances: [],
+              ctaButton: { text: "" },
+            },
+            subjects: {
+              mainHeading: "",
+              description: "",
+              ctaText: "",
+              subjectsContent: [],
+            },
+            customerReviews: {
+              mainHeading: "",
+              trustpilotRating: "",
+              reviews: [],
+            },
+            getQuote: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+            },
+            faq: { mainHeading: "", faqs: [] },
           });
         } finally {
           setPageLoading(false);
@@ -219,115 +356,339 @@ export default function ExamAdmin() {
     if (pageId) {
       setPageLoading(true);
       try {
-        const page = availablePages.find(p => p.id === pageId);
+        const page = availablePages.find((p) => p.id === pageId);
         // Use the pageId directly as slug for API call (handles both exam_english and english formats)
-        const slug = pageId.startsWith('exam_') ? pageId : (page?.slug || pageId);
+        const slug = pageId.startsWith("exam_") ? pageId : page?.slug || pageId;
         const res = await fetch(`/api/admin/exam?slug=${slug}`);
         if (!res.ok) {
-          console.error('Failed to fetch page:', res.status, res.statusText);
+          console.error("Failed to fetch page:", res.status, res.statusText);
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
         if (data.error) {
-          console.error('API error:', data.error);
+          console.error("API error:", data.error);
           throw new Error(data.error);
         }
 
-        if (pageId === 'exam_page') {
+        if (pageId === "exam_page") {
           // exam page structure
-          setPageData(data && Object.keys(data).length > 0 ? {
-            ...data,
-            pageType: data.id || data.pageType || 'exam_page'
-          } : {
-            id: 'exam_page',
-            pageType: 'exam_page',
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderItems: [] },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
-            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
+          setPageData(
+            data && Object.keys(data).length > 0
+              ? {
+                  ...data,
+                  pageType: data.id || data.pageType || "exam_page",
+                }
+              : {
+                  id: "exam_page",
+                  pageType: "exam_page",
+                  meta: { title: "", description: "" },
+                  heroSection: {
+                    mainHeading: "",
+                    subHeading: "",
+                    description: "",
+                    btn1: "",
+                    btn2: "",
+                  },
+                  whySlider: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                    sliderItems: [],
+                  },
+                  cardCarousel: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                    cards: [],
+                  },
+                  description: {
+                    mainHeading: "",
+                    description: "",
+                    services: [],
+                    badges: [],
+                    ctaButton: { text: "" },
+                  },
+                  guaranteedBlock: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                  },
+                  processSection: {
+                    mainHeading: "",
+                    description: "",
+                    steps: [],
+                  },
+                  success: {
+                    mainHeading: "",
+                    description: "",
+                    course: "",
+                    beforeAfter: "",
+                    total: "",
+                    ctaButton: { text: "" },
+                  },
+                  academicPartners: {
+                    mainHeading: "",
+                    description: "",
+                    cards: [],
+                    performances: [],
+                    ctaButton: { text: "" },
+                  },
+                  subjects: {
+                    mainHeading: "",
+                    description: "",
+                    ctaText: "",
+                    subjectsContent: [],
+                  },
+                  customerReviews: {
+                    mainHeading: "",
+                    trustpilotRating: "",
+                    reviews: [],
+                  },
+                  getQuote: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                  },
+                  faq: { mainHeading: "", faqs: [] },
+                },
+          );
         } else {
           // Subject page structure (same as exam_english)
           // Extract slug from pageId (exam_english -> english)
-          const extractedSlug = pageId.startsWith('exam_')
-            ? pageId.replace('exam_', '')
-            : (page?.slug || pageId);
+          const extractedSlug = pageId.startsWith("exam_")
+            ? pageId.replace("exam_", "")
+            : page?.slug || pageId;
 
-          setPageData(data && Object.keys(data).length > 0 ? {
-            ...data,
-            slug: data.slug || extractedSlug,
-            id: data.id || pageId,
-            pageType: data.id || pageId
-          } : {
-            id: pageId,
-            slug: extractedSlug,
-            pageType: pageId,
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderItems: [] },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
-            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
-          });
+          setPageData(
+            data && Object.keys(data).length > 0
+              ? {
+                  ...data,
+                  slug: data.slug || extractedSlug,
+                  id: data.id || pageId,
+                  pageType: data.id || pageId,
+                }
+              : {
+                  id: pageId,
+                  slug: extractedSlug,
+                  pageType: pageId,
+                  meta: { title: "", description: "" },
+                  heroSection: {
+                    mainHeading: "",
+                    subHeading: "",
+                    description: "",
+                    btn1: "",
+                    btn2: "",
+                  },
+                  whySlider: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                    sliderItems: [],
+                  },
+                  cardCarousel: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                    cards: [],
+                  },
+                  description: {
+                    mainHeading: "",
+                    description: "",
+                    services: [],
+                    badges: [],
+                    ctaButton: { text: "" },
+                  },
+                  guaranteedBlock: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                  },
+                  processSection: {
+                    mainHeading: "",
+                    description: "",
+                    steps: [],
+                  },
+                  success: {
+                    mainHeading: "",
+                    description: "",
+                    course: "",
+                    beforeAfter: "",
+                    total: "",
+                    ctaButton: { text: "" },
+                  },
+                  academicPartners: {
+                    mainHeading: "",
+                    description: "",
+                    cards: [],
+                    performances: [],
+                    ctaButton: { text: "" },
+                  },
+                  subjects: {
+                    mainHeading: "",
+                    description: "",
+                    ctaText: "",
+                    subjectsContent: [],
+                  },
+                  customerReviews: {
+                    mainHeading: "",
+                    trustpilotRating: "",
+                    reviews: [],
+                  },
+                  getQuote: {
+                    mainHeading: "",
+                    description: "",
+                    ctaButton: { text: "" },
+                  },
+                  faq: { mainHeading: "", faqs: [] },
+                },
+          );
         }
       } catch (error) {
-        console.error('Error fetching page:', error);
-        if (pageId === 'exam_page') {
+        console.error("Error fetching page:", error);
+        if (pageId === "exam_page") {
           setPageData({
-            id: 'exam_page',
-            pageType: 'exam_page',
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderItems: [] },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
-            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
+            id: "exam_page",
+            pageType: "exam_page",
+            meta: { title: "", description: "" },
+            heroSection: {
+              mainHeading: "",
+              subHeading: "",
+              description: "",
+              btn1: "",
+              btn2: "",
+            },
+            whySlider: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+              sliderItems: [],
+            },
+            cardCarousel: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+              cards: [],
+            },
+            description: {
+              mainHeading: "",
+              description: "",
+              services: [],
+              badges: [],
+              ctaButton: { text: "" },
+            },
+            guaranteedBlock: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+            },
+            processSection: { mainHeading: "", description: "", steps: [] },
+            success: {
+              mainHeading: "",
+              description: "",
+              course: "",
+              beforeAfter: "",
+              total: "",
+              ctaButton: { text: "" },
+            },
+            academicPartners: {
+              mainHeading: "",
+              description: "",
+              cards: [],
+              performances: [],
+              ctaButton: { text: "" },
+            },
+            subjects: {
+              mainHeading: "",
+              description: "",
+              ctaText: "",
+              subjectsContent: [],
+            },
+            customerReviews: {
+              mainHeading: "",
+              trustpilotRating: "",
+              reviews: [],
+            },
+            getQuote: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+            },
+            faq: { mainHeading: "", faqs: [] },
           });
         } else {
           // Extract slug from pageId (exam_english -> english)
-          const extractedSlug = pageId.startsWith('exam_')
-            ? pageId.replace('exam_', '')
-            : (availablePages.find(p => p.id === pageId)?.slug || pageId);
+          const extractedSlug = pageId.startsWith("exam_")
+            ? pageId.replace("exam_", "")
+            : availablePages.find((p) => p.id === pageId)?.slug || pageId;
           setPageData({
             id: pageId,
             slug: extractedSlug,
             pageType: pageId,
-            meta: { title: '', description: '' },
-            heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '' },
-            whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderItems: [] },
-            cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
-            description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
-            guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            academicPartners: { mainHeading: '', description: '', cards: [], ctaButton: { text: '' } },
-            subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
-            customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
-            getQuote: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            faq: { mainHeading: '', faqs: [] }
+            meta: { title: "", description: "" },
+            heroSection: {
+              mainHeading: "",
+              subHeading: "",
+              description: "",
+              btn1: "",
+              btn2: "",
+            },
+            whySlider: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+              sliderItems: [],
+            },
+            cardCarousel: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+              cards: [],
+            },
+            description: {
+              mainHeading: "",
+              description: "",
+              services: [],
+              badges: [],
+              ctaButton: { text: "" },
+            },
+            guaranteedBlock: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+            },
+            processSection: { mainHeading: "", description: "", steps: [] },
+            success: {
+              mainHeading: "",
+              description: "",
+              course: "",
+              beforeAfter: "",
+              total: "",
+              ctaButton: { text: "" },
+            },
+            academicPartners: {
+              mainHeading: "",
+              description: "",
+              cards: [],
+              performances: [],
+              ctaButton: { text: "" },
+            },
+            subjects: {
+              mainHeading: "",
+              description: "",
+              ctaText: "",
+              subjectsContent: [],
+            },
+            customerReviews: {
+              mainHeading: "",
+              trustpilotRating: "",
+              reviews: [],
+            },
+            getQuote: {
+              mainHeading: "",
+              description: "",
+              ctaButton: { text: "" },
+            },
+            faq: { mainHeading: "", faqs: [] },
           });
         }
       } finally {
@@ -342,70 +703,74 @@ export default function ExamAdmin() {
     if (!pageData) return;
     setPageLoading(true);
     try {
-      const response = await fetch('/api/admin/exam', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/admin/exam", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(pageData),
       });
       const result = await response.json();
       if (result.success) {
-        alert('Page saved successfully!');
+        alert("Page saved successfully!");
         // Refresh available pages list
-        const res = await fetch('/api/admin/exam?list=all');
+        const res = await fetch("/api/admin/exam?list=all");
         const data = await res.json();
         if (data.pages && Array.isArray(data.pages)) {
           setAvailablePages(processPages(data.pages));
         }
       } else {
-        alert('Error saving page');
+        alert("Error saving page");
       }
     } catch (error) {
-      alert('Error saving page');
+      alert("Error saving page");
     } finally {
       setPageLoading(false);
     }
   };
 
   const handlePageDelete = async () => {
-    if (!pageData?.id || pageData.id === 'exam_page') {
-      alert('Cannot delete the main exam page');
+    if (!pageData?.id || pageData.id === "exam_page") {
+      alert("Cannot delete the main exam page");
       return;
     }
 
-    if (!confirm(`Are you sure you want to delete "${pageData.id}"? This action cannot be undone.`)) {
+    if (
+      !confirm(
+        `Are you sure you want to delete "${pageData.id}"? This action cannot be undone.`,
+      )
+    ) {
       return;
     }
 
     setPageLoading(true);
     try {
-      const page = availablePages.find(p => p.id === pageData.id);
+      const page = availablePages.find((p) => p.id === pageData.id);
       const slug = page?.slug || pageData.slug || pageData.id;
       const response = await fetch(`/api/admin/exam?slug=${slug}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       const result = await response.json();
       if (result.success) {
-        alert('Page deleted successfully!');
-        setSelectedPage('');
+        alert("Page deleted successfully!");
+        setSelectedPage("");
         setPageData(null);
         // Refresh available pages list
-        const res = await fetch('/api/admin/exam?list=all');
+        const res = await fetch("/api/admin/exam?list=all");
         const data = await res.json();
         if (data.pages && Array.isArray(data.pages)) {
           setAvailablePages(processPages(data.pages));
         }
       } else {
-        alert('Error deleting page');
+        alert("Error deleting page");
       }
     } catch (error) {
-      alert('Error deleting page');
+      alert("Error deleting page");
     } finally {
       setPageLoading(false);
     }
   };
 
   const updatePageData = (path: string, value: any) => {
-    const keys = path.split('.');
+    const keys = path.split(".");
     setPageData((prev: any) => {
       if (!prev) return prev;
       const newData = JSON.parse(JSON.stringify(prev)); // Deep clone to avoid reference issues
@@ -419,8 +784,13 @@ export default function ExamAdmin() {
     });
   };
 
-  const updateArrayItem = (path: string, index: number, field: string, value: any) => {
-    const keys = path.split('.');
+  const updateArrayItem = (
+    path: string,
+    index: number,
+    field: string,
+    value: any,
+  ) => {
+    const keys = path.split(".");
     setPageData((prev: any) => {
       const newData = { ...prev };
       let current = newData;
@@ -435,7 +805,7 @@ export default function ExamAdmin() {
   };
 
   const addArrayItem = (path: string, defaultItem: any) => {
-    const keys = path.split('.');
+    const keys = path.split(".");
     setPageData((prev: any) => {
       if (!prev) return prev;
       const newData = JSON.parse(JSON.stringify(prev)); // Deep clone to avoid reference issues
@@ -450,7 +820,7 @@ export default function ExamAdmin() {
   };
 
   const removeArrayItem = (path: string, index: number) => {
-    const keys = path.split('.');
+    const keys = path.split(".");
     setPageData((prev: any) => {
       const newData = { ...prev };
       let current = newData;
@@ -466,26 +836,40 @@ export default function ExamAdmin() {
     if (!pageData) return null;
 
     return (
-      <form onSubmit={(e) => { e.preventDefault(); handlePageSave(); }} className="space-y-8">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handlePageSave();
+        }}
+        className="space-y-8"
+      >
         {/* Meta Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">SEO & Meta</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            SEO & Meta
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Meta Title
+              </label>
               <input
                 type="text"
-                value={pageData.meta?.title || ''}
-                onChange={(e) => updatePageData('meta.title', e.target.value)}
+                value={pageData.meta?.title || ""}
+                onChange={(e) => updatePageData("meta.title", e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Meta Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.meta?.description || ''}
-                onChange={(e) => updatePageData('meta.description', e.target.value)}
+                value={pageData.meta?.description || ""}
+                onChange={(e) =>
+                  updatePageData("meta.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -494,73 +878,103 @@ export default function ExamAdmin() {
 
         {/* Hero Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Hero Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Hero Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <textarea
                 rows={3}
-                value={pageData.heroSection?.mainHeading || ''}
-                onChange={(e) => updatePageData('heroSection.mainHeading', e.target.value)}
+                value={pageData.heroSection?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("heroSection.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Use &lt;br/&gt; for line breaks"
               />
             </div>
             <div className="hidden">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Sub Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Sub Heading
+              </label>
               <input
                 type="text"
-                value={pageData.heroSection?.subHeading || ''}
-                onChange={(e) => updatePageData('heroSection.subHeading', e.target.value)}
+                value={pageData.heroSection?.subHeading || ""}
+                onChange={(e) =>
+                  updatePageData("heroSection.subHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={4}
-                value={pageData.heroSection?.description || ''}
-                onChange={(e) => updatePageData('heroSection.description', e.target.value)}
+                value={pageData.heroSection?.description || ""}
+                onChange={(e) =>
+                  updatePageData("heroSection.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Button 1 Text</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Button 1 Text
+                </label>
                 <input
                   type="text"
-                  value={pageData.heroSection?.btn1 || ''}
-                  onChange={(e) => updatePageData('heroSection.btn1', e.target.value)}
+                  value={pageData.heroSection?.btn1 || ""}
+                  onChange={(e) =>
+                    updatePageData("heroSection.btn1", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Default: Take My Full Class"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Button 2 Text</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Button 2 Text
+                </label>
                 <input
                   type="text"
-                  value={pageData.heroSection?.btn2 || ''}
-                  onChange={(e) => updatePageData('heroSection.btn2', e.target.value)}
+                  value={pageData.heroSection?.btn2 || ""}
+                  onChange={(e) =>
+                    updatePageData("heroSection.btn2", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Default: Pass My Exam"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Button 1 URL</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Button 1 URL
+                </label>
                 <input
                   type="text"
-                  value={pageData.heroSection?.btn1Url || ''}
-                  onChange={(e) => updatePageData('heroSection.btn1Url', e.target.value)}
+                  value={pageData.heroSection?.btn1Url || ""}
+                  onChange={(e) =>
+                    updatePageData("heroSection.btn1Url", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="e.g., /contact-us or https://..."
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Button 2 URL</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Button 2 URL
+                </label>
                 <input
                   type="text"
-                  value={pageData.heroSection?.btn2Url || ''}
-                  onChange={(e) => updatePageData('heroSection.btn2Url', e.target.value)}
+                  value={pageData.heroSection?.btn2Url || ""}
+                  onChange={(e) =>
+                    updatePageData("heroSection.btn2Url", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="e.g., /contact-us or https://..."
                 />
@@ -571,70 +985,109 @@ export default function ExamAdmin() {
 
         {/* Why Slider Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Why Slider Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Why Slider Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.whySlider?.mainHeading || ''}
-                onChange={(e) => updatePageData('whySlider.mainHeading', e.target.value)}
+                value={pageData.whySlider?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("whySlider.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.whySlider?.description || ''}
-                onChange={(e) => updatePageData('whySlider.description', e.target.value)}
+                value={pageData.whySlider?.description || ""}
+                onChange={(e) =>
+                  updatePageData("whySlider.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.whySlider?.ctaButton?.text || ''}
-                onChange={(e) => updatePageData('whySlider.ctaButton.text', e.target.value)}
+                value={pageData.whySlider?.ctaButton?.text || ""}
+                onChange={(e) =>
+                  updatePageData("whySlider.ctaButton.text", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Slider Items (cards in the scrolling rows)</label>
-              {(pageData.whySlider?.sliderItems || []).map((item: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Item {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('whySlider.sliderItems', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Slider Items (cards in the scrolling rows)
+              </label>
+              {(pageData.whySlider?.sliderItems || []).map(
+                (item: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Item {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("whySlider.sliderItems", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={item.text || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "whySlider.sliderItems",
+                            index,
+                            "text",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Card text (e.g. Highly-Skilled Subject Experts)"
+                      />
+                      <input
+                        type="text"
+                        value={item.alt || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "whySlider.sliderItems",
+                            index,
+                            "alt",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Alt text for icon (optional)"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-3">
-                    <input
-                      type="text"
-                      value={item.text || ''}
-                      onChange={(e) => updateArrayItem('whySlider.sliderItems', index, 'text', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Card text (e.g. Highly-Skilled Subject Experts)"
-                    />
-                    <input
-                      type="text"
-                      value={item.alt || ''}
-                      onChange={(e) => updateArrayItem('whySlider.sliderItems', index, 'alt', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Alt text for icon (optional)"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
-                onClick={() => addArrayItem('whySlider.sliderItems', { text: '', alt: '' })}
+                onClick={() =>
+                  addArrayItem("whySlider.sliderItems", { text: "", alt: "" })
+                }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Slider Item
@@ -645,70 +1098,113 @@ export default function ExamAdmin() {
 
         {/* Card Carousel Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Card Carousel Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Card Carousel Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.cardCarousel?.mainHeading || ''}
-                onChange={(e) => updatePageData('cardCarousel.mainHeading', e.target.value)}
+                value={pageData.cardCarousel?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("cardCarousel.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.cardCarousel?.description || ''}
-                onChange={(e) => updatePageData('cardCarousel.description', e.target.value)}
+                value={pageData.cardCarousel?.description || ""}
+                onChange={(e) =>
+                  updatePageData("cardCarousel.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.cardCarousel?.ctaButton?.text || ''}
-                onChange={(e) => updatePageData('cardCarousel.ctaButton.text', e.target.value)}
+                value={pageData.cardCarousel?.ctaButton?.text || ""}
+                onChange={(e) =>
+                  updatePageData("cardCarousel.ctaButton.text", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Carousel Cards (slides)</label>
-              {(pageData.cardCarousel?.cards || []).map((card: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Card {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('cardCarousel.cards', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Carousel Cards (slides)
+              </label>
+              {(pageData.cardCarousel?.cards || []).map(
+                (card: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Card {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("cardCarousel.cards", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={card.title || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "cardCarousel.cards",
+                            index,
+                            "title",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Card title"
+                      />
+                      <textarea
+                        rows={2}
+                        value={card.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "cardCarousel.cards",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Card description"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-3">
-                    <input
-                      type="text"
-                      value={card.title || ''}
-                      onChange={(e) => updateArrayItem('cardCarousel.cards', index, 'title', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Card title"
-                    />
-                    <textarea
-                      rows={2}
-                      value={card.description || ''}
-                      onChange={(e) => updateArrayItem('cardCarousel.cards', index, 'description', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Card description"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
-                onClick={() => addArrayItem('cardCarousel.cards', { id: Date.now(), title: '', description: '' })}
+                onClick={() =>
+                  addArrayItem("cardCarousel.cards", {
+                    id: Date.now(),
+                    title: "",
+                    description: "",
+                  })
+                }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Carousel Card
@@ -719,81 +1215,133 @@ export default function ExamAdmin() {
 
         {/* Description Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Description Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Description Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.description?.mainHeading || ''}
-                onChange={(e) => updatePageData('description.mainHeading', e.target.value)}
+                value={pageData.description?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("description.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={4}
-                value={pageData.description?.description || ''}
-                onChange={(e) => updatePageData('description.description', e.target.value)}
+                value={pageData.description?.description || ""}
+                onChange={(e) =>
+                  updatePageData("description.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Use &lt;br/&gt; for line breaks"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.description?.ctaButton?.text || ''}
-                onChange={(e) => updatePageData('description.ctaButton.text', e.target.value)}
+                value={pageData.description?.ctaButton?.text || ""}
+                onChange={(e) =>
+                  updatePageData("description.ctaButton.text", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Badges (comma-separated)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Badges (comma-separated)
+              </label>
               <input
                 type="text"
-                value={(pageData.description?.badges || []).join(', ')}
-                onChange={(e) => updatePageData('description.badges', e.target.value.split(',').map((b: string) => b.trim()).filter(Boolean))}
+                value={(pageData.description?.badges || []).join(", ")}
+                onChange={(e) =>
+                  updatePageData(
+                    "description.badges",
+                    e.target.value
+                      .split(",")
+                      .map((b: string) => b.trim())
+                      .filter(Boolean),
+                  )
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Online Class Help, exam Help, Online Exam Help"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Services</label>
-              {(pageData.description?.services || []).map((service: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Service {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('description.services', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Services
+              </label>
+              {(pageData.description?.services || []).map(
+                (service: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Service {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("description.services", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={service.title || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "description.services",
+                            index,
+                            "title",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Service Title"
+                      />
+                      <textarea
+                        rows={2}
+                        value={service.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "description.services",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Service Description"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-3">
-                    <input
-                      type="text"
-                      value={service.title || ''}
-                      onChange={(e) => updateArrayItem('description.services', index, 'title', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Service Title"
-                    />
-                    <textarea
-                      rows={2}
-                      value={service.description || ''}
-                      onChange={(e) => updateArrayItem('description.services', index, 'description', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Service Description"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
-                onClick={() => addArrayItem('description.services', { title: '', description: '' })}
+                onClick={() =>
+                  addArrayItem("description.services", {
+                    title: "",
+                    description: "",
+                  })
+                }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Service
@@ -804,71 +1352,126 @@ export default function ExamAdmin() {
 
         {/* Online Platforms Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Online Platforms Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Online Platforms Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.onlinePlatform?.mainHeading || ''}
-                onChange={(e) => updatePageData('onlinePlatform.mainHeading', e.target.value)}
+                value={pageData.onlinePlatform?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("onlinePlatform.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Sub Heading / Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Sub Heading / Description
+              </label>
               <textarea
                 rows={4}
-                value={pageData.onlinePlatform?.subHeading || ''}
-                onChange={(e) => updatePageData('onlinePlatform.subHeading', e.target.value)}
+                value={pageData.onlinePlatform?.subHeading || ""}
+                onChange={(e) =>
+                  updatePageData("onlinePlatform.subHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Platform Cards</label>
-              {(pageData.onlinePlatform?.platforms || []).map((platform: { key?: string; name?: string; description?: string; logoUrl?: string }, index: number) => (
-                <div key={platform.key || index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-gray-700">Card {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('onlinePlatform.platforms', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Platform Cards
+              </label>
+              {(pageData.onlinePlatform?.platforms || []).map(
+                (
+                  platform: {
+                    key?: string;
+                    name?: string;
+                    description?: string;
+                    logoUrl?: string;
+                  },
+                  index: number,
+                ) => (
+                  <div
+                    key={platform.key || index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-gray-700">
+                        Card {index + 1}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("onlinePlatform.platforms", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={platform.name || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "onlinePlatform.platforms",
+                            index,
+                            "name",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Platform name"
+                      />
+                      <input
+                        type="url"
+                        value={platform.logoUrl || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "onlinePlatform.platforms",
+                            index,
+                            "logoUrl",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Logo URL"
+                      />
+                      <textarea
+                        rows={2}
+                        value={platform.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "onlinePlatform.platforms",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Card description"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-3">
-                    <input
-                      type="text"
-                      value={platform.name || ''}
-                      onChange={(e) => updateArrayItem('onlinePlatform.platforms', index, 'name', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Platform name"
-                    />
-                    <input
-                      type="url"
-                      value={platform.logoUrl || ''}
-                      onChange={(e) => updateArrayItem('onlinePlatform.platforms', index, 'logoUrl', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Logo URL"
-                    />
-                    <textarea
-                      rows={2}
-                      value={platform.description || ''}
-                      onChange={(e) => updateArrayItem('onlinePlatform.platforms', index, 'description', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Card description"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
                 onClick={() =>
-                  updatePageData('onlinePlatform.platforms', [
+                  updatePageData("onlinePlatform.platforms", [
                     ...(pageData.onlinePlatform?.platforms || []),
-                    { key: `platform_${Date.now()}`, name: '', description: '', logoUrl: '' },
+                    {
+                      key: `platform_${Date.now()}`,
+                      name: "",
+                      description: "",
+                      logoUrl: "",
+                    },
                   ])
                 }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
@@ -881,94 +1484,137 @@ export default function ExamAdmin() {
 
         {/* SubSubjects Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">SubSubjects Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            SubSubjects Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
                 value={pageData.SubSubjects?.mainHeading || ""}
-                onChange={(e) => updatePageData("SubSubjects.mainHeading", e.target.value)}
+                onChange={(e) =>
+                  updatePageData("SubSubjects.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
                 value={pageData.SubSubjects?.description || ""}
-                onChange={(e) => updatePageData("SubSubjects.description", e.target.value)}
+                onChange={(e) =>
+                  updatePageData("SubSubjects.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
                 value={pageData.SubSubjects?.ctaText || ""}
-                onChange={(e) => updatePageData("SubSubjects.ctaText", e.target.value)}
+                onChange={(e) =>
+                  updatePageData("SubSubjects.ctaText", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">SubSubject Cards</label>
-              {(pageData.SubSubjects?.SubSubjectsContent || []).map((subject: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">SubSubject {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem("SubSubjects.SubSubjectsContent", index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                SubSubject Cards
+              </label>
+              {(pageData.SubSubjects?.SubSubjectsContent || []).map(
+                (subject: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">
+                        SubSubject {index + 1}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                          )
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <input
+                        type="text"
+                        value={subject.title || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                            "title",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Title"
+                      />
+                      <input
+                        type="text"
+                        value={subject.url || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                            "url",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="URL"
+                      />
+                      <input
+                        type="text"
+                        value={subject.icon || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                            "icon",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm md:col-span-2"
+                        placeholder="Icon path"
+                      />
+                      <textarea
+                        rows={2}
+                        value={subject.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "SubSubjects.SubSubjectsContent",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm md:col-span-2"
+                        placeholder="Description"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <input
-                      type="text"
-                      value={subject.title || ""}
-                      onChange={(e) =>
-                        updateArrayItem("SubSubjects.SubSubjectsContent", index, "title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Title"
-                    />
-                    <input
-                      type="text"
-                      value={subject.url || ""}
-                      onChange={(e) =>
-                        updateArrayItem("SubSubjects.SubSubjectsContent", index, "url", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="URL"
-                    />
-                    <input
-                      type="text"
-                      value={subject.icon || ""}
-                      onChange={(e) =>
-                        updateArrayItem("SubSubjects.SubSubjectsContent", index, "icon", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm md:col-span-2"
-                      placeholder="Icon path"
-                    />
-                    <textarea
-                      rows={2}
-                      value={subject.description || ""}
-                      onChange={(e) =>
-                        updateArrayItem(
-                          "SubSubjects.SubSubjectsContent",
-                          index,
-                          "description",
-                          e.target.value,
-                        )
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm md:col-span-2"
-                      placeholder="Description"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
                 onClick={() =>
@@ -989,94 +1635,137 @@ export default function ExamAdmin() {
 
         {/* Price Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Price Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Price Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading Line 1</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading Line 1
+              </label>
               <input
                 type="text"
-                value={pageData.priceSection?.mainHeadingLine1 || ''}
-                onChange={(e) => updatePageData('priceSection.mainHeadingLine1', e.target.value)}
+                value={pageData.priceSection?.mainHeadingLine1 || ""}
+                onChange={(e) =>
+                  updatePageData(
+                    "priceSection.mainHeadingLine1",
+                    e.target.value,
+                  )
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading Line 2</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading Line 2
+              </label>
               <input
                 type="text"
-                value={pageData.priceSection?.mainHeadingLine2 || ''}
-                onChange={(e) => updatePageData('priceSection.mainHeadingLine2', e.target.value)}
+                value={pageData.priceSection?.mainHeadingLine2 || ""}
+                onChange={(e) =>
+                  updatePageData(
+                    "priceSection.mainHeadingLine2",
+                    e.target.value,
+                  )
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description (first paragraph)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description (first paragraph)
+              </label>
               <textarea
                 rows={3}
-                value={pageData.priceSection?.description1 || ''}
-                onChange={(e) => updatePageData('priceSection.description1', e.target.value)}
+                value={pageData.priceSection?.description1 || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.description1", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description (second paragraph)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description (second paragraph)
+              </label>
               <textarea
                 rows={3}
-                value={pageData.priceSection?.description2 || ''}
-                onChange={(e) => updatePageData('priceSection.description2', e.target.value)}
+                value={pageData.priceSection?.description2 || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.description2", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Card Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Card Heading
+              </label>
               <input
                 type="text"
-                value={pageData.priceSection?.cardHeading || ''}
-                onChange={(e) => updatePageData('priceSection.cardHeading', e.target.value)}
+                value={pageData.priceSection?.cardHeading || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.cardHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.priceSection?.buttonText || ''}
-                onChange={(e) => updatePageData('priceSection.buttonText', e.target.value)}
+                value={pageData.priceSection?.buttonText || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.buttonText", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Benefits</label>
-              {(pageData.priceSection?.benefits || []).map((benefit: string, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md flex gap-2 items-center">
-                  <input
-                    type="text"
-                    value={benefit || ''}
-                    onChange={(e) => {
-                      const next = [...(pageData.priceSection?.benefits || [])];
-                      next[index] = e.target.value;
-                      updatePageData('priceSection.benefits', next);
-                    }}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const next = (pageData.priceSection?.benefits || []).filter((_: string, i: number) => i !== index);
-                      updatePageData('priceSection.benefits', next);
-                    }}
-                    className="text-red-600 hover:text-red-800 text-sm whitespace-nowrap"
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Benefits
+              </label>
+              {(pageData.priceSection?.benefits || []).map(
+                (benefit: string, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md flex gap-2 items-center"
                   >
-                    Remove
-                  </button>
-                </div>
-              ))}
+                    <input
+                      type="text"
+                      value={benefit || ""}
+                      onChange={(e) => {
+                        const next = [
+                          ...(pageData.priceSection?.benefits || []),
+                        ];
+                        next[index] = e.target.value;
+                        updatePageData("priceSection.benefits", next);
+                      }}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = (
+                          pageData.priceSection?.benefits || []
+                        ).filter((_: string, i: number) => i !== index);
+                        updatePageData("priceSection.benefits", next);
+                      }}
+                      className="text-red-600 hover:text-red-800 text-sm whitespace-nowrap"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ),
+              )}
               <button
                 type="button"
                 onClick={() =>
-                  updatePageData('priceSection.benefits', [
+                  updatePageData("priceSection.benefits", [
                     ...(pageData.priceSection?.benefits || []),
-                    '',
+                    "",
                   ])
                 }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
@@ -1085,50 +1774,83 @@ export default function ExamAdmin() {
               </button>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Price Items</label>
-              {(pageData.priceSection?.priceItems || []).map((item: { service?: string; price?: string; unit?: string }, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Item {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('priceSection.priceItems', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Price Items
+              </label>
+              {(pageData.priceSection?.priceItems || []).map(
+                (
+                  item: { service?: string; price?: string; unit?: string },
+                  index: number,
+                ) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Item {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("priceSection.priceItems", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <input
+                        type="text"
+                        value={item.service || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "priceSection.priceItems",
+                            index,
+                            "service",
+                            e.target.value,
+                          )
+                        }
+                        className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Service"
+                      />
+                      <input
+                        type="text"
+                        value={item.price || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "priceSection.priceItems",
+                            index,
+                            "price",
+                            e.target.value,
+                          )
+                        }
+                        className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Price"
+                      />
+                      <input
+                        type="text"
+                        value={item.unit || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "priceSection.priceItems",
+                            index,
+                            "unit",
+                            e.target.value,
+                          )
+                        }
+                        className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Unit"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <input
-                      type="text"
-                      value={item.service || ''}
-                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'service', e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Service"
-                    />
-                    <input
-                      type="text"
-                      value={item.price || ''}
-                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'price', e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Price"
-                    />
-                    <input
-                      type="text"
-                      value={item.unit || ''}
-                      onChange={(e) => updateArrayItem('priceSection.priceItems', index, 'unit', e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Unit"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
                 onClick={() =>
-                  updatePageData('priceSection.priceItems', [
+                  updatePageData("priceSection.priceItems", [
                     ...(pageData.priceSection?.priceItems || []),
-                    { service: '', price: '', unit: '' },
+                    { service: "", price: "", unit: "" },
                   ])
                 }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
@@ -1141,32 +1863,49 @@ export default function ExamAdmin() {
 
         {/* Guaranteed Block Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Guaranteed Block Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Guaranteed Block Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.guaranteedBlock?.mainHeading || ''}
-                onChange={(e) => updatePageData('guaranteedBlock.mainHeading', e.target.value)}
+                value={pageData.guaranteedBlock?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("guaranteedBlock.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.guaranteedBlock?.description || ''}
-                onChange={(e) => updatePageData('guaranteedBlock.description', e.target.value)}
+                value={pageData.guaranteedBlock?.description || ""}
+                onChange={(e) =>
+                  updatePageData("guaranteedBlock.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.guaranteedBlock?.ctaButton?.text || ''}
-                onChange={(e) => updatePageData('guaranteedBlock.ctaButton.text', e.target.value)}
+                value={pageData.guaranteedBlock?.ctaButton?.text || ""}
+                onChange={(e) =>
+                  updatePageData(
+                    "guaranteedBlock.ctaButton.text",
+                    e.target.value,
+                  )
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -1175,68 +1914,117 @@ export default function ExamAdmin() {
 
         {/* Process Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Process Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Process Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.processSection?.mainHeading || ''}
-                onChange={(e) => updatePageData('processSection.mainHeading', e.target.value)}
+                value={pageData.processSection?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("processSection.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.processSection?.description || ''}
-                onChange={(e) => updatePageData('processSection.description', e.target.value)}
+                value={pageData.processSection?.description || ""}
+                onChange={(e) =>
+                  updatePageData("processSection.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Process Steps</label>
-              {(pageData.processSection?.steps || []).map((step: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Step {step.stepNumber || index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('processSection.steps', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Process Steps
+              </label>
+              {(pageData.processSection?.steps || []).map(
+                (step: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">
+                        Step {step.stepNumber || index + 1}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("processSection.steps", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="number"
+                        value={step.stepNumber || index + 1}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "processSection.steps",
+                            index,
+                            "stepNumber",
+                            parseInt(e.target.value),
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Step Number"
+                      />
+                      <textarea
+                        rows={2}
+                        value={step.title || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "processSection.steps",
+                            index,
+                            "title",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Step Title (use &lt;br/&gt; for line breaks)"
+                      />
+                      <textarea
+                        rows={2}
+                        value={step.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "processSection.steps",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Step Description"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-3">
-                    <input
-                      type="number"
-                      value={step.stepNumber || index + 1}
-                      onChange={(e) => updateArrayItem('processSection.steps', index, 'stepNumber', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Step Number"
-                    />
-                    <textarea
-                      rows={2}
-                      value={step.title || ''}
-                      onChange={(e) => updateArrayItem('processSection.steps', index, 'title', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Step Title (use &lt;br/&gt; for line breaks)"
-                    />
-                    <textarea
-                      rows={2}
-                      value={step.description || ''}
-                      onChange={(e) => updateArrayItem('processSection.steps', index, 'description', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Step Description"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
-                onClick={() => addArrayItem('processSection.steps', { stepNumber: (pageData.processSection?.steps?.length || 0) + 1, title: '', description: '' })}
+                onClick={() =>
+                  addArrayItem("processSection.steps", {
+                    stepNumber:
+                      (pageData.processSection?.steps?.length || 0) + 1,
+                    title: "",
+                    description: "",
+                  })
+                }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Step
@@ -1247,64 +2035,138 @@ export default function ExamAdmin() {
 
         {/* Success Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Success Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Success Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.success?.mainHeading || ''}
-                onChange={(e) => updatePageData('success.mainHeading', e.target.value)}
+                value={pageData.success?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("success.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.success?.description || ''}
-                onChange={(e) => updatePageData('success.description', e.target.value)}
+                value={pageData.success?.description || ""}
+                onChange={(e) =>
+                  updatePageData("success.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Course Name (bottom stats bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.course || ""}
+                  onChange={(e) =>
+                    updatePageData("success.course", e.target.value)
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g. Chemistry 101"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Before → After (bottom stats bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.beforeAfter || ""}
+                  onChange={(e) =>
+                    updatePageData("success.beforeAfter", e.target.value)
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g. B → A+ or A+ Grades"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Total (bottom stats bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.total || ""}
+                  onChange={(e) =>
+                    updatePageData("success.total", e.target.value)
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g. 96.66%"
+                />
+              </div>
+            </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.success?.ctaButton?.text || ''}
-                onChange={(e) => updatePageData('success.ctaButton.text', e.target.value)}
+                value={pageData.success?.ctaButton?.text || ""}
+                onChange={(e) =>
+                  updatePageData("success.ctaButton.text", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Success Slides</label>
-              {(pageData.success?.slides || []).map((slide: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Slide {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('success.slides', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Success Slides
+              </label>
+              {(pageData.success?.slides || []).map(
+                (slide: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Slide {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem("success.slides", index)}
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={slide.image || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "success.slides",
+                            index,
+                            "image",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Image Path (e.g., /images/proof-1.webp)"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-3">
-                    <input
-                      type="text"
-                      value={slide.image || ''}
-                      onChange={(e) => updateArrayItem('success.slides', index, 'image', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Image Path (e.g., /images/proof-1.webp)"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
-                onClick={() => addArrayItem('success.slides', { id: Date.now(), image: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
+                onClick={() =>
+                  addArrayItem("success.slides", { id: Date.now(), image: "" })
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Slide
               </button>
@@ -1314,87 +2176,143 @@ export default function ExamAdmin() {
 
         {/* Subjects Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Subjects & Majors We Cover Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Subjects & Majors We Cover Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.subjects?.mainHeading || ''}
-                onChange={(e) => updatePageData('subjects.mainHeading', e.target.value)}
+                value={pageData.subjects?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("subjects.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.subjects?.description || ''}
-                onChange={(e) => updatePageData('subjects.description', e.target.value)}
+                value={pageData.subjects?.description || ""}
+                onChange={(e) =>
+                  updatePageData("subjects.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.subjects?.ctaText || ''}
-                onChange={(e) => updatePageData('subjects.ctaText', e.target.value)}
+                value={pageData.subjects?.ctaText || ""}
+                onChange={(e) =>
+                  updatePageData("subjects.ctaText", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Default: Take my online class"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Subject Cards</label>
-              {(pageData.subjects?.subjectsContent || []).map((subject: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Subject {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('subjects.subjectsContent', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Subject Cards
+              </label>
+              {(pageData.subjects?.subjectsContent || []).map(
+                (subject: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Subject {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("subjects.subjectsContent", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Title
+                        </label>
+                        <input
+                          type="text"
+                          value={subject.title || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "subjects.subjectsContent",
+                              index,
+                              "title",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., English"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">
+                          URL (relative path)
+                        </label>
+                        <input
+                          type="text"
+                          value={subject.url || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "subjects.subjectsContent",
+                              index,
+                              "url",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., /english"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Icon Path
+                        </label>
+                        <input
+                          type="text"
+                          value={subject.icon || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "subjects.subjectsContent",
+                              index,
+                              "icon",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., /assets/Icon/english.png"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs text-gray-500 mb-1">Title</label>
-                      <input
-                        type="text"
-                        value={subject.title || ''}
-                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'title', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                        placeholder="e.g., English"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-gray-500 mb-1">URL (relative path)</label>
-                      <input
-                        type="text"
-                        value={subject.url || ''}
-                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'url', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                        placeholder="e.g., /english"
-                      />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs text-gray-500 mb-1">Icon Path</label>
-                      <input
-                        type="text"
-                        value={subject.icon || ''}
-                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'icon', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                        placeholder="e.g., /assets/Icon/english.png"
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
-                onClick={() => addArrayItem('subjects.subjectsContent', { title: '', icon: '', url: '' })}
+                onClick={() =>
+                  addArrayItem("subjects.subjectsContent", {
+                    title: "",
+                    icon: "",
+                    url: "",
+                  })
+                }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Subject Card
@@ -1405,52 +2323,74 @@ export default function ExamAdmin() {
 
         {/* Final CTA Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Final CTA Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Final CTA Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Heading (before highlight)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Heading (before highlight)
+                </label>
                 <input
                   type="text"
-                  value={pageData.finalCta?.textBefore || ''}
-                  onChange={(e) => updatePageData('finalCta.textBefore', e.target.value)}
+                  value={pageData.finalCta?.textBefore || ""}
+                  onChange={(e) =>
+                    updatePageData("finalCta.textBefore", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Highlighted Text</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Highlighted Text
+                </label>
                 <input
                   type="text"
-                  value={pageData.finalCta?.highlightedText || ''}
-                  onChange={(e) => updatePageData('finalCta.highlightedText', e.target.value)}
+                  value={pageData.finalCta?.highlightedText || ""}
+                  onChange={(e) =>
+                    updatePageData("finalCta.highlightedText", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Heading (after highlight)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Heading (after highlight)
+                </label>
                 <input
                   type="text"
-                  value={pageData.finalCta?.textAfter || ''}
-                  onChange={(e) => updatePageData('finalCta.textAfter', e.target.value)}
+                  value={pageData.finalCta?.textAfter || ""}
+                  onChange={(e) =>
+                    updatePageData("finalCta.textAfter", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.finalCta?.description || ''}
-                onChange={(e) => updatePageData('finalCta.description', e.target.value)}
+                value={pageData.finalCta?.description || ""}
+                onChange={(e) =>
+                  updatePageData("finalCta.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.finalCta?.buttonText || ''}
-                onChange={(e) => updatePageData('finalCta.buttonText', e.target.value)}
+                value={pageData.finalCta?.buttonText || ""}
+                onChange={(e) =>
+                  updatePageData("finalCta.buttonText", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
               />
             </div>
@@ -1459,73 +2399,208 @@ export default function ExamAdmin() {
 
         {/* Academic Partners Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Academic Partners Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Academic Partners Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.academicPartners?.mainHeading || ''}
-                onChange={(e) => updatePageData('academicPartners.mainHeading', e.target.value)}
+                value={pageData.academicPartners?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("academicPartners.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.academicPartners?.description || ''}
-                onChange={(e) => updatePageData('academicPartners.description', e.target.value)}
+                value={pageData.academicPartners?.description || ""}
+                onChange={(e) =>
+                  updatePageData("academicPartners.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.academicPartners?.ctaButton?.text || ''}
-                onChange={(e) => updatePageData('academicPartners.ctaButton.text', e.target.value)}
+                value={pageData.academicPartners?.ctaButton?.text || ""}
+                onChange={(e) =>
+                  updatePageData(
+                    "academicPartners.ctaButton.text",
+                    e.target.value,
+                  )
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Partner Cards</label>
-              {(pageData.academicPartners?.cards || []).map((card: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Card {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('academicPartners.cards', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Partner Cards
+              </label>
+              {(pageData.academicPartners?.cards || []).map(
+                (card: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Card {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("academicPartners.cards", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={card.title || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "academicPartners.cards",
+                            index,
+                            "title",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Card Title"
+                      />
+                      <textarea
+                        rows={2}
+                        value={card.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "academicPartners.cards",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Card Description"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-3">
-                    <input
-                      type="text"
-                      value={card.title || ''}
-                      onChange={(e) => updateArrayItem('academicPartners.cards', index, 'title', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Card Title"
-                    />
-                    <textarea
-                      rows={2}
-                      value={card.description || ''}
-                      onChange={(e) => updateArrayItem('academicPartners.cards', index, 'description', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Card Description"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
-                onClick={() => addArrayItem('academicPartners.cards', { id: Date.now(), title: '', description: '' })}
+                onClick={() =>
+                  addArrayItem("academicPartners.cards", {
+                    id: Date.now(),
+                    title: "",
+                    description: "",
+                  })
+                }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Card
+              </button>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Performances / Stats (number, title, subtitle)
+              </label>
+              {(pageData.academicPartners?.performances || []).map(
+                (
+                  perf: { number?: string; title?: string; subtitle?: string },
+                  index: number,
+                ) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Stat {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem(
+                            "academicPartners.performances",
+                            index,
+                          )
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={perf.number || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "academicPartners.performances",
+                            index,
+                            "number",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Number (e.g. 15K+, 24/7)"
+                      />
+                      <input
+                        type="text"
+                        value={perf.title || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "academicPartners.performances",
+                            index,
+                            "title",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Title (e.g. Happy)"
+                      />
+                      <input
+                        type="text"
+                        value={perf.subtitle || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "academicPartners.performances",
+                            index,
+                            "subtitle",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Subtitle (e.g. Students)"
+                      />
+                    </div>
+                  </div>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  addArrayItem("academicPartners.performances", {
+                    number: "",
+                    title: "",
+                    subtitle: "",
+                  })
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Performance
               </button>
             </div>
           </div>
@@ -1533,70 +2608,127 @@ export default function ExamAdmin() {
 
         {/* Customer Reviews Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Customer Reviews Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Customer Reviews Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.customerReviews?.mainHeading || ''}
-                onChange={(e) => updatePageData('customerReviews.mainHeading', e.target.value)}
+                value={pageData.customerReviews?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("customerReviews.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="How Students Rate Us!"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Trustpilot Rating Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Trustpilot Rating Text
+              </label>
               <input
                 type="text"
-                value={pageData.customerReviews?.trustpilotRating || ''}
-                onChange={(e) => updatePageData('customerReviews.trustpilotRating', e.target.value)}
+                value={pageData.customerReviews?.trustpilotRating || ""}
+                onChange={(e) =>
+                  updatePageData(
+                    "customerReviews.trustpilotRating",
+                    e.target.value,
+                  )
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Rated 4.6/5 Based on 1000+ Reviews"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">Review Cards (card heading + description; leave empty to use default list)</label>
-              {(pageData.customerReviews?.reviews || []).map((review: { title?: string; description?: string; image?: string }, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Review {index + 1}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('customerReviews.reviews', index)}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Review Cards (card heading + description; leave empty to use
+                default list)
+              </label>
+              {(pageData.customerReviews?.reviews || []).map(
+                (
+                  review: {
+                    title?: string;
+                    description?: string;
+                    image?: string;
+                  },
+                  index: number,
+                ) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Review {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("customerReviews.reviews", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={review.title || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "customerReviews.reviews",
+                            index,
+                            "title",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Card heading / title"
+                      />
+                      <textarea
+                        rows={3}
+                        value={review.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "customerReviews.reviews",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Card description"
+                      />
+                      <input
+                        type="text"
+                        value={review.image || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "customerReviews.reviews",
+                            index,
+                            "image",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Star image path (e.g. /images/fivestar.svg, optional)"
+                      />
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-3">
-                    <input
-                      type="text"
-                      value={review.title || ''}
-                      onChange={(e) => updateArrayItem('customerReviews.reviews', index, 'title', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Card heading / title"
-                    />
-                    <textarea
-                      rows={3}
-                      value={review.description || ''}
-                      onChange={(e) => updateArrayItem('customerReviews.reviews', index, 'description', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Card description"
-                    />
-                    <input
-                      type="text"
-                      value={review.image || ''}
-                      onChange={(e) => updateArrayItem('customerReviews.reviews', index, 'image', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                      placeholder="Star image path (e.g. /images/fivestar.svg, optional)"
-                    />
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               <button
                 type="button"
-                onClick={() => addArrayItem('customerReviews.reviews', { title: '', description: '', image: '/images/fivestar.svg' })}
+                onClick={() =>
+                  addArrayItem("customerReviews.reviews", {
+                    title: "",
+                    description: "",
+                    image: "/images/fivestar.svg",
+                  })
+                }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Review Card
@@ -1607,32 +2739,46 @@ export default function ExamAdmin() {
 
         {/* Get Quote Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Get Quote Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Get Quote Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.getQuote?.mainHeading || ''}
-                onChange={(e) => updatePageData('getQuote.mainHeading', e.target.value)}
+                value={pageData.getQuote?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("getQuote.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
               <textarea
                 rows={3}
-                value={pageData.getQuote?.description || ''}
-                onChange={(e) => updatePageData('getQuote.description', e.target.value)}
+                value={pageData.getQuote?.description || ""}
+                onChange={(e) =>
+                  updatePageData("getQuote.description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
               <input
                 type="text"
-                value={pageData.getQuote?.ctaButton?.text || ''}
-                onChange={(e) => updatePageData('getQuote.ctaButton.text', e.target.value)}
+                value={pageData.getQuote?.ctaButton?.text || ""}
+                onChange={(e) =>
+                  updatePageData("getQuote.ctaButton.text", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -1641,26 +2787,37 @@ export default function ExamAdmin() {
 
         {/* FAQ Section */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">FAQ Section</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            FAQ Section
+          </h2>
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
               <input
                 type="text"
-                value={pageData.faq?.mainHeading || ''}
-                onChange={(e) => updatePageData('faq.mainHeading', e.target.value)}
+                value={pageData.faq?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("faq.mainHeading", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">FAQ Items</label>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                FAQ Items
+              </label>
               {(pageData.faq?.faqs || []).map((faq: any, index: number) => (
-                <div key={index} className="mb-4 p-4 border border-gray-200 rounded-md">
+                <div
+                  key={index}
+                  className="mb-4 p-4 border border-gray-200 rounded-md"
+                >
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-medium">FAQ {index + 1}</span>
                     <button
                       type="button"
-                      onClick={() => removeArrayItem('faq.faqs', index)}
+                      onClick={() => removeArrayItem("faq.faqs", index)}
                       className="text-red-600 hover:text-red-800 text-sm"
                     >
                       Remove
@@ -1669,15 +2826,29 @@ export default function ExamAdmin() {
                   <div className="grid grid-cols-1 gap-3">
                     <input
                       type="text"
-                      value={faq.question || ''}
-                      onChange={(e) => updateArrayItem('faq.faqs', index, 'question', e.target.value)}
+                      value={faq.question || ""}
+                      onChange={(e) =>
+                        updateArrayItem(
+                          "faq.faqs",
+                          index,
+                          "question",
+                          e.target.value,
+                        )
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                       placeholder="Question"
                     />
                     <textarea
                       rows={3}
-                      value={faq.answer || ''}
-                      onChange={(e) => updateArrayItem('faq.faqs', index, 'answer', e.target.value)}
+                      value={faq.answer || ""}
+                      onChange={(e) =>
+                        updateArrayItem(
+                          "faq.faqs",
+                          index,
+                          "answer",
+                          e.target.value,
+                        )
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                       placeholder="Answer"
                     />
@@ -1686,7 +2857,13 @@ export default function ExamAdmin() {
               ))}
               <button
                 type="button"
-                onClick={() => addArrayItem('faq.faqs', { id: Date.now(), question: '', answer: '' })}
+                onClick={() =>
+                  addArrayItem("faq.faqs", {
+                    id: Date.now(),
+                    question: "",
+                    answer: "",
+                  })
+                }
                 className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add FAQ
@@ -1697,7 +2874,7 @@ export default function ExamAdmin() {
 
         {/* Save Button */}
         <div className="flex justify-end gap-4">
-          {selectedPage && selectedPage !== 'exam_page' && (
+          {selectedPage && selectedPage !== "exam_page" && (
             <button
               type="button"
               onClick={handlePageDelete}
@@ -1714,14 +2891,30 @@ export default function ExamAdmin() {
           >
             {pageLoading ? (
               <>
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Saving...
               </>
             ) : (
-              'Save Changes'
+              "Save Changes"
             )}
           </button>
         </div>
@@ -1732,13 +2925,19 @@ export default function ExamAdmin() {
   return (
     <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Manage Exam Content</h1>
-        <p className="mt-2 text-sm text-gray-600">Select a page to edit its content</p>
+        <h1 className="text-3xl font-bold text-gray-900">
+          Manage Exam Content
+        </h1>
+        <p className="mt-2 text-sm text-gray-600">
+          Select a page to edit its content
+        </p>
       </div>
 
       {/* Page Selector */}
       <div className="mb-8">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Select Page</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Select Page
+        </label>
         <select
           value={selectedPage}
           onChange={(e) => handlePageChange(e.target.value)}
@@ -1762,7 +2961,9 @@ export default function ExamAdmin() {
       {!pageLoading && selectedPage && (
         <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
           <p className="text-sm text-blue-800">
-            <strong>Editing:</strong> {availablePages.find(p => p.id === selectedPage)?.title || selectedPage}
+            <strong>Editing:</strong>{" "}
+            {availablePages.find((p) => p.id === selectedPage)?.title ||
+              selectedPage}
           </p>
         </div>
       )}
@@ -1771,4 +2972,3 @@ export default function ExamAdmin() {
     </div>
   );
 }
-

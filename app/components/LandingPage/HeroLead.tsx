@@ -109,7 +109,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
 
   const getStyledMainHeading = (heading: string) => {
     const shouldHighlightAfterPipe =
-      isOnlineClassPage || pathname === "/take-my-class-2/";
+      isOnlineClassPage || isExamRoute || pathname === "/take-my-class-2/";
 
     if (!shouldHighlightAfterPipe) {
       return styleParentheticalText(heading);
