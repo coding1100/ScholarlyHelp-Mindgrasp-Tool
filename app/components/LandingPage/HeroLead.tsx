@@ -108,12 +108,15 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     isExamRoute;
 
   const getStyledMainHeading = (heading: string) => {
-    const shouldHighlightAfterPipe =
-      isOnlineClassPage || isExamRoute || pathname === "/take-my-class-2/";
+    // const shouldHighlightAfterPipe =
+    //   isOnlineClassPage ||
+    //   isExamRoute ||
+    //   pathname === "/take-my-class-2/" ||
+    //   pathname === "/take-my-proctored-exam-for-me/";
 
-    if (!shouldHighlightAfterPipe) {
-      return styleParentheticalText(heading);
-    }
+    // if (!shouldHighlightAfterPipe) {
+    //   return styleParentheticalText(heading);
+    // }
 
     if (!heading.includes("|")) {
       return styleParentheticalText(heading);
