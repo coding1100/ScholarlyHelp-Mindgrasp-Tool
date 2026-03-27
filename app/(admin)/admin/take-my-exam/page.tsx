@@ -97,12 +97,33 @@ export default function TakeMyExamAdmin() {
                   performances: [],
                   ctaButton: { text: "" },
                 },
+                subjects: {
+                  mainHeading: "",
+                  description: "",
+                  ctaText: "",
+                  subjectsContent: [],
+                },
+                onlinePlatform: {
+                  mainHeading: "",
+                  subHeading: "",
+                  platforms: [],
+                },
                 finalCta: {
                   textBefore: "",
                   highlightedText: "",
                   textAfter: "",
                   description: "",
                   buttonText: "",
+                },
+                priceSection: {
+                  mainHeadingLine1: "",
+                  mainHeadingLine2: "",
+                  description1: "",
+                  description2: "",
+                  cardHeading: "",
+                  buttonText: "",
+                  benefits: [],
+                  priceItems: [],
                 },
                 customerReviews: {
                   mainHeading: "",
@@ -172,12 +193,33 @@ export default function TakeMyExamAdmin() {
             performances: [],
             ctaButton: { text: "" },
           },
+          subjects: {
+            mainHeading: "",
+            description: "",
+            ctaText: "",
+            subjectsContent: [],
+          },
+          onlinePlatform: {
+            mainHeading: "",
+            subHeading: "",
+            platforms: [],
+          },
           finalCta: {
             textBefore: "",
             highlightedText: "",
             textAfter: "",
             description: "",
             buttonText: "",
+          },
+          priceSection: {
+            mainHeadingLine1: "",
+            mainHeadingLine2: "",
+            description1: "",
+            description2: "",
+            cardHeading: "",
+            buttonText: "",
+            benefits: [],
+            priceItems: [],
           },
           customerReviews: {
             mainHeading: "",
@@ -1135,6 +1177,314 @@ export default function TakeMyExamAdmin() {
           </div>
         </div>
 
+        {/* Subjects Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Subjects & Majors We Cover Section
+          </h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
+              <input
+                type="text"
+                value={pageData.subjects?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("subjects.mainHeading", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
+              <textarea
+                rows={3}
+                value={pageData.subjects?.description || ""}
+                onChange={(e) =>
+                  updatePageData("subjects.description", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CTA Button Text
+              </label>
+              <input
+                type="text"
+                value={pageData.subjects?.ctaText || ""}
+                onChange={(e) =>
+                  updatePageData("subjects.ctaText", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Default: Secure My 'A' or 'B' Grades"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Subject Cards
+              </label>
+              {(pageData.subjects?.subjectsContent || []).map(
+                (subject: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Subject {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("subjects.subjectsContent", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Title
+                        </label>
+                        <input
+                          type="text"
+                          value={subject.title || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "subjects.subjectsContent",
+                              index,
+                              "title",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., English"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">
+                          URL (relative path)
+                        </label>
+                        <input
+                          type="text"
+                          value={subject.url || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "subjects.subjectsContent",
+                              index,
+                              "url",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., /exams/english"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Icon Path
+                        </label>
+                        <input
+                          type="text"
+                          value={subject.icon || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "subjects.subjectsContent",
+                              index,
+                              "icon",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., /assets/Icon/english.png"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Description (optional)
+                        </label>
+                        <textarea
+                          rows={3}
+                          value={subject.description || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "subjects.subjectsContent",
+                              index,
+                              "description",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="Short subject description shown on cards"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  addArrayItem("subjects.subjectsContent", {
+                    title: "",
+                    icon: "",
+                    url: "",
+                    description: "",
+                  })
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Subject Card
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Online Platform Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Online Platform Section
+          </h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading
+              </label>
+              <textarea
+                rows={3}
+                value={pageData.onlinePlatform?.mainHeading || ""}
+                onChange={(e) =>
+                  updatePageData("onlinePlatform.mainHeading", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Sub Heading
+              </label>
+              <textarea
+                rows={4}
+                value={pageData.onlinePlatform?.subHeading || ""}
+                onChange={(e) =>
+                  updatePageData("onlinePlatform.subHeading", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Platform Cards
+              </label>
+              {(pageData.onlinePlatform?.platforms || []).map(
+                (
+                  platform: {
+                    key?: string;
+                    name?: string;
+                    description?: string;
+                    logoUrl?: string;
+                  },
+                  index: number,
+                ) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Platform {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("onlinePlatform.platforms", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
+                      <input
+                        type="text"
+                        value={platform.key || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "onlinePlatform.platforms",
+                            index,
+                            "key",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Key (e.g., canvas)"
+                      />
+                      <input
+                        type="text"
+                        value={platform.name || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "onlinePlatform.platforms",
+                            index,
+                            "name",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Name (e.g., Canvas)"
+                      />
+                      <input
+                        type="text"
+                        value={platform.logoUrl || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "onlinePlatform.platforms",
+                            index,
+                            "logoUrl",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Logo URL (e.g., /images/canvas.png)"
+                      />
+                      <textarea
+                        rows={3}
+                        value={platform.description || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "onlinePlatform.platforms",
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Platform description"
+                      />
+                    </div>
+                  </div>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  addArrayItem("onlinePlatform.platforms", {
+                    key: "",
+                    name: "",
+                    description: "",
+                    logoUrl: "",
+                  })
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Platform Card
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Final CTA Section */}
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">
@@ -1207,6 +1557,235 @@ export default function TakeMyExamAdmin() {
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Price Section */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            Price Section
+          </h2>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading Line 1
+              </label>
+              <input
+                type="text"
+                value={pageData.priceSection?.mainHeadingLine1 || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.mainHeadingLine1", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="The Best Price"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Main Heading Line 2
+              </label>
+              <input
+                type="text"
+                value={pageData.priceSection?.mainHeadingLine2 || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.mainHeadingLine2", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Offer You've Seen"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description (first paragraph)
+              </label>
+              <textarea
+                rows={3}
+                value={pageData.priceSection?.description1 || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.description1", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="At The Online Class Help, our experts have mastery over multiple online exam platforms..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description (second paragraph)
+              </label>
+              <textarea
+                rows={3}
+                value={pageData.priceSection?.description2 || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.description2", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Our qualified chemistry expert offers the top services..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Card Heading
+              </label>
+              <input
+                type="text"
+                value={pageData.priceSection?.cardHeading || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.cardHeading", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="The Best Price Offer You've Seen"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Button Text
+              </label>
+              <input
+                type="text"
+                value={pageData.priceSection?.buttonText || ""}
+                onChange={(e) =>
+                  updatePageData("priceSection.buttonText", e.target.value)
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Order Now"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Blue ticks / Benefits (add as many as you want)
+              </label>
+              {(pageData.priceSection?.benefits || []).map(
+                (benefit: string | { text?: string }, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md flex gap-2 items-center"
+                  >
+                    <input
+                      type="text"
+                      value={
+                        typeof benefit === "string"
+                          ? benefit
+                          : (benefit?.text ?? "")
+                      }
+                      onChange={(e) =>
+                        updateArrayItem(
+                          "priceSection.benefits",
+                          index,
+                          "text",
+                          e.target.value,
+                        )
+                      }
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      placeholder="e.g. Built by Students, for Students"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        removeArrayItem("priceSection.benefits", index)
+                      }
+                      className="text-red-600 hover:text-red-800 text-sm whitespace-nowrap"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  addArrayItem("priceSection.benefits", { text: "" })
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Benefit
+              </button>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Price Items (service, price, unit)
+              </label>
+              {(pageData.priceSection?.priceItems || []).map(
+                (
+                  item: { service?: string; price?: string; unit?: string },
+                  index: number,
+                ) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Item {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("priceSection.priceItems", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <input
+                        type="text"
+                        value={item.service || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "priceSection.priceItems",
+                            index,
+                            "service",
+                            e.target.value,
+                          )
+                        }
+                        className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Service (e.g. Class)"
+                      />
+                      <input
+                        type="text"
+                        value={item.price || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "priceSection.priceItems",
+                            index,
+                            "price",
+                            e.target.value,
+                          )
+                        }
+                        className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Price (e.g. $70)"
+                      />
+                      <input
+                        type="text"
+                        value={item.unit || ""}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "priceSection.priceItems",
+                            index,
+                            "unit",
+                            e.target.value,
+                          )
+                        }
+                        className="px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Unit (e.g. /week or leave empty)"
+                      />
+                    </div>
+                  </div>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  addArrayItem("priceSection.priceItems", {
+                    service: "",
+                    price: "",
+                    unit: "",
+                  })
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Price Item
+              </button>
             </div>
           </div>
         </div>
