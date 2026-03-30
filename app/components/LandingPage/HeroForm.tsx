@@ -177,10 +177,12 @@ const HeroForm: FC<ZohoForm2Props> = ({
   // Multi-step form handlers
   const handleSubjectSelect = (subject: string) => {
     setSelectedSubject(subject);
-    if (subject !== "Other") {
-      setOtherSubjectDescription("");
-      setCurrentStep(3);
-    }
+    // if (subject !== "Other") {
+    //   setOtherSubjectDescription("");
+    //   setCurrentStep(3);
+    // }
+    setOtherSubjectDescription("");
+    setCurrentStep(3);
   };
 
   // Step 2 handler (deadline) kept commented for later reuse.
@@ -324,7 +326,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
             <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
               Check Your{" "}
               <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
-                {currentPage.includes("online-class") ? "Class" : "Exam"}
+                {currentPage.includes("class") ? "Class" : "Exam"}
               </span>{" "}
               Price
             </p>
@@ -385,7 +387,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                 </div>
 
                 {/* Textarea for "Other" subject */}
-                {selectedSubject === "Other" && (
+                {/* {selectedSubject === "Other" && (
                   <div className="mb-4">
                     <textarea
                       value={otherSubjectDescription}
@@ -397,7 +399,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                       className="w-full px-4 py-3 border-2 border-[#E3E5F3] rounded-md bg-[#EDEFFE] text-black outline-none resize-none text-sm placeholder:text-[#6B7280] focus:border-[#ff641a] transition-all duration-200"
                     />
                   </div>
-                )}
+                )} */}
               </>
             )}
 
@@ -444,7 +446,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
             {/* Step 3: Contact Information */}
             {currentStep === 3 && (
               <>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
+                <h3 className="md:text-lg sm:text-base text-sm font-semibold text-gray-900 mb-4 text-center">
                   Where should we send your quote?
                 </h3>
 
@@ -454,7 +456,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                     type="email"
                     id="Email"
                     name="Email"
-                    placeholder="Email Address"
+                    placeholder="Email *"
                     value={formData.Email}
                     onChange={handleChange}
                     className="flex-1 text-black bg-transparent outline-none text-sm placeholder:text-[#6B7280] pr-3 "
@@ -468,7 +470,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                     type="text"
                     id="Phone"
                     name="Phone"
-                    placeholder="Phone Number"
+                    placeholder="Mobile No to Text Your Quote *"
                     value={formData.Phone}
                     onChange={handleChange}
                     maxLength={30}
@@ -484,12 +486,12 @@ const HeroForm: FC<ZohoForm2Props> = ({
                     loading ||
                     (!formData.Email.trim() && !formData.Phone.trim())
                   }
-                  className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] w-full disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:text-gray-500 disabled:hover:border-transparent"
+                  className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] w-full"
                 >
                   {loading ? (
                     <ClipLoader color="#fff" size={22} />
                   ) : (
-                    "CHECK MY PRICE"
+                    "Secure My 'A' or 'B' Grades"
                   )}
                 </button>
 
