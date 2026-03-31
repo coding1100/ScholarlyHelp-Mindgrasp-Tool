@@ -1,4 +1,4 @@
-import { MongoClient, Db, MongoClientOptions } from 'mongodb';
+import { MongoClient, Db, MongoClientOptions, Document, FindOptions } from 'mongodb';
 import { unstable_cache } from 'next/cache';
 
 const uri = process.env.DATABASE_URL;
@@ -93,12 +93,16 @@ export const getHomeData = unstable_cache(
 );
 
 // Generic page data fetcher with caching
-export async function getPageData(collection: string, query: object) {
+export async function getPageData(
+    collection: string,
+    query: Document,
+    options?: FindOptions<Document>
+) {
     try {
         const db = await getDb();
         if (!db) return null;
         
-        const content = await db.collection(collection).findOne(query);
+        const content = await db.collection(collection).findOne(query, options);
         return content as any;
     } catch (error) {
         console.error(`Error fetching ${collection} data:`, error);

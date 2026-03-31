@@ -136,6 +136,7 @@ export default function OnlinePlatform() {
     autoplaySpeed: 3000,
     speed: 500,
     arrows: false,
+    lazyLoad: "ondemand" as const,
     slidesToShow: 3,
     slidesToScroll: 1,
     pauseOnHover: true,
@@ -217,23 +218,27 @@ export default function OnlinePlatform() {
                 </div>
               ))}
             </Slider>
-            <div className="mx-auto mt-6 flex w-fit min-w-[140px] max-w-full items-center justify-center gap-5 px-2 sm:gap-7">
+            <div className="mx-auto mt-6 flex w-fit min-w-[140px] max-w-full items-center justify-center gap-5 px-2">
               <ChevronLeft
                 size={20}
                 className="cursor-pointer text-[#222]"
                 onClick={goPrev}
               />
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-0">
                 {platforms.map((platform, index) => (
                   <button
                     key={`platform-dot-${platform.key || index}`}
                     type="button"
                     aria-label={`Go to slide ${index + 1}`}
                     onClick={() => goToSlide(index)}
-                    className={`h-2.5 w-2.5 rounded-full transition-colors duration-200 ${
-                      index === activeSlide ? "bg-[#a8a8b8]" : "bg-[#d4d4de]"
-                    }`}
-                  />
+                    className="h-10 w-6 -mx-1 inline-flex shrink-0 items-center justify-center"
+                  >
+                    <span
+                      className={`h-2.5 w-2.5 rounded-full transition-colors duration-200 ${
+                        index === activeSlide ? "bg-[#a8a8b8]" : "bg-[#d4d4de]"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
               <ChevronRight
@@ -286,7 +291,6 @@ export default function OnlinePlatform() {
             ))}
           </div>
         )}
-
       </div>
     </section>
   );
