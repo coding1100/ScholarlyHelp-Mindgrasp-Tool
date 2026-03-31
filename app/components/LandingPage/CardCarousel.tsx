@@ -138,6 +138,7 @@ export default function CardCarousel() {
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
     centerMode: true,
+    lazyLoad: "ondemand" as const,
     centerPadding: "0px",
     dots: true,
     arrows: false,
@@ -149,6 +150,16 @@ export default function CardCarousel() {
     useCSS: true,
     useTransform: true,
     afterChange: (current: number) => setCenterIndex(current),
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          infinite: false,
+          centerMode: false,
+        },
+      },
+    ],
   };
 
   const goPrev = () => sliderRef.current?.slickPrev();
@@ -220,8 +231,22 @@ export default function CardCarousel() {
 
       {/* Navigation */}
       <div className="w-[225px] mx-auto flex justify-around mt-[5px] relative z-[9]">
-        <ChevronLeft size={20} className="cursor-pointer" onClick={goPrev} />
-        <ChevronRight size={20} className="cursor-pointer" onClick={goNext} />
+        <button
+          type="button"
+          aria-label="Previous slide"
+          onClick={goPrev}
+          className=" inline-flex items-center justify-center cursor-pointer"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <button
+          type="button"
+          aria-label="Next slide"
+          onClick={goNext}
+          className=" inline-flex items-center justify-center cursor-pointer"
+        >
+          <ChevronRight size={20} />
+        </button>
       </div>
 
       {/* CTA Button (text comes from admin if available) */}
