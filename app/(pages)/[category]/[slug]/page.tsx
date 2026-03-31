@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { getPageData } from '@/app/lib/mongodb';
 
 // Force dynamic rendering to prevent caching
 export const dynamic = 'force-dynamic';
@@ -11,31 +12,13 @@ interface PageProps {
 
 async function fetchPageData(category: string, slug: string) {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error('Database URL not configured');
-      return null;
-    }
-
-    const { MongoClient } = await import('mongodb');
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-      maxPoolSize: 1,
-      readPreference: 'primary',
-    });
-    await client.connect();
-    const db = client.db('scholarly_help');
-    
     // Query for page by id (slug) in pages collection
     // The slug should match the id in the pages collection
     const query = { 
       id: slug
     };
-    
-    const content = await db.collection('pages').findOne(query);
-    
-    await client.close();
+
+    const content = await getPageData('pages', query);
 
     if (!content) {
       console.log(`No content found for slug: ${slug} in pages collection`);

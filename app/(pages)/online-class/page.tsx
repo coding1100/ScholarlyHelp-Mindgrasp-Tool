@@ -5,6 +5,7 @@ import BelowFoldLanding from "@/app/components/LandingPage/BelowFoldLanding";
 import Subjects from "@/app/components/LandingPage/Subjects";
 import { OnlineClassDataProvider } from "./OnlineClassDataProvider";
 import { onlineClassSubjects } from "./content";
+import { getPageData } from "@/app/lib/mongodb";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -12,21 +13,6 @@ export const revalidate = 0;
 
 async function fetchOnlineClassData() {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error("Database URL not configured");
-      return null;
-    }
-
-    const { MongoClient } = await import("mongodb");
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-    });
-
-    await client.connect();
-    const db = client.db("scholarly_help");
-
     // Query for main online-class page - try multiple variations including with/without 's'
     const query = {
       $or: [
@@ -39,30 +25,7 @@ async function fetchOnlineClassData() {
         { slug: "main" },
       ],
     };
-
-    console.log(
-      "Querying online_classes collection with query:",
-      JSON.stringify(query)
-    );
-    const content = await db.collection("online_classes").findOne(query);
-    console.log("Found content:", content ? "Yes" : "No");
-
-    // If no content found, try to see what's in the collection
-    if (!content) {
-      const allDocs = await db
-        .collection("online_classes")
-        .find({})
-        .limit(5)
-        .toArray();
-      console.log(
-        "Sample documents in online_classes:",
-        allDocs.map((d) => ({ id: d.id, slug: d.slug }))
-      );
-    }
-
-    await client.close();
-
-    return content as any;
+    return await getPageData("online_classes", query);
   } catch (error) {
     console.error("Error fetching online-class data:", error);
     return null;
@@ -87,44 +50,23 @@ export default Page;
 
 export async function generateMetadata() {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (databaseUrl) {
-      const { MongoClient } = await import("mongodb");
-      const client = new MongoClient(databaseUrl);
-      await client.connect();
-      const db = client.db("scholarly_help");
+    const pageData = await fetchOnlineClassData();
+    if (pageData) {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const metaTitle = pageData.meta?.title || MetaData.onlineClass.title;
+      const metaDescription =
+        pageData.meta?.description || MetaData.onlineClass.description;
+      const canonicalUrl =
+        pageData.meta?.canonicalUrl || `${baseUrl}${MetaData.onlineClass.url}`;
 
-      const query = {
-        $or: [
-          { id: "online_class_page" },
-          { id: "online_classes_page" },
-          { id: "main" },
-        ],
+      return {
+        title: metaTitle,
+        description: metaDescription,
+        alternates: {
+          canonical: canonicalUrl,
+        },
       };
-
-      const pageData: any = await db
-        .collection("online_classes")
-        .findOne(query);
-      await client.close();
-
-      if (pageData) {
-        const baseUrl =
-          process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-        const metaTitle = pageData.meta?.title || MetaData.onlineClass.title;
-        const metaDescription =
-          pageData.meta?.description || MetaData.onlineClass.description;
-        const canonicalUrl =
-          pageData.meta?.canonicalUrl ||
-          `${baseUrl}${MetaData.onlineClass.url}`;
-
-        return {
-          title: metaTitle,
-          description: metaDescription,
-          alternates: {
-            canonical: canonicalUrl,
-          },
-        };
-      }
     }
   } catch (error) {
     console.error("Error fetching metadata:", error);
