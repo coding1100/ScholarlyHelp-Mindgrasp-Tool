@@ -4,39 +4,16 @@ import BelowFoldLanding from "@/app/components/LandingPage/BelowFoldLanding";
 import { MetaData } from "@/app/metadata/metadata";
 import { TakeMyExamDataProvider } from "../TakeMyExamDataProvider";
 import type { Metadata } from "next";
+import { getPageData } from "@/app/lib/mongodb";
 
 export const revalidate = 0;
 
 async function fetchTakeMyExamData() {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error('Database URL not configured');
-      return null;
-    }
-
-    const { MongoClient } = await import('mongodb');
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-      maxPoolSize: 1,
-    });
-    
-    await client.connect();
-    const db = client.db('scholarly_help');
-    
     const query = { 
       id: "take-my-exam"
     };
-    
-    console.log('Querying pages collection for take-my-exam, query:', JSON.stringify(query));
-    const content = await db.collection('pages').findOne(query, {
-      readPreference: 'primary',
-    });
-    console.log('Found content:', content ? 'Yes' : 'No');
-    
-    await client.close();
-    return content as any;
+    return await getPageData("pages", query, { readPreference: "primary" });
   } catch (error) {
     console.error('Error fetching take-my-exam data:', error);
     return null;

@@ -5,6 +5,7 @@ import BelowFoldLanding from "@/app/components/LandingPage/BelowFoldLanding";
 import Subjects from "@/app/components/LandingPage/Subjects";
 import { AssignmentDataProvider } from "./AssignmentDataProvider";
 import { assignmentSubject } from "./content";
+import { getPageData } from "@/app/lib/mongodb";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -12,29 +13,10 @@ export const revalidate = 0;
 
 async function fetchAssignmentData() {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error("Database URL not configured");
-      return null;
-    }
-
-    const { MongoClient } = await import("mongodb");
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-    });
-    await client.connect();
-    const db = client.db("scholarly_help");
-
-    // Query for main assignment page
     const query = {
       $or: [{ id: "assignment_page" }, { id: "main" }],
     };
-
-    const content = await db.collection("assignments").findOne(query);
-    await client.close();
-
-    return content as any;
+    return await getPageData("assignments", query);
   } catch (error) {
     console.error("Error fetching assignment data:", error);
     return null;
@@ -59,37 +41,23 @@ export default Page;
 
 export async function generateMetadata() {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (databaseUrl) {
-      const { MongoClient } = await import("mongodb");
-      const client = new MongoClient(databaseUrl);
-      await client.connect();
-      const db = client.db("scholarly_help");
+    const pageData = await fetchAssignmentData();
+    if (pageData) {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const metaTitle = pageData.meta?.title || MetaData.assignment.title;
+      const metaDescription =
+        pageData.meta?.description || MetaData.assignment.description;
+      const canonicalUrl =
+        pageData.meta?.canonicalUrl || `${baseUrl}${MetaData.assignment.url}`;
 
-      const query = {
-        $or: [{ id: "assignment_page" }, { id: "main" }],
+      return {
+        title: metaTitle,
+        description: metaDescription,
+        alternates: {
+          canonical: canonicalUrl,
+        },
       };
-
-      const pageData: any = await db.collection("assignments").findOne(query);
-      await client.close();
-
-      if (pageData) {
-        const baseUrl =
-          process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-        const metaTitle = pageData.meta?.title || MetaData.assignment.title;
-        const metaDescription =
-          pageData.meta?.description || MetaData.assignment.description;
-        const canonicalUrl =
-          pageData.meta?.canonicalUrl || `${baseUrl}${MetaData.assignment.url}`;
-
-        return {
-          title: metaTitle,
-          description: metaDescription,
-          alternates: {
-            canonical: canonicalUrl,
-          },
-        };
-      }
     }
   } catch (error) {
     console.error("Error fetching metadata:", error);

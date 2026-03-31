@@ -9,6 +9,7 @@ import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
 import WhyGuaranteeMatters from "@/app/components/OtherLandingPages/OnTimeDelivery/WhyGuaranteeMatters";
 import WhyGuarantee from "@/app/components/OtherLandingPages/GradeGuarantee/WhyGuarantee";
 import HowGuaranteeWorks from "@/app/components/OtherLandingPages/OnTimeDelivery/HowGuaranteeWorks";
+import { getPageData } from "@/app/lib/mongodb";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = 'force-dynamic';
@@ -16,32 +17,11 @@ export const revalidate = 0;
 
 async function fetchPageData() {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error('Database URL not configured');
-      return null;
-    }
-
-    const { MongoClient } = await import('mongodb');
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-      maxPoolSize: 1,
-      readPreference: 'primary',
-    });
-    await client.connect();
-    const db = client.db('scholarly_help');
-    
     // Query for on-time-delivery-guarantee page by id
     const query = { 
       id: "on-time-delivery-guarantee"
     };
-    
-    const content = await db.collection('pages').findOne(query);
-    
-    await client.close();
-
-    return content as any;
+    return await getPageData("pages", query);
   } catch (error) {
     console.error('Error fetching on-time-delivery-guarantee data:', error);
     return null;
