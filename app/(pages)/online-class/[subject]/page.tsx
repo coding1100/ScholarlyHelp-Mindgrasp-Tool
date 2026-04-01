@@ -144,7 +144,6 @@ const Page: React.FC<PageProps> = async ({ params }) => {
           <HeroSection />
           <DeliveredOn />
           <Success />
-
           <CardCarousel />
           <Description />
           {/* <GuaranteedBlock />
