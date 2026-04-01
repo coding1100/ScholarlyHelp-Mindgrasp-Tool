@@ -68,6 +68,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   );
 
   const isOnlineClassPage = (pathname || "").includes("/online-class/");
+  const isAssignmentPage = (pathname || "").includes("/assignment/");
   const isExamsPage =
     normalizedPath === "/exams" ||
     normalizedPath === "/exam" ||
@@ -78,6 +79,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     isOnlineClassPage ||
     normalizedPath === "/" ||
     isExamsPage ||
+    isAssignmentPage ||
     normalizedPath === "/take-my-class-2" ||
     normalizedPath === "/take-my-proctored-exam-for-me";
 
@@ -101,10 +103,12 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     normalizedPath.startsWith("/exams/") ||
     normalizedPath === "/exam" ||
     normalizedPath.startsWith("/exam/");
+
   const shouldHideButtons =
     normalizedPath === "/" ||
     buttonHiddenRoutes.has(normalizedPath) ||
     isOnlineClassRoute ||
+    isAssignmentPage ||
     isExamRoute;
 
   const getStyledMainHeading = (heading: string) => {

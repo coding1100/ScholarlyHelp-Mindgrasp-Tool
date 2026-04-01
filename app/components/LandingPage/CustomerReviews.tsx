@@ -579,6 +579,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   const customerReviews = data?.customerReviews;
   const pathname = usePathname();
   const isOnlineClassPage = pathname.includes("online-class");
+  const isAssignmentPage = pathname.includes("assignment");
   const normalizedPath = (pathname || "").replace(/\/+$/, "");
   const isTakeMyClass2Page = normalizedPath === "/take-my-class-2";
   const isExamRelatedPage =
@@ -677,6 +678,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   // - Online-class/exam/proctored pages: 3 (single row of 3 cards per slide)
   const chunkSize =
     isOnlineClassPage ||
+    isAssignmentPage ||
     isTakeMyClass2Page ||
     isExamRelatedPage ||
     isTakeMyProctoredExamPage ||
