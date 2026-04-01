@@ -32,12 +32,14 @@ const HeroForm: FC<ZohoForm2Props> = ({
   const shouldShowPriceHeader =
     normalizedPage === "/" ||
     normalizedPage === "/online-class" ||
+    normalizedPage === "/assignment" ||
     normalizedPage === "/exam" ||
     normalizedPage === "/exams" ||
     normalizedPage === "/take-my-proctored-exam-for-me" ||
     normalizedPage.startsWith("/online-class/") ||
     normalizedPage.startsWith("/exam/") ||
-    normalizedPage.startsWith("/exams/");
+    normalizedPage.startsWith("/exams/") ||
+    normalizedPage.startsWith("/assignment/");
   const router = useRouter();
 
   // Check if we're on the multi-step form route
@@ -537,9 +539,15 @@ const HeroForm: FC<ZohoForm2Props> = ({
         {shouldShowPriceHeader && (
           <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
             <p className="text-white text-center lg:text-[28px] md:text-2xl sm:text-xl text-lg font-semibold">
-              Check Your{" "}
+              Check{" "}
               <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
-                {currentPage.includes("exam") ? "Exam" : "Class"}
+                {currentPage.includes("exam")
+                  ? "Your Exam"
+                  : currentPage.includes("assignment")
+                    ? "Assignment"
+                    : currentPage.includes("class")
+                      ? "Your Class"
+                      : ""}
               </span>{" "}
               Price
             </p>
