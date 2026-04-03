@@ -76,7 +76,6 @@ const nextConfig = {
 
   // Enable experimental features for better performance
   experimental: {
-    inlineCss: true,
     optimizeCss: true,
     optimizePackageImports: [
       'lucide-react',

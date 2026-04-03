@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const AuthCallbackPage = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const handleCallback = async () => {
       try {
         const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+        const queryParams = new URLSearchParams(window.location.search);
         const accessToken = hashParams.get("access_token");
         const errorDescription = hashParams.get("error_description");
-        const next = searchParams.get("next") || "/tools/main-tool/";
+        const next = queryParams.get("next") || "/tools/main-tool/";
 
         if (errorDescription) {
           toast.error(decodeURIComponent(errorDescription));
@@ -66,7 +66,7 @@ const AuthCallbackPage = () => {
     };
 
     handleCallback();
-  }, [router, searchParams]);
+  }, [router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
