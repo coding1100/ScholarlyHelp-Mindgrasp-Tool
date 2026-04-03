@@ -1313,6 +1313,45 @@ export default function AssignmentAdmin() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
+            {/* Stats bar fields used by Success component (course / beforeAfter / total) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Course (Stats Bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.course || ''}
+                  onChange={(e) => updatePageData('success.course', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., Chemistry 101"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Before → After (Stats Bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.beforeAfter || ''}
+                  onChange={(e) => updatePageData('success.beforeAfter', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., C → A"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Total (Stats Bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.total || ''}
+                  onChange={(e) => updatePageData('success.total', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., 96.66%"
+                />
+              </div>
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
               <input
@@ -1435,6 +1474,16 @@ export default function AssignmentAdmin() {
                         placeholder="e.g., /assets/Icon/english.png"
                       />
                     </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs text-gray-500 mb-1">Description (optional)</label>
+                      <textarea
+                        rows={3}
+                        value={subject.description || ''}
+                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'description', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Short description shown under the subject card"
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -1533,6 +1582,105 @@ export default function AssignmentAdmin() {
                 onChange={(e) => updatePageData('academicPartners.ctaButton.text', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
+            </div>
+            {/* Performance Stats (number / title / subtitle) used by AcademicPartners */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Performance Stats (shown as Course/Experts/etc. on left side)
+              </label>
+              {(pageData.academicPartners?.performances || []).map(
+                (perf: any, index: number) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 border border-gray-200 rounded-md"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Performance {index + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeArrayItem("academicPartners.performances", index)
+                        }
+                        className="text-red-600 hover:text-red-800 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Number
+                        </label>
+                        <input
+                          type="text"
+                          value={perf.number || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "academicPartners.performances",
+                              index,
+                              "number",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., 15K+"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Title
+                        </label>
+                        <input
+                          type="text"
+                          value={perf.title || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "academicPartners.performances",
+                              index,
+                              "title",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., Happy"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">
+                          Subtitle
+                        </label>
+                        <input
+                          type="text"
+                          value={perf.subtitle || ""}
+                          onChange={(e) =>
+                            updateArrayItem(
+                              "academicPartners.performances",
+                              index,
+                              "subtitle",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                          placeholder="e.g., Students"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  addArrayItem("academicPartners.performances", {
+                    number: "",
+                    title: "",
+                    subtitle: "",
+                  })
+                }
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+              >
+                + Add Performance Stat
+              </button>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-4">Partner Cards</label>

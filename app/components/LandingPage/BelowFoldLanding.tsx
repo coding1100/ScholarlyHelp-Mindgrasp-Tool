@@ -105,6 +105,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const currentPath = usePathname();
   // const normalizedPath = (currentPath || "").replace(/\/+$/, "");
   const isOnlineClassPage = currentPath.includes("online-class");
+  const isAssignmentPage = currentPath.includes("assignment");
   const isExamPage =
     currentPath.includes("exam") || currentPath.includes("exams");
   const showSuccessTop =
@@ -112,9 +113,12 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     currentPath === "/" ||
     currentPath === "/online-class" ||
     isExamPage ||
+    isAssignmentPage ||
     currentPath.startsWith("/exam/") ||
     currentPath.startsWith("/exams/") ||
-    currentPath.startsWith("/online-class/");
+    currentPath.startsWith("/online-class/") ||
+    currentPath.startsWith("/assignment/");
+
   useEffect(() => {
     // Defer until after main thread is idle to be extra safe for LCP
     if (typeof window === "undefined") return;
@@ -148,6 +152,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     <>
       {currentPath.includes("take-my-class") ||
       isOnlineClassPage ||
+      isAssignmentPage ||
       isExamPage ||
       currentPath === "/" ? (
         <DeliveredOn />
@@ -160,6 +165,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       {/* <Description2 /> */}
       {!isOnlineClassPage ||
         !isExamPage ||
+        !isAssignmentPage ||
         (currentPath === "/" && (
           <>
             <GuaranteedBlock />
@@ -175,13 +181,15 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       )}
       {!showSuccessTop && <Success />}
       {children}
-      {(isOnlineClassPage || isExamPage || currentPath === "/") && (
-        <OnlinePlatform />
-      )}
+      {(isOnlineClassPage ||
+        isExamPage ||
+        isAssignmentPage ||
+        currentPath === "/") && <OnlinePlatform />}
       <AcademicPartners />
-      {(isOnlineClassPage || isExamPage || currentPath === "/") && (
-        <PriceSection />
-      )}
+      {(isOnlineClassPage ||
+        isExamPage ||
+        isAssignmentPage ||
+        currentPath === "/") && <PriceSection />}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
       {showSuccessTop && <FinalCTA />}

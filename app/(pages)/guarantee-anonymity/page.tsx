@@ -7,6 +7,7 @@ import WhySlider from "@/app/components/LandingPage/WhySlider";
 import CustomerReviews from "@/app/components/LandingPage/CustomerReviews";
 import Faq from "@/app/components/LandingPage/Faq";
 import AcademicPartners from "@/app/components/LandingPage/AcademicPartners";
+import { getPageData } from "@/app/lib/mongodb";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = 'force-dynamic';
@@ -14,32 +15,12 @@ export const revalidate = 0;
 
 async function fetchPageData() {
   try {
-    const databaseUrl = process.env.DATABASE_URL;
-    if (!databaseUrl) {
-      console.error('Database URL not configured');
-      return null;
-    }
-
-    const { MongoClient } = await import('mongodb');
-    const client = new MongoClient(databaseUrl, {
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-      maxPoolSize: 1,
-      readPreference: 'primary',
-    });
-    await client.connect();
-    const db = client.db('scholarly_help');
-
     // Query for guarantee-anonymity page by id
     const query = {
       id: "guarantee-anonymity"
     };
 
-    const content = await db.collection('pages').findOne(query);
-
-    await client.close();
-
-    return content as any;
+    return await getPageData("pages", query);
   } catch (error) {
     console.error('Error fetching guarantee-anonymity data:', error);
     return null;

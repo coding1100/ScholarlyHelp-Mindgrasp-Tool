@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { ReactNode, useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import CanvasImg from "@/app/assets/Images/canvas.png";
 import MoodleImg from "@/app/assets/Images/moodle.png";
 import BlackboardImg from "@/app/assets/Images/blackboard.png";
@@ -86,6 +87,8 @@ type AdminPlatform = {
 
 export default function OnlinePlatform() {
   const currentPath = usePathname();
+  const sliderRef = useRef<Slider | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
   const pageData = usePageData() as {
     onlinePlatform?: {
       mainHeading?: string;
@@ -94,7 +97,8 @@ export default function OnlinePlatform() {
     };
   } | null;
   const adminSection = pageData?.onlinePlatform;
-
+  const showSlider =
+    currentPath === "/" || currentPath === "/take-my-proctored-exam-for-me/";
   const { mainHeading, subHeading, platforms, useAdminPlatforms } =
     useMemo(() => {
       const mainHeading =
@@ -126,30 +130,20 @@ export default function OnlinePlatform() {
     }, [adminSection]);
 
   const sliderSettings = {
-    dots: true,
+    dots: false,
     infinite: true,
     autoplay: true,
     autoplaySpeed: 3000,
     speed: 500,
     arrows: false,
+    lazyLoad: "ondemand" as const,
     slidesToShow: 3,
     slidesToScroll: 1,
     pauseOnHover: true,
-    appendDots: (dots: ReactNode) => (
-      <div className="mt-6">
-        <ul className="!m-0 !flex !items-center !justify-center gap-2">
-          {dots}
-        </ul>
-      </div>
-    ),
-    customPaging: () => (
-      <button
-        type="button"
-        aria-label="Go to slide"
-        className="h-2.5 w-2.5 rounded-full bg-[#c7c7d6] transition-colors duration-200 hover:bg-[#8f8fa1]"
-      />
-    ),
-    dotsClass: "slick-dots online-platform-dots",
+    afterChange: (current: number) => {
+      const safeLength = platforms.length || 1;
+      setActiveSlide(current % safeLength);
+    },
     responsive: [
       {
         breakpoint: 1024,
@@ -166,6 +160,10 @@ export default function OnlinePlatform() {
     ],
   };
 
+  const goPrev = () => sliderRef.current?.slickPrev();
+  const goNext = () => sliderRef.current?.slickNext();
+  const goToSlide = (index: number) => sliderRef.current?.slickGoTo(index);
+
   return (
     <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto max-[1320px]:px-4 text-center">
@@ -177,9 +175,9 @@ export default function OnlinePlatform() {
             {subHeading}
           </p>
         </div>
-        {currentPath === "/" ? (
+        {showSlider ? (
           <div className="mt-10">
-            <Slider {...sliderSettings}>
+            <Slider ref={sliderRef} {...sliderSettings}>
               {platforms.map((platform) => (
                 <div key={platform.key} className="px-3">
                   <div className="h-full min-h-[220px] rounded-xl border border-gray-200 bg-white p-6 text-left shadow-sm transition-shadow duration-200 hover:shadow-md">
@@ -220,6 +218,35 @@ export default function OnlinePlatform() {
                 </div>
               ))}
             </Slider>
+            <div className="mx-auto mt-6 flex w-fit min-w-[140px] max-w-full items-center justify-center gap-5 px-2">
+              <ChevronLeft
+                size={20}
+                className="cursor-pointer text-[#222]"
+                onClick={goPrev}
+              />
+              <div className="flex items-center gap-0">
+                {platforms.map((platform, index) => (
+                  <button
+                    key={`platform-dot-${platform.key || index}`}
+                    type="button"
+                    aria-label={`Go to slide ${index + 1}`}
+                    onClick={() => goToSlide(index)}
+                    className="h-10 w-6 -mx-1 inline-flex shrink-0 items-center justify-center"
+                  >
+                    <span
+                      className={`h-2.5 w-2.5 rounded-full transition-colors duration-200 ${
+                        index === activeSlide ? "bg-[#a8a8b8]" : "bg-[#d4d4de]"
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+              <ChevronRight
+                size={20}
+                className="cursor-pointer text-[#222]"
+                onClick={goNext}
+              />
+            </div>
           </div>
         ) : (
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -264,12 +291,6 @@ export default function OnlinePlatform() {
             ))}
           </div>
         )}
-
-        <style jsx global>{`
-          .online-platform-dots li.slick-active button {
-            background-color: #565add !important;
-          }
-        `}</style>
       </div>
     </section>
   );
