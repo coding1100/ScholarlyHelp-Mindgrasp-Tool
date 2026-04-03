@@ -28,13 +28,19 @@ export default function SubjectsSection({
   const isOnlineClassSubpage =
     currentPage.startsWith("/online-class/") &&
     currentPage.length > "/online-class/".length;
+  const isAssignmentSubpage =
+    currentPage.startsWith("/assignment/") &&
+    currentPage.length > "/assignment/".length;
   const isExamSubPages =
     (currentPage.startsWith("/exams/") &&
       currentPage.length > "/exams/".length) ||
     (currentPage.startsWith("/exam/") && currentPage.length > "/exam/".length);
   const isTakeMyClass2Page = normalizedPath === "/take-my-class-2";
   const showDetailedSubjectCards =
-    isOnlineClassSubpage || isExamSubPages || isTakeMyClass2Page;
+    isOnlineClassSubpage ||
+    isAssignmentSubpage ||
+    isExamSubPages ||
+    isTakeMyClass2Page;
 
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");

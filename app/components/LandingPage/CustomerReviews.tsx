@@ -579,6 +579,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   const customerReviews = data?.customerReviews;
   const pathname = usePathname();
   const isOnlineClassPage = pathname.includes("online-class");
+  const isAssignmentPage = pathname.includes("assignment");
   const normalizedPath = (pathname || "").replace(/\/+$/, "");
   const isTakeMyClass2Page = normalizedPath === "/take-my-class-2";
   const isExamRelatedPage =
@@ -655,7 +656,17 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     return reviewsWithImages;
   };
 
-  const displayedReviews = mongoReviews || getUniqueReviews();
+  // const displayedReviews = mongoReviews || getUniqueReviews();
+  const allReviews = mongoReviews || getUniqueReviews();
+
+  // cap render count for performance (UI stays the same, just fewer DOM nodes)
+  const MAX_REVIEWS_DESKTOP = 18; // 6 slides x 3 cards
+  const MAX_REVIEWS_MOBILE = 12;
+
+  const displayedReviews =
+    typeof window !== "undefined" && window.innerWidth < 768
+      ? allReviews.slice(0, MAX_REVIEWS_MOBILE)
+      : allReviews.slice(0, MAX_REVIEWS_DESKTOP);
 
   const mainHeading =
     (customerReviews?.mainHeading &&
@@ -667,6 +678,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   // - Online-class/exam/proctored pages: 3 (single row of 3 cards per slide)
   const chunkSize =
     isOnlineClassPage ||
+    isAssignmentPage ||
     isTakeMyClass2Page ||
     isExamRelatedPage ||
     isTakeMyProctoredExamPage ||
@@ -686,11 +698,13 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    lazyLoad: "ondemand" as const,
+    adaptiveHeight: false,
     dots: !isSingleRowSlider,
     arrows: false,
     autoplay: true,
     autoplaySpeed: 7000,
-    cssEase: "linear",
+    cssEase: "ease-out",
     pauseOnHover: true,
     afterChange: (current: number) => {
       const safeLength = groupedReviews.length || 1;
@@ -784,7 +798,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
                               alt="Rating"
                               width={150}
                               height={40}
-                              fetchPriority="high"
+                              // fetchPriority="high"
                               className="object-contain w-[150px] h-[40px]"
                             />
                             <Image src={Verifiend} alt="Review" />
@@ -815,10 +829,14 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
                     type="button"
                     aria-label={`Go to slide ${index + 1}`}
                     onClick={() => goToSlide(index)}
-                    className={`h-2 w-2 rounded-full transition-colors duration-200 ${
-                      index === activeSlide ? "bg-[#73737c]" : "bg-[#b9b9c6]"
-                    }`}
-                  />
+                    className="h-10 w-10 inline-flex items-center justify-center"
+                  >
+                    <span
+                      className={`h-2 w-2 rounded-full transition-colors duration-200 ${
+                        index === activeSlide ? "bg-[#73737c]" : "bg-[#b9b9c6]"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
               <ChevronRight
