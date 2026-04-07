@@ -49,13 +49,15 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({
     currentPathname === "/" ||
     currentPathname === "/online-class" ||
     currentPathname === "/assignment" ||
+    currentPathname === "/homework" ||
     currentPathname === "/exams/" ||
     currentPathname === "/exam/" ||
     currentPathname === "/take-my-proctored-exam-for-me/" ||
     currentPathname.startsWith("/exams/") ||
     currentPathname.startsWith("/exam/") ||
     currentPathname.startsWith("/online-class/") ||
-    currentPathname.startsWith("/assignment/");
+    currentPathname.startsWith("/assignment/") ||
+    currentPathname.startsWith("/homework/");
   // Use props content if available, otherwise fallback to pageData
   const content = propsContent || pageData?.academicPartners;
 

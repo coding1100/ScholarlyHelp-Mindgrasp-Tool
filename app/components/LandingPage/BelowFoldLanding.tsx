@@ -106,6 +106,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   // const normalizedPath = (currentPath || "").replace(/\/+$/, "");
   const isOnlineClassPage = currentPath.includes("online-class");
   const isAssignmentPage = currentPath.includes("assignment");
+  const isHomeworkPage = currentPath.includes("homework");
   const isExamPage =
     currentPath.includes("exam") || currentPath.includes("exams");
   const showSuccessTop =
@@ -113,11 +114,13 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     currentPath === "/" ||
     currentPath === "/online-class" ||
     isExamPage ||
+    isHomeworkPage ||
     isAssignmentPage ||
     currentPath.startsWith("/exam/") ||
     currentPath.startsWith("/exams/") ||
     currentPath.startsWith("/online-class/") ||
-    currentPath.startsWith("/assignment/");
+    currentPath.startsWith("/assignment/") ||
+    currentPath.startsWith("/homework/");
 
   useEffect(() => {
     // Defer until after main thread is idle to be extra safe for LCP
@@ -154,6 +157,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       isOnlineClassPage ||
       isAssignmentPage ||
       isExamPage ||
+      isHomeworkPage ||
       currentPath === "/" ? (
         <DeliveredOn />
       ) : (
@@ -166,6 +170,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       {!isOnlineClassPage ||
         !isExamPage ||
         !isAssignmentPage ||
+        !isHomeworkPage ||
         (currentPath === "/" && (
           <>
             <GuaranteedBlock />
@@ -174,21 +179,23 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
         ))}
       <CustomerReviews />
       <ProcessSection />
+      {!showSuccessTop && <Success />}
       {(currentPath === "/" ||
         (currentPath.startsWith("/online-class/") &&
           currentPath !== "/online-class/")) && (
         <SubSubjectsSection defaultSubSubjects={onlineClassSubjects} />
       )}
-      {!showSuccessTop && <Success />}
       {children}
       {(isOnlineClassPage ||
         isExamPage ||
         isAssignmentPage ||
+        isHomeworkPage ||
         currentPath === "/") && <OnlinePlatform />}
       <AcademicPartners />
       {(isOnlineClassPage ||
         isExamPage ||
         isAssignmentPage ||
+        isHomeworkPage ||
         currentPath === "/") && <PriceSection />}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
