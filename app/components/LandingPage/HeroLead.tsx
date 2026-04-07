@@ -74,11 +74,14 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     normalizedPath === "/exam" ||
     normalizedPath.startsWith("/exams/") ||
     normalizedPath.startsWith("/exam/");
+  const isHomePage =
+    normalizedPath === "/homework" || normalizedPath.startsWith("/homework/");
   const shouldHideBadges =
     hiddenRoutes.has(normalizedPath) ||
     isOnlineClassPage ||
     normalizedPath === "/" ||
     isExamsPage ||
+    isHomePage ||
     isAssignmentPage ||
     normalizedPath === "/take-my-class-2" ||
     normalizedPath === "/take-my-proctored-exam-for-me";
@@ -109,6 +112,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     buttonHiddenRoutes.has(normalizedPath) ||
     isOnlineClassRoute ||
     isAssignmentPage ||
+    isHomePage ||
     isExamRoute;
 
   const getStyledMainHeading = (heading: string) => {
