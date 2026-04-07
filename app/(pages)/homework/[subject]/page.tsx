@@ -18,6 +18,11 @@ import clientPromise from "@/app/lib/mongodb";
 import { Metadata } from "next";
 import { HomeworkDataProvider } from "../HomeworkDataProvider";
 import { homeworkSubject } from "../content";
+import DeliveredOn from "../../take-my-class/DeliveredOn";
+import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
+import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
+import PriceSection from "@/app/components/PriceSection/PriceSection";
+import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -28,8 +33,6 @@ interface PageProps {
     subject: string;
   };
 }
-
-
 
 async function fetchPageData(slug: string) {
   try {
@@ -117,18 +120,19 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <HomeworkDataProvider data={defaultPageData}>
         <MainLayout>
           <HeroSection />
-          <Ratings />
+          <DeliveredOn />
+          <Success />
           <CardCarousel />
           <Description />
-          <GuaranteedBlock />
-          <WhySlider />
           <CustomerReviews />
           <ProcessSection />
-          <Success />
           <Subjects defaultSubjects={homeworkSubject} />
+          <SubSubjectsSection defaultSubSubjects={homeworkSubject} />
+          <OnlinePlatform />
           <AcademicPartners />
-          <GetQoute />
+          <PriceSection />
           <Faq />
+          <FinalCTA />
         </MainLayout>
       </HomeworkDataProvider>
     );
@@ -147,18 +151,19 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     <HomeworkDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Ratings />
+        <DeliveredOn />
+        <Success />
         <CardCarousel />
         <Description />
-        <GuaranteedBlock />
-        <WhySlider />
         <CustomerReviews />
         <ProcessSection />
-        <Success />
         <Subjects defaultSubjects={homeworkSubject} />
+        <SubSubjectsSection defaultSubSubjects={homeworkSubject} />
+        <OnlinePlatform />
         <AcademicPartners />
-        <GetQoute />
+        <PriceSection />
         <Faq />
+        <FinalCTA />
       </MainLayout>
     </HomeworkDataProvider>
   );
@@ -204,23 +209,26 @@ export async function generateMetadata({
     // Do not close shared client
 
     if (pageData) {
-      const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-      const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+      const rawBaseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const baseUrl = rawBaseUrl.endsWith("/")
+        ? rawBaseUrl.slice(0, -1)
+        : rawBaseUrl;
 
       const metaTitle =
         pageData.meta?.title ||
-        `${params.subject.charAt(0).toUpperCase() +
-        params.subject.slice(1).replace(/-/g, " ")
+        `${
+          params.subject.charAt(0).toUpperCase() +
+          params.subject.slice(1).replace(/-/g, " ")
         } Homework Help`;
       const metaDescription =
         pageData.meta?.description ||
         `Get expert help with your ${params.subject.replace(
           /-/g,
-          " "
+          " ",
         )} homework.`;
       const canonicalUrl =
-        pageData.meta?.canonicalUrl ||
-        `${baseUrl}/homework/${params.subject}`;
+        pageData.meta?.canonicalUrl || `${baseUrl}/homework/${params.subject}`;
 
       return {
         title: metaTitle,
@@ -237,8 +245,11 @@ export async function generateMetadata({
     params.subject.charAt(0).toUpperCase() +
     params.subject.slice(1).replace(/-/g, " ");
 
-  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-  const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+  const rawBaseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const baseUrl = rawBaseUrl.endsWith("/")
+    ? rawBaseUrl.slice(0, -1)
+    : rawBaseUrl;
 
   const canonicalUrl = `${baseUrl}/homework/${params.subject}`;
 
@@ -246,7 +257,7 @@ export async function generateMetadata({
     title: `${subjectTitle} Homework Help - Professional Assistance`,
     description: `Get expert help with your ${params.subject.replace(
       /-/g,
-      " "
+      " ",
     )} homework.`,
     alternates: { canonical: canonicalUrl },
   };
