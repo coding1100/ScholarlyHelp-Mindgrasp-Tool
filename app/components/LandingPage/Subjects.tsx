@@ -31,6 +31,10 @@ export default function SubjectsSection({
   const isAssignmentSubpage =
     currentPage.startsWith("/assignment/") &&
     currentPage.length > "/assignment/".length;
+  const isHomeworkSubpage =
+    currentPage.startsWith("/homework/") &&
+    currentPage.length > "/homework/".length;
+
   const isExamSubPages =
     (currentPage.startsWith("/exams/") &&
       currentPage.length > "/exams/".length) ||
@@ -39,6 +43,7 @@ export default function SubjectsSection({
   const showDetailedSubjectCards =
     isOnlineClassSubpage ||
     isAssignmentSubpage ||
+    isHomeworkSubpage ||
     isExamSubPages ||
     isTakeMyClass2Page;
 
