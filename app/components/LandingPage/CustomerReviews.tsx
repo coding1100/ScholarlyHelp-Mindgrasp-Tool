@@ -579,6 +579,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
   const customerReviews = data?.customerReviews;
   const pathname = usePathname();
   const isOnlineClassPage = pathname.includes("online-class");
+  const isHomeworkPage = pathname.includes("homework");
   const isAssignmentPage = pathname.includes("assignment");
   const normalizedPath = (pathname || "").replace(/\/+$/, "");
   const isTakeMyClass2Page = normalizedPath === "/take-my-class-2";
@@ -682,6 +683,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     isTakeMyClass2Page ||
     isExamRelatedPage ||
     isTakeMyProctoredExamPage ||
+    isHomeworkPage ||
     normalizedPath === "/"
       ? 3
       : 6;
