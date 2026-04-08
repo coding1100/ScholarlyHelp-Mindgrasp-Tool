@@ -215,7 +215,7 @@ export default function TutorFlow() {
         <Step2 onContinue={handleStep2Continue} isLoading={isLoading} />
       )}
       {currentStep === 3 && (
-        <Step3
+        <Step3 
           subject={subject}
           onContinue={handleStep3Continue}
           isLoading={isLoading}

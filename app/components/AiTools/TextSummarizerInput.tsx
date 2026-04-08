@@ -49,7 +49,7 @@ const TextSummarizerInput: React.FC<TextSummarizerInputProps> = ({
       onTextChange(newText);
     } catch (err) {
       alert(
-        "Failed to paste text. Please use Ctrl+V or ⌘+V to paste text manually."
+        "Failed to paste text. Please use Ctrl+V or ⌘+V to paste text manually.",
       );
       console.error("Clipboard error:", err);
     }
@@ -96,7 +96,7 @@ const TextSummarizerInput: React.FC<TextSummarizerInputProps> = ({
           <div className="w-full absolute top-[110px] left-1/2 transform -translate-x-1/2 flex space-x-3 justify-center">
             <button
               onClick={handlePasteText}
-              className="flex items-center space-x-2 px-2 md:px-4 py-2 text-gray-800 dark:text-gray-100 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300"
+              className="flex items-center space-x-2 px-2 md:px-4 py-2 text-gray-800 dark:text-gray-100 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-[#2b7fff] focus:ring-opacity-50 transition-colors duration-300"
             >
               <FaRegFileAlt />
               <span>Paste Text</span>
@@ -111,7 +111,7 @@ const TextSummarizerInput: React.FC<TextSummarizerInputProps> = ({
             />
             <button
               onClick={handleUploadButtonClick}
-              className="flex items-center space-x-2 px-2 md:px-4 py-2 text-gray-800 dark:text-gray-100 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300"
+              className="flex items-center space-x-2 px-2 md:px-4 py-2 text-gray-800 dark:text-gray-100 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-[#2b7fff] focus:ring-opacity-50 transition-colors duration-300"
             >
               <FaFileUpload />
               <span>Upload Document</span>
@@ -123,7 +123,7 @@ const TextSummarizerInput: React.FC<TextSummarizerInputProps> = ({
         <div
           className={`absolute bottom-2 right-4 text-sm ${
             wordCount > 200
-              ? "text-red-500 dark:text-red-400 font-semibold"
+              ? "text-[#fb2c36] dark:text-red-400 font-semibold"
               : "text-gray-500 dark:text-gray-400"
           } transition-colors duration-300`}
         >

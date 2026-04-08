@@ -21,7 +21,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       <button
         onClick={onClear}
         disabled={isSubmitting || isDisabled}
-        className={`p-3 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300 ${
+        className={`p-3 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] focus:ring-opacity-50 transition-colors duration-300 ${
           isSubmitting || isDisabled
             ? "bg-white dark:bg-gray-800 cursor-not-allowed"
             : "bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -32,7 +32,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       <button
         onClick={onSubmit}
         disabled={isSubmitting || isDisabled}
-        className={`p-3 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300 ${
+        className={`p-3 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] focus:ring-opacity-50 transition-colors duration-300 ${
           isSubmitting || isDisabled
             ? "bg-primary-400 cursor-not-allowed"
             : "bg-primary-400 hover:bg-primary-300"

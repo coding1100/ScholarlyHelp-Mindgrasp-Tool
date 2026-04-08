@@ -139,7 +139,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       console.log("Response:", response.data);
@@ -198,7 +198,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                   htmlFor="citation_style"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
                 >
-                  Citation Style: <span className="text-red-500">*</span>
+                  Citation Style: <span className="text-[#fb2c36]">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -206,10 +206,10 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                     value={citationStyle}
                     onChange={(e) =>
                       setCitationStyle(
-                        e.target.value as "APA" | "MLA" | "Chicago" | "Harvard"
+                        e.target.value as "APA" | "MLA" | "Chicago" | "Harvard",
                       )
                     }
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     <option value="APA">APA</option>
                     <option value="MLA">MLA</option>
@@ -228,7 +228,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                   htmlFor="source_type"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
                 >
-                  Source Type: <span className="text-red-500">*</span>
+                  Source Type: <span className="text-[#fb2c36]">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -240,10 +240,10 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                           | "book"
                           | "website"
                           | "journal"
-                          | "article"
+                          | "article",
                       )
                     }
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     <option value="book">Book</option>
                     <option value="website">Website</option>
@@ -273,7 +273,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
                   placeholder="e.g., Smith, J. A., & Johnson, M. B."
-                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                 />
               </div>
 
@@ -283,7 +283,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                   htmlFor="title"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors duration-300"
                 >
-                  Title: <span className="text-red-500">*</span>
+                  Title: <span className="text-[#fb2c36]">*</span>
                 </label>
                 <input
                   id="title"
@@ -291,7 +291,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Enter title"
-                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                 />
               </div>
             </div>
@@ -318,7 +318,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                       value={publisher}
                       onChange={(e) => setPublisher(e.target.value)}
                       placeholder="e.g., Academic Press"
-                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     />
                   </div>
                   <div>
@@ -334,7 +334,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       placeholder="e.g., New York"
-                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     />
                   </div>
                 </div>
@@ -351,7 +351,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                     value={pages}
                     onChange={(e) => setPages(e.target.value)}
                     placeholder="e.g., 45-67"
-                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                   />
                 </div>
               </>
@@ -372,7 +372,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                     value={journalName}
                     onChange={(e) => setJournalName(e.target.value)}
                     placeholder="e.g., Journal of Digital Psychology"
-                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -389,7 +389,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                       value={volume}
                       onChange={(e) => setVolume(e.target.value)}
                       placeholder="e.g., 15"
-                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     />
                   </div>
                   <div>
@@ -405,7 +405,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                       value={issue}
                       onChange={(e) => setIssue(e.target.value)}
                       placeholder="e.g., 3"
-                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     />
                   </div>
                   <div>
@@ -421,7 +421,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                       value={pages}
                       onChange={(e) => setPages(e.target.value)}
                       placeholder="e.g., 123-145"
-                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     />
                   </div>
                 </div>
@@ -438,7 +438,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                     value={doi}
                     onChange={(e) => setDoi(e.target.value)}
                     placeholder="e.g., 10.1234/jdp.2023.15.3.123"
-                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                   />
                 </div>
               </>
@@ -459,7 +459,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                     value={websiteName}
                     onChange={(e) => setWebsiteName(e.target.value)}
                     placeholder="e.g., NIH Health Information"
-                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -476,7 +476,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
                       placeholder="https://example.com"
-                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     />
                   </div>
                   <div>
@@ -491,7 +491,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                       type="date"
                       value={accessDate}
                       onChange={(e) => setAccessDate(e.target.value)}
-                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                      className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     />
                   </div>
                 </div>
@@ -513,7 +513,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                     value={publicationName}
                     onChange={(e) => setPublicationName(e.target.value)}
                     placeholder="e.g., Environmental Science Today"
-                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                   />
                 </div>
                 <div>
@@ -529,7 +529,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://example.com/article"
-                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                   />
                 </div>
               </>
@@ -551,7 +551,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                 placeholder="e.g., 2023"
                 min="1000"
                 max="9999"
-                className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
               />
             </div>
 
@@ -562,7 +562,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                 type="checkbox"
                 checked={includeInText}
                 onChange={(e) => setIncludeInText(e.target.checked)}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-[#155dfc] border-gray-300 rounded focus:ring-[#2b7fff] dark:focus:ring-[#155dfc] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label
                 htmlFor="include_in_text"
@@ -586,10 +586,10 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
               <button
                 onClick={handleGenerate}
                 disabled={isSubmitting || (!title.trim() && !author.trim())}
-                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 ${
+                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 ${
                   isSubmitting || (!title.trim() && !author.trim())
-                    ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    ? "bg-[#565add] dark:bg-[#565add] cursor-not-allowed"
+                    : "bg-[#565add] hover:bg-[#656aff] dark:bg-[#565add] dark:hover:bg-[#565add]"
                 }`}
               >
                 {isSubmitting ? "Generating..." : "Generate Citation"}
@@ -598,7 +598,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
               <button
                 onClick={handleClear}
                 disabled={isSubmitting}
-                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Clear
               </button>
@@ -618,7 +618,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                 </h3>
                 <button
                   onClick={() => handleCopy(result.full_citation)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                  className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                   title="Copy citation"
                 >
                   <FaRegCopy />
@@ -641,7 +641,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
                   </h3>
                   <button
                     onClick={() => handleCopy(result.in_text_citation!)}
-                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     title="Copy in-text citation"
                   >
                     <FaRegCopy />
@@ -661,7 +661,7 @@ const CitationTool: FC<CitationToolProps> = ({ setFlag }) => {
         {/* Loading State */}
         {isSubmitting && !result && (
           <div className="p-6 text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#155dfc] dark:border-[#51a2ff]"></div>
             <p className="mt-2 text-gray-600 dark:text-gray-400">
               Generating citation...
             </p>

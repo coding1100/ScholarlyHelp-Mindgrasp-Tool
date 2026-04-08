@@ -15,7 +15,7 @@ const ChangePassword = () => {
   const token =
     typeof window !== "undefined"
       ? new URLSearchParams(window.location.hash.substring(1)).get(
-          "access_token"
+          "access_token",
         )
       : null;
   const router = useRouter();
@@ -62,7 +62,7 @@ const ChangePassword = () => {
     }
     if (!validatePassword(newPassword)) {
       setError(
-        "Password must be at least 8 characters, include uppercase, lowercase, and numbers only."
+        "Password must be at least 8 characters, include uppercase, lowercase, and numbers only.",
       );
       return;
     }
@@ -80,7 +80,7 @@ const ChangePassword = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       toast.success(res?.data?.message || "Password changed successfully.");
 
@@ -146,7 +146,7 @@ const ChangePassword = () => {
                       getPasswordValidationMsg(newPassword) ===
                       "Password looks good!"
                         ? "text-green-600"
-                        : "text-red-500"
+                        : "text-[#fb2c36]"
                     }`}
                   >
                     {getPasswordValidationMsg(newPassword)}
@@ -185,13 +185,13 @@ const ChangePassword = () => {
                     className={`text-xs mt-1 ${
                       getConfirmValidationMsg() === "Passwords match!"
                         ? "text-green-600"
-                        : "text-red-500"
+                        : "text-[#fb2c36]"
                     }`}
                   >
                     {getConfirmValidationMsg()}
                   </div>
                 </div>
-                {error && <div className="text-red-500 text-sm">{error}</div>}
+                {error && <div className="text-[#fb2c36] text-sm">{error}</div>}
                 {success && (
                   <div className="text-green-600 text-sm">{success}</div>
                 )}

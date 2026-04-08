@@ -185,7 +185,7 @@ const ExitPopUp: FC<ExitPopUpProps> = ({ open, handleClose }) => {
               </button> */}
             </div>
 
-            {emailErr && <div className="text-red-500">{emailErr}</div>}
+            {emailErr && <div className="text-[#fb2c36]">{emailErr}</div>}
           </div>
 
           <Button

@@ -198,7 +198,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="Enter your essay topic here..."
-                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
               />
             </div>
 
@@ -215,7 +215,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
                 placeholder="Enter keywords separated by commas (e.g., renewable energy, sustainability, solar power)..."
-                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
               />
             </div>
 
@@ -248,7 +248,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                     id="tone"
                     value={tone}
                     onChange={(e) => setTone(e.target.value)}
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     <option value="">Select tone...</option>
                     {toneOptions.map((option) => (
@@ -276,7 +276,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                     id="styleEngagement"
                     value={styleEngagement}
                     onChange={(e) => setStyleEngagement(e.target.value)}
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     <option value="">Select style...</option>
                     {styleEngagementOptions.map((option) => (
@@ -304,7 +304,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                     id="academicLevel"
                     value={academicLevel}
                     onChange={(e) => setAcademicLevel(e.target.value)}
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     <option value="">Select level...</option>
                     {academicLevelOptions.map((option) => (
@@ -332,7 +332,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                     id="count"
                     value={count}
                     onChange={(e) => setCount(Number.parseInt(e.target.value))}
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
                       <option key={num} value={num}>
@@ -352,10 +352,10 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
               <button
                 onClick={handleGenerate}
                 disabled={isSubmitting || !topic.trim()}
-                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 ${
+                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 ${
                   isSubmitting || !topic.trim()
-                    ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    ? "bg-[#565add] dark:bg-[#565add] cursor-not-allowed"
+                    : "bg-[#565add] hover:bg-[#666adf] dark:bg-[#565add] dark:hover:[#565add]"
                 }`}
               >
                 {isSubmitting ? "Generating..." : "Generate Titles"}
@@ -365,7 +365,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                 <button
                   onClick={handleRegenerate}
                   disabled={isSubmitting}
-                  className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FaSyncAlt />
                   Regenerate
@@ -375,7 +375,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
               <button
                 onClick={handleClear}
                 disabled={isSubmitting}
-                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Clear
               </button>
@@ -402,7 +402,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
                   </p>
                   <button
                     onClick={() => handleCopyTitle(title)}
-                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     title="Copy title"
                   >
                     <FaRegCopy />
@@ -417,7 +417,7 @@ const EssayTitle: FC<EssayTitleProps> = ({ setFlag }) => {
         {/* Loading State */}
         {isSubmitting && titles.length === 0 && (
           <div className="p-6 text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#155dfc] dark:border-[#51a2ff]"></div>
             <p className="mt-2 text-gray-600 dark:text-gray-400">
               Generating titles...
             </p>

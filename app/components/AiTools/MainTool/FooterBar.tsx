@@ -251,7 +251,7 @@ const FooterBar = () => {
     <div className="flex justify-between items-center px-2 py-1 border-t border-gray-300 bg-white w-full mt-8 text-black">
       {/* Center buttons */}
       <div className="flex items-center gap-2 mx-auto">
-        {/* <button className="text-gray-700 text-lg hover:text-blue-600">
+        {/* <button className="text-gray-700 text-lg hover:text-[#155dfc]">
           <PiTextAaBold />
         </button> */}
 
@@ -378,7 +378,7 @@ const FooterBar = () => {
                       key={index}
                       className={`w-4 h-4 border border-gray-300 cursor-pointer transition-all duration-150 ${
                         isHovered
-                          ? "bg-blue-500 border-blue-600 shadow-sm"
+                          ? "bg-[#2b7fff] border-[#155dfc] shadow-sm"
                           : "bg-gray-100 hover:bg-gray-300"
                       }`}
                       onMouseEnter={() => setHoveredCell({ row, col })}

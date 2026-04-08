@@ -53,7 +53,7 @@ export default function Step2({ onContinue, isLoading = false }: Step2Props) {
                   onChange={(e) => setSubject(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="e.g., Mathematics, Science, English, History, Geography..."
-                  className="w-full px-4 py-3 rounded-lg bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
+                  className="w-full px-4 py-3 rounded-lg bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2b7fff]/50 focus:border-[#2b7fff]/50 transition-all text-sm"
                 />
               </div>
 
@@ -61,7 +61,7 @@ export default function Step2({ onContinue, isLoading = false }: Step2Props) {
               <button
                 onClick={handleContinue}
                 disabled={!subject.trim() || isLoading}
-                className="sm:mt-0 mt-2 sm:w-fit w-full py-3.5 px-4 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                className="sm:mt-0 mt-2 sm:w-fit w-full py-3.5 px-4 rounded-lg bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">

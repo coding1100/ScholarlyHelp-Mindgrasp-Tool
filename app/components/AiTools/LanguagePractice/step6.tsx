@@ -22,7 +22,7 @@ function MessageBubble({
         className={[
           "max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow-sm",
           role === "user"
-            ? "bg-blue-600 text-white"
+            ? "bg-[#155dfc] text-white"
             : "bg-gray-100 text-gray-800",
         ].join(" ")}
       >
@@ -30,11 +30,23 @@ function MessageBubble({
           <div className="prose prose-sm max-w-none">
             <ReactMarkdown
               components={{
-                p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                ul: ({ children }) => <ul className="mb-2 list-disc pl-5 last:mb-0">{children}</ul>,
-                ol: ({ children }) => <ol className="mb-2 list-decimal pl-5 last:mb-0">{children}</ol>,
+                p: ({ children }) => (
+                  <p className="mb-2 last:mb-0">{children}</p>
+                ),
+                ul: ({ children }) => (
+                  <ul className="mb-2 list-disc pl-5 last:mb-0">{children}</ul>
+                ),
+                ol: ({ children }) => (
+                  <ol className="mb-2 list-decimal pl-5 last:mb-0">
+                    {children}
+                  </ol>
+                ),
                 li: ({ children }) => <li className="mb-1">{children}</li>,
-                strong: ({ children }) => <strong className="font-semibold text-gray-900">{children}</strong>,
+                strong: ({ children }) => (
+                  <strong className="font-semibold text-gray-900">
+                    {children}
+                  </strong>
+                ),
                 em: ({ children }) => <em className="italic">{children}</em>,
                 code: ({ children, className }) => {
                   const isInline = !className;
@@ -130,7 +142,9 @@ export default function Step6() {
   return (
     <div className="space-y-6">
       <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 shadow-sm">
-        <div className="text-sm font-semibold">Real-world conversation practice</div>
+        <div className="text-sm font-semibold">
+          Real-world conversation practice
+        </div>
         <div className="mt-1 text-sm text-gray-600">
           Chat naturally — I'll adapt and help you improve as we go.
         </div>
@@ -202,7 +216,7 @@ export default function Step6() {
             }}
             disabled={isAiBusy || turns.length === 0}
             placeholder="Type your message…"
-            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 disabled:bg-gray-50"
+            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#155dfc] focus:ring-2 focus:ring-blue-100 disabled:bg-gray-50"
           />
           <button
             type="button"
@@ -212,7 +226,7 @@ export default function Step6() {
               "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition",
               isAiBusy || !input.trim() || turns.length === 0
                 ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-blue-600 text-white hover:bg-blue-700",
+                : "bg-[#155dfc] text-white hover:bg-[#1447e6]",
             ].join(" ")}
           >
             {isAiBusy ? (
@@ -256,7 +270,7 @@ export default function Step6() {
         <button
           type="button"
           onClick={() => setStep(7)}
-          className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+          className="rounded-xl bg-[#155dfc] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#1447e6]"
         >
           Continue to pronunciation
         </button>

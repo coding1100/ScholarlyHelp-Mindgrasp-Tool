@@ -145,7 +145,7 @@ const DetailsAndMsgForm: FC<DetailsAndMsgFormProps> = ({}) => {
                   )}
                 </button>
               </form>
-              {phoneErr && <div className="text-red-500">{phoneErr}</div>}
+              {phoneErr && <div className="text-[#fb2c36]">{phoneErr}</div>}
             </div>
           </div>
         </div>

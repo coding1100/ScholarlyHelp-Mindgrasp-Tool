@@ -186,7 +186,7 @@ const Step4: FC<Step4Props> = ({ apiPayload }) => {
             <button
               className={twMerge(
                 `${submitBtnClass} bg-[#fd7636] hidden md:block`,
-                withPhoneLoading && "bg-gray-400"
+                withPhoneLoading && "bg-gray-400",
               )}
               onClick={submitWithPhone}
             >
@@ -207,7 +207,7 @@ const Step4: FC<Step4Props> = ({ apiPayload }) => {
           <button
             className={twMerge(
               `${submitBtnClass} bg-[#fd7636] block md:hidden mt-2`,
-              withPhoneLoading && "bg-gray-400"
+              withPhoneLoading && "bg-gray-400",
             )}
             onClick={submitWithPhone}
           >
@@ -224,7 +224,9 @@ const Step4: FC<Step4Props> = ({ apiPayload }) => {
               "Text Me Free Quote"
             )}
           </button>
-          {phoneErr && <div className="text-red-500">Invalid phone number</div>}
+          {phoneErr && (
+            <div className="text-[#fb2c36]">Invalid phone number</div>
+          )}
         </div>
         {/* <div className="my-8 bg-[#c9c9c9] h-[3px] rounded flex items-center justify-center max-w-[300px] mx-auto">
           <span className="min-w-[100px] bg-white text-center">OR</span>
@@ -287,7 +289,7 @@ const Step4: FC<Step4Props> = ({ apiPayload }) => {
               "Email Me Free Quote"
             )}
           </button>
-          {emailErr && <div className="text-red-500">Invalid Email</div>}
+          {emailErr && <div className="text-[#fb2c36]">Invalid Email</div>}
         </div> */}
       </div>
 

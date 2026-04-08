@@ -81,7 +81,7 @@ const AIParaphraser: FC<AIParaphraserProp> = ({ setFlag }) => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       console.log("response: ", response.data);
 
@@ -111,7 +111,7 @@ const AIParaphraser: FC<AIParaphraserProp> = ({ setFlag }) => {
               "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
 
         const result = response.data;
@@ -119,7 +119,7 @@ const AIParaphraser: FC<AIParaphraserProp> = ({ setFlag }) => {
         setInputText(result);
       } catch (err: any) {
         setResultText(
-          err?.response?.data?.message || "Failed to extract text from PDF."
+          err?.response?.data?.message || "Failed to extract text from PDF.",
         );
       } finally {
         setSubmitting(false);
@@ -164,7 +164,7 @@ const AIParaphraser: FC<AIParaphraserProp> = ({ setFlag }) => {
                   id="style"
                   value={style}
                   onChange={(e) => setStyle(e.target.value)}
-                  className="p-1 pr-7 border w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                  className="p-1 pr-7 border w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                 >
                   <option>Standard</option>
                   <option>Creative</option>

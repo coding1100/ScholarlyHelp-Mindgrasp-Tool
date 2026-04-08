@@ -58,14 +58,14 @@ const SummarizerTool: React.FC = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       const result = response.data;
       setCurrentInputText(result);
     } catch (error: any) {
       setSummarizedResult(
-        error?.data?.message || "Failed to extract text from PDF."
+        error?.data?.message || "Failed to extract text from PDF.",
       );
     } finally {
       setIsLoading(false);
@@ -95,7 +95,7 @@ const SummarizerTool: React.FC = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       const result = response;
@@ -104,7 +104,7 @@ const SummarizerTool: React.FC = () => {
     } catch (error: any) {
       console.error("Summarization failed:", error);
       setSummarizedResult(
-        error?.response?.data?.message || "Failed to summarize the text."
+        error?.response?.data?.message || "Failed to summarize the text.",
       );
     } finally {
       setIsLoading(false);
@@ -123,8 +123,8 @@ const SummarizerTool: React.FC = () => {
       </h1> */}
       {isLoading && (
         <div className="flex justify-center items-center py-4">
-          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <span className="ml-3 text-blue-600 dark:text-blue-400 font-medium">
+          <div className="w-8 h-8 border-4 border-[#2b7fff] border-t-transparent rounded-full animate-spin"></div>
+          <span className="ml-3 text-[#155dfc] dark:text-[#51a2ff] font-medium">
             Processing...
           </span>
         </div>
@@ -159,7 +159,7 @@ const SummarizerTool: React.FC = () => {
                   value={summaryStyle}
                   onChange={(e) =>
                     setSummaryStyle(
-                      e.target.value as "Paragraph" | "Bullet Points"
+                      e.target.value as "Paragraph" | "Bullet Points",
                     )
                   }
                   className="w-full rounded-md border border-gray-200 text-black dark:border-gray-600 p-1 pr-7 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-black dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 appearance-none"
@@ -220,8 +220,8 @@ const SummarizerTool: React.FC = () => {
               isLoading
                 ? "Generating summary..."
                 : typeof summarizedResult === "string"
-                ? summarizedResult
-                : ""
+                  ? summarizedResult
+                  : ""
             }
           />
         </div>

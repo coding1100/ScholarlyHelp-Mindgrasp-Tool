@@ -12,7 +12,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onChange }) => {
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    idx: number
+    idx: number,
   ) => {
     const val = e.target.value.replace(/\D/g, ""); // Only numbers
     if (val.length > 1) return;
@@ -25,7 +25,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onChange }) => {
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    idx: number
+    idx: number,
   ) => {
     if (e.key === "Backspace" && !inputRefs.current[idx]?.value && idx > 0) {
       inputRefs.current[idx - 1]?.focus();
@@ -40,7 +40,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ length = 6, onChange }) => {
           type="text"
           inputMode="numeric"
           maxLength={1}
-          className="w-12 h-16 border-2 border-gray-300 rounded-lg text-center text-2xl focus:outline-none focus:border-blue-500 transition-all"
+          className="w-12 h-16 border-2 border-gray-300 rounded-lg text-center text-2xl focus:outline-none focus:border-[#2b7fff] transition-all"
           ref={(el) => {
             inputRefs.current[idx] = el;
           }}

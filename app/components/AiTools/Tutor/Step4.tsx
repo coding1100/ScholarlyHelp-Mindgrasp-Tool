@@ -77,7 +77,7 @@ export default function Step4({
                       key={topic.id}
                       onClick={() => handleTopicSelect(topic.id)}
                       className={`p-4 rounded-xl bg-white/40 backdrop-blur-md border-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${selectedTopicId === topic.id
-                        ? "border-blue-500 shadow-lg shadow-blue-500/30"
+                        ? "border-[#2b7fff] shadow-lg shadow-[#2b7fff]/30"
                         : "border-gray-300/50 hover:border-gray-400/50"
                         }`}
                     >
@@ -126,7 +126,7 @@ export default function Step4({
                       }
                     }}
                     placeholder={`e.g., ${subject} topic...`}
-                    className="w-full px-4 py-3 rounded-lg bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
+                    className="w-full px-4 py-3 rounded-lg bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2b7fff]/50 focus:border-[#2b7fff]/50 transition-all text-sm"
                   />
                 </div>
 
@@ -134,7 +134,7 @@ export default function Step4({
                 <button
                   onClick={handleStartLearning}
                   disabled={!isButtonEnabled}
-                  className="sm:mt-0 mt-2 sm:w-fit w-full py-3.5 px-4 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                  className="sm:mt-0 mt-2 sm:w-fit w-full py-3.5 px-4 rounded-lg bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
                 >
                   Start Learning
                 </button>

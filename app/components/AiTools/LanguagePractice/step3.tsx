@@ -7,8 +7,16 @@ import {
 } from "@/app/context/LanguagePracticeContext";
 
 const ALL_GOALS: { key: Goal; title: string; desc: string }[] = [
-  { key: "Travel", title: "Travel", desc: "Order food, ask directions, small talk" },
-  { key: "Work", title: "Work", desc: "Emails, meetings, professional phrasing" },
+  {
+    key: "Travel",
+    title: "Travel",
+    desc: "Order food, ask directions, small talk",
+  },
+  {
+    key: "Work",
+    title: "Work",
+    desc: "Emails, meetings, professional phrasing",
+  },
   { key: "Exams", title: "Exams", desc: "Grammar accuracy + test-like tasks" },
   {
     key: "Casual conversation",
@@ -35,7 +43,7 @@ function Chip({
       className={[
         "w-full rounded-2xl border p-4 text-left shadow-sm transition",
         active
-          ? "border-blue-600 bg-blue-50"
+          ? "border-[#155dfc] bg-blue-50"
           : "border-gray-200 bg-white hover:bg-gray-50",
       ].join(" ")}
     >
@@ -48,7 +56,7 @@ function Chip({
           className={[
             "mt-0.5 min-h-6 min-w-6 h-6 w-6 rounded-xl border grid place-items-center text-xs font-bold",
             active
-              ? "border-blue-600 bg-blue-600 text-white"
+              ? "border-[#155dfc] bg-[#155dfc] text-white"
               : "border-gray-300 bg-white text-gray-600",
           ].join(" ")}
           aria-hidden="true"
@@ -61,14 +69,8 @@ function Chip({
 }
 
 export default function Step3() {
-  const {
-    language,
-    level,
-    goals,
-    setGoals,
-    setStep,
-    setOnboardingComplete,
-  } = useLanguagePractice();
+  const { language, level, goals, setGoals, setStep, setOnboardingComplete } =
+    useLanguagePractice();
 
   const toggle = (g: Goal) => {
     if (goals.includes(g)) setGoals(goals.filter((x) => x !== g));
@@ -85,8 +87,10 @@ export default function Step3() {
   }, [language, level, goals.length, setOnboardingComplete]);
 
   const helper = useMemo(() => {
-    if (!language) return "Pick a language first — then we'll tailor your goals.";
-    if (!level) return "Do a quick assessment, then choose goals to personalize practice.";
+    if (!language)
+      return "Pick a language first — then we'll tailor your goals.";
+    if (!level)
+      return "Do a quick assessment, then choose goals to personalize practice.";
     return "Choose 1–3 goals. You can change these anytime.";
   }, [language, level]);
 
@@ -150,7 +154,7 @@ export default function Step3() {
           className={[
             "rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition",
             canContinue
-              ? "bg-blue-600 text-white hover:bg-blue-700"
+              ? "bg-[#155dfc] text-white hover:bg-[#1447e6]"
               : "bg-gray-200 text-gray-500 cursor-not-allowed",
           ].join(" ")}
         >
