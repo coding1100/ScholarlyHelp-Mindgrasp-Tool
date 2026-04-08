@@ -57,7 +57,7 @@ export default function Step6({
 
               {/* Loading Spinner */}
               <div className="flex justify-center">
-                <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                <div className="w-16 h-16 border-4 border-gray-300 border-t-[#2b7fff] rounded-full animate-spin"></div>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function Step6({
             {/* Start Quiz Button */}
             <button
               onClick={handleStartQuiz}
-              className="w-full py-3 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+              className="w-full py-3 rounded-lg bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
             >
               Start Quiz
             </button>

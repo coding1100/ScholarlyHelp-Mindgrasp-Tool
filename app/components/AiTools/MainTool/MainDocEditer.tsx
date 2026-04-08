@@ -129,8 +129,8 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
       const hasContent = json.content?.some((node) =>
         node.content?.some(
           (inner: any) =>
-            typeof inner.text === "string" && inner.text.trim() !== ""
-        )
+            typeof inner.text === "string" && inner.text.trim() !== "",
+        ),
       );
 
       if (!title.trim() && !hasContent) {
@@ -241,7 +241,7 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
           >
             {/* <SiMicrosoftword size={16} /> */}
             <span>Import from docx file</span>
-            <span className="text-blue-500 text-xs bg-blue-100 rounded px-1 ml-1">
+            <span className="text-[#2b7fff] text-xs bg-blue-100 rounded px-1 ml-1">
               BETA
             </span>
             <input
@@ -281,7 +281,7 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
                     const selText = editor.state.doc.textBetween(
                       from,
                       to,
-                      "\n"
+                      "\n",
                     );
                     if (!selText) return;
                     const toListItems = (text: string) =>

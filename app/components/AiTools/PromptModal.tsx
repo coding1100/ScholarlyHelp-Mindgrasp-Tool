@@ -36,7 +36,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
   if (wordCount <= 5) {
     title = "Weak prompt:";
     description = " add more context for higher quality generations";
-    progressBarColor = "bg-red-500";
+    progressBarColor = "bg-[#fb2c36]";
   } else if (wordCount <= 10) {
     title = "Average prompt:";
     description = " consider including important keywords";
@@ -44,7 +44,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
   } else {
     title = "Great prompt:";
     description = " Jenni will reference this when generating text";
-    progressBarColor = "bg-green-500";
+    progressBarColor = "bg-[#00c951]";
   }
 
   const handleRadioChange = (value: string) => {
@@ -112,12 +112,12 @@ const PromptModal: React.FC<PromptModalProps> = ({
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       // Extract the section titles (strings) based on your image structure
       const sectionTitles = response.data.data.outline.map(
-        (item: any) => item.section
+        (item: any) => item.section,
       );
 
       if (!sectionTitles || sectionTitles.length === 0) {
@@ -159,7 +159,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask Jenni research questions..."
-          className="w-full h-28 p-3 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+          className="w-full h-28 p-3 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-[#2b7fff] text-gray-900"
         />
 
         {/* Progress Feedback */}
@@ -186,7 +186,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
               key={type}
               className={`flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-50 ${
                 selectedOutline === type
-                  ? "border-2 border-blue-500"
+                  ? "border-2 border-[#2b7fff]"
                   : "border border-gray-300"
               }`}
             >
@@ -196,7 +196,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
                 value={type}
                 checked={selectedOutline === type}
                 onChange={() => handleRadioChange(type)}
-                className="text-blue-600"
+                className="text-[#155dfc]"
               />
               <div className="flex items-center gap-2">
                 <LiaFileAltSolid className="text-gray-400" size={32} />
@@ -205,8 +205,8 @@ const PromptModal: React.FC<PromptModalProps> = ({
                     {type === "standard"
                       ? "Standard headings"
                       : type === "smart"
-                      ? "Smart headings"
-                      : "No headings"}
+                        ? "Smart headings"
+                        : "No headings"}
                   </p>
                   {/* <p className="text-xs text-gray-500">
                     {type === "standard"
@@ -239,7 +239,7 @@ const PromptModal: React.FC<PromptModalProps> = ({
           disabled
         >
           <svg
-            className="animate-spin h-5 w-5 text-blue-500"
+            className="animate-spin h-5 w-5 text-[#2b7fff]"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

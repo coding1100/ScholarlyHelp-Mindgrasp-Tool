@@ -173,11 +173,11 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
         <div className="p-6 border-b dark:border-gray-700">
           <div className="space-y-4">
             {/* Formula Display */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-4">
-              <p className="text-lg font-semibold text-blue-800 dark:text-blue-300 text-center">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-[#193cb8] rounded-md p-4">
+              <p className="text-lg font-semibold text-[#193cb8] dark:text-blue-300 text-center">
                 Formula: a² + b² = c²
               </p>
-              <p className="text-sm text-blue-600 dark:text-blue-400 text-center mt-1">
+              <p className="text-sm text-[#155dfc] dark:text-[#51a2ff] text-center mt-1">
                 (where c is the hypotenuse)
               </p>
             </div>
@@ -200,7 +200,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
                   value={sideA}
                   onChange={(e) => setSideA(e.target.value)}
                   placeholder="Enter side a"
-                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                 />
               </div>
 
@@ -220,7 +220,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
                   value={sideB}
                   onChange={(e) => setSideB(e.target.value)}
                   placeholder="Enter side b"
-                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                 />
               </div>
 
@@ -240,7 +240,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
                   value={sideC}
                   onChange={(e) => setSideC(e.target.value)}
                   placeholder="Enter side c"
-                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                  className="w-full p-3 rounded-md focus:outline-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                 />
               </div>
             </div>
@@ -268,10 +268,10 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
                   isSubmitting ||
                   (!sideA.trim() && !sideB.trim() && !sideC.trim())
                 }
-                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 ${
+                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 ${
                   isSubmitting ||
                   (!sideA.trim() && !sideB.trim() && !sideC.trim())
-                    ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
+                    ? "bg-[#565add] dark:bg-[#565add] cursor-not-allowed"
                     : "bg-[#155dfc] hover:bg-[#4147fb]"
                 }`}
               >
@@ -281,7 +281,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
               <button
                 onClick={handleClear}
                 disabled={isSubmitting}
-                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Clear
               </button>
@@ -444,7 +444,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
                     key={index}
                     className="flex items-start gap-3 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md"
                   >
-                    <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-semibold">
+                    <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-[#193cb8] dark:text-blue-200 text-sm font-semibold">
                       {index + 1}
                     </span>
                     <p className="flex-1 text-gray-700 dark:text-gray-300 transition-colors duration-300">
@@ -467,7 +467,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
         {/* Loading State */}
         {isSubmitting && !result && (
           <div className="p-6 text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#155dfc] dark:border-[#51a2ff]"></div>
             <p className="mt-2 text-gray-600 dark:text-gray-400">
               Solving triangle...
             </p>

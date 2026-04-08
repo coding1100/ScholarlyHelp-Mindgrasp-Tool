@@ -42,13 +42,13 @@ export default function FloatingChat() {
                     // Error already handled by toast
                   }
                 }}
-                className="text-blue-500 hover:text-blue-600 underline text-sm"
+                className="text-[#2b7fff] hover:text-[#155dfc] underline text-sm"
               >
                 Retry
               </button>
             </div>
           ),
-          { duration: 5000 }
+          { duration: 5000 },
         );
       }
     }
@@ -84,7 +84,9 @@ export default function FloatingChat() {
         <div className="relative z-10 flex flex-col h-full">
           {/* Header - Fixed at top */}
           <div className="flex-shrink-0 flex items-center justify-between gap-2 p-4 border-b border-white/20 bg-white/20 backdrop-blur-md min-w-0">
-            <h2 className="text-xl font-bold text-black truncate">Chat with Tutor</h2>
+            <h2 className="text-xl font-bold text-black truncate">
+              Chat with Tutor
+            </h2>
             <button
               onClick={() => setIsOpen(false)}
               className="w-8 h-8 rounded-full bg-white/40 backdrop-blur-md border border-gray-300/50 flex items-center justify-center hover:bg-white/50 transition-all cursor-pointer"
@@ -106,14 +108,18 @@ export default function FloatingChat() {
                 {messages.map((message) => (
                   <div
                     key={message.id}
-                    className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"
-                      }`}
+                    className={`flex ${
+                      message.sender === "user"
+                        ? "justify-end"
+                        : "justify-start"
+                    }`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-xl p-3 ${message.sender === "tutor"
-                        ? "bg-blue-500/30 backdrop-blur-md border border-blue-400/30"
-                        : "bg-gray-500/30 backdrop-blur-md border border-gray-400/30"
-                        }`}
+                      className={`max-w-[80%] rounded-xl p-3 ${
+                        message.sender === "tutor"
+                          ? "bg-[#2b7fff]/30 backdrop-blur-md border border-[#51a2ff]/30"
+                          : "bg-gray-500/30 backdrop-blur-md border border-gray-400/30"
+                      }`}
                     >
                       <div className="text-black text-sm leading-relaxed prose prose-sm max-w-none">
                         {message.sender === "tutor" ? (
@@ -123,7 +129,9 @@ export default function FloatingChat() {
                                 <p className="mb-2 last:mb-0">{children}</p>
                               ),
                               strong: ({ children }) => (
-                                <strong className="font-bold">{children}</strong>
+                                <strong className="font-bold">
+                                  {children}
+                                </strong>
                               ),
                               em: ({ children }) => (
                                 <em className="italic">{children}</em>
@@ -138,7 +146,9 @@ export default function FloatingChat() {
                                   {children}
                                 </ol>
                               ),
-                              li: ({ children }) => <li className="ml-2">{children}</li>,
+                              li: ({ children }) => (
+                                <li className="ml-2">{children}</li>
+                              ),
                             }}
                           >
                             {message.text}
@@ -147,21 +157,23 @@ export default function FloatingChat() {
                           <p>{message.text}</p>
                         )}
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">{message.timestamp}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {message.timestamp}
+                      </p>
                     </div>
                   </div>
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="bg-blue-500/30 backdrop-blur-md border border-blue-400/30 rounded-xl p-3">
+                    <div className="bg-[#2b7fff]/30 backdrop-blur-md border border-[#51a2ff]/30 rounded-xl p-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-[#2b7fff] rounded-full animate-bounce"></div>
                         <div
-                          className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+                          className="w-2 h-2 bg-[#2b7fff] rounded-full animate-bounce"
                           style={{ animationDelay: "0.1s" }}
                         ></div>
                         <div
-                          className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"
+                          className="w-2 h-2 bg-[#2b7fff] rounded-full animate-bounce"
                           style={{ animationDelay: "0.2s" }}
                         ></div>
                       </div>
@@ -183,12 +195,12 @@ export default function FloatingChat() {
                 onKeyPress={handleKeyPress}
                 disabled={isLoading}
                 placeholder="Type your message..."
-                className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm disabled:opacity-50"
+                className="flex-1 min-w-0 px-4 py-3 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2b7fff]/50 focus:border-[#2b7fff]/50 transition-all text-sm disabled:opacity-50"
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputMessage.trim() || isLoading}
-                className="flex-shrink-0 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                className="flex-shrink-0 px-6 py-3 rounded-xl bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
               >
                 {isLoading ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

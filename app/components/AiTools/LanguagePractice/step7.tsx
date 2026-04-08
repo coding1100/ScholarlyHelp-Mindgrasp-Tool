@@ -79,7 +79,10 @@ function separateInstructionsAndQuestion(text: string): {
           question = transitionMatch[0] + " " + question;
 
           if (instructions.length > 0 && question.length > 0) {
-            return { instructions: instructions.trim(), question: question.trim() };
+            return {
+              instructions: instructions.trim(),
+              question: question.trim(),
+            };
           }
         }
       }
@@ -88,16 +91,25 @@ function separateInstructionsAndQuestion(text: string): {
       if (afterTransition.length > 0) {
         // Look for question marks or question-like patterns
         const hasQuestionMark = afterTransition.includes("?");
-        const hasQuestionWords = /(what|how|which|who|where|when|why|can|would|do|does|is|are|complete|fill|rewrite|choose|select|greet|say|tell|write|translate|type)/i.test(afterTransition);
+        const hasQuestionWords =
+          /(what|how|which|who|where|when|why|can|would|do|does|is|are|complete|fill|rewrite|choose|select|greet|say|tell|write|translate|type)/i.test(
+            afterTransition,
+          );
 
         // Check if the text after transition looks like a question
-        if (hasQuestionMark || (hasQuestionWords && afterTransition.length > 10)) {
+        if (
+          hasQuestionMark ||
+          (hasQuestionWords && afterTransition.length > 10)
+        ) {
           instructions = beforeTransition;
           // Include the transition phrase in the question for context
           question = transitionMatch[0] + " " + afterTransition;
 
           if (instructions.length > 0 && question.length > 0) {
-            return { instructions: instructions.trim(), question: question.trim() };
+            return {
+              instructions: instructions.trim(),
+              question: question.trim(),
+            };
           }
         }
       }
@@ -118,11 +130,20 @@ function separateInstructionsAndQuestion(text: string): {
         /(means|remember|so|you're doing|hmm|oops)/i,
       ];
 
-      const hasFeedback = feedbackPatterns.some(pattern => pattern.test(beforeQuestion));
+      const hasFeedback = feedbackPatterns.some((pattern) =>
+        pattern.test(beforeQuestion),
+      );
 
       // If there's feedback-like content before the question, separate them
-      if (hasFeedback && beforeQuestion.length > 10 && questionText.length > 0) {
-        return { instructions: beforeQuestion.trim(), question: questionText.trim() };
+      if (
+        hasFeedback &&
+        beforeQuestion.length > 10 &&
+        questionText.length > 0
+      ) {
+        return {
+          instructions: beforeQuestion.trim(),
+          question: questionText.trim(),
+        };
       }
     }
   }
@@ -170,15 +191,25 @@ function Panel({
 }
 
 export default function Step7() {
-  const { language, goals, level, setStep, callAi, isAiBusy, history, clearArea } =
-    useLanguagePractice();
+  const {
+    language,
+    goals,
+    level,
+    setStep,
+    callAi,
+    isAiBusy,
+    history,
+    clearArea,
+  } = useLanguagePractice();
   const [input, setInput] = useState("");
 
   const turns = history.pronunciation;
-  const lastAi = [...turns].reverse().find((t) => t.role === "ai")?.content ?? "";
+  const lastAi =
+    [...turns].reverse().find((t) => t.role === "ai")?.content ?? "";
 
   // Check if lesson has started (has AI responses)
-  const hasLessonStarted = turns.length > 0 && turns.some((t) => t.role === "ai");
+  const hasLessonStarted =
+    turns.length > 0 && turns.some((t) => t.role === "ai");
 
   // Check if this is feedback (user has submitted answers before this AI response)
   const isFeedback = useMemo(() => {
@@ -243,7 +274,9 @@ export default function Step7() {
   return (
     <div className="space-y-6">
       <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 shadow-sm">
-        <div className="text-sm font-semibold">Pronunciation practice (text-based)</div>
+        <div className="text-sm font-semibold">
+          Pronunciation practice (text-based)
+        </div>
         <div className="mt-1 text-sm text-gray-600">
           Learn how words sound with phonetic hints and text feedback.
         </div>
@@ -306,20 +339,40 @@ export default function Step7() {
             {isFeedback && instructions && (
               <div className="rounded-xl border-2 border-blue-200 bg-blue-50 p-4">
                 <div className="mb-2 flex items-center gap-2">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs font-bold text-white">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#2b7fff] text-xs font-bold text-white">
                     i
                   </div>
-                  <div className="text-sm font-bold text-blue-700">FEEDBACK</div>
+                  <div className="text-sm font-bold text-[#1447e6]">
+                    FEEDBACK
+                  </div>
                 </div>
                 <div className="prose prose-sm max-w-none text-sm text-gray-700">
                   <ReactMarkdown
                     components={{
-                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                      ul: ({ children }) => <ul className="mb-2 list-disc pl-5 last:mb-0">{children}</ul>,
-                      ol: ({ children }) => <ol className="mb-2 list-decimal pl-5 last:mb-0">{children}</ol>,
-                      li: ({ children }) => <li className="mb-1">{children}</li>,
-                      strong: ({ children }) => <strong className="font-semibold text-gray-900">{children}</strong>,
-                      em: ({ children }) => <em className="italic">{children}</em>,
+                      p: ({ children }) => (
+                        <p className="mb-2 last:mb-0">{children}</p>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="mb-2 list-disc pl-5 last:mb-0">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="mb-2 list-decimal pl-5 last:mb-0">
+                          {children}
+                        </ol>
+                      ),
+                      li: ({ children }) => (
+                        <li className="mb-1">{children}</li>
+                      ),
+                      strong: ({ children }) => (
+                        <strong className="font-semibold text-gray-900">
+                          {children}
+                        </strong>
+                      ),
+                      em: ({ children }) => (
+                        <em className="italic">{children}</em>
+                      ),
                       code: ({ children, className }) => {
                         const isInline = !className;
                         return isInline ? (
@@ -349,12 +402,30 @@ export default function Step7() {
                 <div className="prose prose-sm max-w-none text-sm text-gray-700">
                   <ReactMarkdown
                     components={{
-                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                      ul: ({ children }) => <ul className="mb-2 list-disc pl-5 last:mb-0">{children}</ul>,
-                      ol: ({ children }) => <ol className="mb-2 list-decimal pl-5 last:mb-0">{children}</ol>,
-                      li: ({ children }) => <li className="mb-1">{children}</li>,
-                      strong: ({ children }) => <strong className="font-semibold text-gray-900">{children}</strong>,
-                      em: ({ children }) => <em className="italic">{children}</em>,
+                      p: ({ children }) => (
+                        <p className="mb-2 last:mb-0">{children}</p>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="mb-2 list-disc pl-5 last:mb-0">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="mb-2 list-decimal pl-5 last:mb-0">
+                          {children}
+                        </ol>
+                      ),
+                      li: ({ children }) => (
+                        <li className="mb-1">{children}</li>
+                      ),
+                      strong: ({ children }) => (
+                        <strong className="font-semibold text-gray-900">
+                          {children}
+                        </strong>
+                      ),
+                      em: ({ children }) => (
+                        <em className="italic">{children}</em>
+                      ),
                       code: ({ children, className }) => {
                         const isInline = !className;
                         return isInline ? (
@@ -384,12 +455,28 @@ export default function Step7() {
                 <div className="prose prose-sm max-w-none text-sm text-gray-800">
                   <ReactMarkdown
                     components={{
-                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                      ul: ({ children }) => <ul className="mb-2 list-disc pl-5 last:mb-0">{children}</ul>,
-                      ol: ({ children }) => <ol className="mb-2 list-decimal pl-5 last:mb-0">{children}</ol>,
-                      li: ({ children }) => <li className="mb-1">{children}</li>,
-                      strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
-                      em: ({ children }) => <em className="italic">{children}</em>,
+                      p: ({ children }) => (
+                        <p className="mb-2 last:mb-0">{children}</p>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="mb-2 list-disc pl-5 last:mb-0">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="mb-2 list-decimal pl-5 last:mb-0">
+                          {children}
+                        </ol>
+                      ),
+                      li: ({ children }) => (
+                        <li className="mb-1">{children}</li>
+                      ),
+                      strong: ({ children }) => (
+                        <strong className="font-semibold">{children}</strong>
+                      ),
+                      em: ({ children }) => (
+                        <em className="italic">{children}</em>
+                      ),
                       code: ({ children, className }) => {
                         const isInline = !className;
                         return isInline ? (
@@ -416,12 +503,30 @@ export default function Step7() {
                 <div className="prose prose-sm max-w-none text-sm text-gray-700">
                   <ReactMarkdown
                     components={{
-                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                      ul: ({ children }) => <ul className="mb-2 list-disc pl-5 last:mb-0">{children}</ul>,
-                      ol: ({ children }) => <ol className="mb-2 list-decimal pl-5 last:mb-0">{children}</ol>,
-                      li: ({ children }) => <li className="mb-1">{children}</li>,
-                      strong: ({ children }) => <strong className="font-semibold text-gray-900">{children}</strong>,
-                      em: ({ children }) => <em className="italic">{children}</em>,
+                      p: ({ children }) => (
+                        <p className="mb-2 last:mb-0">{children}</p>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="mb-2 list-disc pl-5 last:mb-0">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="mb-2 list-decimal pl-5 last:mb-0">
+                          {children}
+                        </ol>
+                      ),
+                      li: ({ children }) => (
+                        <li className="mb-1">{children}</li>
+                      ),
+                      strong: ({ children }) => (
+                        <strong className="font-semibold text-gray-900">
+                          {children}
+                        </strong>
+                      ),
+                      em: ({ children }) => (
+                        <em className="italic">{children}</em>
+                      ),
                       code: ({ children, className }) => {
                         const isInline = !className;
                         return isInline ? (
@@ -462,7 +567,7 @@ export default function Step7() {
               }}
               disabled={isAiBusy}
               placeholder="Type how you think it sounds…"
-              className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 disabled:bg-gray-50"
+              className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#155dfc] focus:ring-2 focus:ring-blue-100 disabled:bg-gray-50"
             />
             <button
               type="button"
@@ -472,7 +577,7 @@ export default function Step7() {
                 "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition",
                 isAiBusy || !input.trim()
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700",
+                  : "bg-[#155dfc] text-white hover:bg-[#1447e6]",
               ].join(" ")}
             >
               {isAiBusy ? (
@@ -517,7 +622,7 @@ export default function Step7() {
         <button
           type="button"
           onClick={() => setStep(8)}
-          className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+          className="rounded-xl bg-[#155dfc] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#1447e6]"
         >
           View progress
         </button>

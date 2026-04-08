@@ -18,7 +18,7 @@ export default function Step8({
   const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
 
   return (
-    <div className=" min-h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
+    <div className=" min-h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-[#f6f3f4] to-[#ebe6e7]">
       {/* Main Glassmorphism Card */}
       <div className="w-full max-w-2xl relative">
         <div className="backdrop-blur-xl bg-white/30 border border-white/40 rounded-3xl p-8 shadow-2xl">
@@ -52,9 +52,10 @@ export default function Step8({
                   strokeWidth="8"
                   fill="none"
                   strokeDasharray={`${2 * Math.PI * 56}`}
-                  strokeDashoffset={`${2 * Math.PI * 56 * (1 - scorePercentage / 100)
-                    }`}
-                  className="text-blue-500 transition-all duration-500"
+                  strokeDashoffset={`${
+                    2 * Math.PI * 56 * (1 - scorePercentage / 100)
+                  }`}
+                  className="text-[#2b7fff] transition-all duration-500"
                   strokeLinecap="round"
                 />
               </svg>
@@ -95,7 +96,7 @@ export default function Step8({
             <div className="w-full space-y-4">
               <button
                 onClick={onPracticeMore}
-                className="w-full py-4 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-base md:text-lg transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                className="w-full py-4 rounded-xl bg-[#2b7fff] hover:bg-[#155dfc] text-white font-bold text-base md:text-lg transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
               >
                 Practice More
               </button>

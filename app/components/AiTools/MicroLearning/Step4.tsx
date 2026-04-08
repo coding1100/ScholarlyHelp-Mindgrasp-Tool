@@ -69,12 +69,12 @@ export default function Step4({ onBack, onContinue }: Step4Props) {
                   if (e.key === "Enter") addCustom();
                 }}
                 placeholder="Enter a topic (e.g., Python, Marketing, History...)"
-                className="flex-1 px-4 py-3 rounded-lg bg-white backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
+                className="flex-1 px-4 py-3 rounded-lg bg-white backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2b7fff]/50 focus:border-[#2b7fff]/50 transition-all text-sm"
               />
               <button
                 type="button"
                 onClick={addCustom}
-                className="sm:px-6 px-4 sm:py-2 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold sm:text-xl text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                className="sm:px-6 px-4 sm:py-2 py-1.5 rounded-lg bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold sm:text-xl text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
               >
                 +
               </button>
@@ -156,7 +156,7 @@ export default function Step4({ onBack, onContinue }: Step4Props) {
               onClick={() => onContinue?.(selectedList)}
               disabled={!canContinue}
               className={[
-                "sm:w-fit w-full sm:mt-0 mt-2 h-10 px-12 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer",
+                "sm:w-fit w-full sm:mt-0 mt-2 h-10 px-12 rounded-lg bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer",
                 canContinue
                   ? "bg-linear-to-r from-[#6C757D] to-[#868E96] shadow-lg hover:shadow-xl active:scale-[0.99]"
                   : "bg-[#B9BFC5] cursor-not-allowed opacity-80",
