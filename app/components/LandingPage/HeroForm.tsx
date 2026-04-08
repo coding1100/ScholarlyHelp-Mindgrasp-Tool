@@ -550,7 +550,9 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   ? "Your "
                   : currentPage.includes("class")
                     ? "Your "
-                    : ""}
+                    : currentPage === "/"
+                      ? "Your "
+                      : ""}
                 <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
                   {currentPage.includes("exam")
                     ? "Exam"
