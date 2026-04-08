@@ -1,22 +1,16 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { MdOutlineEmail } from "react-icons/md";
-import { FiEye, FiEyeOff, FiLock } from "react-icons/fi";
-import { FaArrowRight, FaApple, FaMicrosoft } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 import Logo from "@/app/assets/Images/logo.png";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { CgRename } from "react-icons/cg";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import toast from "react-hot-toast";
-// import GoogleButton from "./GoogleButton";
-// import SignIn from "./SignIn";
-
-// Password regex: min 8 chars, at least 1 uppercase, 1 lowercase, 1 number, only letters and numbers
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+import SocialAuthButtons from "./SocialAuthButtons";
 
 const SignInCard = () => {
   const route = useRouter();
@@ -26,6 +20,29 @@ const SignInCard = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const getApiErrorMessage = (err: any, fallback: string) => {
+    const message = err?.response?.data?.message;
+    if (Array.isArray(message)) return message.join(", ");
+    if (typeof message === "string") return message;
+    return fallback;
+  };
+
+  const persistSessionAndRedirect = useCallback(
+    (data: any) => {
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("user_id", data.user.user_id);
+      localStorage.setItem("user_name", data.user.name);
+      localStorage.setItem("package_type", data.user.package_type);
+      document.cookie = `access_token=${data.access_token}; path=/; max-age=86400`;
+
+      setTimeout(() => {
+        const redirectUrl = returnUrl || "/tools/main-tool/";
+        route.replace(redirectUrl);
+      }, 100);
+    },
+    [returnUrl, route],
+  );
+
   const currentPage = usePathname();
   // Check if user is already authenticated
   useEffect(() => {
@@ -62,23 +79,9 @@ const SignInCard = () => {
       toast.success("Sign in successfully!");
       setEmail("");
       setPassword("");
-      localStorage.setItem("access_token", res.data.access_token);
-      localStorage.setItem("user_id", res.data.user.user_id);
-      localStorage.setItem("user_name", res.data.user.name);
-      localStorage.setItem("package_type", res.data.user.package_type);
-
-      // Also set token in cookies for middleware
-      document.cookie = `access_token=${res.data.access_token}; path=/; max-age=86400`;
-
-      // Small delay to ensure cookie is set before redirect
-      setTimeout(() => {
-        // Redirect to returnUrl if provided, otherwise default to paraphraser tool
-        const redirectUrl = returnUrl || "/tools/main-tool/";
-        console.log("After sign-in, redirecting to:", redirectUrl);
-        route.replace(redirectUrl);
-      }, 100);
+      persistSessionAndRedirect(res.data);
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Something went wrong.");
+      toast.error(getApiErrorMessage(err, "Something went wrong."));
     } finally {
       setLoading(false);
     }
@@ -156,10 +159,9 @@ const SignInCard = () => {
           )}
           <FaArrowRight />
         </button>
-        {/* google button will be here */}
-        {/* <GoogleButton /> */}
+
+        <SocialAuthButtons returnUrl={returnUrl} />
       </form>
-      {/* <SignIn /> */}
       <p className="text-center text-sm  mt-8 relative">
         Do not have an account?
         <Link href="/sign-up/" className="hover:underline pl-1">

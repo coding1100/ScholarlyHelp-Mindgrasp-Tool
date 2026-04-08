@@ -11,7 +11,7 @@ import { CgRename } from "react-icons/cg";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import toast from "react-hot-toast";
-// import GoogleButton from "./GoogleButton";
+import SocialAuthButtons from "./SocialAuthButtons";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
@@ -193,7 +193,7 @@ const SignUpCard = () => {
           )}
           <FaArrowRight />
         </button>
-        {/* <GoogleButton /> */}
+        <SocialAuthButtons />
       </form>
       <p className="text-center text-sm  mt-8 relative">
         If you have an account?

@@ -1,8 +1,6 @@
 "use client";
 
 import Button from "@/app/components/Button/Button";
-import GoogleAuth from "@/app/components/GoogleAuth/GoogleAuth";
-// import GoogleAuth from "@/app/components/GoogleAuth/GoogleAuth";
 import { useAuthContext } from "@/app/context/auth/AuthContext";
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
@@ -107,19 +105,8 @@ const Step2: FC<Step2Props> = ({ setActiveStep }) => {
                 <div className="text-5xl text-primary-400 font-bold text-center">
                   Sign in
                 </div>
-                {/* sign in with Google */}
-                <div className="my-3">
-                  <GoogleAuth setActiveStep={setActiveStep} />
-                </div>
                 {/* sign in with email */}
                 <div className="mt-5">
-                  <div className="flex justify-between items-center">
-                    <div className="w-[155px] border border-[#E0E0E0]"></div>
-                    <div className="text-sm font-light">
-                      or signin with email
-                    </div>
-                    <div className="w-[155px] border border-[#E0E0E0]"></div>
-                  </div>
                   <div className="mt-4">
                     <form>
                       <div>
@@ -187,14 +174,6 @@ const Step2: FC<Step2Props> = ({ setActiveStep }) => {
                 <h2 className="text-5xl text-primary-400 font-bold text-center">
                   Sign up
                 </h2>
-                <div className="my-3">
-                  <GoogleAuth setActiveStep={setActiveStep} />
-                </div>
-                <div className="flex justify-between items-center mb-4">
-                  <div className="w-[155px] border border-[#E0E0E0]"></div>
-                  <div className="text-sm font-light">or signin with email</div>
-                  <div className="w-[155px] border border-[#E0E0E0]"></div>
-                </div>
                 <label className="text-xs text-[#7a8794] font-light">
                   Please enter your email and you will receive password on this
                   email
