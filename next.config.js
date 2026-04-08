@@ -22,7 +22,6 @@ const nextConfig = {
     'rehype-raw',
     'jsonwebtoken',
     'jwt-decode',
-    'mongodb',
     'clsx',
     'tailwind-merge'
   ],
@@ -77,7 +76,6 @@ const nextConfig = {
 
   // Enable experimental features for better performance
   experimental: {
-    inlineCss: true,
     optimizeCss: true,
     optimizePackageImports: [
       'lucide-react',
@@ -110,6 +108,15 @@ const nextConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         'moment': 'dayjs',
+      };
+      // MongoDB optional dependencies should never be bundled for browser.
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        aws4: false,
+        kerberos: false,
+        snappy: false,
+        '@mongodb-js/zstd': false,
+        'mongodb-client-encryption': false,
       };
     }
     return config;
