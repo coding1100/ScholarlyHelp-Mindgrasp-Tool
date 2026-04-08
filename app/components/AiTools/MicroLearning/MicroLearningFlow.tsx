@@ -26,7 +26,7 @@ export default function MicroLearningFlow() {
     } | null>(null);
 
     return (
-        <>
+        <> 
             {currentStep === 1 && <Step1 onContinue={() => setCurrentStep(2)} />}
             {currentStep === 2 && (
                 <Step2

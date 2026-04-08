@@ -127,21 +127,20 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
         payload.count = count;
       }
 
-      const baseUrl = process.env.NEXT_PUBLIC_NGROX_URL || process.env.NEXT_PUBLIC_BASE_URL || "";
-      const endpoint = baseUrl.includes("/v1/") 
+      const baseUrl =
+        process.env.NEXT_PUBLIC_NGROX_URL ||
+        process.env.NEXT_PUBLIC_BASE_URL ||
+        "";
+      const endpoint = baseUrl.includes("/v1/")
         ? `${baseUrl}/tools/research-question-generator`
         : `${baseUrl}/v1/tools/research-question-generator`;
 
-      const response = await axios.post<QuestionResponse>(
-        endpoint,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post<QuestionResponse>(endpoint, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       console.log("Response:", response.data);
 
@@ -208,7 +207,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="Enter your research topic here..."
-                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
               />
             </div>
 
@@ -225,7 +224,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
                 placeholder="Enter keywords separated by commas (e.g., climate change, policy, adaptation strategies)..."
-                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                className="w-full h-24 p-3 rounded-md focus:outline-none resize-none text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
               />
             </div>
 
@@ -258,7 +257,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                     id="research_type"
                     value={researchType}
                     onChange={(e) => setResearchType(e.target.value)}
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     <option value="">Select research type...</option>
                     {researchTypeOptions.map((option) => (
@@ -286,7 +285,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                     id="question_style"
                     value={questionStyle}
                     onChange={(e) => setQuestionStyle(e.target.value)}
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     <option value="">Select question style...</option>
                     {questionStyleOptions.map((option) => (
@@ -314,7 +313,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                     id="level_of_specificity"
                     value={levelOfSpecificity}
                     onChange={(e) => setLevelOfSpecificity(e.target.value)}
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     <option value="">Select level...</option>
                     {levelOfSpecificityOptions.map((option) => (
@@ -342,7 +341,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                     id="count"
                     value={count}
                     onChange={(e) => setCount(Number.parseInt(e.target.value))}
-                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 hover:cursor-pointer transition-colors duration-300 appearance-none"
+                    className="w-full p-2 pr-8 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] dark:focus:ring-[#51a2ff] hover:cursor-pointer transition-colors duration-300 appearance-none"
                   >
                     {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
                       <option key={num} value={num}>
@@ -362,10 +361,10 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
               <button
                 onClick={handleGenerate}
                 disabled={isSubmitting || !topic.trim()}
-                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 ${
+                className={`px-6 py-2.5 rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 ${
                   isSubmitting || !topic.trim()
-                    ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    ? "bg-[#565add] dark:bg-[#565add] cursor-not-allowed"
+                    : "bg-[#565add] hover:bg-[#6368f3] dark:bg-[#565add] dark:hover:bg-[#565add]"
                 }`}
               >
                 {isSubmitting ? "Generating..." : "Generate Questions"}
@@ -375,7 +374,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                 <button
                   onClick={handleRegenerate}
                   disabled={isSubmitting}
-                  className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FaSyncAlt />
                   Regenerate
@@ -385,7 +384,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
               <button
                 onClick={handleClear}
                 disabled={isSubmitting}
-                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2.5 rounded-md font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2b7fff] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Clear
               </button>
@@ -412,7 +411,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
                   </p>
                   <button
                     onClick={() => handleCopyQuestion(question)}
-                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300"
+                    className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2b7fff] transition-colors duration-300"
                     title="Copy question"
                   >
                     <FaRegCopy />
@@ -427,7 +426,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
         {/* Loading State */}
         {isSubmitting && questions.length === 0 && (
           <div className="p-6 text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#155dfc] dark:border-[#51a2ff]"></div>
             <p className="mt-2 text-gray-600 dark:text-gray-400">
               Generating research questions...
             </p>

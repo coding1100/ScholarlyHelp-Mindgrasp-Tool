@@ -20,7 +20,7 @@ const AISuggestion: React.FC<AISuggestionProps> = ({
     <span className="text-gray-400">{suggestion}</span>
     <div className="flex gap-2 mt-1 items-center">
       <button
-        className="px-2 py-1 bg-green-500 text-white rounded text-xs"
+        className="px-2 py-1 bg-[#00c951] text-white rounded text-xs"
         onClick={onAccept}
       >
         Accept <span className="ml-1 text-[10px]">(Shift + →)</span>

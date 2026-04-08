@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { useLanguagePractice, LanguagePracticeStep } from "@/app/context/LanguagePracticeContext";
+import {
+  useLanguagePractice,
+  LanguagePracticeStep,
+} from "@/app/context/LanguagePracticeContext";
 
 function SkillBar({
   label,
@@ -13,7 +16,7 @@ function SkillBar({
   color?: "blue" | "green" | "purple" | "orange";
 }) {
   const colorClasses = {
-    blue: "bg-blue-600",
+    blue: "bg-[#155dfc]",
     green: "bg-green-600",
     purple: "bg-purple-600",
     orange: "bg-orange-600",
@@ -79,8 +82,10 @@ export default function Step8() {
     return {
       vocabulary: history.vocabulary.filter((t) => t.role === "user").length,
       grammar: history.grammar.filter((t) => t.role === "user").length,
-      conversation: history.conversation.filter((t) => t.role === "user").length,
-      pronunciation: history.pronunciation.filter((t) => t.role === "user").length,
+      conversation: history.conversation.filter((t) => t.role === "user")
+        .length,
+      pronunciation: history.pronunciation.filter((t) => t.role === "user")
+        .length,
     };
   }, [history]);
 
@@ -118,9 +123,8 @@ export default function Step8() {
     });
   };
 
-  const lastSummary = [...history.progress]
-    .reverse()
-    .find((t) => t.role === "ai")?.content ?? "";
+  const lastSummary =
+    [...history.progress].reverse().find((t) => t.role === "ai")?.content ?? "";
 
   return (
     <div className="space-y-6">
@@ -129,28 +133,42 @@ export default function Step8() {
         <div className="mt-1 text-sm text-gray-600">{getEncouragement()}</div>
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
           <span className="rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-700">
-            <span className="font-semibold">Language:</span> {language ?? "Not set"}
+            <span className="font-semibold">Language:</span>{" "}
+            {language ?? "Not set"}
           </span>
           <span className="rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-700">
             <span className="font-semibold">Level:</span> {level ?? "TBD"}
           </span>
           <span className="rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-700">
-            <span className="font-semibold">Overall:</span> {Math.round(overall)}%
+            <span className="font-semibold">Overall:</span>{" "}
+            {Math.round(overall)}%
           </span>
         </div>
       </div>
 
       <Card title="Skills breakdown">
         <div className="space-y-4">
-          <SkillBar label="Vocabulary" value={progress.vocabulary} color="blue" />
+          <SkillBar
+            label="Vocabulary"
+            value={progress.vocabulary}
+            color="blue"
+          />
           <SkillBar label="Grammar" value={progress.grammar} color="green" />
-          <SkillBar label="Conversation" value={progress.conversation} color="purple" />
+          <SkillBar
+            label="Conversation"
+            value={progress.conversation}
+            color="purple"
+          />
           <SkillBar
             label="Pronunciation"
             value={progress.pronunciation}
             color="orange"
           />
-          <SkillBar label="Consistency" value={progress.consistency} color="blue" />
+          <SkillBar
+            label="Consistency"
+            value={progress.consistency}
+            color="blue"
+          />
         </div>
       </Card>
 
@@ -247,7 +265,7 @@ export default function Step8() {
         <button
           type="button"
           onClick={() => setStep(getNextAction())}
-          className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+          className="rounded-xl bg-[#155dfc] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#1447e6]"
         >
           Practice more
         </button>

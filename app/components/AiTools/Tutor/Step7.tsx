@@ -69,7 +69,7 @@ export default function Step7({
       <div className="h-[calc(100vh-9vh)] overflow-y-auto">
         <div className="flex items-center justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
           <div className="w-full max-w-2xl relative">
-            <div className="backdrop-blur-xl bg-white/30 border border-white/40 rounded-3xl p-8 shadow-2xl">
+            <div className="backdrop-blur-xl bg-[#ffffff]/30 border border-white/40 rounded-3xl p-8 shadow-2xl">
               <div className="relative z-10">
                 <p className="text-xl font-semibold text-black text-center mb-3 leading-tight">
                   No Questions Available
@@ -217,7 +217,7 @@ export default function Step7({
 
         {/* Main Glassmorphism Card */}
         <div className="max-w-5xl mx-auto relative">
-          <div className="backdrop-blur-xl bg-white/30 border border-white/40 rounded-3xl p-8 shadow-2xl">
+          <div className="backdrop-blur-xl bg-[#ffffff]/30 border border-white/40 rounded-3xl p-8 shadow-2xl">
             {/* Inner glow effect */}
             <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-white/20 to-transparent pointer-events-none" />
 
@@ -229,7 +229,7 @@ export default function Step7({
                     {currentQuestion.question}
                   </p>
                   {/* <button
-                    className="sm:ml-0 ml-auto px-4 py-2 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black text-sm font-medium hover:bg-white/50 transition-all flex items-center gap-2 whitespace-nowrap"
+                    className="sm:ml-0 ml-auto px-4 py-2 rounded-xl bg-[#ffffff]/40 backdrop-blur-md border border-[#d1d5dc]/50 text-black text-sm font-medium hover:bg-[#ffffff]/50 transition-all flex items-center gap-2 whitespace-nowrap"
                     disabled
                   >
                     <span>🔊</span> Listen
@@ -242,11 +242,11 @@ export default function Step7({
                     onClick={() => handleAnswerTypeChange("multiple-choice")}
                     disabled={!canSwitchAnswerType}
                     className={`sm:col-span-1 w-full sm:w-auto px-8 py-2 sm:rounded-tr-none sm:rounded-bl-lg sm:rounded-tl-lg sm:rounded-br-none font-semibold text-sm transition-all ${answerType === "multiple-choice"
-                      ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
-                      : "bg-white/40 backdrop-blur-md border border-gray-300/50 text-black"
+                      ? "bg-[#2b7fff] text-white shadow-lg shadow-[#2b7fff]/30"
+                      : "bg-[#ffffff]/40 backdrop-blur-md border border-[#d1d5dc]/50 text-black"
                       } ${!canSwitchAnswerType
                         ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-white hover:text-[#333333] cursor-pointer"
+                        : "hover:bg-[#ffffff] hover:text-[#333333] cursor-pointer"
                       }`}
                   >
                     Multiple Choice
@@ -255,11 +255,11 @@ export default function Step7({
                     onClick={() => handleAnswerTypeChange("type-answer")}
                     disabled={!canSwitchAnswerType}
                     className={`sm:col-span-1 w-full sm:w-auto px-8 py-2 sm:rounded-tr-lg sm:rounded-bl-none sm:rounded-tl-none sm:rounded-br-lg font-semibold text-sm transition-all ${answerType === "type-answer"
-                      ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
-                      : "bg-white/40 backdrop-blur-md border border-gray-300/50 text-black"
+                      ? "bg-[#2b7fff] text-white shadow-lg shadow-[#2b7fff]/30"
+                      : "bg-[#ffffff]/40 backdrop-blur-md border border-[#d1d5dc]/50 text-black"
                       } ${!canSwitchAnswerType
                         ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-white hover:text-[#333333] cursor-pointer"
+                        : "hover:bg-[#ffffff] hover:text-[#333333] cursor-pointer"
                       }`}
                   >
                     Type Answer
@@ -283,13 +283,13 @@ export default function Step7({
                           disabled={isSubmitted}
                           className={`w-full p-4 rounded-xl text-left transition-all ${showFeedback
                             ? isCorrect && isSelected
-                              ? "bg-green-500/30 border-2 border-green-500 shadow-lg shadow-green-500/30"
+                              ? "bg-[#00c951]/30 border-2 border-[#00c951] shadow-lg shadow-[#00c951]/30"
                               : isSelected && !isCorrect
-                                ? "bg-red-500/30 border-2 border-red-500 shadow-lg shadow-red-500/30"
-                                : "bg-white/40 backdrop-blur-md border border-gray-300/50"
+                                ? "bg-[#fb2c36]/30 border-2 border-[#fb2c36] shadow-lg shadow-[#fb2c36]/30"
+                                : "bg-[#ffffff]/40 backdrop-blur-md border border-[#d1d5dc]/50"
                             : isSelected
-                              ? "bg-blue-500/30 border-2 border-blue-500"
-                              : "bg-white/40 backdrop-blur-md border border-gray-300/50 hover:border-gray-400/50"
+                              ? "bg-[#2b7fff]/30 border-2 border-[#2b7fff]"
+                              : "bg-[#ffffff]/40 backdrop-blur-md border border-[#d1d5dc]/50 hover:border-[#99a1af]/50"
                             } ${!isSubmitted
                               ? "hover:scale-[1.01] cursor-pointer"
                               : "cursor-default"
@@ -323,12 +323,12 @@ export default function Step7({
                         }}
                         disabled={isSubmitted}
                         placeholder="Type your answer here..."
-                        className="sm:flex-1 w-full px-4 py-4 rounded-xl bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-base disabled:opacity-50"
+                        className="sm:flex-1 w-full px-4 py-4 rounded-xl bg-[#ffffff]/40 backdrop-blur-md border border-[#d1d5dc]/50 text-black placeholder:text-[#99a1af] focus:outline-none focus:ring-2 focus:ring-[#2b7fff]/50 focus:border-[#2b7fff]/50 transition-all text-base disabled:opacity-50"
                       />
                       <button
                         onClick={handleSubmit}
                         disabled={isSubmitted || !typedAnswer.trim()}
-                        className="sm:px-8 w-full sm:w-auto px-4 sm:py-4 py-2 sm:mt-0 mt-2 rounded-xl bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer whitespace-nowrap"
+                        className="sm:px-8 w-full sm:w-auto px-4 sm:py-4 py-2 sm:mt-0 mt-2 rounded-xl bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-[#99a1af] disabled:cursor-not-allowed text-white font-bold text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer whitespace-nowrap"
                       >
                         Submit
                       </button>
@@ -340,8 +340,8 @@ export default function Step7({
                 {isSubmitted && (
                   <div
                     className={`p-6 rounded-xl mb-6 ${isCorrect
-                      ? "bg-green-500/30 border-2 border-green-500 shadow-lg shadow-green-500/30"
-                      : "bg-red-500/30 border-2 border-red-500 shadow-lg shadow-red-500/30"
+                      ? "bg-[#00c951]/30 border-2 border-[#00c951] shadow-lg shadow-[#00c951]/30"
+                      : "bg-[#fb2c36]/30 border-2 border-[#fb2c36] shadow-lg shadow-[#fb2c36]/30"
                       }`}
                   >
                     <div className="flex items-start gap-3">
@@ -368,7 +368,7 @@ export default function Step7({
                     {!isCorrect && (
                       <button
                         onClick={handleTryAgain}
-                        className="px-8 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                        className="px-8 py-2 rounded-lg bg-[#ff6900] hover:bg-[#f54a00] text-white font-semibold text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
                       >
                         TRY AGAIN
                       </button>
@@ -376,7 +376,7 @@ export default function Step7({
                     {isCorrect && (
                       <button
                         onClick={handleNextQuestion}
-                        className="px-8 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                        className="px-8 py-2 rounded-lg bg-[#2b7fff] hover:bg-[#155dfc] text-white font-semibold text-base transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
                       >
                         {currentQuestionIndex < totalQuestions - 1
                           ? "NEXT QUESTION"

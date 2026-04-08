@@ -70,7 +70,7 @@ const MTHeader = ({
           {/*Header right section  */}
           <div className="flex items-center space-x-6">
             <button
-              className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white text-sm  p-2 rounded-lg "
+              className="flex items-center space-x-2 bg-[#155dfc] hover:bg-[#1447e6] text-white text-sm  p-2 rounded-lg "
               onClick={() => setShowPricing(true)}
             >
               <FaBolt className="h-4 w-4 text-white" />

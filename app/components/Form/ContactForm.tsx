@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -54,7 +52,7 @@ const ContactUs = () => {
       setIsLoading(true);
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/order/email-submission`,
-        data
+        data,
       );
       reset();
       toast("Form submitted successfully");
@@ -91,19 +89,22 @@ const ContactUs = () => {
               }}
             />
             {errors.phoneNumber && (
-              <div className="text-[#000]">
-                {errors.phoneNumber.message}
-              </div>
+              <div className="text-[#000]">{errors.phoneNumber.message}</div>
             )}
           </div>
           <div className="flex flex-col items-center mt-4">
             <div className="flex w-full">
-              <Image src={emailIcon} className="absolute w-6 h-4 mt-1 ml-1" alt="icon" />
+              <Image
+                src={emailIcon}
+                className="absolute w-6 h-4 mt-1 ml-1"
+                alt="icon"
+              />
               {/* <Image src={emailIcon} alt="email" className="w-6 h-4 mr-2" /> */}
               <input
                 type="text"
-                className={`w-full border-b-2 border-0 focus:outline-none bg-transparent max-w-[300px] pl-10 pb-2 ${errors.email ? "border-primary-500" : "border-gray-300"
-                  }`}
+                className={`w-full border-b-2 border-0 focus:outline-none bg-transparent max-w-[300px] pl-10 pb-2 ${
+                  errors.email ? "border-primary-500" : "border-gray-300"
+                }`}
                 placeholder="@email.com"
                 {...register("email", {
                   //   required: "Email is required",
@@ -115,7 +116,7 @@ const ContactUs = () => {
               />
             </div>
             {errors.email && (
-              <div className="text-red-500 text-left self-start">
+              <div className="text-[#fb2c36] text-left self-start">
                 {errors.email.message}
               </div>
             )}

@@ -21,22 +21,22 @@ const levels: Level[] = [
     level: 1,
     difficulty: "Beginner",
     descriptor: "Easy",
-    borderColor: "border-green-500",
-    shadowColor: "shadow-green-500/30",
+    borderColor: "border-[#00c951]",
+    shadowColor: "shadow-[#00c951]/30",
   },
   {
     level: 2,
     difficulty: "Intermediate",
     descriptor: "Medium",
-    borderColor: "border-amber-500",
-    shadowColor: "shadow-amber-500/30",
+    borderColor: "border-[#fe9a00]",
+    shadowColor: "shadow-[#fe9a00]/30",
   },
   {
     level: 3,
     difficulty: "Advanced",
     descriptor: "Hard",
-    borderColor: "border-rose-500",
-    shadowColor: "shadow-rose-500/30",
+    borderColor: "border-[#ff2056]",
+    shadowColor: "shadow-[#ff2056]/30",
   },
 ];
 

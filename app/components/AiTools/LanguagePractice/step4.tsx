@@ -37,7 +37,8 @@ function parseMCQFromText(text: string): ParsedQuestion | null {
   // If still not found, try "Choose 'X' or 'Y'" format
   if (matches.length < 2) {
     // Pattern: Choose 'option1' or 'option2' / Choose option1 or option2
-    const choosePattern = /(?:Choose|Select|Pick)\s+['"]?([^'",\s]+)['"]?\s+or\s+['"]?([^'",\s]+)['"]?/i;
+    const choosePattern =
+      /(?:Choose|Select|Pick)\s+['"]?([^'",\s]+)['"]?\s+or\s+['"]?([^'",\s]+)['"]?/i;
     const chooseMatch = text.match(choosePattern);
     if (chooseMatch && chooseMatch[1] && chooseMatch[2]) {
       // Found "Choose X or Y" format
@@ -56,7 +57,9 @@ function parseMCQFromText(text: string): ParsedQuestion | null {
         .trim();
 
       // Remove the "Choose X or Y" part from question if it's still there
-      questionText = questionText.replace(/(?:Choose|Select|Pick).*$/i, "").trim();
+      questionText = questionText
+        .replace(/(?:Choose|Select|Pick).*$/i, "")
+        .trim();
 
       return {
         question: questionText || "Choose the correct option:",
@@ -76,7 +79,8 @@ function parseMCQFromText(text: string): ParsedQuestion | null {
 
       // Check if this appears in a question context
       const beforeOr = text.substring(0, orMatch.index || 0);
-      const hasQuestionContext = /(choose|select|pick|which|what|fill|blank)/i.test(beforeOr);
+      const hasQuestionContext =
+        /(choose|select|pick|which|what|fill|blank)/i.test(beforeOr);
 
       if (hasQuestionContext) {
         const orIndex = text.indexOf(orMatch[0]);
@@ -220,7 +224,10 @@ function separateInstructionsAndQuestion(text: string): {
           question = transitionMatch[0] + " " + question;
 
           if (instructions.length > 0 && question.length > 0) {
-            return { instructions: instructions.trim(), question: question.trim() };
+            return {
+              instructions: instructions.trim(),
+              question: question.trim(),
+            };
           }
         }
       }
@@ -229,17 +236,26 @@ function separateInstructionsAndQuestion(text: string): {
       if (afterTransition.length > 0) {
         // Look for question marks or question-like patterns
         const hasQuestionMark = afterTransition.includes("?");
-        const hasQuestionWords = /(what|how|which|who|where|when|why|can|would|do|does|is|are|greet|say|tell|write|translate)/i.test(afterTransition);
+        const hasQuestionWords =
+          /(what|how|which|who|where|when|why|can|would|do|does|is|are|greet|say|tell|write|translate)/i.test(
+            afterTransition,
+          );
 
         // Check if the text after transition looks like a question (has question mark or question words)
         // Lowered threshold to 10 characters to catch shorter questions
-        if (hasQuestionMark || (hasQuestionWords && afterTransition.length > 10)) {
+        if (
+          hasQuestionMark ||
+          (hasQuestionWords && afterTransition.length > 10)
+        ) {
           instructions = beforeTransition;
           // Include the transition phrase in the question for context
           question = transitionMatch[0] + " " + afterTransition;
 
           if (instructions.length > 0 && question.length > 0) {
-            return { instructions: instructions.trim(), question: question.trim() };
+            return {
+              instructions: instructions.trim(),
+              question: question.trim(),
+            };
           }
         }
       }
@@ -261,11 +277,20 @@ function separateInstructionsAndQuestion(text: string): {
         /(means|remember|so|you're doing)/i,
       ];
 
-      const hasFeedback = feedbackPatterns.some(pattern => pattern.test(beforeQuestion));
+      const hasFeedback = feedbackPatterns.some((pattern) =>
+        pattern.test(beforeQuestion),
+      );
 
       // If there's feedback-like content before the question, separate them
-      if (hasFeedback && beforeQuestion.length > 10 && questionText.length > 0) {
-        return { instructions: beforeQuestion.trim(), question: questionText.trim() };
+      if (
+        hasFeedback &&
+        beforeQuestion.length > 10 &&
+        questionText.length > 0
+      ) {
+        return {
+          instructions: beforeQuestion.trim(),
+          question: questionText.trim(),
+        };
       }
     }
   }
@@ -298,16 +323,26 @@ function separateInstructionsAndQuestion(text: string): {
 }
 
 export default function Step4() {
-  const { language, goals, level, setStep, callAi, isAiBusy, history, clearArea } =
-    useLanguagePractice();
+  const {
+    language,
+    goals,
+    level,
+    setStep,
+    callAi,
+    isAiBusy,
+    history,
+    clearArea,
+  } = useLanguagePractice();
   const [input, setInput] = useState("");
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const turns = history.vocabulary;
-  const lastAi = [...turns].reverse().find((t) => t.role === "ai")?.content ?? "";
+  const lastAi =
+    [...turns].reverse().find((t) => t.role === "ai")?.content ?? "";
 
   // Check if lesson has started (has AI responses)
-  const hasLessonStarted = turns.length > 0 && turns.some((t) => t.role === "ai");
+  const hasLessonStarted =
+    turns.length > 0 && turns.some((t) => t.role === "ai");
 
   // Check if this is feedback (user has submitted answers before this AI response)
   const isFeedback = useMemo(() => {
@@ -365,19 +400,20 @@ export default function Step4() {
     const textToCheck = question || lastAi || "";
     // Check for fill-in-the-blank indicators
     const fillBlankPatterns = [
-      /___/,  // Underscores indicating blank
+      /___/, // Underscores indicating blank
       /fill in the blank/i,
       /filling in the blank/i,
       /fill in/i,
       /complete the/i,
       /fill the blank/i,
     ];
-    return fillBlankPatterns.some(pattern => pattern.test(textToCheck));
+    return fillBlankPatterns.some((pattern) => pattern.test(textToCheck));
   }, [question, lastAi]);
 
   // Determine if we should show MCQ or text input
   // If it's a fill-in-the-blank question, always show input field (not MCQ)
-  const showMCQ = !isFillInTheBlank && mcqData !== null && mcqData.options.length >= 2;
+  const showMCQ =
+    !isFillInTheBlank && mcqData !== null && mcqData.options.length >= 2;
   const showTextInput = !showMCQ && (question !== null || isFillInTheBlank);
 
   // Get the question text to display - if MCQ, use the parsed question without options
@@ -449,7 +485,9 @@ export default function Step4() {
   return (
     <div className="space-y-6">
       <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4 shadow-sm">
-        <div className="text-sm font-semibold">Vocabulary that fits your life</div>
+        <div className="text-sm font-semibold">
+          Vocabulary that fits your life
+        </div>
         <div className="mt-1 text-sm text-gray-600">
           We'll learn words in context — then use them immediately.
         </div>
@@ -509,7 +547,7 @@ export default function Step4() {
         {isFeedback && instructions && (
           <div className="mb-4 rounded-xl border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100/50 p-4 shadow-sm">
             <div className="flex items-start gap-3">
-              <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-white">
+              <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#155dfc] text-white">
                 <svg
                   className="h-4 w-4"
                   fill="none"
@@ -525,26 +563,34 @@ export default function Step4() {
                 </svg>
               </div>
               <div className="flex-1">
-                <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-blue-700">
+                <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#1447e6]">
                   Feedback
                 </div>
                 <div className="text-sm text-gray-800">
                   <ReactMarkdown
                     components={{
                       p: ({ children }) => (
-                        <p className="mb-2 leading-relaxed last:mb-0">{children}</p>
+                        <p className="mb-2 leading-relaxed last:mb-0">
+                          {children}
+                        </p>
                       ),
                       strong: ({ children }) => (
-                        <strong className="font-bold text-gray-900">{children}</strong>
+                        <strong className="font-bold text-gray-900">
+                          {children}
+                        </strong>
                       ),
                       em: ({ children }) => (
                         <em className="italic text-gray-700">{children}</em>
                       ),
                       ul: ({ children }) => (
-                        <ul className="my-2 ml-4 list-disc space-y-1">{children}</ul>
+                        <ul className="my-2 ml-4 list-disc space-y-1">
+                          {children}
+                        </ul>
                       ),
                       ol: ({ children }) => (
-                        <ol className="my-2 ml-4 list-decimal space-y-1">{children}</ol>
+                        <ol className="my-2 ml-4 list-decimal space-y-1">
+                          {children}
+                        </ol>
                       ),
                       li: ({ children }) => (
                         <li className="my-1">{children}</li>
@@ -563,7 +609,7 @@ export default function Step4() {
         {hasLessonStarted && !isFeedback && instructions && (
           <div className="mb-4 rounded-xl border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100/50 p-4 shadow-sm">
             <div className="flex items-start gap-3">
-              <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-white">
+              <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[#155dfc] text-white">
                 <svg
                   className="h-4 w-4"
                   fill="none"
@@ -579,38 +625,52 @@ export default function Step4() {
                 </svg>
               </div>
               <div className="flex-1">
-                <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-blue-700">
+                <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-[#1447e6]">
                   Lesson Instructions
                 </div>
                 <div className="text-sm text-gray-800">
                   <ReactMarkdown
                     components={{
                       p: ({ children }) => (
-                        <p className="mb-2 leading-relaxed last:mb-0">{children}</p>
+                        <p className="mb-2 leading-relaxed last:mb-0">
+                          {children}
+                        </p>
                       ),
                       strong: ({ children }) => (
-                        <strong className="font-bold text-gray-900">{children}</strong>
+                        <strong className="font-bold text-gray-900">
+                          {children}
+                        </strong>
                       ),
                       em: ({ children }) => (
                         <em className="italic text-gray-700">{children}</em>
                       ),
                       ul: ({ children }) => (
-                        <ul className="my-2 ml-4 list-disc space-y-1">{children}</ul>
+                        <ul className="my-2 ml-4 list-disc space-y-1">
+                          {children}
+                        </ul>
                       ),
                       ol: ({ children }) => (
-                        <ol className="my-2 ml-4 list-decimal space-y-1">{children}</ol>
+                        <ol className="my-2 ml-4 list-decimal space-y-1">
+                          {children}
+                        </ol>
                       ),
                       li: ({ children }) => (
                         <li className="my-1">{children}</li>
                       ),
                       h1: ({ children }) => (
-                        <h1 className="mb-2 text-lg font-bold text-gray-900">{children}</h1>
+                        <h1 className="mb-2 text-lg font-bold text-gray-900">
+                          {children}
+                        </h1>
                       ),
                       h2: ({ children }) => (
-                        <h2 className="mb-2 text-base font-bold text-gray-900">{children}</h2>
+                        <h2 className="mb-2 text-base font-bold text-gray-900">
+                          {children}
+                        </h2>
                       ),
                       h3: ({ children }) => (
-                        <h3 className="mb-1 text-sm font-bold text-gray-900">{children}</h3>
+                        <h3 className="mb-1 text-sm font-bold text-gray-900">
+                          {children}
+                        </h3>
                       ),
                     }}
                   >
@@ -632,25 +692,33 @@ export default function Step4() {
               <ReactMarkdown
                 components={{
                   p: ({ children }) => (
-                    <p className="mb-2 leading-relaxed font-medium">{children}</p>
+                    <p className="mb-2 leading-relaxed font-medium">
+                      {children}
+                    </p>
                   ),
                   strong: ({ children }) => (
-                    <strong className="font-bold text-gray-900">{children}</strong>
+                    <strong className="font-bold text-gray-900">
+                      {children}
+                    </strong>
                   ),
                   em: ({ children }) => (
                     <em className="italic text-gray-700">{children}</em>
                   ),
                   ul: ({ children }) => (
-                    <ul className="my-2 ml-4 list-disc space-y-1">{children}</ul>
+                    <ul className="my-2 ml-4 list-disc space-y-1">
+                      {children}
+                    </ul>
                   ),
                   ol: ({ children }) => (
-                    <ol className="my-2 ml-4 list-decimal space-y-1">{children}</ol>
+                    <ol className="my-2 ml-4 list-decimal space-y-1">
+                      {children}
+                    </ol>
                   ),
-                  li: ({ children }) => (
-                    <li className="my-1">{children}</li>
-                  ),
+                  li: ({ children }) => <li className="my-1">{children}</li>,
                   code: ({ children }) => (
-                    <code className="rounded bg-gray-100 px-1 py-0.5 text-xs font-mono">{children}</code>
+                    <code className="rounded bg-gray-100 px-1 py-0.5 text-xs font-mono">
+                      {children}
+                    </code>
                   ),
                 }}
               >
@@ -676,9 +744,11 @@ export default function Step4() {
                   className={[
                     "w-full rounded-xl border border-gray-200 bg-white p-3 text-left shadow-sm transition-all",
                     selectedOption === opt.letter
-                      ? "border-blue-600 bg-blue-50 shadow-md"
+                      ? "border-[#155dfc] bg-blue-50 shadow-md"
                       : "hover:border-gray-300 hover:shadow-md",
-                    isAiBusy ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+                    isAiBusy
+                      ? "cursor-not-allowed opacity-50"
+                      : "cursor-pointer",
                   ].join(" ")}
                 >
                   <div className="flex items-center gap-3">
@@ -686,16 +756,18 @@ export default function Step4() {
                       className={[
                         "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border-2 text-xs font-bold",
                         selectedOption === opt.letter
-                          ? "border-blue-600 bg-blue-600 text-white"
+                          ? "border-[#155dfc] bg-[#155dfc] text-white"
                           : "border-gray-300 bg-white text-gray-600",
                       ].join(" ")}
                     >
                       {opt.letter}
                     </div>
-                    <span className="text-sm font-medium text-gray-800">{opt.text}</span>
+                    <span className="text-sm font-medium text-gray-800">
+                      {opt.text}
+                    </span>
                     {selectedOption === opt.letter && (
                       <svg
-                        className="ml-auto h-5 w-5 text-blue-600"
+                        className="ml-auto h-5 w-5 text-[#155dfc]"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -723,7 +795,7 @@ export default function Step4() {
               "group relative inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white shadow-md transition-all duration-200",
               isAiBusy || !selectedOption
                 ? "bg-gray-300 cursor-not-allowed"
-                : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 hover:shadow-lg hover:scale-[1.01] active:scale-[0.99]",
+                : "bg-gradient-to-r from-[#155dfc] to-[#1447e6] hover:from-[#1447e6] hover:to-[#193cb8] hover:shadow-lg hover:scale-[1.01] active:scale-[0.99]",
             ].join(" ")}
           >
             {isAiBusy ? (
@@ -791,7 +863,7 @@ export default function Step4() {
               }}
               disabled={isAiBusy}
               placeholder="Try the practice prompt here…"
-              className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-gray-50 disabled:text-gray-500"
+              className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-[#2b7fff] focus:ring-2 focus:ring-blue-100 disabled:bg-gray-50 disabled:text-gray-500"
             />
             <button
               type="button"
@@ -801,7 +873,7 @@ export default function Step4() {
                 "group relative inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white shadow-md transition-all duration-200",
                 isAiBusy || !input.trim()
                   ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]",
+                  : "bg-gradient-to-r from-[#155dfc] to-[#1447e6] hover:from-[#1447e6] hover:to-[#193cb8] hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]",
               ].join(" ")}
             >
               {isAiBusy ? (
@@ -861,7 +933,7 @@ export default function Step4() {
         <button
           type="button"
           onClick={() => setStep(5)}
-          className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+          className="rounded-xl bg-[#155dfc] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#1447e6]"
         >
           Continue to grammar
         </button>

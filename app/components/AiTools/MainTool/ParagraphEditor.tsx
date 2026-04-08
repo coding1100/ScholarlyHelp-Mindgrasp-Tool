@@ -236,7 +236,7 @@ const AISuggestionExtension = Extension.create({
                   span.setAttribute("data-suggestion", "true");
                   return span;
                 },
-                { side: 1 }
+                { side: 1 },
               );
               return DecorationSet.create(tr.doc, [decoration]);
             } else if (action?.type === "clearSuggestion") {
@@ -320,7 +320,7 @@ const fetchAISuggestion = async (
     current_section: string;
     content_sofar: string;
   },
-  apiUrl: string
+  apiUrl: string,
 ) => {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
@@ -395,7 +395,8 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: "focus:outline-none focus:ring-0 focus:border-none border-none outline-none",
+        class:
+          "focus:outline-none focus:ring-0 focus:border-none border-none outline-none",
         style: "border: none !important; outline: none !important;",
       },
     },
@@ -403,7 +404,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
 
   const [aiSuggestion, setAISuggestion] = useState<string>("");
   const [suggestionCursorPos, setSuggestionCursorPos] = useState<number | null>(
-    null
+    null,
   );
   const [suggestionButtonPos, setSuggestionButtonPos] = useState<{
     top: number;
@@ -472,7 +473,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
 
       return currentSection;
     },
-    [editor]
+    [editor],
   );
 
   // Helper function to get content under current section
@@ -500,7 +501,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       const content = doc.textBetween(sectionStartPos, cursorPos, " ");
       return content.trim();
     },
-    [editor]
+    [editor],
   );
 
   useEffect(() => {
@@ -799,7 +800,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
           }}
         >
           <button
-            className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 w-max"
+            className="px-2 py-1 bg-[#2b7fff] text-white rounded text-xs hover:bg-[#155dfc] w-max"
             onClick={handleAccept}
           >
             Accept <span className="ml-1 text-[10px]">(Shift + →)</span>

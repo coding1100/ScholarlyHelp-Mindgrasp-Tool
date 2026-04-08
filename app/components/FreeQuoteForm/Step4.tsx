@@ -271,7 +271,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                   />
                 </div>
                 {phoneErr && (
-                  <div className="text-red-500">Invalid phone number</div>
+                  <div className="text-[#fb2c36]">Invalid phone number</div>
                 )}
               </div>
               <div className="flex flex-col items-start mb-3">
@@ -289,7 +289,9 @@ const Step4: FC<Step4Props> = ({ text }) => {
                     />
                   </div>
                 </div>
-                {emailErr && <div className="text-red-500">Invalid Email</div>}
+                {emailErr && (
+                  <div className="text-[#fb2c36]">Invalid Email</div>
+                )}
               </div>
               <div className="flex flex-col items-start mb-3">
                 <div className="min-h-[50px] flex justify-between w-full p-1 items-center rounded-md border-2 border-[#c1c1c1]">
@@ -306,7 +308,9 @@ const Step4: FC<Step4Props> = ({ text }) => {
                     />
                   </div>
                 </div>
-                {emailErr && <div className="text-red-500">Invalid Email</div>}
+                {emailErr && (
+                  <div className="text-[#fb2c36]">Invalid Email</div>
+                )}
               </div>
               <button
                 type="submit"
@@ -435,7 +439,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                     )}
                   </button>
                   {emailErr && (
-                    <div className="text-red-500">Invalid Email</div>
+                    <div className="text-[#fb2c36]">Invalid Email</div>
                   )}
                 </div>
               ) : (
@@ -482,7 +486,7 @@ const Step4: FC<Step4Props> = ({ text }) => {
                         </button>
                       </form>
                       {phoneErr && (
-                        <div className="text-red-500">{phoneErr}</div>
+                        <div className="text-[#fb2c36]">{phoneErr}</div>
                       )}
                     </div>
                   ) : (
@@ -549,7 +553,9 @@ const Step4: FC<Step4Props> = ({ text }) => {
                         )}
                       </button>
                       {phoneErr && (
-                        <div className="text-red-500">Invalid phone number</div>
+                        <div className="text-[#fb2c36]">
+                          Invalid phone number
+                        </div>
                       )}
                     </div>
                   )}

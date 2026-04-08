@@ -476,7 +476,7 @@ export default function Header() {
                                 <Link
                                   key={linkIdx}
                                   href={link.href}
-                                  className="block text-gray-700 hover:text-blue-600 transition mb-1"
+                                  className="block text-gray-700 hover:text-[#155dfc] transition mb-1"
                                 >
                                   {link.name}
                                 </Link>
@@ -597,7 +597,7 @@ export default function Header() {
                                     <li key={linkIdx}>
                                       <Link
                                         href={link.href}
-                                        className="block text-gray-600 hover:text-blue-600 py-1"
+                                        className="block text-gray-600 hover:text-[#155dfc] py-1"
                                         onClick={() => {
                                           setMobileOpen(false);
                                           setMobileActiveIndex(null);
@@ -617,7 +617,7 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href || "#"}
-                      className="block text-gray-700 hover:text-blue-600"
+                      className="block text-gray-700 hover:text-[#155dfc]"
                       onClick={() => {
                         setMobileOpen(false);
                         setMobileActiveIndex(null);

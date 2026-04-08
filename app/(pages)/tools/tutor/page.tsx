@@ -19,7 +19,7 @@ export default function TutorPage() {
     }
   }, [router]);
 
-  return (
+  return ( 
     <Suspense
       fallback={
         <div className="animate-pulse bg-gray-200 dark:bg-gray-800 h-72" />
