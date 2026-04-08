@@ -74,7 +74,7 @@ export default function Step3({
                     key={skill.level}
                     onClick={() => setSelectedLevel(skill.level)}
                     className={`w-full p-6 rounded-xl bg-white/40 backdrop-blur-md border-2 transition-all duration-200 text-left hover:scale-[1.02] active:scale-[0.98] ${selectedLevel === skill.level
-                      ? "border-blue-500 shadow-lg shadow-blue-500/30"
+                      ? "border-[#2b7fff] shadow-lg shadow-[#2b7fff]/30"
                       : "border-gray-300/50 hover:border-gray-400/50"
                       }`}
                   >
@@ -100,7 +100,7 @@ export default function Step3({
               <button
                 onClick={handleContinue}
                 disabled={!selectedLevel || isLoading}
-                className="w-full py-3 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+                className="w-full py-3 rounded-lg bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">

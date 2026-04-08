@@ -5,7 +5,7 @@ import PricingIcon from "@/app/assets/Icons/pricingicon.svg";
 
 const check = (
   <svg
-    className="w-5 h-5 text-green-500 mx-auto"
+    className="w-5 h-5 text-[#00c951] mx-auto"
     fill="none"
     stroke="currentColor"
     strokeWidth="2"
@@ -16,7 +16,7 @@ const check = (
 );
 const cross = (
   <svg
-    className="w-5 h-5 text-red-500 mx-auto"
+    className="w-5 h-5 text-[#fb2c36] mx-auto"
     fill="none"
     stroke="currentColor"
     strokeWidth="2"

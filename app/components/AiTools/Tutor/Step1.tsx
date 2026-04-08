@@ -57,7 +57,7 @@ export default function Step1({ onContinue, isLoading = false }: Step1Props) {
                 onChange={(e) => setChildName(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter your child's name"
-                className="w-full px-4 py-3 rounded-lg bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
+                className="w-full px-4 py-3 rounded-lg bg-white/40 backdrop-blur-md border border-gray-300/50 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2b7fff]/50 focus:border-[#2b7fff]/50 transition-all text-sm"
               />
             </div>
 
@@ -65,7 +65,7 @@ export default function Step1({ onContinue, isLoading = false }: Step1Props) {
             <button
               onClick={handleContinue}
               disabled={!childName.trim() || isLoading}
-              className="w-full py-3 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+              className="w-full py-3 rounded-lg bg-[#565add] hover:bg-[#6267ff] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center gap-2">

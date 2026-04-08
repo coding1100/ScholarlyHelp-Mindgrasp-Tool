@@ -26,7 +26,7 @@ const SignInCard = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const currentPage = usePathname();
   // Check if user is already authenticated
   useEffect(() => {
     console.log("SignInCard - returnUrl:", returnUrl);
@@ -57,7 +57,7 @@ const SignInCard = () => {
       // Sign in API only
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_NGROX_URL}/auth/signin`,
-        payload
+        payload,
       );
       toast.success("Sign in successfully!");
       setEmail("");
@@ -85,16 +85,20 @@ const SignInCard = () => {
   };
 
   return (
-    <div className=" space-y-6 text-[#2B1C50]">
-      <div className="flex items-center justify-center ">
-        <Image
-          src={Logo}
-          alt="logo is here"
-          width={225}
-          height={56}
-          className="object-cover"
-        />
-      </div>
+    <div
+      className={`${currentPage === "/tools/" ? "bg-white max-[768px]:bg-transparent max-[768px]:shadow-none max-[768px]:p-0 rounded-lg shadow-sm p-6 flex flex-col gap-4 -z-[999]" : " space-y-6 text-[#2B1C50]"}`}
+    >
+      {currentPage !== "/tools/" && (
+        <div className="flex items-center justify-center ">
+          <Image
+            src={Logo}
+            alt="logo is here"
+            width={225}
+            height={56}
+            className="object-cover"
+          />
+        </div>
+      )}
 
       <form className="flex flex-col gap-2 md:gap-5" onSubmit={handleSubmit}>
         <div>

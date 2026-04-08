@@ -40,7 +40,7 @@ const EssayOutlinetool = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       // console.log("response essay outline", response.data.data.outline);
       setOutlineData(response.data.data.outline || []);
@@ -70,7 +70,7 @@ const EssayOutlinetool = () => {
             </h2>
             <button
               // onClick={handleCopyToClipboard}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-100 rounded-md flex items-center space-x-2 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 relative transition-colors duration-300"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-100 rounded-md flex items-center space-x-2 bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-[#2b7fff] focus:ring-opacity-50 relative transition-colors duration-300"
             >
               <FaRegCopy />
               <span>Copy</span>
@@ -90,7 +90,7 @@ const EssayOutlinetool = () => {
                 ) : (
                   outlineData.map((item, index) => (
                     <div key={index}>
-                      <h3 className="font-semibold text-lg text-blue-700 dark:text-blue-400">
+                      <h3 className="font-semibold text-lg text-[#1447e6] dark:text-[#51a2ff]">
                         {item.section}
                       </h3>
                       <ul className="list-disc list-inside pl-4 text-gray-700 dark:text-gray-200">

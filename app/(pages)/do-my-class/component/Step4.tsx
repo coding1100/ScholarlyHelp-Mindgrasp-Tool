@@ -193,7 +193,7 @@ const Step4: FC<Step4Props> = ({}) => {
               )}
             </button>
             {phoneErr && (
-              <div className="text-red-500">Invalid phone number</div>
+              <div className="text-[#fb2c36]">Invalid phone number</div>
             )}
           </div>
           {/* <div className="my-8 bg-[#c9c9c9] h-[3px] rounded flex items-center justify-center max-w-[300px] mx-auto">
@@ -257,7 +257,7 @@ const Step4: FC<Step4Props> = ({}) => {
                 "Email Me Free Quote"
               )}
             </button>
-            {emailErr && <div className="text-red-500">Invalid Email</div>}
+            {emailErr && <div className="text-[#fb2c36]">Invalid Email</div>}
           </div> */}
         </div>
       </div>

@@ -139,7 +139,7 @@ const Hero3: FC<Hero3Props> = () => {
               )}
             </button>
           </form> */}
-          {emailErr && <p className="text-red-500 text-sm">{emailErr}</p>}
+          {emailErr && <p className="text-[#fb2c36] text-sm">{emailErr}</p>}
         </div>
         <div className="lg:hidden w-full flex justify-center mt-5">
           <Image

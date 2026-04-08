@@ -24,16 +24,14 @@ export default function Step5({
   onStart,
 }: Step5Props) {
   // Map goal keys to labels, or use custom goals as-is
-  const displayGoals = goals.map(
-    (goal) => goalLabels[goal] || goal
-  );
+  const displayGoals = goals.map((goal) => goalLabels[goal] || goal);
   return (
     <div className="h-[calc(100vh-8vh)] overflow-y-auto flex items-center justify-center p-4 bg-white">
       <div className="w-full max-w-5xl">
         <div className="bg-[#F0F0F0] rounded-3xl p-10  shadow-2xl">
           {/* Checkmark Icon */}
           <div className="flex justify-center mb-4">
-            <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 bg-[#00c951] rounded-xl flex items-center justify-center shadow-lg">
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -108,7 +106,7 @@ export default function Step5({
             <button
               type="button"
               onClick={onStart}
-              className="px-6 py-3 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
+              className="px-6 py-3 rounded-lg bg-[#2b7fff] hover:bg-[#155dfc] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] cursor-pointer"
             >
               Start Learning! 🚀
             </button>

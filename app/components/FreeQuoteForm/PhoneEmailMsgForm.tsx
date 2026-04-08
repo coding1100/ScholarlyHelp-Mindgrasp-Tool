@@ -104,7 +104,7 @@ const PhoneEmailMsgFrom: FC<PhoneEmailMsgFromProps> = ({}) => {
                 />
               </div>
             )}
-            {phoneErr && <div className="text-red-500">{phoneErr}</div>}
+            {phoneErr && <div className="text-[#fb2c36]">{phoneErr}</div>}
           </div>
           <div className="flex flex-col w-full">
             <div className="min-h-[50px] flex justify-between w-full p-1 items-center rounded-md border-2 border-[#c1c1c1]">
@@ -121,7 +121,7 @@ const PhoneEmailMsgFrom: FC<PhoneEmailMsgFromProps> = ({}) => {
                 />
               </div>
             </div>
-            {emailErr && <div className="text-red-500">{emailErr}</div>}
+            {emailErr && <div className="text-[#fb2c36]">{emailErr}</div>}
           </div>
           <div className="flex flex-col items-start">
             <div className="min-h-[50px] flex justify-between w-full p-1 items-center rounded-md border-2 border-[#c1c1c1]">
