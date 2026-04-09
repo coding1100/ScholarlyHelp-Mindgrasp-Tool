@@ -2,7 +2,7 @@
 
 import axiosInstance from "@/app/axios";
 import { usePathname, useRouter } from "next/navigation";
-import React, { FC, useEffect, useState, useRef } from "react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { IoIosMail } from "react-icons/io";
 import { IoChatbubbles } from "react-icons/io5";
 import { MdPhoneInTalk } from "react-icons/md";
@@ -12,15 +12,301 @@ import FormBackImg from "@/app/assets/Images/Hero-Group-195.webp";
 import { usePageData } from "./usePageData";
 import SignInCard from "../Auth/SignInCard";
 
-interface ZohoForm2Props {
+interface HeroFormProps {
   nameValue?: string;
   textAreaRows?: number;
   formBackImg2?: StaticImageData;
   showStickyOnMobile?: boolean;
 }
 
-const HeroForm: FC<ZohoForm2Props> = ({
-  nameValue,
+type SubjectLabel = (typeof SUBJECTS)[number]["label"];
+type FormDataState = {
+  Email: string;
+  Phone: string;
+  Description: string;
+};
+
+const SUBJECTS = [
+  { emoji: "🧮", label: "Math" },
+  { emoji: "🧬", label: "Science" },
+  { emoji: "📊", label: "Business" },
+  { emoji: "📝", label: "Essay/English" },
+  { emoji: "💻", label: "Coding" },
+  { emoji: "📂", label: "Other" },
+] as const;
+
+const MULTI_STEP_ROUTES = new Set(["/take-my-class-1", "/take-my-class-2"]);
+
+const PRICE_HEADER_ROUTES = new Set([
+  "/",
+  "/online-class",
+  "/assignment",
+  "/exam",
+  "/exams",
+  "/homework",
+  "/take-my-proctored-exam-for-me",
+]);
+
+const PRICE_HEADER_PREFIXES = [
+  "/online-class/",
+  "/exam/",
+  "/exams/",
+  "/assignment/",
+  "/homework/",
+];
+
+function normalizePathname(pathname: string | null | undefined) {
+  return (pathname || "").replace(/\/+$/, "") || "/";
+}
+
+function getQuoteTypeLabelFromPath(pathname: string) {
+  if (pathname.includes("assignment")) return "Assignment";
+  if (pathname.includes("homework")) return "Homework";
+  if (pathname.includes("exam")) return "Exam";
+  if (pathname.includes("class")) return "Class";
+  return "Class";
+}
+
+function validateEmailMaybe(emailRaw: string) {
+  const email = emailRaw.trim();
+  if (!email) return { ok: true as const };
+  // Simple, pragmatic check; server-side validation should be authoritative.
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return ok
+    ? ({ ok: true as const } as const)
+    : { ok: false as const, message: "Please enter a valid email address." };
+}
+
+function buildInstructions(params: {
+  isMultiStepRoute: boolean;
+  selectedSubject: string;
+  otherSubjectDescription: string;
+  description: string;
+}) {
+  const {
+    isMultiStepRoute,
+    selectedSubject,
+    otherSubjectDescription,
+    description,
+  } = params;
+
+  if (!isMultiStepRoute) return description?.trim() ? description.trim() : "";
+
+  let text = "";
+  if (selectedSubject) {
+    text += `Subject: ${selectedSubject}`;
+    if (selectedSubject === "Other" && otherSubjectDescription.trim()) {
+      text += ` - ${otherSubjectDescription.trim()}`;
+    }
+    text += "\n";
+  }
+  if (description?.trim()) text += `Additional Info: ${description.trim()}`;
+  return text.trim();
+}
+
+function buildQuoteFormData(params: {
+  FBCLID: string;
+  GCLID: string;
+  url: string;
+  email: string;
+  phone: string;
+  instructions: string;
+}) {
+  const { FBCLID, GCLID, url, email, phone, instructions } = params;
+  const fd = new FormData();
+  if (FBCLID) fd.append("fbclid", FBCLID);
+  if (GCLID) fd.append("gclid", GCLID);
+  fd.append("url", url);
+  if (email) fd.append("email", email);
+  if (phone) fd.append("phone_number", phone);
+  if (instructions) fd.append("instructions", instructions);
+  return fd;
+}
+
+const BackgroundIllustration = ({
+  image,
+  isTakeMyClass2Route,
+  variant,
+}: {
+  image?: StaticImageData;
+  isTakeMyClass2Route: boolean;
+  variant: "multistep" | "default";
+}) => {
+  if (image) {
+    return (
+      <Image
+        src={image}
+        alt="Academic success illustration"
+        width={526}
+        height={551}
+        className={
+          variant === "multistep"
+            ? "min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-83px]"
+            : "min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
+        }
+      />
+    );
+  }
+
+  if (variant === "multistep") {
+    return (
+      <Image
+        src={FormBackImg}
+        alt="Academic success illustration"
+        width={526}
+        height={551}
+        className={
+          isTakeMyClass2Route
+            ? "cus-img absolute w-[302px] min-[1200px]:right-[-205px] -z-[1] max-[1025px]:hidden"
+            : "cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+        }
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={FormBackImg}
+      alt="Academic success illustration"
+      width={400}
+      className="cus-img absolute w-[400px] min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
+    />
+  );
+};
+
+const IconInput = ({
+  id,
+  name,
+  type,
+  placeholder,
+  value,
+  onChange,
+  required,
+  maxLength,
+  icon,
+  wrapperClassName,
+  inputClassName,
+  showMobileDivider,
+}: {
+  id: string;
+  name: keyof FormDataState;
+  type: React.HTMLInputTypeAttribute;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+  maxLength?: number;
+  icon: React.ReactNode;
+  wrapperClassName: string;
+  inputClassName: string;
+  showMobileDivider?: boolean;
+}) => {
+  return (
+    <div className={wrapperClassName}>
+      <input
+        type={type}
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required={required}
+        maxLength={maxLength}
+        className={inputClassName}
+      />
+      {showMobileDivider ? (
+        <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
+      ) : null}
+      {icon}
+    </div>
+  );
+};
+
+const IconTextarea = ({
+  id,
+  name,
+  placeholder,
+  rows,
+  value,
+  onChange,
+  required,
+  icon,
+  wrapperClassName,
+  textareaClassName,
+  showMobileDivider,
+}: {
+  id: string;
+  name: keyof FormDataState;
+  placeholder: string;
+  rows: number;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  required?: boolean;
+  icon: React.ReactNode;
+  wrapperClassName: string;
+  textareaClassName: string;
+  showMobileDivider?: boolean;
+}) => {
+  return (
+    <div className={wrapperClassName}>
+      <textarea
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        rows={rows}
+        value={value}
+        onChange={onChange}
+        required={required}
+        className={textareaClassName}
+      />
+      {showMobileDivider ? (
+        <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
+      ) : null}
+      {icon}
+    </div>
+  );
+};
+
+const PrimaryButton = ({
+  disabled,
+  loading,
+  label,
+}: {
+  disabled: boolean;
+  loading: boolean;
+  label: string;
+}) => {
+  return (
+    <button
+      type="submit"
+      disabled={disabled}
+      className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] w-full"
+    >
+      {loading ? <ClipLoader color="#fff" size={22} /> : label}
+    </button>
+  );
+};
+
+const StickyCtaButton = ({
+  visible,
+  onClick,
+  label,
+  className,
+}: {
+  visible: boolean;
+  onClick: (e: React.MouseEvent) => void;
+  label: string;
+  className: string;
+}) => {
+  if (!visible) return null;
+  return (
+    <button type="button" onClick={onClick} className={className}>
+      {label}
+    </button>
+  );
+};
+
+const HeroForm: FC<HeroFormProps> = ({
   textAreaRows = 4,
   formBackImg2,
   showStickyOnMobile = true,
@@ -28,33 +314,22 @@ const HeroForm: FC<ZohoForm2Props> = ({
   const data = usePageData();
   const getQuote = data?.getQuote;
   const currentPage = usePathname();
-  const normalizedPage = (currentPage || "").replace(/\/+$/, "") || "/";
+  const normalizedPage = normalizePathname(currentPage);
   const isTakeMyClass2Route = normalizedPage === "/take-my-class-2";
-  const shouldShowPriceHeader =
-    normalizedPage === "/" ||
-    normalizedPage === "/online-class" ||
-    normalizedPage === "/assignment" ||
-    normalizedPage === "/exam" ||
-    normalizedPage === "/exams" ||
-    normalizedPage === "/homework" ||
-    normalizedPage === "/take-my-proctored-exam-for-me" ||
-    normalizedPage.startsWith("/online-class/") ||
-    normalizedPage.startsWith("/exam/") ||
-    normalizedPage.startsWith("/exams/") ||
-    normalizedPage.startsWith("/assignment/") ||
-    normalizedPage.startsWith("/homework/");
+  const shouldShowPriceHeader = useMemo(() => {
+    return (
+      PRICE_HEADER_ROUTES.has(normalizedPage) ||
+      PRICE_HEADER_PREFIXES.some((p) => normalizedPage.startsWith(p))
+    );
+  }, [normalizedPage]);
   const router = useRouter();
 
   // Check if we're on the multi-step form route
-  const isMultiStepRoute =
-    currentPage === "/take-my-class-1" ||
-    currentPage === "/take-my-class-1/" ||
-    currentPage === "/take-my-class-2" ||
-    currentPage === "/take-my-class-2/";
+  const isMultiStepRoute = MULTI_STEP_ROUTES.has(normalizedPage);
 
   // Multi-step form state
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [selectedSubject, setSelectedSubject] = useState<string>("");
+  const [selectedSubject, setSelectedSubject] = useState<SubjectLabel | "">("");
   // Step 2 state (deadline) kept commented for later reuse.
   // const [selectedDeadline, setSelectedDeadline] = useState<string>("");
   const [otherSubjectDescription, setOtherSubjectDescription] =
@@ -62,9 +337,8 @@ const HeroForm: FC<ZohoForm2Props> = ({
   // const [otherDeadlineDescription, setOtherDeadlineDescription] =
   //   useState<string>("");
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataState>({
     Email: "",
-    Last_Name: "DefaultLastName",
     Phone: "",
     Description: "",
   });
@@ -72,18 +346,10 @@ const HeroForm: FC<ZohoForm2Props> = ({
   const [GCLID, setGCLID] = useState("");
   const [wholeUrl, setWholeUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [isFormVisible, setIsFormVisible] = useState<boolean>(true);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
-
-  const subjects = [
-    { emoji: "🧮", label: "Math" },
-    { emoji: "🧬", label: "Science" },
-    { emoji: "📊", label: "Business" },
-    { emoji: "📝", label: "Essay/English" },
-    { emoji: "💻", label: "Coding" },
-    { emoji: "📂", label: "Other" },
-  ];
 
   // Step 2 options (deadline) kept commented for later reuse.
   // const deadlines = [
@@ -143,44 +409,35 @@ const HeroForm: FC<ZohoForm2Props> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
+    setErrorMessage("");
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validateEmail = () => {
+  const validateForm = () => {
     const email = formData.Email.trim();
-    if (!email) return true;
-    const at = email.indexOf("@");
-    const dot = email.lastIndexOf(".");
-    if (at < 1 || dot < at + 2 || dot + 2 >= email.length) {
-      alert("Please enter a valid email address.");
-      return false;
-    }
-    return true;
-  };
+    const phone = formData.Phone.trim();
 
-  const checkMandatory = () => {
-    if (!formData.Last_Name.trim()) {
-      alert("Last Name cannot be empty.");
-      return false;
-    }
     if (isMultiStepRoute) {
-      // For multi-step form: require either email or phone
-      const email = formData.Email.trim();
-      const phone = formData.Phone.trim();
       if (!email && !phone) {
-        alert("Please provide either an email address or a phone number.");
-        return false;
+        return {
+          ok: false as const,
+          message: "Please provide either an email address or a phone number.",
+        };
       }
-      if (email && !validateEmail()) {
-        return false;
-      }
-      return true;
+      const emailCheck = validateEmailMaybe(email);
+      return emailCheck.ok
+        ? ({ ok: true as const } as const)
+        : ({ ok: false as const, message: emailCheck.message } as const);
     }
-    return validateEmail();
+
+    const emailCheck = validateEmailMaybe(email);
+    return emailCheck.ok
+      ? ({ ok: true as const } as const)
+      : ({ ok: false as const, message: emailCheck.message } as const);
   };
 
   // Multi-step form handlers
-  const handleSubjectSelect = (subject: string) => {
+  const handleSubjectSelect = (subject: SubjectLabel) => {
     setSelectedSubject(subject);
     // if (subject !== "Other") {
     //   setOtherSubjectDescription("");
@@ -221,50 +478,36 @@ const HeroForm: FC<ZohoForm2Props> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
     setLoading(true);
-    if (!checkMandatory()) {
+    const validation = validateForm();
+    if (!validation.ok) {
+      setErrorMessage(validation.message);
       setLoading(false);
       return;
     }
 
-    const fd = new FormData();
-    if (FBCLID) fd.append("fbclid", FBCLID);
-    if (GCLID) fd.append("gclid", GCLID);
-    fd.append("url", wholeUrl);
-    if (formData.Email) fd.append("email", formData.Email);
-    if (formData.Phone) fd.append("phone_number", formData.Phone);
+    const instructions = buildInstructions({
+      isMultiStepRoute,
+      selectedSubject,
+      otherSubjectDescription,
+      description: formData.Description,
+    });
 
-    if (isMultiStepRoute) {
-      // Include subject and deadline in description for multi-step form
-      let description = "";
-      if (selectedSubject) {
-        description += `Subject: ${selectedSubject}`;
-        if (selectedSubject === "Other" && otherSubjectDescription.trim()) {
-          description += ` - ${otherSubjectDescription.trim()}`;
-        }
-        description += `\n`;
-      }
-      // Step 2 payload kept commented for later reuse.
-      // if (selectedDeadline) {
-      //   description += `Deadline: ${selectedDeadline}`;
-      //   if (selectedDeadline === "Other" && otherDeadlineDescription.trim()) {
-      //     description += ` - ${otherDeadlineDescription.trim()}`;
-      //   }
-      //   description += `\n`;
-      // }
-      if (formData.Description)
-        description += `Additional Info: ${formData.Description}`;
-      if (description) fd.append("instructions", description);
-    } else {
-      if (formData.Description) fd.append("instructions", formData.Description);
-    }
+    const fd = buildQuoteFormData({
+      FBCLID,
+      GCLID,
+      url: wholeUrl,
+      email: formData.Email.trim(),
+      phone: formData.Phone.trim(),
+      instructions,
+    });
 
     try {
       await axiosInstance.post(`/order/quote`, fd);
       // Clear form fields on successful submission
       setFormData({
         Email: "",
-        Last_Name: "DefaultLastName",
         Phone: "",
         Description: "",
       });
@@ -279,7 +522,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
       setLoading(false);
       router.push("/thank-you");
     } catch {
-      alert("Failed to send request – try again later");
+      setErrorMessage("Failed to send request – try again later");
       setLoading(false);
       return;
     }
@@ -301,27 +544,11 @@ const HeroForm: FC<ZohoForm2Props> = ({
   if (isMultiStepRoute) {
     return (
       <div className="relative">
-        {formBackImg2 ? (
-          <Image
-            src={formBackImg2}
-            alt="Academic success illustration"
-            width={526}
-            height={551}
-            className="min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-83px]"
-          />
-        ) : (
-          <Image
-            src={FormBackImg}
-            alt="Academic success illustration"
-            width={526}
-            height={551}
-            className={
-              isTakeMyClass2Route
-                ? "cus-img absolute w-[302px] min-[1200px]:right-[-205px] -z-[1] max-[1025px]:hidden"
-                : "cus-img absolute min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
-            }
-          />
-        )}
+        <BackgroundIllustration
+          image={formBackImg2}
+          isTakeMyClass2Route={isTakeMyClass2Route}
+          variant="multistep"
+        />
 
         <div className="max-w-[600px] mx-auto cus-div">
           <div className="w-full bg-[#263238] rounded-t-lg px-2 sm:py-3 py-2">
@@ -371,7 +598,7 @@ const HeroForm: FC<ZohoForm2Props> = ({
                   What Subject You Need Help With?
                 </h3> */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
-                  {subjects.map((subject, index) => (
+                  {SUBJECTS.map((subject, index) => (
                     <button
                       key={index}
                       type="button"
@@ -453,49 +680,47 @@ const HeroForm: FC<ZohoForm2Props> = ({
                 </h3>
 
                 {/* Email Field */}
-                <div className="flex items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
-                  <input
-                    type="email"
-                    id="Email"
-                    name="Email"
-                    placeholder="Email *"
-                    value={formData.Email}
-                    onChange={handleChange}
-                    className="flex-1 text-black bg-transparent outline-none text-sm placeholder:text-[#6B7280] pr-3 "
-                  />
-                  <IoIosMail className="text-[#6B7280] text-xl" />
-                </div>
+                <IconInput
+                  type="email"
+                  id="Email"
+                  name="Email"
+                  placeholder="Email *"
+                  value={formData.Email}
+                  onChange={(e) => handleChange(e)}
+                  wrapperClassName="flex items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4"
+                  inputClassName="flex-1 text-black bg-transparent outline-none text-sm placeholder:text-[#6B7280] pr-3 "
+                  icon={<IoIosMail className="text-[#6B7280] text-xl" />}
+                />
 
                 {/* Phone Field */}
-                <div className="flex text-black items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4">
-                  <input
-                    type="text"
-                    id="Phone"
-                    name="Phone"
-                    placeholder="Mobile No to Text Your Quote *"
-                    value={formData.Phone}
-                    onChange={handleChange}
-                    maxLength={30}
-                    className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#6B7280] pr-3 "
-                  />
-                  <MdPhoneInTalk className="text-[#6B7280] text-xl" />
-                </div>
+                <IconInput
+                  type="text"
+                  id="Phone"
+                  name="Phone"
+                  placeholder="Mobile No to Text Your Quote *"
+                  value={formData.Phone}
+                  onChange={(e) => handleChange(e)}
+                  maxLength={30}
+                  wrapperClassName="flex text-black items-center sm:h-18 h-[65px] border rounded-md bg-[#EDEFFE] border-[#E3E5F3] px-4"
+                  inputClassName="flex-1 bg-transparent outline-none text-sm placeholder:text-[#6B7280] pr-3 "
+                  icon={<MdPhoneInTalk className="text-[#6B7280] text-xl" />}
+                />
+
+                {errorMessage ? (
+                  <p className="text-sm text-red-600 text-center">
+                    {errorMessage}
+                  </p>
+                ) : null}
 
                 {/* Submit Button */}
-                <button
-                  type="submit"
+                <PrimaryButton
                   disabled={
                     loading ||
                     (!formData.Email.trim() && !formData.Phone.trim())
                   }
-                  className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] w-full"
-                >
-                  {loading ? (
-                    <ClipLoader color="#fff" size={22} />
-                  ) : (
-                    "Secure My 'A' or 'B' Grades"
-                  )}
-                </button>
+                  loading={loading}
+                  label="Secure My 'A' or 'B' Grades"
+                />
 
                 {/* Micro-copy */}
                 <p className="text-center text-xs text-gray-500 mt-2">
@@ -506,15 +731,12 @@ const HeroForm: FC<ZohoForm2Props> = ({
           </form>
         </div>
         {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
-        {showStickyOnMobile && isMobile && !isFormVisible ? (
-          <button
-            type="button"
-            onClick={scrollToForm}
-            className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
-          >
-            {getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
-          </button>
-        ) : null}
+        <StickyCtaButton
+          visible={!!(showStickyOnMobile && isMobile && !isFormVisible)}
+          onClick={scrollToForm}
+          label={getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
+          className="fixed bottom-5 left-1/2 -translate-x-1/2 w-[75%] h-12 rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
+        />
       </div>
     );
   }
@@ -522,22 +744,11 @@ const HeroForm: FC<ZohoForm2Props> = ({
   // Original form render for all other routes
   return (
     <div className="relative">
-      {formBackImg2 ? (
-        <Image
-          src={formBackImg2}
-          alt="Academic success illustration"
-          width={526}
-          height={551}
-          className="min-[1200px]:max-w-[450px] max-w-[450px] cus-img absolute min-[1200px]:right-[-280px] min-[1200px]:top-[-83px] -z-[1] max-[1025px]:hidden min-[1000px]:right-[-272px] min-[1000px]:top-[-120px]"
-        />
-      ) : (
-        <Image
-          src={FormBackImg}
-          alt="Academic success illustration"
-          width={400}
-          className="cus-img absolute w-[400px] min-[1200px]:right-[-258px] -z-[1] max-[1025px]:hidden min-[1100px]:right-[-208px] min-[1150px]:right-[-150px]"
-        />
-      )}
+      <BackgroundIllustration
+        image={formBackImg2}
+        isTakeMyClass2Route={isTakeMyClass2Route}
+        variant="default"
+      />
       {currentPage === "/tools/" ? (
         <SignInCard />
       ) : (
@@ -552,17 +763,9 @@ const HeroForm: FC<ZohoForm2Props> = ({
                     ? "Your "
                     : currentPage === "/"
                       ? "Your "
-                      : ""}
+                      : ""}{" "}
                 <span className="bg-[#F56200] rounded-full px-4 -rotate-3 inline-block">
-                  {currentPage.includes("exam")
-                    ? "Exam"
-                    : currentPage.includes("assignment")
-                      ? "Assignment"
-                      : currentPage.includes("homework")
-                        ? "Homework"
-                        : currentPage.includes("class")
-                          ? "Class"
-                          : "Class"}
+                  {getQuoteTypeLabelFromPath(currentPage)}
                 </span>{" "}
                 Price
               </p>
@@ -575,82 +778,77 @@ const HeroForm: FC<ZohoForm2Props> = ({
             id="quote-form"
           >
             {/* Email Field */}
-            <div
-              className="flex items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative
-          "
-            >
-              <input
-                type="email"
-                id="Email"
-                name="Email"
-                placeholder="Email *"
-                value={formData.Email}
-                onChange={handleChange}
-                required
-                className="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3"
-              />
-              <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200  min-[768px]:hidden"></div>
-              <IoIosMail className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
-            </div>
+            <IconInput
+              type="email"
+              id="Email"
+              name="Email"
+              placeholder="Email *"
+              value={formData.Email}
+              onChange={(e) => handleChange(e)}
+              required
+              wrapperClassName="flex items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative"
+              inputClassName="flex-1 text-black bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3"
+              showMobileDivider
+              icon={
+                <IoIosMail className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
+              }
+            />
 
             {/* Phone Field */}
-            <div className="flex text-black items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative">
-              <input
-                type="text"
-                id="Phone"
-                name="Phone"
-                placeholder="Phone # *"
-                value={formData.Phone}
-                onChange={handleChange}
-                maxLength={30}
-                required
-                className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
-              />
-              <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
-              <MdPhoneInTalk className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
-            </div>
+            <IconInput
+              type="text"
+              id="Phone"
+              name="Phone"
+              placeholder="Phone # *"
+              value={formData.Phone}
+              onChange={(e) => handleChange(e)}
+              maxLength={30}
+              required
+              wrapperClassName="flex text-black items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative"
+              inputClassName="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
+              showMobileDivider
+              icon={
+                <MdPhoneInTalk className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
+              }
+            />
 
             {/* Instructions Field */}
-            <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] h-[65px] max-[768px]:bg-[#F5F6FA] px-4 pt-3 pb-2 min-[768px]:min-h-[150px] max-[768px]:relative">
-              <textarea
-                id="Description"
-                name="Description"
-                placeholder="What do you need help with? *"
-                rows={4}
-                value={formData.Description}
-                onChange={handleChange}
-                required
-                className="flex-1 text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] min-[768px]:min-h-[130px] max-[768px]:h-[50px]"
-              />
-              <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
-              <IoChatbubbles className="text-[#9ea9bf] text-xl mt-1 flex-shrink-0" />
-            </div>
+            <IconTextarea
+              id="Description"
+              name="Description"
+              placeholder="What do you need help with? *"
+              rows={textAreaRows}
+              value={formData.Description}
+              onChange={(e) => handleChange(e)}
+              required
+              wrapperClassName="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] h-[65px] max-[768px]:bg-[#F5F6FA] px-4 pt-3 pb-2 min-[768px]:min-h-[150px] max-[768px]:relative"
+              textareaClassName="flex-1 text-black outline-none resize-none text-sm pr-3 bg-[#EDEFFE] min-[768px]:min-h-[130px] max-[768px]:h-[50px]"
+              showMobileDivider
+              icon={
+                <IoChatbubbles className="text-[#9ea9bf] text-xl mt-1 flex-shrink-0" />
+              }
+            />
+
+            {errorMessage ? (
+              <p className="text-sm text-red-600 text-center">{errorMessage}</p>
+            ) : null}
 
             {/* Submit Button */}
-            <button
-              type="submit"
+            <PrimaryButton
               disabled={loading}
-              className="rounded-md px-3 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium flex items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] h-[54px] w-full"
-            >
-              {loading ? (
-                <ClipLoader color="#fff" size={22} />
-              ) : (
-                getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"
-              )}
-            </button>
+              loading={loading}
+              label={getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
+            />
           </form>
         </div>
       )}
       {/* Sticky Button for Mobile - Only visible when form is NOT visible */}
-      {showStickyOnMobile && !isFormVisible ? (
-        <button
-          type="button"
-          onClick={scrollToForm}
-          className="fixed bottom-2 left-1/2 -translate-x-1/2 px-4 h-12 sm:w-fit w-[75%] rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
-        >
-          {getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
-        </button>
-      ) : null}
+      <StickyCtaButton
+        visible={!!(showStickyOnMobile && !isFormVisible)}
+        onClick={scrollToForm}
+        label={getQuote?.ctaButton?.text || "Secure My 'A' or 'B' Grades"}
+        className="fixed bottom-2 left-1/2 -translate-x-1/2 px-4 h-12 sm:w-fit w-[75%] rounded-md font-medium text-sm text-white uppercase tracking-wider bg-[#ff641a] hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] border border-transparent shadow-lg transition-all duration-300 z-50 cursor-pointer"
+      />
     </div>
   );
 };
