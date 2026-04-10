@@ -23,10 +23,15 @@ import { Metadata } from "next";
 import { EssayWritingDataProvider } from "../EssayWritingDataProvider";
 import dynamicImport from "next/dynamic";
 import { essayWritingSubjects } from "../content";
+import DeliveredOn from "../../take-my-class/DeliveredOn";
+import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
+import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
+import PriceSection from "@/app/components/PriceSection/PriceSection";
+import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
 
 const GetQouteDynamic = dynamicImport(
   () => import("@/app/components/LandingPage/GetQoute"),
-  { ssr: false }
+  { ssr: false },
 );
 
 // Force dynamic rendering to prevent caching
@@ -38,8 +43,6 @@ interface PageProps {
     subject: string;
   };
 }
-
-
 
 async function fetchPageData(slug: string) {
   try {
@@ -71,7 +74,7 @@ async function fetchPageData(slug: string) {
 
     console.log(
       `Querying essay_writing with slug: ${slug}, query:`,
-      JSON.stringify(query)
+      JSON.stringify(query),
     );
     const content = await db.collection("essay_writing").findOne(query);
     console.log("Found content:", content ? "Yes" : "No");
@@ -85,7 +88,7 @@ async function fetchPageData(slug: string) {
         .toArray();
       console.log(
         "Sample documents matching slug:",
-        allDocs.map((d) => ({ id: d.id, slug: d.slug }))
+        allDocs.map((d) => ({ id: d.id, slug: d.slug })),
       );
     }
 
@@ -151,18 +154,22 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       <EssayWritingDataProvider data={defaultPageData}>
         <MainLayout>
           <HeroSection />
-          <Ratings />
+          <DeliveredOn />
+          <Success />
           <CardCarousel />
           <Description />
-          <GuaranteedBlock />
-          <WhySlider />
+          {/* <GuaranteedBlock />
+          <WhySlider /> */}
           <CustomerReviews />
           <ProcessSection />
-          <Success />
           <Subjects defaultSubjects={essayWritingSubjects} />
+          <SubSubjectsSection defaultSubSubjects={essayWritingSubjects} />
+          <OnlinePlatform />
           <AcademicPartners />
-          <GetQouteDynamic />
+          <PriceSection />
+          {/* <GetQouteDynamic /> */}
           <Faq />
+          <FinalCTA />
         </MainLayout>
       </EssayWritingDataProvider>
     );
@@ -181,18 +188,22 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     <EssayWritingDataProvider data={pageData}>
       <MainLayout>
         <HeroSection />
-        <Ratings />
+        <DeliveredOn />
+        <Success />
         <CardCarousel />
         <Description />
-        <GuaranteedBlock />
-        <WhySlider />
+        {/* <GuaranteedBlock />
+          <WhySlider /> */}
         <CustomerReviews />
         <ProcessSection />
-        <Success />
         <Subjects defaultSubjects={essayWritingSubjects} />
+        <SubSubjectsSection defaultSubSubjects={essayWritingSubjects} />
+        <OnlinePlatform />
         <AcademicPartners />
-        <GetQouteDynamic />
+        <PriceSection />
+        {/* <GetQouteDynamic /> */}
         <Faq />
+        <FinalCTA />
       </MainLayout>
     </EssayWritingDataProvider>
   );
@@ -228,7 +239,7 @@ export async function generateMetadata({
     } else if (params.subject.startsWith("essay_writings_")) {
       slugVariations.push(params.subject.replace("essay_writings_", ""));
       slugVariations.push(
-        params.subject.replace("essay_writings_", "essay_writing_")
+        params.subject.replace("essay_writings_", "essay_writing_"),
       );
     } else {
       slugVariations.push(`essay_writing_${params.subject}`);
@@ -246,19 +257,23 @@ export async function generateMetadata({
     // Do not close client
 
     if (pageData) {
-      const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-      const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+      const rawBaseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+      const baseUrl = rawBaseUrl.endsWith("/")
+        ? rawBaseUrl.slice(0, -1)
+        : rawBaseUrl;
 
       const metaTitle =
         pageData.meta?.title ||
-        `${params.subject.charAt(0).toUpperCase() +
-        params.subject.slice(1).replace(/-/g, " ")
+        `${
+          params.subject.charAt(0).toUpperCase() +
+          params.subject.slice(1).replace(/-/g, " ")
         } Essay Writing Help`;
       const metaDescription =
         pageData.meta?.description ||
         `Get expert help with your ${params.subject.replace(
           /-/g,
-          " "
+          " ",
         )} essay writing.`;
       const canonicalUrl =
         pageData.meta?.canonicalUrl ||
@@ -279,8 +294,11 @@ export async function generateMetadata({
     params.subject.charAt(0).toUpperCase() +
     params.subject.slice(1).replace(/-/g, " ");
 
-  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
-  const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+  const rawBaseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const baseUrl = rawBaseUrl.endsWith("/")
+    ? rawBaseUrl.slice(0, -1)
+    : rawBaseUrl;
 
   const canonicalUrl = `${baseUrl}/essay-writing/${params.subject}`;
 
@@ -288,7 +306,7 @@ export async function generateMetadata({
     title: `${subjectTitle} Essay Writing Help - Professional Assistance`,
     description: `Get expert help with your ${params.subject.replace(
       /-/g,
-      " "
+      " ",
     )} essay writing.`,
     alternates: {
       canonical: canonicalUrl,

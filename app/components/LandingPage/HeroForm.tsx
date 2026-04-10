@@ -54,6 +54,7 @@ const PRICE_HEADER_PREFIXES = [
   "/exams/",
   "/assignment/",
   "/homework/",
+  "/essay-writing/",
 ];
 
 function normalizePathname(pathname: string | null | undefined) {
