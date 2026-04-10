@@ -107,6 +107,8 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
   const isOnlineClassPage = currentPath.includes("online-class");
   const isAssignmentPage = currentPath.includes("assignment");
   const isHomeworkPage = currentPath.includes("homework");
+  const isEssayWritingPage = currentPath.includes("essay-writing");
+
   const isExamPage =
     currentPath.includes("exam") || currentPath.includes("exams");
   const showSuccessTop =
@@ -116,11 +118,13 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
     isExamPage ||
     isHomeworkPage ||
     isAssignmentPage ||
+    isEssayWritingPage ||
     currentPath.startsWith("/exam/") ||
     currentPath.startsWith("/exams/") ||
     currentPath.startsWith("/online-class/") ||
     currentPath.startsWith("/assignment/") ||
-    currentPath.startsWith("/homework/");
+    currentPath.startsWith("/homework/") ||
+    currentPath.startsWith("/essay-writing/");
 
   useEffect(() => {
     // Defer until after main thread is idle to be extra safe for LCP
@@ -158,6 +162,7 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       isAssignmentPage ||
       isExamPage ||
       isHomeworkPage ||
+      isEssayWritingPage ||
       currentPath === "/" ? (
         <DeliveredOn />
       ) : (
@@ -180,22 +185,24 @@ export default function BelowFoldLanding({ children }: BelowFoldLandingProps) {
       <CustomerReviews />
       <ProcessSection />
       {!showSuccessTop && <Success />}
-      {(currentPath === "/" ||
+      {/* {(currentPath === "/" ||
         (currentPath.startsWith("/online-class/") &&
           currentPath !== "/online-class/")) && (
         <SubSubjectsSection defaultSubSubjects={onlineClassSubjects} />
-      )}
+      )} */}
       {children}
       {(isOnlineClassPage ||
         isExamPage ||
         isAssignmentPage ||
         isHomeworkPage ||
+        isEssayWritingPage ||
         currentPath === "/") && <OnlinePlatform />}
       <AcademicPartners />
       {(isOnlineClassPage ||
         isExamPage ||
         isAssignmentPage ||
         isHomeworkPage ||
+        isEssayWritingPage ||
         currentPath === "/") && <PriceSection />}
       {!isOnlineClassPage || (currentPath === "/" && <GetQouteDynamic />)}
       {currentPath !== "/" && <Faq />}
