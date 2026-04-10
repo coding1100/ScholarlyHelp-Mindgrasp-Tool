@@ -172,7 +172,20 @@ export default function EssayWritingAdmin() {
                 { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
               ]
             },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            success: {
+              mainHeading: '',
+              description: '',
+              course: '',
+              beforeAfter: '',
+              total: '',
+              ctaButton: { text: '' },
+              slides: [
+                { id: 0, image: "/images/proof-2.webp" },
+                { id: 1, image: "/images/proof-2.webp" },
+                { id: 2, image: "/images/proof-3.webp" },
+                { id: 3, image: "/images/proof-3.webp" }
+              ]
+            },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
@@ -200,7 +213,20 @@ export default function EssayWritingAdmin() {
                 { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
               ]
             },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            success: {
+              mainHeading: '',
+              description: '',
+              course: '',
+              beforeAfter: '',
+              total: '',
+              ctaButton: { text: '' },
+              slides: [
+                { id: 0, image: "/images/proof-2.webp" },
+                { id: 1, image: "/images/proof-2.webp" },
+                { id: 2, image: "/images/proof-3.webp" },
+                { id: 3, image: "/images/proof-3.webp" }
+              ]
+            },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
@@ -268,7 +294,20 @@ export default function EssayWritingAdmin() {
                 { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
               ]
             },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            success: {
+              mainHeading: '',
+              description: '',
+              course: '',
+              beforeAfter: '',
+              total: '',
+              ctaButton: { text: '' },
+              slides: [
+                { id: 0, image: "/images/proof-2.webp" },
+                { id: 1, image: "/images/proof-2.webp" },
+                { id: 2, image: "/images/proof-3.webp" },
+                { id: 3, image: "/images/proof-3.webp" }
+              ]
+            },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
@@ -307,7 +346,20 @@ export default function EssayWritingAdmin() {
                 { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
               ]
             },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            success: {
+              mainHeading: '',
+              description: '',
+              course: '',
+              beforeAfter: '',
+              total: '',
+              ctaButton: { text: '' },
+              slides: [
+                { id: 0, image: "/images/proof-2.webp" },
+                { id: 1, image: "/images/proof-2.webp" },
+                { id: 2, image: "/images/proof-3.webp" },
+                { id: 3, image: "/images/proof-3.webp" }
+              ]
+            },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
@@ -337,7 +389,20 @@ export default function EssayWritingAdmin() {
                 { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
               ]
             },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            success: {
+              mainHeading: '',
+              description: '',
+              course: '',
+              beforeAfter: '',
+              total: '',
+              ctaButton: { text: '' },
+              slides: [
+                { id: 0, image: "/images/proof-2.webp" },
+                { id: 1, image: "/images/proof-2.webp" },
+                { id: 2, image: "/images/proof-3.webp" },
+                { id: 3, image: "/images/proof-3.webp" }
+              ]
+            },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
@@ -369,7 +434,20 @@ export default function EssayWritingAdmin() {
                 { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
               ]
             },
-            success: { mainHeading: '', description: '', ctaButton: { text: '' } },
+            success: {
+              mainHeading: '',
+              description: '',
+              course: '',
+              beforeAfter: '',
+              total: '',
+              ctaButton: { text: '' },
+              slides: [
+                { id: 0, image: "/images/proof-2.webp" },
+                { id: 1, image: "/images/proof-2.webp" },
+                { id: 2, image: "/images/proof-3.webp" },
+                { id: 3, image: "/images/proof-3.webp" }
+              ]
+            },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
             customerReviews: { mainHeading: '', trustpilotRating: '', reviews: [] },
@@ -1525,7 +1603,7 @@ export default function EssayWritingAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('success.slides', { id: Date.now(), image: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Slide
               </button>
