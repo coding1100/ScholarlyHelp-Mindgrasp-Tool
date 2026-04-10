@@ -34,7 +34,9 @@ export default function SubjectsSection({
   const isHomeworkSubpage =
     currentPage.startsWith("/homework/") &&
     currentPage.length > "/homework/".length;
-
+  const isEssayWritingSubpage =
+    currentPage.startsWith("/essay-writing/") &&
+    currentPage.length > "/essay-writing/".length;
   const isExamSubPages =
     (currentPage.startsWith("/exams/") &&
       currentPage.length > "/exams/".length) ||
@@ -45,6 +47,7 @@ export default function SubjectsSection({
     isAssignmentSubpage ||
     isHomeworkSubpage ||
     isExamSubPages ||
+    isEssayWritingSubpage ||
     isTakeMyClass2Page;
 
   const scrollToQuote = () => {

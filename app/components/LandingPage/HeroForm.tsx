@@ -45,6 +45,7 @@ const PRICE_HEADER_ROUTES = new Set([
   "/exams",
   "/homework",
   "/take-my-proctored-exam-for-me",
+  "/essay-writing",
 ]);
 
 const PRICE_HEADER_PREFIXES = [
@@ -64,6 +65,7 @@ function getQuoteTypeLabelFromPath(pathname: string) {
   if (pathname.includes("homework")) return "Homework";
   if (pathname.includes("exam")) return "Exam";
   if (pathname.includes("class")) return "Class";
+  if (pathname.includes("essay-writing")) return "Essay";
   return "Class";
 }
 

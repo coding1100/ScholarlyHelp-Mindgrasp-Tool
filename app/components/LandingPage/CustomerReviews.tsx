@@ -588,6 +588,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     normalizedPath === "/exams" ||
     normalizedPath.startsWith("/exam/") ||
     normalizedPath.startsWith("/exams/");
+  const isEssayWritingPage = normalizedPath.includes("essay-writing");
   const isTakeMyProctoredExamPage =
     normalizedPath === "/take-my-proctored-exam-for-me";
   const btnText =
@@ -684,6 +685,7 @@ const CustomerReviews: FC<CustomerReviewsProps> = ({
     isExamRelatedPage ||
     isTakeMyProctoredExamPage ||
     isHomeworkPage ||
+    isEssayWritingPage ||
     normalizedPath === "/"
       ? 3
       : 6;

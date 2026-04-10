@@ -25,7 +25,7 @@ const Success: FC<SuccessProps> = ({ content }) => {
   const isOnlineClassPage = currentPath.includes("online-class");
   const isAssignmentPage = currentPath.includes("assignment");
   const isHomeworkPage = currentPath.includes("homework");
-
+  const isEssayWritingPage = currentPath.includes("essay-writing");
   const isExamPage =
     currentPath.includes("exam") || currentPath.includes("exams");
   const isTakeMyProctoredExamPage = currentPath.includes(
@@ -39,17 +39,20 @@ const Success: FC<SuccessProps> = ({ content }) => {
     isExamPage ||
     isAssignmentPage ||
     isHomeworkPage ||
+    isEssayWritingPage ||
     isTakeMyProctoredExamPage ||
     currentPath.startsWith("/assignment/") ||
     currentPath.startsWith("/exam/") ||
     currentPath.startsWith("/exams/") ||
-    currentPath.startsWith("/homework/");
+    currentPath.startsWith("/homework/") ||
+    currentPath.startsWith("/essay-writing/");
   const shouldUseNewSliderDesign =
     currentPath === "/" ||
     currentPath === "/online-class" ||
     currentPath.startsWith("/online-class/") ||
     currentPath.startsWith("/assignment/") ||
-    currentPath.startsWith("/homework/");
+    currentPath.startsWith("/homework/") ||
+    currentPath.startsWith("/essay-writing/");
   const scrollToQuote = () => {
     const quoteForm = document.getElementById("quote-form");
     if (quoteForm) {
