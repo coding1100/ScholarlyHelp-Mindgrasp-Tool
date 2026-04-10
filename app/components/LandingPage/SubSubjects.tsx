@@ -171,7 +171,13 @@ export default function SubSubjectsSection({
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-12">
+          <div
+            className={`grid gap-6 mb-12 ${
+              currentPage?.startsWith("/essay-writing/")
+                ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"
+                : "grid-cols-2 sm:grid-cols-3"
+            }`}
+          >
             {SubSubjects.slice(0, 6).map(
               (subject: SubjectType, index: number) =>
                 subject.url ? (
