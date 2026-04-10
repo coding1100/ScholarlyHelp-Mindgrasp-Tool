@@ -17,7 +17,9 @@ const Home = async () => {
     <HomeDataProvider data={pageData}>
       <MainLayout>
         <HeroSection
-          headingSlot={mainHeading ? <HeroHeading mainHeading={mainHeading} /> : undefined}
+          headingSlot={
+            mainHeading ? <HeroHeading mainHeading={mainHeading} /> : undefined
+          }
         />
         {/* All below-the-fold sections mount only after the page is interactive */}
         <BelowFoldLanding />
@@ -31,14 +33,19 @@ export default Home;
 export async function generateMetadata() {
   // Reuse the same cached data - no duplicate DB call
   const pageData = await getHomeData();
-  
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://scholarlyhelp.com';
-  
+
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+
   if (pageData) {
-    const metaTitle = pageData.meta?.title || "Scholarly Help - Academic Writing Services For You";
-    const metaDescription = pageData.meta?.description || "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!";
+    const metaTitle =
+      pageData.meta?.title ||
+      "Scholarly Help - Academic Writing Services For You";
+    const metaDescription =
+      pageData.meta?.description ||
+      "Struggling with online classes, exams, assignments or essays? Scholarly Help provides professional academic writing services tailored to your needs. Get timely, plagiarism-free solutions crafted by experts. Your success starts here!";
     const canonicalUrl = pageData.meta?.canonicalUrl || baseUrl;
-    
+
     return {
       title: metaTitle,
       description: metaDescription,
@@ -47,7 +54,7 @@ export async function generateMetadata() {
       },
     };
   }
-  
+
   return {
     title: "Scholarly Help - Academic Writing Services For You",
     description:

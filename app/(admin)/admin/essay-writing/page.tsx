@@ -162,7 +162,16 @@ export default function EssayWritingAdmin() {
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -181,7 +190,16 @@ export default function EssayWritingAdmin() {
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -240,7 +258,16 @@ export default function EssayWritingAdmin() {
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -270,7 +297,16 @@ export default function EssayWritingAdmin() {
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -291,7 +327,16 @@ export default function EssayWritingAdmin() {
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -314,7 +359,16 @@ export default function EssayWritingAdmin() {
             cardCarousel: { mainHeading: '', description: '', ctaButton: { text: '' }, cards: [] },
             description: { mainHeading: '', description: '', services: [], badges: [], ctaButton: { text: '' } },
             guaranteedBlock: { mainHeading: '', description: '', ctaButton: { text: '' } },
-            processSection: { mainHeading: '', description: '', steps: [] },
+            processSection: {
+              mainHeading: 'State-of-the-Art Process We Follow',
+              description: "Beyond the subjects listed below, we excel at handling diverse topics effectively. Our expertise knows no bounds, ensuring we're ready for any challenge that comes our way.",
+              steps: [
+                { stepNumber: 1, title: 'Place Your<br/>Order', description: 'Use our online form, WhatsApp, Live chat, or email to submit order' },
+                { stepNumber: 2, title: 'Confirm<br/>Payment', description: 'Secure your order with an advance payment to initiate the process.' },
+                { stepNumber: 3, title: 'Expert Work<br/>in Progress', description: 'Our skilled tutors start working on your order promptly.' },
+                { stepNumber: 4, title: 'Get Your<br/>Solution', description: 'Receive your completed work on time, ready for submission.' }
+              ]
+            },
             success: { mainHeading: '', description: '', ctaButton: { text: '' } },
             academicPartners: { mainHeading: '', description: '', cards: [], performances: [], ctaButton: { text: '' } },
             subjects: { mainHeading: '', description: '', ctaText: '', subjectsContent: [] },
@@ -1366,7 +1420,7 @@ export default function EssayWritingAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('processSection.steps', { stepNumber: (pageData.processSection?.steps?.length || 0) + 1, title: '', description: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Step
               </button>
@@ -1395,6 +1449,44 @@ export default function EssayWritingAdmin() {
                 onChange={(e) => updatePageData('success.description', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Course Name (bottom stats bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.course || ''}
+                  onChange={(e) => updatePageData('success.course', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g. Chemistry 101"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Before → After (bottom stats bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.beforeAfter || ''}
+                  onChange={(e) => updatePageData('success.beforeAfter', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g. B → A+ or A+ Grades"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Total (bottom stats bar)
+                </label>
+                <input
+                  type="text"
+                  value={pageData.success?.total || ''}
+                  onChange={(e) => updatePageData('success.total', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g. 96.66%"
+                />
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">CTA Button Text</label>
@@ -1516,6 +1608,16 @@ export default function EssayWritingAdmin() {
                         onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'icon', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                         placeholder="e.g., /assets/Icon/english.png"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs text-gray-500 mb-1">Description (optional)</label>
+                      <textarea
+                        rows={2}
+                        value={subject.description || ''}
+                        onChange={(e) => updateArrayItem('subjects.subjectsContent', index, 'description', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="Short description shown under the subject name"
                       />
                     </div>
                   </div>
@@ -1652,7 +1754,7 @@ export default function EssayWritingAdmin() {
               <button
                 type="button"
                 onClick={() => addArrayItem('academicPartners.cards', { id: Date.now(), title: '', description: '' })}
-                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 hidden"
+                className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
               >
                 + Add Card
               </button>

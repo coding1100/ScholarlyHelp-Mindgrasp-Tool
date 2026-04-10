@@ -45,6 +45,7 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({
 }) => {
   const pageData = usePageData();
   const currentPathname = usePathname();
+  const isEssayWritingPage = currentPathname.includes("essay-writing");
   const shouldShowPerformances =
     currentPathname === "/" ||
     currentPathname === "/online-class" ||
@@ -57,7 +58,8 @@ const AcademicPartners: FC<AcademicPartnersProps> = ({
     currentPathname.startsWith("/exam/") ||
     currentPathname.startsWith("/online-class/") ||
     currentPathname.startsWith("/assignment/") ||
-    currentPathname.startsWith("/homework/");
+    currentPathname.startsWith("/homework/") ||
+    currentPathname.startsWith("/essay-writing/");
   // Use props content if available, otherwise fallback to pageData
   const content = propsContent || pageData?.academicPartners;
 
