@@ -48,7 +48,7 @@ const MTSidebar = ({
     { name: "Micro Learning", href: "/tools/mirco-learning" },
     { name: "Exam Prep", href: "/tools/exam-prep" },
     { name: "Language Practice", href: "/tools/language-practice" },
-    // { name: "CGPA Calculator", href: "/tools/cgpa-calculator" },
+    { name: "CGPA Calculator", href: "/tools/cgpa-calculator" },
 
     // { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
   ];
