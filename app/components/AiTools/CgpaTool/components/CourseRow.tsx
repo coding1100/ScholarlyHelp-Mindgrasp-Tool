@@ -23,7 +23,7 @@ export default function CourseRow(props: {
   return (
     <div className="grid grid-cols-12 gap-2 items-start">
       {showCourseName ? (
-        <div className="col-span-6 md:col-span-5">
+        <div className="col-span-6 md:col-span-4">
           <Input
             value={course.name}
             onChange={(e) => onChange({ ...course, name: e.target.value })}
@@ -52,12 +52,12 @@ export default function CourseRow(props: {
         />
       </div>
 
-      <div className="col-span-2 md:col-span-1 flex sm:justify-end">
+      <div className="col-span-2 flex justify-center">
         <Button
           type="button"
           variant="ghost"
           onClick={onRemove}
-          className="w-full sm:w-10 sm:px-0 lg:w-auto lg:px-3"
+          className="w-full sm:w-10 sm:px-0 lg:w-auto lg:px-3 "
           aria-label="Remove course"
         >
           <span className="hidden lg:inline">Remove</span>
