@@ -9,31 +9,43 @@ const ToolHeader: React.FC = () => {
   const currentPath = usePathname();
 
   // Normalize path by removing trailing slash for consistent comparison
-  const normalizedPath = currentPath?.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
+  const normalizedPath = currentPath?.endsWith("/")
+    ? currentPath.slice(0, -1)
+    : currentPath;
 
   return (
-    <header className="relative flex h-[8vh] items-center justify-between px-4 bg-white dark:bg-gray-900 border-b dark:border-gray-700 transition-colors duration-300">
+    <header className="relative flex h-[8vh] items-center justify-between px-4 bg-white border-b ">
       <div></div>
       {/* Centered Title */}
 
-      <h1 className="md:text-xl font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300">
+      <h1 className="md:text-xl font-semibold text-gray-800 transition-colors duration-300">
         {normalizedPath === "/tools/paraphraser-tool"
-          ? "AI Paraphraser Tool"
+          ? "AI Paraphraser"
           : normalizedPath === "/tools/summarizer-tool"
-            ? "AI summarizer Tool"
+            ? "AI summarizer"
             : normalizedPath === "/tools/thesis-generator-tool"
-              ? "AI Thesis Generator Tool"
+              ? "AI Thesis Generator"
               : normalizedPath === "/tools/essay-outline-tool"
-                ? "AI Essay Outline Tool"
-                : normalizedPath === "/tools/tutor"
-                  ? "AI Tutor Tool"
-                  : normalizedPath === "/tools/exam-prep"
-                    ? "AI Exam Prep Tool"
-                    : normalizedPath === "/tools/mirco-learning"
-                      ? "AI Micro Learning Tool"
-                      : normalizedPath === "/tools/language-practice"
-                        ? "AI Language Practice Tool"
-                        : ""}
+                ? "AI Essay Outline"
+                : normalizedPath === "/tools/essay-title"
+                  ? "AI Essay Title Generator"
+                  : normalizedPath === "/tools/research-question"
+                    ? "AI Research Question Generator"
+                    : normalizedPath === "/tools/pythagoras-solver"
+                      ? "AI Pythagoras Equation Solver"
+                      : normalizedPath === "/tools/citation-tool"
+                        ? "AI Citation "
+                        : normalizedPath === "/tools/tutor"
+                          ? "AI Tutor"
+                          : normalizedPath === "/tools/exam-prep"
+                            ? "AI Exam Prep"
+                            : normalizedPath === "/tools/mirco-learning"
+                              ? "AI Micro Learning"
+                              : normalizedPath === "/tools/language-practice"
+                                ? "AI Language Practice"
+                                : normalizedPath === "/tools/cgpa-calculator"
+                                  ? "CGPA Calculator"
+                                  : ""}
       </h1>
 
       {/* Right-aligned Button */}
@@ -41,7 +53,7 @@ const ToolHeader: React.FC = () => {
       <button
         type="button"
         onClick={() => setShowPricing(true)}
-        className="flex font-sans items-center justify-center gap-2 rounded-lg bg-indigo-600 dark:bg-indigo-700 pl-3 pr-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 dark:hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:focus-visible:outline-indigo-500 transition-colors duration-300"
+        className="flex font-sans items-center justify-center gap-2 rounded-lg bg-[#4f39f6] pl-3 pr-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#615fff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4f39f6] transition-colors duration-300"
       >
         <LuZap className="h-4 w-4 text-white" />
         See Pricing
