@@ -9,7 +9,6 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
-import toast from "react-hot-toast";
 import SocialAuthButtons from "./SocialAuthButtons";
 
 const SignInCard = () => {
@@ -20,11 +19,29 @@ const SignInCard = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const getApiErrorMessage = (err: any, fallback: string) => {
     const message = err?.response?.data?.message;
     if (Array.isArray(message)) return message.join(", ");
     if (typeof message === "string") return message;
     return fallback;
+  };
+
+  const getAuthNetworkErrorMessage = (err: any) => {
+    const msg = String(err?.message || "");
+    const code = String(err?.code || "");
+    const isLikelyDnsOrOffline =
+      !err?.response &&
+      (code === "ERR_NETWORK" ||
+        /Network Error/i.test(msg) ||
+        /Failed to fetch/i.test(msg) ||
+        /ERR_NAME_NOT_RESOLVED/i.test(msg));
+
+    if (isLikelyDnsOrOffline) {
+      return "We can’t reach the server right now (network/DNS issue). Please check your connection and try again.";
+    }
+
+    return null;
   };
 
   const persistSessionAndRedirect = useCallback(
@@ -64,6 +81,7 @@ const SignInCard = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
     const newEmail = email.toLowerCase();
     let payload: any = {
       email: newEmail,
@@ -76,12 +94,14 @@ const SignInCard = () => {
         `${process.env.NEXT_PUBLIC_NGROX_URL}/auth/signin`,
         payload,
       );
-      toast.success("Sign in successfully!");
       setEmail("");
       setPassword("");
       persistSessionAndRedirect(res.data);
     } catch (err: any) {
-      toast.error(getApiErrorMessage(err, "Something went wrong."));
+      const networkMsg = getAuthNetworkErrorMessage(err);
+      const message =
+        networkMsg || getApiErrorMessage(err, "Something went wrong.");
+      setSubmitError(message);
     } finally {
       setLoading(false);
     }
@@ -139,13 +159,22 @@ const SignInCard = () => {
             </button>
           </div>
         </div>
+        {submitError && (
+          <span className="text-xs font-normal leading-tight text-[#F73032]">
+            {submitError}
+          </span>
+        )}
         <Link href="/forgot-password/" className="text-sm hover:underline ">
           Forgot Password?
         </Link>
+
         <button
           type="submit"
           disabled={loading}
-          className="w-[90%] bg-[#ff641a] text-white font-semibold h-[39px] px-4 rounded-lg hover:bg-[#ff641a]/80 transition duration-300 flex items-center justify-center gap-2"
+          className={`w-[90%] bg-[#ff641a] text-white font-semibold min-h-[39px] px-4 py-2 rounded-lg hover:bg-[#ff641a]/80 transition duration-300 flex items-center justify-center gap-2 ${
+            submitError ? "flex-col text-center gap-1" : ""
+          }`}
+          aria-live="polite"
         >
           {loading ? (
             <ColorRing
@@ -155,9 +184,9 @@ const SignInCard = () => {
               colors={["white", "white", "white", "white", "white"]}
             />
           ) : (
-            "Sign In"
+            <span>Sign In</span>
           )}
-          <FaArrowRight />
+          {!submitError && <FaArrowRight />}
         </button>
 
         <SocialAuthButtons returnUrl={returnUrl} />
