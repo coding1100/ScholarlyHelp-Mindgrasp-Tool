@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { CgRename } from "react-icons/cg";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
-import toast from "react-hot-toast";
 import SocialAuthButtons from "./SocialAuthButtons";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -24,6 +23,7 @@ const SignUpCard = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [nameError, setNameError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Password validation function
   const getPasswordValidationMsg = (password: string) => {
@@ -46,8 +46,26 @@ const SignUpCard = () => {
     return "";
   };
 
+  const getAuthNetworkErrorMessage = (err: any) => {
+    const msg = String(err?.message || "");
+    const code = String(err?.code || "");
+    const isLikelyDnsOrOffline =
+      !err?.response &&
+      (code === "ERR_NETWORK" ||
+        /Network Error/i.test(msg) ||
+        /Failed to fetch/i.test(msg) ||
+        /ERR_NAME_NOT_RESOLVED/i.test(msg));
+
+    if (isLikelyDnsOrOffline) {
+      return "We can’t reach the server right now (network/DNS issue). Please check your connection and try again.";
+    }
+
+    return null;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
 
     const newEmail = email.toLowerCase();
     // Validate password and name on submit
@@ -82,7 +100,6 @@ const SignUpCard = () => {
         payload,
       );
       // Only proceed if response is OK
-      toast.success(res?.data?.message || "Sign up successfully!");
       localStorage.setItem("user_name", name);
       localStorage.setItem("user_email", email);
       localStorage.setItem("user_password", password);
@@ -92,9 +109,13 @@ const SignUpCard = () => {
       setPassword("");
       route.push("/otp");
     } catch (err: any) {
-      toast.error(
-        err?.response?.data?.message || err?.message || "Something went wrong.",
-      );
+      const networkMsg = getAuthNetworkErrorMessage(err);
+      const message =
+        networkMsg ||
+        err?.response?.data?.message ||
+        err?.message ||
+        "Something went wrong.";
+      setSubmitError(message);
     } finally {
       setLoading(false);
     }
@@ -179,7 +200,10 @@ const SignUpCard = () => {
         <button
           type="submit"
           disabled={loading}
-          className="lg:w-[90%] bg-[#ff641a] text-white font-semibold h-[39px] px-4 rounded-lg hover:bg-[#ff641a]/80 transition duration-300 flex items-center justify-center gap-2"
+          className={`lg:w-[90%] bg-[#ff641a] text-white font-semibold min-h-[39px] px-4 py-2 rounded-lg hover:bg-[#ff641a]/80 transition duration-300 flex items-center justify-center gap-2 ${
+            submitError ? "flex-col text-center gap-1" : ""
+          }`}
+          aria-live="polite"
         >
           {loading ? (
             <ColorRing
@@ -189,9 +213,16 @@ const SignUpCard = () => {
               colors={["white", "white", "white", "white", "white"]}
             />
           ) : (
-            "Sign Up"
+            <>
+              <span>Sign Up</span>
+              {submitError && (
+                <span className="text-xs font-normal leading-tight opacity-95">
+                  {submitError}
+                </span>
+              )}
+            </>
           )}
-          <FaArrowRight />
+          {!submitError && <FaArrowRight />}
         </button>
         <SocialAuthButtons />
       </form>
