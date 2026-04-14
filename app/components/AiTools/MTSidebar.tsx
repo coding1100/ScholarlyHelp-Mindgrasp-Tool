@@ -35,6 +35,7 @@ const MTSidebar = ({
     ? currentRoute.slice(0, -1)
     : currentRoute;
   const tools = [
+    { name: "Dashboard", href: "/tools/dashboard" },
     { name: "Main Tool", href: "/tools/main-tool" },
     { name: "Paraphraser Tool", href: "/tools/paraphraser-tool" },
     { name: "Summarizer Tool", href: "/tools/summarizer-tool" },
@@ -233,13 +234,13 @@ const MTSidebar = ({
         <span className="text-sm font-semibold">Documents</span>
       </button> */}
       <div className="flex-shrink-0 mb-2">
-        <button
+        {/* <button
           className="flex w-full items-center gap-3 px-3 py-1 text-sm transition-colors bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md"
           onClick={() => setShowTools((prev) => !prev)}
         >
           <FiTool className="h-5 w-5" />
           <span className="text-sm font-semibold">Tools</span>
-        </button>
+        </button> */}
         {/* {showTools && ( */}
         <div className="mt-2 flex flex-col gap-1 pl-8">
           {tools.map((tool, index) => (

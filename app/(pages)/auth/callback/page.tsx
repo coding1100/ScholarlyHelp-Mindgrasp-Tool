@@ -11,11 +11,13 @@ const AuthCallbackPage = () => {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+        const hashParams = new URLSearchParams(
+          window.location.hash.replace(/^#/, ""),
+        );
         const queryParams = new URLSearchParams(window.location.search);
         const accessToken = hashParams.get("access_token");
         const errorDescription = hashParams.get("error_description");
-        const next = queryParams.get("next") || "/tools/main-tool/";
+        const next = queryParams.get("next") || "/tools/dashboard/";
 
         if (errorDescription) {
           toast.error(decodeURIComponent(errorDescription));
@@ -38,7 +40,7 @@ const AuthCallbackPage = () => {
             params: {
               provider: "SUPABASE",
             },
-          }
+          },
         );
 
         const user = verifyResponse?.data?.user;
