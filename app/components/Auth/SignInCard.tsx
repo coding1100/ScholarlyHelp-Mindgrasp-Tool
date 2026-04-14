@@ -36,7 +36,7 @@ const SignInCard = () => {
       document.cookie = `access_token=${data.access_token}; path=/; max-age=86400`;
 
       setTimeout(() => {
-        const redirectUrl = returnUrl || "/tools/main-tool/";
+        const redirectUrl = returnUrl || "/tools/dashboard/";
         route.replace(redirectUrl);
       }, 100);
     },

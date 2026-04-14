@@ -38,11 +38,11 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
       document.cookie = `access_token=${data.access_token}; path=/; max-age=86400`;
 
       setTimeout(() => {
-        const redirectUrl = returnUrl || "/tools/main-tool/";
+        const redirectUrl = returnUrl || "/tools/dashboard/";
         route.replace(redirectUrl);
       }, 100);
     },
-    [returnUrl, route]
+    [returnUrl, route],
   );
 
   const handleGoogleCallback = useCallback(
@@ -56,20 +56,20 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
         setGoogleLoading(true);
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_NGROX_URL}/auth/google/signin`,
-          { idToken: response.credential }
+          { idToken: response.credential },
         );
 
         toast.success("Signed in with Google successfully!");
         persistSessionAndRedirect(res.data);
       } catch (err: any) {
         toast.error(
-          getApiErrorMessage(err, "Google sign-in failed. Please try again.")
+          getApiErrorMessage(err, "Google sign-in failed. Please try again."),
         );
       } finally {
         setGoogleLoading(false);
       }
     },
-    [persistSessionAndRedirect]
+    [persistSessionAndRedirect],
   );
 
   useEffect(() => {
@@ -82,7 +82,11 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
     let cancelled = false;
 
     const initializeGoogleButton = () => {
-      if (cancelled || !window.google?.accounts?.id || !googleButtonRef.current) {
+      if (
+        cancelled ||
+        !window.google?.accounts?.id ||
+        !googleButtonRef.current
+      ) {
         return;
       }
 
@@ -95,7 +99,7 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
       googleButtonRef.current.innerHTML = "";
       const buttonWidth = Math.min(
         360,
-        Math.max(220, googleButtonRef.current.clientWidth || 320)
+        Math.max(220, googleButtonRef.current.clientWidth || 320),
       );
       window.google.accounts.id.renderButton(googleButtonRef.current, {
         theme: "outline",
@@ -116,7 +120,7 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
 
     const scriptId = "google-identity-services";
     const existingScript = document.getElementById(
-      scriptId
+      scriptId,
     ) as HTMLScriptElement | null;
 
     if (existingScript) {
@@ -147,11 +151,11 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
     try {
       setFacebookLoading(true);
       const callbackUrl = `${window.location.origin}/auth/callback?next=${encodeURIComponent(
-        returnUrl || "/tools/main-tool/"
+        returnUrl || "/tools/dashboard/",
       )}`;
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_NGROX_URL}/auth/facebook/url`,
-        { params: { redirectTo: callbackUrl } }
+        { params: { redirectTo: callbackUrl } },
       );
 
       if (!res?.data?.url) {
@@ -163,7 +167,7 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
       window.location.href = res.data.url;
     } catch (err: any) {
       toast.error(
-        getApiErrorMessage(err, "Facebook sign-in failed. Please try again.")
+        getApiErrorMessage(err, "Facebook sign-in failed. Please try again."),
       );
       setFacebookLoading(false);
     }
