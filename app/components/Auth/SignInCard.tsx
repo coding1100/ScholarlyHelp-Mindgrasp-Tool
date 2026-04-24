@@ -10,6 +10,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import SocialAuthButtons from "./SocialAuthButtons";
+import { buildHrefWithSameQuery } from "@/app/utils/url";
 
 interface SignInCardProps {
   switchAuthForm?: string;
@@ -23,6 +24,7 @@ const SignInCard: FC<SignInCardProps> = ({
   const route = useRouter();
   const searchParams = useSearchParams();
   const returnUrl = searchParams.get("returnUrl");
+  const qs = searchParams?.toString() || "";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -58,14 +60,23 @@ const SignInCard: FC<SignInCardProps> = ({
       localStorage.setItem("user_id", data.user.user_id);
       localStorage.setItem("user_name", data.user.name);
       localStorage.setItem("package_type", data.user.package_type);
+      // Always overwrite to avoid stale email from a previous login.
+      const resolvedEmail = String(
+        data?.user?.email || data?.user?.user_email || email,
+      )
+        .trim()
+        .toLowerCase();
+      if (resolvedEmail) localStorage.setItem("user_email", resolvedEmail);
       document.cookie = `access_token=${data.access_token}; path=/; max-age=86400`;
 
       setTimeout(() => {
-        const redirectUrl = returnUrl || "/tools/dashboard/";
+        const redirectPath = returnUrl || "/tools/dashboard/";
+        const qs = searchParams?.toString() || "";
+        const redirectUrl = returnUrl ? redirectPath : buildHrefWithSameQuery(redirectPath, new URLSearchParams(qs));
         route.replace(redirectUrl);
       }, 100);
     },
-    [returnUrl, route],
+    [returnUrl, route, searchParams, email],
   );
 
   const currentPage = usePathname();
@@ -172,7 +183,13 @@ const SignInCard: FC<SignInCardProps> = ({
             {submitError}
           </span>
         )}
-        <Link href="/forgot-password/" className="text-sm hover:underline ">
+        <Link
+          href={buildHrefWithSameQuery(
+            "/forgot-password/",
+            new URLSearchParams(qs),
+          )}
+          className="text-sm hover:underline "
+        >
           Forgot Password?
         </Link>
 
@@ -202,7 +219,10 @@ const SignInCard: FC<SignInCardProps> = ({
       <p className="text-center text-sm  mt-8 relative">
         Do not have an account?
         {switchAuthForm === "" ? (
-          <Link href="/sign-up/" className="hover:underline pl-1">
+          <Link
+            href={buildHrefWithSameQuery("/sign-up/", new URLSearchParams(qs))}
+            className="hover:underline pl-1"
+          >
             Sign up Here
           </Link>
         ) : (

@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FaFacebookF } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { buildHrefWithSameQuery } from "@/app/utils/url";
 
 declare global {
   interface Window {
@@ -35,10 +36,23 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
       localStorage.setItem("user_id", data.user.user_id);
       localStorage.setItem("user_name", data.user.name);
       localStorage.setItem("package_type", data.user.package_type);
+      // Always overwrite to avoid stale email from a previous login.
+      const resolvedEmail = String(data?.user?.email || data?.user?.user_email || "")
+        .trim()
+        .toLowerCase();
+      if (resolvedEmail) localStorage.setItem("user_email", resolvedEmail);
       document.cookie = `access_token=${data.access_token}; path=/; max-age=86400`;
 
       setTimeout(() => {
-        const redirectUrl = returnUrl || "/tools/dashboard/";
+        const redirectPath = returnUrl || "/tools/dashboard/";
+        const currentQs =
+          typeof window !== "undefined" ? window.location.search.slice(1) : "";
+        const redirectUrl = returnUrl
+          ? redirectPath
+          : buildHrefWithSameQuery(
+              redirectPath,
+              new URLSearchParams(currentQs),
+            );
         route.replace(redirectUrl);
       }, 100);
     },
