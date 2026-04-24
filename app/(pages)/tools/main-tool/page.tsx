@@ -1,7 +1,6 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 import { Toaster, toast } from "react-hot-toast";
 import MainToolLayout from "@/app/components/AiTools/MainTool/MainToolLayout";
@@ -11,7 +10,6 @@ import MainDocEditer from "@/app/components/AiTools/MainTool/MainDocEditer";
 const ClientPage = () => {
   const [showEditor, setShowEditor] = useState(false);
   const [flag, setFlag] = useState(false);
-  const searchParams = useSearchParams();
   const [outlineResponse, setOutlineResponse] = useState<string[]>([]);
 
   // This function simulates the API call and updates the state
@@ -26,10 +24,12 @@ const ClientPage = () => {
   };
 
   useEffect(() => {
-    if (searchParams?.get("start") === "1") {
+    if (typeof window === "undefined") return;
+    const sp = new URLSearchParams(window.location.search);
+    if (sp.get("start") === "1") {
       setShowEditor(true);
     }
-  }, [searchParams]);
+  }, []);
 
   return (
     <MainToolLayout flag={flag} setFlag={setFlag}>

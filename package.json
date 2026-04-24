@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 next build",
     "start": "next start",
     "lint": "next lint",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true NODE_OPTIONS=--max-old-space-size=4096 next build"
   },
   "dependencies": {
     "@next/third-parties": "^14.2.5",
@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.10",
     "google-libphonenumber": "^3.2.34",
+    "googleapis": "^171.4.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "katex": "^0.16.9",
