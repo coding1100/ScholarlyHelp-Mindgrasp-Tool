@@ -48,7 +48,7 @@ const SignInCard: FC<SignInCardProps> = ({
         /ERR_NAME_NOT_RESOLVED/i.test(msg));
 
     if (isLikelyDnsOrOffline) {
-      return "We can’t reach the server right now (network/DNS issue). Please check your connection and try again.";
+      return "We can't connect, check your internet connection and try again.";
     }
 
     return null;
@@ -72,7 +72,9 @@ const SignInCard: FC<SignInCardProps> = ({
       setTimeout(() => {
         const redirectPath = returnUrl || "/tools/dashboard/";
         const qs = searchParams?.toString() || "";
-        const redirectUrl = returnUrl ? redirectPath : buildHrefWithSameQuery(redirectPath, new URLSearchParams(qs));
+        const redirectUrl = returnUrl
+          ? redirectPath
+          : buildHrefWithSameQuery(redirectPath, new URLSearchParams(qs));
         route.replace(redirectUrl);
       }, 100);
     },
