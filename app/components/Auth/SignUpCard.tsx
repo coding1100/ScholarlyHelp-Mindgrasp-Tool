@@ -70,7 +70,7 @@ const SignUpCard: FC<SignUpCardProps> = ({
         /ERR_NAME_NOT_RESOLVED/i.test(msg));
 
     if (isLikelyDnsOrOffline) {
-      return "We can’t reach the server right now (network/DNS issue). Please check your connection and try again.";
+      return "We can't connect, check your internet connection and try again.";
     }
 
     return null;
