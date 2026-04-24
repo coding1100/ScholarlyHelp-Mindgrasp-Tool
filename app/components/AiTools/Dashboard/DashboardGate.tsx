@@ -5,12 +5,15 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FiArrowRight, FiLock } from "react-icons/fi";
 import Dashboard from "./Dashboard";
+import { appendQueryString } from "@/app/utils/url";
 
 type Mode = "inline" | "redirect";
 
 export default function DashboardGate({ mode = "inline" }: { mode?: Mode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const currentQs =
+    typeof window !== "undefined" ? window.location.search.slice(1) : "";
   const [hasToken, setHasToken] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -22,10 +25,15 @@ export default function DashboardGate({ mode = "inline" }: { mode?: Mode }) {
     setHasToken(ok);
 
     if (!ok && mode === "redirect") {
-      const next = pathname ? `?next=${encodeURIComponent(pathname)}` : "";
-      router.replace(`/sign-in${next}`);
+      const signInBase = currentQs ? `/sign-in?${currentQs}` : "/sign-in";
+      router.replace(
+        appendQueryString(
+          signInBase,
+          `returnUrl=${encodeURIComponent(pathname || "/tools/dashboard")}`,
+        ),
+      );
     }
-  }, [mode, pathname, router]);
+  }, [currentQs, mode, pathname, router]);
 
   // Avoid flicker/hydration mismatch while checking token.
   if (hasToken === null) {
@@ -62,7 +70,10 @@ export default function DashboardGate({ mode = "inline" }: { mode?: Mode }) {
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/sign-in"
+                href={appendQueryString(
+                  currentQs ? `/sign-in?${currentQs}` : "/sign-in",
+                  `returnUrl=${encodeURIComponent(pathname || "/tools/dashboard")}`,
+                )}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
               >
                 Sign in <FiArrowRight className="h-4 w-4" />
