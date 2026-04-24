@@ -1,21 +1,32 @@
 "use client";
 
 import { Suspense, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
 import LanguageFlow from "@/app/components/AiTools/LanguagePractice/LanguageFlow";
+import { appendQueryString } from "@/app/utils/url";
 // import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
 export default function LanguagePage() {
   const [flag, setFlag] = useState<boolean>(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("access_token");
     if (!isAuthenticated) {
-      router.replace("/sign-in?returnUrl=/tools/paraphraser-tool");
+      const currentQs =
+        typeof window !== "undefined" ? window.location.search.slice(1) : "";
+      const signInBase = currentQs ? `/sign-in?${currentQs}` : "/sign-in";
+      const returnTo = `${pathname || "/tools/language-practice"}${currentQs ? `?${currentQs}` : ""}`;
+      router.replace(
+        appendQueryString(
+          signInBase,
+          `returnUrl=${encodeURIComponent(returnTo)}`,
+        ),
+      );
     }
-  }, [router]);
+  }, [pathname, router]);
 
   return (
     <Suspense

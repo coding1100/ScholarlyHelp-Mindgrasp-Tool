@@ -1,13 +1,12 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
-import AIParaphraser from "@/app/components/AiTools/AIParaphraser-tool";
+import HumanizerTool from "@/app/components/AiTools/HumanizerTool/HumanizerTool";
 import { appendQueryString } from "@/app/utils/url";
-// import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
-export default function ParaphraserPage() {
+export default function HumanizerPage() {
   const [flag, setFlag] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -18,7 +17,7 @@ export default function ParaphraserPage() {
       const currentQs =
         typeof window !== "undefined" ? window.location.search.slice(1) : "";
       const signInBase = currentQs ? `/sign-in?${currentQs}` : "/sign-in";
-      const returnTo = `${pathname || "/tools/paraphraser-tool"}${currentQs ? `?${currentQs}` : ""}`;
+      const returnTo = `${pathname || "/tools/humanizer-tool"}${currentQs ? `?${currentQs}` : ""}`;
       router.replace(
         appendQueryString(
           signInBase,
@@ -30,14 +29,12 @@ export default function ParaphraserPage() {
 
   return (
     <Suspense
-      fallback={
-        <div className="animate-pulse bg-gray-200 dark:bg-gray-800 h-72" />
-      }
+      fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-800 h-72" />}
     >
-      {/* <ThemeToggle top="top-12" /> */}
       <ToolsLayout setFlag={setFlag} flag={flag}>
-        <AIParaphraser setFlag={setFlag} />
+        <HumanizerTool />
       </ToolsLayout>
     </Suspense>
   );
 }
+

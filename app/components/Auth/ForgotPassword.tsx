@@ -8,12 +8,15 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ColorRing } from "react-loader-spinner";
 import toast from "react-hot-toast";
+import { buildHrefWithSameQuery } from "@/app/utils/url";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+  const qs =
+    typeof window !== "undefined" ? window.location.search.slice(1) : "";
 
   const handleRecover = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,7 +87,9 @@ const ForgotPassword = () => {
       <button
         type="button"
         className="w-[90%] font-bold py-3 px-4 rounded-lg hover:bg-gray-300 transition duration-300 flex items-center justify-center gap-2"
-        onClick={() => router.push("/sign-in")}
+        onClick={() => {
+          router.push(buildHrefWithSameQuery("/sign-in", new URLSearchParams(qs)));
+        }}
       >
         Or Sign In Instead
       </button>

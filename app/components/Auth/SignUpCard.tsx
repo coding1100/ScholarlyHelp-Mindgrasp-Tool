@@ -11,6 +11,7 @@ import { CgRename } from "react-icons/cg";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import SocialAuthButtons from "./SocialAuthButtons";
+import { buildHrefWithSameQuery } from "@/app/utils/url";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
@@ -25,6 +26,8 @@ const SignUpCard: FC<SignUpCardProps> = ({
 }) => {
   const route = useRouter();
   const currentPage = usePathname();
+  const qs =
+    typeof window !== "undefined" ? window.location.search.slice(1) : "";
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -117,7 +120,7 @@ const SignUpCard: FC<SignUpCardProps> = ({
       setName("");
       setEmail("");
       setPassword("");
-      route.push("/otp");
+      route.push(buildHrefWithSameQuery("/otp", new URLSearchParams(qs)));
     } catch (err: any) {
       const networkMsg = getAuthNetworkErrorMessage(err);
       const message =
@@ -243,7 +246,10 @@ const SignUpCard: FC<SignUpCardProps> = ({
       <p className="text-center text-sm  mt-8 relative">
         If you have an account?
         {switchAuthForm === "" ? (
-          <Link href="/sign-in/" className="hover:underline pl-1">
+          <Link
+            href={buildHrefWithSameQuery("/sign-in/", new URLSearchParams(qs))}
+            className="hover:underline pl-1"
+          >
             Sign in Here
           </Link>
         ) : (
