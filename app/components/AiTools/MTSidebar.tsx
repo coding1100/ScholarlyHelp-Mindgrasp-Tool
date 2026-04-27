@@ -43,7 +43,10 @@ const MTSidebar = ({
     : currentRoute;
   const tools = [
     { name: "Dashboard", href: "/tools/dashboard" },
-    { name: "Main Tool", href: "/tools/main-tool" },
+    {
+      name: "Academic Research Assistant",
+      href: "/tools/academic-research-assistant",
+    },
     { name: "Paraphraser Tool", href: "/tools/paraphraser-tool" },
     { name: "Summarizer Tool", href: "/tools/summarizer-tool" },
     { name: "Humanizer Tool", href: "/tools/humanizer-tool" },
@@ -53,10 +56,10 @@ const MTSidebar = ({
     { name: "Research Question Generator", href: "/tools/research-question" },
     { name: "Pythagoras Equation Solver", href: "/tools/pythagoras-solver" },
     { name: "Citation Tool", href: "/tools/citation-tool" },
-    { name: "Tutor Tool", href: "/tools/tutor" },
-    { name: "Micro Learning", href: "/tools/mirco-learning" },
-    { name: "Exam Prep", href: "/tools/exam-prep" },
-    { name: "Language Practice", href: "/tools/language-practice" },
+    // { name: "Tutor Tool", href: "/tools/tutor" },
+    // { name: "Micro Learning", href: "/tools/mirco-learning" },
+    // { name: "Exam Prep", href: "/tools/exam-prep" },
+    // { name: "Language Practice", href: "/tools/language-practice" },
     { name: "CGPA Calculator", href: "/tools/cgpa-calculator" },
 
     // { name: "Syllabus Importer", href: "/tools/syllabus-importer" },
@@ -142,7 +145,9 @@ const MTSidebar = ({
   }, [normalizedRoute, searchParams]);
 
   const toolsSheetPostingRef = useRef(false);
-  const toolsSheetDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const toolsSheetDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
   const toolsSheetNeedFlushRef = useRef(false);
 
   useEffect(() => {
@@ -189,7 +194,9 @@ const MTSidebar = ({
       try {
         const prevRaw = window.localStorage.getItem(toolsKey);
         const prev = prevRaw ? (JSON.parse(prevRaw) as unknown) : [];
-        nextTools = Array.isArray(prev) ? prev.filter((t) => typeof t === "string") : [];
+        nextTools = Array.isArray(prev)
+          ? prev.filter((t) => typeof t === "string")
+          : [];
       } catch {
         nextTools = [];
       }
@@ -202,7 +209,8 @@ const MTSidebar = ({
 
       const payload = {
         timestamp: new Date().toISOString(),
-        email: state.user_email || localStorage.getItem("user_email") || undefined,
+        email:
+          state.user_email || localStorage.getItem("user_email") || undefined,
         userId: state.user_id || localStorage.getItem("user_id") || undefined,
         fbc: fbclid,
         toolUsed: nextTools,
@@ -250,7 +258,9 @@ const MTSidebar = ({
       const fbclid = (urlFbclid || state.fbclid || "").trim();
       if (!fbclid) return;
 
-      const detail = (evt as CustomEvent).detail as { toolName?: string } | undefined;
+      const detail = (evt as CustomEvent).detail as
+        | { toolName?: string }
+        | undefined;
       const toolFromEvent = detail?.toolName;
 
       const toolsKey = `sh_toolssheet_tools_${fbclid}`;
@@ -258,7 +268,9 @@ const MTSidebar = ({
       try {
         const prevRaw = window.localStorage.getItem(toolsKey);
         const prev = prevRaw ? (JSON.parse(prevRaw) as unknown) : [];
-        toolsList = Array.isArray(prev) ? prev.filter((t) => typeof t === "string") : [];
+        toolsList = Array.isArray(prev)
+          ? prev.filter((t) => typeof t === "string")
+          : [];
       } catch {
         toolsList = [];
       }
