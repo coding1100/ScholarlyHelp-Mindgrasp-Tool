@@ -343,6 +343,30 @@ export default function Header() {
       {/* Header Top Bar */}
       <div className="max-w-7xl mx-auto max-[1320px]:px-8 flex items-center justify-between pt-2 min-h-[64px]">
         {/* Menu Button - Hidden for special routes */}
+        {!isSpecialRoute && (
+          <button
+            onClick={() => {
+              setMobileOpen((prev) => {
+                const next = !prev;
+                if (next) {
+                  navItems.forEach((item) => prefetchNavItem(item));
+                }
+                return next;
+              });
+            }}
+            className="min-[1200px]:hidden text-gray-700 relative z-[10000] p-1 bg-[#EEEEEE] rounded-md"
+            aria-label={
+              mobileOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? (
+              <X size={20} color="#3e42b3" />
+            ) : (
+              <Menu size={20} color="#3e42b3" />
+            )}
+          </button>
+        )}
         {/* Logo */}
         <Link href="/">
           {/* <Image
@@ -363,30 +387,6 @@ export default function Header() {
             fetchPriority="high"
           />
         </Link>
-        {!isSpecialRoute && (
-          <button
-            onClick={() => {
-              setMobileOpen((prev) => {
-                const next = !prev;
-                if (next) {
-                  navItems.forEach((item) => prefetchNavItem(item));
-                }
-                return next;
-              });
-            }}
-            className="min-[1200px]:hidden text-gray-700 relative z-[10000] p-2"
-            aria-label={
-              mobileOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? (
-              <X size={28} color="#3e42b3" />
-            ) : (
-              <Menu size={28} color="#3e42b3" />
-            )}
-          </button>
-        )}
 
         {/* Rating Stars - Only for /take-my-class/ */}
         {isTakeMyClass && (
