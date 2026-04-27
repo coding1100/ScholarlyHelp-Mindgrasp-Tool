@@ -37,7 +37,9 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
       localStorage.setItem("user_name", data.user.name);
       localStorage.setItem("package_type", data.user.package_type);
       // Always overwrite to avoid stale email from a previous login.
-      const resolvedEmail = String(data?.user?.email || data?.user?.user_email || "")
+      const resolvedEmail = String(
+        data?.user?.email || data?.user?.user_email || "",
+      )
         .trim()
         .toLowerCase();
       if (resolvedEmail) localStorage.setItem("user_email", resolvedEmail);
