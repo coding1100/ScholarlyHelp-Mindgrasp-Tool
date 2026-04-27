@@ -10,6 +10,7 @@ import { buildHrefWithSameQuery } from "@/app/utils/url";
 declare global {
   interface Window {
     google?: any;
+    dataLayer?: Array<Record<string, any>>;
   }
 }
 
@@ -96,6 +97,21 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
     if (!clientId) return;
 
     let cancelled = false;
+    const trackGoogleClick = () => {
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: "signup_google_click" });
+      } catch {
+        // ignore tracking failures
+      }
+    };
+
+    const attachTrackingListener = () => {
+      const el = googleButtonRef.current;
+      if (!el) return;
+      el.removeEventListener("click", trackGoogleClick);
+      el.addEventListener("click", trackGoogleClick);
+    };
 
     const initializeGoogleButton = () => {
       if (
@@ -125,12 +141,15 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
         logo_alignment: "left",
         width: buttonWidth,
       });
+
+      attachTrackingListener();
     };
 
     if (window.google?.accounts?.id) {
       initializeGoogleButton();
       return () => {
         cancelled = true;
+        googleButtonRef.current?.removeEventListener("click", trackGoogleClick);
       };
     }
 
@@ -144,6 +163,7 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
       return () => {
         cancelled = true;
         existingScript.removeEventListener("load", initializeGoogleButton);
+        googleButtonRef.current?.removeEventListener("click", trackGoogleClick);
       };
     }
 
@@ -160,6 +180,7 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
 
     return () => {
       cancelled = true;
+      googleButtonRef.current?.removeEventListener("click", trackGoogleClick);
     };
   }, [handleGoogleCallback]);
 
@@ -199,7 +220,7 @@ const SocialAuthButtons = ({ returnUrl }: SocialAuthButtonsProps) => {
 
       <div
         ref={googleButtonRef}
-        className={`min-h-[44px] flex items-center justify-center ${
+        className={`google-btn min-h-[44px] flex items-center justify-center ${
           googleLoading ? "opacity-70" : ""
         }`}
       />
