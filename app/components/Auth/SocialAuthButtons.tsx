@@ -122,13 +122,6 @@ const SocialAuthButtons = ({
       pushGoogleAuthEvent("google_auth_click");
     };
 
-    const attachTrackingListener = () => {
-      const el = googleButtonRef.current;
-      if (!el) return;
-      el.removeEventListener("click", trackGoogleClick);
-      el.addEventListener("click", trackGoogleClick);
-    };
-
     const initializeGoogleButton = () => {
       if (
         cancelled ||
@@ -156,16 +149,16 @@ const SocialAuthButtons = ({
         shape: "pill",
         logo_alignment: "left",
         width: buttonWidth,
+        // Google Identity Services supported hook: reliable click tracking
+        // even though the button is rendered in an iframe.
+        click_listener: trackGoogleClick,
       });
-
-      attachTrackingListener();
     };
 
     if (window.google?.accounts?.id) {
       initializeGoogleButton();
       return () => {
         cancelled = true;
-        googleButtonRef.current?.removeEventListener("click", trackGoogleClick);
       };
     }
 
@@ -179,7 +172,6 @@ const SocialAuthButtons = ({
       return () => {
         cancelled = true;
         existingScript.removeEventListener("load", initializeGoogleButton);
-        googleButtonRef.current?.removeEventListener("click", trackGoogleClick);
       };
     }
 
@@ -196,7 +188,6 @@ const SocialAuthButtons = ({
 
     return () => {
       cancelled = true;
-      googleButtonRef.current?.removeEventListener("click", trackGoogleClick);
     };
   }, [handleGoogleCallback, pushGoogleAuthEvent]);
 
