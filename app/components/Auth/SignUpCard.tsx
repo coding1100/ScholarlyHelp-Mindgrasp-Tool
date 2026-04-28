@@ -241,7 +241,7 @@ const SignUpCard: FC<SignUpCardProps> = ({
           )}
           {!submitError && <FaArrowRight />}
         </button>
-        <SocialAuthButtons authAction="sign_up" />
+        <SocialAuthButtons flow="signup" />
       </form>
       <p className="text-center text-sm  mt-8 relative">
         If you have an account?
