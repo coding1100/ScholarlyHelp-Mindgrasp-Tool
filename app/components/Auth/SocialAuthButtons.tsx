@@ -6,22 +6,22 @@ import toast from "react-hot-toast";
 import { FaFacebookF } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { buildHrefWithSameQuery } from "@/app/utils/url";
-import { pushToDataLayer } from "@/app/utils/gtm";
 
 declare global {
   interface Window {
     google?: any;
+    dataLayer?: Array<Record<string, any>>;
   }
 }
 
 type SocialAuthButtonsProps = {
   returnUrl?: string | null;
-  flow: "signin" | "signup";
+  authAction: "sign_in" | "sign_up";
 };
 
 const SocialAuthButtons = ({
   returnUrl,
-  flow,
+  authAction,
 }: SocialAuthButtonsProps) => {
   const route = useRouter();
   const googleButtonRef = useRef<HTMLDivElement | null>(null);
@@ -35,12 +35,21 @@ const SocialAuthButtons = ({
     return fallback;
   };
 
-  const pushGoogleAuthClick = useCallback(() => {
-    pushToDataLayer("google_auth_click", {
-      auth_type: "google",
-      flow,
-    });
-  }, [flow]);
+  const pushGoogleAuthEvent = useCallback(
+    (eventName: "google_auth_click" | "google_auth_success") => {
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: eventName,
+          auth_action: authAction,
+          auth_provider: "google",
+        });
+      } catch {
+        // Do not block auth if GTM is unavailable.
+      }
+    },
+    [authAction],
+  );
 
   const persistSessionAndRedirect = useCallback(
     (data: any) => {
@@ -87,6 +96,7 @@ const SocialAuthButtons = ({
           { idToken: response.credential },
         );
 
+        pushGoogleAuthEvent("google_auth_success");
         toast.success("Signed in with Google successfully!");
         persistSessionAndRedirect(res.data);
       } catch (err: any) {
@@ -97,7 +107,7 @@ const SocialAuthButtons = ({
         setGoogleLoading(false);
       }
     },
-    [persistSessionAndRedirect],
+    [persistSessionAndRedirect, pushGoogleAuthEvent],
   );
 
   useEffect(() => {
@@ -108,6 +118,9 @@ const SocialAuthButtons = ({
     if (!clientId) return;
 
     let cancelled = false;
+    const trackGoogleClick = () => {
+      pushGoogleAuthEvent("google_auth_click");
+    };
 
     const initializeGoogleButton = () => {
       if (
@@ -138,7 +151,7 @@ const SocialAuthButtons = ({
         width: buttonWidth,
         // Google Identity Services supported hook: reliable click tracking
         // even though the button is rendered in an iframe.
-        click_listener: pushGoogleAuthClick,
+        click_listener: trackGoogleClick,
       });
     };
 
@@ -176,7 +189,7 @@ const SocialAuthButtons = ({
     return () => {
       cancelled = true;
     };
-  }, [handleGoogleCallback, pushGoogleAuthClick]);
+  }, [handleGoogleCallback, pushGoogleAuthEvent]);
 
   const handleFacebookSignIn = async () => {
     try {
