@@ -39,34 +39,82 @@ export default function RootLayout({
         {process.env.NODE_ENV === "production" && (
           <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         )}
+      </head>
+      <body suppressHydrationWarning>
+        <main id="main-content">{children}</main>
 
-        {/* Google Tag Manager - Standard snippet */}
+        {/* GTM - Loaded only after the page is fully loaded to protect LCP */}
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-5ZHV46X');
+              (function() {
+                var gtmLoaded = false;
+                
+                function addDNSPrefetch() {
+                  // Add DNS prefetch dynamically only when needed
+                  var link = document.createElement('link');
+                  link.rel = 'dns-prefetch';
+                  link.href = 'https://www.googletagmanager.com';
+                  document.head.appendChild(link);
+                }
+                
+                function initGTM() {
+                  if (gtmLoaded) return;
+                  gtmLoaded = true;
+                  
+                  // Add DNS prefetch right before loading GTM
+                  addDNSPrefetch();
+                  
+                  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                  })(window,document,'script','dataLayer','GTM-5ZHV46X');
+                }
+                
+                // Wait for page to be fully loaded
+                function waitForLoad() {
+                  if (document.readyState === 'complete') {
+                    loadGTM();
+                  } else {
+                    window.addEventListener('load', loadGTM, { once: true });
+                  }
+                }
+                
+                function loadGTM() {
+                  // Use requestIdleCallback for maximum web vitals protection
+                  if ('requestIdleCallback' in window) {
+                    requestIdleCallback(function() {
+                      setTimeout(initGTM, 5000); // 5 second delay after idle
+                    }, { timeout: 8000 }); // Fallback after 8 seconds max
+                  } else {
+                    // Fallback for browsers without requestIdleCallback
+                    setTimeout(initGTM, 8000);
+                  }
+                }
+                
+                // Also load on first user interaction as backup
+                var interactionEvents = ['scroll', 'mousedown', 'touchstart', 'keydown'];
+                var interactionHandler = function() {
+                  if (!gtmLoaded) {
+                    setTimeout(initGTM, 3000);
+                    interactionEvents.forEach(function(event) {
+                      window.removeEventListener(event, interactionHandler);
+                    });
+                  }
+                };
+                
+                interactionEvents.forEach(function(event) {
+                  window.addEventListener(event, interactionHandler, { once: true, passive: true });
+                });
+                
+                waitForLoad();
+              })();
             `,
           }}
         />
-      </head>
-      <body suppressHydrationWarning>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-5ZHV46X"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
-        <main id="main-content">{children}</main>
 
         {/* Client-side scripts that need pathname */}
         <ClientScripts />
