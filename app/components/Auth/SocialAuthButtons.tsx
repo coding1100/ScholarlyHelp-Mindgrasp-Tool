@@ -25,6 +25,7 @@ const SocialAuthButtons = ({
 }: SocialAuthButtonsProps) => {
   const route = useRouter();
   const googleButtonRef = useRef<HTMLDivElement | null>(null);
+  const googleIframeObserverRef = useRef<MutationObserver | null>(null);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [facebookLoading, setFacebookLoading] = useState(false);
 
@@ -122,6 +123,41 @@ const SocialAuthButtons = ({
       pushGoogleAuthEvent("google_auth_click");
     };
 
+    const ensureGoogleIframeId = () => {
+      const container = googleButtonRef.current;
+      if (!container) return false;
+
+      const iframe = container.querySelector("iframe");
+      if (!iframe) return false;
+
+      if (iframe.id !== "google-click") iframe.id = "google-click";
+      return true;
+    };
+
+    const observeGoogleIframe = () => {
+      const container = googleButtonRef.current;
+      if (!container) return;
+
+      // If it's already there (sometimes it renders synchronously), set and stop.
+      if (ensureGoogleIframeId()) {
+        googleIframeObserverRef.current?.disconnect();
+        googleIframeObserverRef.current = null;
+        return;
+      }
+
+      googleIframeObserverRef.current?.disconnect();
+      const observer = new MutationObserver(() => {
+        if (ensureGoogleIframeId()) {
+          observer.disconnect();
+          if (googleIframeObserverRef.current === observer) {
+            googleIframeObserverRef.current = null;
+          }
+        }
+      });
+      observer.observe(container, { childList: true, subtree: true });
+      googleIframeObserverRef.current = observer;
+    };
+
     const initializeGoogleButton = () => {
       if (
         cancelled ||
@@ -130,6 +166,9 @@ const SocialAuthButtons = ({
       ) {
         return;
       }
+
+      googleIframeObserverRef.current?.disconnect();
+      googleIframeObserverRef.current = null;
 
       window.google.accounts.id.initialize({
         client_id: clientId,
@@ -153,12 +192,16 @@ const SocialAuthButtons = ({
         // even though the button is rendered in an iframe.
         click_listener: trackGoogleClick,
       });
+
+      observeGoogleIframe();
     };
 
     if (window.google?.accounts?.id) {
       initializeGoogleButton();
       return () => {
         cancelled = true;
+        googleIframeObserverRef.current?.disconnect();
+        googleIframeObserverRef.current = null;
       };
     }
 
@@ -172,6 +215,8 @@ const SocialAuthButtons = ({
       return () => {
         cancelled = true;
         existingScript.removeEventListener("load", initializeGoogleButton);
+        googleIframeObserverRef.current?.disconnect();
+        googleIframeObserverRef.current = null;
       };
     }
 
@@ -188,6 +233,8 @@ const SocialAuthButtons = ({
 
     return () => {
       cancelled = true;
+      googleIframeObserverRef.current?.disconnect();
+      googleIframeObserverRef.current = null;
     };
   }, [handleGoogleCallback, pushGoogleAuthEvent]);
 
