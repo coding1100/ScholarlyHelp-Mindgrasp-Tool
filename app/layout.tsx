@@ -33,48 +33,92 @@ export default function RootLayout({
     <html lang="en" className={poppins.variable}>
       <head>
         {/* Resource Hints for better performance */}
-
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
 
         {/* Force HTTPS for all resources in production only */}
         {process.env.NODE_ENV === "production" && (
-          <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          />
         )}
-      </head>
-      <body suppressHydrationWarning>
-        <main id="main-content">{children}</main>
 
-        {/* GTM - Loaded only after the page is fully loaded to protect LCP */}
+        {/* Google Tag Manager */}
         <Script
           id="gtm-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-5ZHV46X');
+            `,
+          }}
+        />
+        {/* End Google Tag Manager */}
+      </head>
+      <body suppressHydrationWarning>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5ZHV46X"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
+        <main id="main-content">{children}</main>
+
+        {/* Legacy GTM loader (kept for backwards compatibility / perf gating).
+            Safe: it won't load GTM again if it's already present. */}
+        <Script
+          id="gtm-legacy-delayed-loader"
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 var gtmLoaded = false;
-                
-                function addDNSPrefetch() {
-                  // Add DNS prefetch dynamically only when needed
-                  var link = document.createElement('link');
-                  link.rel = 'dns-prefetch';
-                  link.href = 'https://www.googletagmanager.com';
-                  document.head.appendChild(link);
+
+                function hasGtmScript() {
+                  try {
+                    return !!document.querySelector("script[src*='googletagmanager.com/gtm.js?id=GTM-5ZHV46X']");
+                  } catch (e) {
+                    return false;
+                  }
                 }
-                
+
+                function addDNSPrefetch() {
+                  try {
+                    var existing = document.querySelector("link[rel='dns-prefetch'][href='https://www.googletagmanager.com']");
+                    if (existing) return;
+                    var link = document.createElement('link');
+                    link.rel = 'dns-prefetch';
+                    link.href = 'https://www.googletagmanager.com';
+                    document.head.appendChild(link);
+                  } catch (e) {}
+                }
+
                 function initGTM() {
                   if (gtmLoaded) return;
+                  if (hasGtmScript() || (window.google_tag_manager && window.google_tag_manager['GTM-5ZHV46X'])) {
+                    gtmLoaded = true;
+                    return;
+                  }
                   gtmLoaded = true;
-                  
-                  // Add DNS prefetch right before loading GTM
+
                   addDNSPrefetch();
-                  
+
                   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
                   })(window,document,'script','dataLayer','GTM-5ZHV46X');
                 }
-                
-                // Wait for page to be fully loaded
+
                 function waitForLoad() {
                   if (document.readyState === 'complete') {
                     loadGTM();
@@ -82,20 +126,21 @@ export default function RootLayout({
                     window.addEventListener('load', loadGTM, { once: true });
                   }
                 }
-                
+
                 function loadGTM() {
-                  // Use requestIdleCallback for maximum web vitals protection
+                  if (hasGtmScript() || (window.google_tag_manager && window.google_tag_manager['GTM-5ZHV46X'])) {
+                    gtmLoaded = true;
+                    return;
+                  }
                   if ('requestIdleCallback' in window) {
                     requestIdleCallback(function() {
-                      setTimeout(initGTM, 5000); // 5 second delay after idle
-                    }, { timeout: 8000 }); // Fallback after 8 seconds max
+                      setTimeout(initGTM, 5000);
+                    }, { timeout: 8000 });
                   } else {
-                    // Fallback for browsers without requestIdleCallback
                     setTimeout(initGTM, 8000);
                   }
                 }
-                
-                // Also load on first user interaction as backup
+
                 var interactionEvents = ['scroll', 'mousedown', 'touchstart', 'keydown'];
                 var interactionHandler = function() {
                   if (!gtmLoaded) {
@@ -105,11 +150,11 @@ export default function RootLayout({
                     });
                   }
                 };
-                
+
                 interactionEvents.forEach(function(event) {
                   window.addEventListener(event, interactionHandler, { once: true, passive: true });
                 });
-                
+
                 waitForLoad();
               })();
             `,
