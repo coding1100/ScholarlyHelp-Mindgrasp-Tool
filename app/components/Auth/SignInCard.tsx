@@ -216,7 +216,7 @@ const SignInCard: FC<SignInCardProps> = ({
           {!submitError && <FaArrowRight />}
         </button>
 
-        <SocialAuthButtons returnUrl={returnUrl} authAction="sign_in" />
+        <SocialAuthButtons returnUrl={returnUrl} flow="signin" />
       </form>
       <p className="text-center text-sm  mt-8 relative">
         Do not have an account?
