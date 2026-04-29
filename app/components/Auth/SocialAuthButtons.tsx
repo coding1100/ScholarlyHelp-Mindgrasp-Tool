@@ -37,11 +37,14 @@ const SocialAuthButtons = ({
   };
 
   const pushGoogleAuthEvent = useCallback(
-    (eventName: "google_auth_click" | "google_auth_success") => {
+    (eventName: "signup_google_click" | "signup_success") => {
       try {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: eventName,
+          ...(eventName === "signup_success"
+            ? { signup_method: "google" }
+            : {}),
           auth_action: authAction,
           auth_provider: "google",
         });
@@ -97,7 +100,7 @@ const SocialAuthButtons = ({
           { idToken: response.credential },
         );
 
-        pushGoogleAuthEvent("google_auth_success");
+        pushGoogleAuthEvent("signup_success");
         toast.success("Signed in with Google successfully!");
         persistSessionAndRedirect(res.data);
       } catch (err: any) {
@@ -120,7 +123,7 @@ const SocialAuthButtons = ({
 
     let cancelled = false;
     const trackGoogleClick = () => {
-      pushGoogleAuthEvent("google_auth_click");
+      pushGoogleAuthEvent("signup_google_click");
     };
 
     const ensureGoogleIframeId = () => {
@@ -131,6 +134,7 @@ const SocialAuthButtons = ({
       if (!iframe) return false;
 
       if (iframe.id !== "google-click") iframe.id = "google-click";
+      iframe.classList.add("googleclick");
       return true;
     };
 
@@ -274,6 +278,8 @@ const SocialAuthButtons = ({
 
       <div
         ref={googleButtonRef}
+        data-google-signin
+        data-auth-action={authAction}
         className={`google-btn min-h-[44px] flex items-center justify-center ${
           googleLoading ? "opacity-70" : ""
         }`}
