@@ -1,7 +1,12 @@
 "use client";
 
+import "katex/dist/katex.min.css";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import ReactMarkdown from "react-markdown";
+import rehypeKatex from "rehype-katex";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 import FloatingChat from "../FloatingChat/FloatingChat";
 import { trackToolGenerate } from "@/app/utils/toolsSheetClient";
 import {
@@ -133,6 +138,68 @@ function formatTutorValue(value: unknown): string {
   }
 
   return String(value);
+}
+
+function TutorMarkdown({
+  content,
+  className = "",
+}: {
+  content: string;
+  className?: string;
+}) {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm as any, remarkMath as any]}
+      rehypePlugins={[rehypeKatex as any]}
+      className={[
+        "prose prose-sm max-w-none",
+        "prose-headings:mt-3 prose-headings:mb-2 prose-headings:text-black",
+        "prose-p:my-2 prose-p:text-gray-700",
+        "prose-strong:text-black",
+        "prose-a:text-[#155dfc] hover:prose-a:text-[#2b7fff]",
+        "prose-ul:my-2 prose-ul:list-disc prose-ul:pl-5",
+        "prose-ol:my-2 prose-ol:list-decimal prose-ol:pl-5",
+        "prose-li:my-1",
+        "prose-code:rounded prose-code:bg-black/5 prose-code:px-1 prose-code:py-0.5 prose-code:text-[0.9em] prose-code:text-black",
+        "prose-pre:rounded-lg prose-pre:bg-[#0b1220] prose-pre:p-4 prose-pre:text-gray-100 prose-pre:shadow-sm",
+        "prose-pre:overflow-x-auto",
+        className,
+      ].join(" ")}
+      components={{
+        a: ({ href, children, ...props }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            {...props}
+          >
+            {children}
+          </a>
+        ),
+        p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+        code: ({ className, children, ...props }) => {
+          const isBlock = Boolean(className);
+          if (!isBlock) {
+            return (
+              <code className={className} {...props}>
+                {children}
+              </code>
+            );
+          }
+
+          return (
+            <pre className="not-prose">
+              <code className={className} {...props}>
+                {children}
+              </code>
+            </pre>
+          );
+        },
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  );
 }
 
 export default function TutorFlow() {
@@ -496,9 +563,7 @@ export default function TutorFlow() {
                     <h3 className="mb-2 text-base font-semibold text-black">
                       Summary
                     </h3>
-                    <p className="whitespace-pre-wrap text-sm text-gray-700">
-                      {formatTutorValue(result.summary)}
-                    </p>
+                    <TutorMarkdown content={formatTutorValue(result.summary)} />
                   </section>
                 )}
 
@@ -507,9 +572,9 @@ export default function TutorFlow() {
                     <h3 className="mb-2 text-base font-semibold text-black">
                       Explanation
                     </h3>
-                    <p className="whitespace-pre-wrap text-sm text-gray-700">
-                      {formatTutorValue(result.explanation)}
-                    </p>
+                    <TutorMarkdown
+                      content={formatTutorValue(result.explanation)}
+                    />
                   </section>
                 )}
 
@@ -609,9 +674,12 @@ export default function TutorFlow() {
                           )}
 
                           {grade && question.explanation && (
-                            <p className="mt-3 text-sm text-gray-600">
-                              {formatTutorValue(question.explanation)}
-                            </p>
+                            <div className="mt-3">
+                              <TutorMarkdown
+                                content={formatTutorValue(question.explanation)}
+                                className="prose-p:text-gray-600"
+                              />
+                            </div>
                           )}
                         </div>
                       ))}
