@@ -3,7 +3,7 @@
 import {
   ParsedQuestion,
   parseQuizFromResponse,
-  sendChatMessage,
+  sendMicroLearningMessage,
 } from "@/app/utilities/api";
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
@@ -41,9 +41,22 @@ export default function Step10({
       setIsLoading(true);
       setError(null);
       try {
-        const message =
-          'Generate a quick 2-3 question micro-quiz about the lesson to test understanding. Use the generate_quiz tool with topic="the lesson", num_questions=2, difficulty="medium".';
-        const response = await sendChatMessage(message, conversationId);
+        const message = `Create a quick 2-3 question multiple-choice micro-quiz to test understanding of the previous lesson.
+
+Formatting rules (follow exactly):
+- Each question must be formatted like:
+  **Question 1:**
+  <question text>
+  A) <option>
+  B) <option>
+  C) <option>
+  D) <option>
+  **Answer:** <A-D>
+- Repeat for Question 2, Question 3 (if included)
+
+Difficulty: medium`;
+
+        const response = await sendMicroLearningMessage(message, conversationId);
         const parsedQuestions = parseQuizFromResponse(response.message);
 
         if (parsedQuestions.length === 0) {

@@ -1,4 +1,5 @@
 const TUTOR_AGENT_ID = "education.personal_tutor";
+const MICRO_LEARNING_AGENT_ID = "education.micro_learning_agent";
 const TUTOR_WORKSPACE_STORAGE_KEY = "sh_tutor_workspace_v1";
 
 const trimTrailingSlash = (url: string) => (url.endsWith("/") ? url.slice(0, -1) : url);
@@ -178,6 +179,48 @@ export async function sendChatMessage(
       agent_id: TUTOR_AGENT_ID,
     };
   }
+}
+
+/**
+ * Send a message to the micro-learning agent
+ */
+export async function sendMicroLearningMessage(
+  message: string,
+  conversationId: string | null = null,
+): Promise<ChatResponse> {
+  const response = await fetch(
+    `${PUBLIC_BASE_URL}/agents/${MICRO_LEARNING_AGENT_ID}/chat`,
+    {
+      method: "POST",
+      headers: {
+        "X-API-Key": API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        conversation_id: conversationId,
+        message,
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(
+      `API Error: ${response.status} ${response.statusText} - ${errorText}`,
+    );
+  }
+
+  const data = (await response.json()) as Partial<ChatResponse> & {
+    conversation_id?: string;
+    message?: string;
+    agent_id?: string;
+  };
+
+  return {
+    conversation_id: data.conversation_id || conversationId || "",
+    message: data.message || "",
+    agent_id: data.agent_id || MICRO_LEARNING_AGENT_ID,
+  };
 }
 
 export async function getTutorWorkspace(): Promise<TutorWorkspace> {

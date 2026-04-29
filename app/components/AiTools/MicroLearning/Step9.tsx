@@ -1,6 +1,6 @@
 "use client";
 
-import { sendChatMessage } from "@/app/utilities/api";
+import { sendMicroLearningMessage } from "@/app/utilities/api";
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -28,8 +28,15 @@ export default function Step9({
     setIsLoading(true);
     setError(null);
     try {
-      const message = `Generate a ${duration}-minute micro-lesson about ${topic}. Use the generate_micro_lesson tool with topic="${topic}", time_minutes=${duration}.`;
-      const response = await sendChatMessage(message, conversationId);
+      const message = `I want to learn ${topic} in ${duration} minutes.
+
+Please provide:
+1) A focused micro-lesson sized for ${duration} minutes
+2) Clear examples (and short visual/structured aids if useful)
+3) 2-3 quick practice questions at the end (with answers)
+4) Brief feedback/explanations for the answers`;
+
+      const response = await sendMicroLearningMessage(message, conversationId);
       setLessonContent(response.message);
       setConversationId(response.conversation_id);
     } catch (err) {
