@@ -150,6 +150,7 @@ const pagesNavigation = [
   { name: 'Edit On-Time Delivery', href: '/admin/on-time-delivery-guarantee', icon: DeliveryIcon },
   { name: 'Edit Take My Class', href: '/admin/take-my-class', icon: TakeMyClassIcon },
   { name: 'Edit Take My Class 2', href: '/admin/take-my-class-2', icon: TakeMyClassIcon },
+  { name: 'Edit Take My Class 3', href: '/admin/take-my-class-3', icon: TakeMyClassIcon },
   { name: 'Edit Take My Exam', href: '/admin/take-my-exam', icon: TakeMyExamIcon },
   { name: 'Edit Take My Proctored Exam', href: '/admin/take-my-proctored-exam-for-me', icon: TakeMyExamIcon },
 ];

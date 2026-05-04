@@ -49,6 +49,9 @@ interface HeroLeadProps {
 const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
   const pathname = usePathname();
   const normalizedPath = (pathname || "").replace(/\/+$/, "") || "/";
+  const isTakeMyClassPage =
+    normalizedPath === "/take-my-class" ||
+    normalizedPath === "/take-my-class-3";
 
   // Routes where badges section should be hidden
   const hiddenRoutes = new Set(
@@ -62,6 +65,8 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
       "/us-based-phd-experts",
       "/take-my-class",
       "/take-my-class/",
+      "/take-my-class-3",
+      "/take-my-class-3/",
       "/take-my-exam",
       "/take-my-exam/",
     ].map((route) => route.replace(/\/+$/, "") || "/"),
@@ -96,6 +101,8 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     [
       "/take-my-class",
       "/take-my-class/",
+      "/take-my-class-3",
+      "/take-my-class-3/",
       "/take-my-class-2",
       "/take-my-class-2/",
       "/take-my-exam",
@@ -146,7 +153,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     <div className="max-w-2xl">
       {!hideHeading && (
         <h1 className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black">
-          {pathname === "/take-my-class/" ? (
+          {isTakeMyClassPage ? (
             <div className="md:pt-5">
               We Take Your Online Class |{" "}
               <span className="text-[#F56200]">Guaranteed A or B</span>
@@ -231,7 +238,7 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
       )}
 
       {/* Done */}
-      {(pathname === "/take-my-class/" || shouldHideBadges) && (
+      {(isTakeMyClassPage || shouldHideBadges) && (
         <div className="sm:mt-6 mt-2">
           <div className="flex justify-between items-center sm:gap-5 gap-2">
             <div className="p-3 flex items-start gap-3 sm:bg-white sm:border sm:border-[#E2E1F3] rounded-lg">

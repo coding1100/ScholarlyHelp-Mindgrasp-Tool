@@ -25,6 +25,11 @@ const DetailsAndMsgForm: FC<DetailsAndMsgFormProps> = ({}) => {
   const [wholeUrl, setWholeUrl] = useState<string>("");
 
   const currentPage = usePathname();
+  const isTakeMyClassPage =
+    currentPage === "/take-my-class/" ||
+    currentPage === "/take-my-class" ||
+    currentPage === "/take-my-class-3/" ||
+    currentPage === "/take-my-class-3";
   // const wholeUrl = window.location.href;
   const router = useRouter();
 
@@ -46,7 +51,7 @@ const DetailsAndMsgForm: FC<DetailsAndMsgFormProps> = ({}) => {
     setWithEmailLoading(true);
     const regex = /^(.+@.+|\d{10}|\+\d{1,2}\(\d{3}\)\d{3}-\d{4})$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (currentPage === "/take-my-class/") {
+    if (isTakeMyClassPage) {
       if (!emailRegex.test(contactDetails)) {
         setPhoneErr("❌ Please enter a valid email.");
         setWithEmailLoading(false);
@@ -113,7 +118,7 @@ const DetailsAndMsgForm: FC<DetailsAndMsgFormProps> = ({}) => {
                 <input
                   type="text"
                   placeholder={
-                    currentPage === "/take-my-class/"
+                    isTakeMyClassPage
                       ? "Email"
                       : "Phone / Email"
                   }
