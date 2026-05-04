@@ -31,7 +31,9 @@ export default function Header() {
     pathname === "/take-my-class/" ||
     pathname === "/take-my-class" ||
     pathname === "/take-my-class-2/" ||
-    pathname === "/take-my-class-2";
+    pathname === "/take-my-class-2" ||
+    pathname === "/take-my-class-3" ||
+    pathname === "/take-my-class-3/";
   const isTakeMyExam =
     pathname === "/take-my-exam/" || pathname === "/take-my-exam";
   const isSpecialRoute = isTakeMyClass || isTakeMyExam;
