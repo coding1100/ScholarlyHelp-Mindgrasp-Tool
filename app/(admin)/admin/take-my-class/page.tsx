@@ -1,19 +1,24 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function TakeMyClassAdmin() {
+  const pathname = usePathname();
+  const isTakeMyClass3 = pathname?.includes("take-my-class-3");
+  const pageId = isTakeMyClass3 ? "take-my-class-3" : "take-my-class";
+  const pageLabel = isTakeMyClass3 ? "Take My Class 3" : "Take My Class";
   const [pageData, setPageData] = useState<any>(null);
   const [pageLoading, setPageLoading] = useState(false);
 
-  // Load take-my-class page data on mount
+  // Load page data on mount
   useEffect(() => {
     const loadTakeMyClassPage = async () => {
       setPageLoading(true);
       try {
-        const res = await fetch(`/api/admin/take-my-class`);
+        const res = await fetch(`/api/admin/${pageId}`);
         if (!res.ok) {
-          console.error('Failed to fetch take-my-class page:', res.status, res.statusText);
+          console.error(`Failed to fetch ${pageId} page:`, res.status, res.statusText);
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
@@ -24,10 +29,11 @@ export default function TakeMyClassAdmin() {
 
         setPageData(data && Object.keys(data).length > 0 ? {
           ...data,
-          pageType: data.id || data.pageType || 'take-my-class'
+          id: data.id || pageId,
+          pageType: data.pageType || data.id || pageId
         } : {
-          id: 'take-my-class',
-          pageType: 'take-my-class',
+          id: pageId,
+          pageType: pageId,
           meta: { title: '', description: '', canonicalUrl: '' },
           heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
 whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderItems: [] },
@@ -43,10 +49,10 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
           faq: { mainHeading: '', faqs: [] }
         });
       } catch (error) {
-        console.error('Error fetching take-my-class page:', error);
+        console.error(`Error fetching ${pageId} page:`, error);
         setPageData({
-          id: 'take-my-class',
-          pageType: 'take-my-class',
+          id: pageId,
+          pageType: pageId,
           meta: { title: '', description: '', canonicalUrl: '' },
           heroSection: { mainHeading: '', subHeading: '', description: '', btn1: '', btn2: '', btn1Url: '', btn2Url: '' },
 whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderItems: [] },
@@ -66,7 +72,7 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
       }
     };
     loadTakeMyClassPage();
-  }, []);
+  }, [pageId]);
 
   const updatePageData = (path: string, value: any) => {
     const keys = path.split('.');
@@ -135,14 +141,14 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
     if (!pageData) return;
     setPageLoading(true);
     try {
-      const response = await fetch('/api/admin/take-my-class', {
+      const response = await fetch(`/api/admin/${pageId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(pageData),
       });
       const result = await response.json();
       if (result.success) {
-        alert('Take My Class page saved successfully!');
+        alert(`${pageLabel} page saved successfully!`);
       } else {
         alert(`Error: ${result.error || 'Failed to save'}`);
       }
@@ -1042,8 +1048,8 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
   return (
     <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Manage Take My Class Page Content</h1>
-        <p className="mt-2 text-sm text-gray-600">Edit the Take My Class page content</p>
+        <h1 className="text-3xl font-bold text-gray-900">Manage {pageLabel} Page Content</h1>
+        <p className="mt-2 text-sm text-gray-600">Edit the {pageLabel} page content</p>
       </div>
 
       {pageLoading && (
@@ -1055,7 +1061,7 @@ whySlider: { mainHeading: '', description: '', ctaButton: { text: '' }, sliderIt
       {!pageLoading && (
         <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
           <p className="text-sm text-blue-800">
-            <strong>Editing:</strong> Take My Class Page
+            <strong>Editing:</strong> {pageLabel} Page
           </p>
         </div>
       )}
