@@ -33,7 +33,11 @@ import BlockToolbar from "./BlockToolbar";
 import ParagraphToolbar from "./ParagraphToolbar";
 import axios from "axios";
 import { MdOutlineDragIndicator, MdAdd } from "react-icons/md";
-import { WordCountContext, EditorContext } from "./MainToolLayout";
+import {
+  WordCountContext,
+  EditorContext,
+  EditorPreferencesContext,
+} from "./MainToolLayout";
 import { trackToolGenerate } from "@/app/utils/toolsSheetClient";
 
 // Custom node views by extending built-in nodes
@@ -341,6 +345,9 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
 }) => {
   const { setWordCount } = useContext(WordCountContext);
   const { setEditor: setEditorContext } = useContext(EditorContext);
+  const { autoComplete, showAutocompleteButtons } = useContext(
+    EditorPreferencesContext,
+  );
 
   // Generate content from outlineResponse
   const initialContent = useMemo(() => {
@@ -508,6 +515,14 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
   useEffect(() => {
     if (!editor) return;
     const updateSuggestion = async () => {
+      if (!autoComplete) {
+        setAISuggestion("");
+        setSuggestionCursorPos(null);
+        const commands = editor.commands as any;
+        commands.clearAISuggestion();
+        return;
+      }
+
       const pos = editor.state.selection.from;
 
       // Build payload from document content
@@ -523,25 +538,29 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
         content_sofar: content_sofar || "",
       };
 
-      const suggestion = await fetchAISuggestion(payload, aiApiUrl);
-      const plainText = suggestion.replace(/<[^>]*>/g, "");
+      try {
+        const suggestion = await fetchAISuggestion(payload, aiApiUrl);
+        const plainText = suggestion.replace(/<[^>]*>/g, "");
 
-      setAISuggestion(plainText);
-      setSuggestionCursorPos(pos);
+        setAISuggestion(plainText);
+        setSuggestionCursorPos(pos);
 
-      // Clear previous suggestion and add new one
-      const commands = editor.commands as any;
-      commands.clearAISuggestion();
-      commands.addAISuggestion(pos, plainText);
+        // Clear previous suggestion and add new one
+        const commands = editor.commands as any;
+        commands.clearAISuggestion();
+        commands.addAISuggestion(pos, plainText);
 
-      // Position the buttons near the cursor
-      const dom = editor.view.domAtPos(pos);
-      if (dom.node instanceof HTMLElement) {
-        const rect = dom.node.getBoundingClientRect();
-        setSuggestionButtonPos({
-          top: rect.bottom + window.scrollY,
-          left: rect.left + window.scrollX,
-        });
+        // Position the buttons near the cursor
+        const dom = editor.view.domAtPos(pos);
+        if (dom.node instanceof HTMLElement) {
+          const rect = dom.node.getBoundingClientRect();
+          setSuggestionButtonPos({
+            top: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching AI suggestion:", error);
       }
     };
     editor.on("selectionUpdate", updateSuggestion);
@@ -555,6 +574,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     getAllHeadings,
     getCurrentSection,
     getContentUnderCurrentSection,
+    autoComplete,
   ]);
 
   // Share editor instance with context for FooterBar undo/redo
@@ -794,7 +814,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
         editor={editor}
         className="min-h-[300px] outline-none border-none focus:outline-none focus:ring-0 focus:border-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:border-none [&_.ProseMirror]:focus:outline-none [&_.ProseMirror]:focus:ring-0 [&_.ProseMirror]:focus:border-none"
       />
-      {aiSuggestion && suggestionCursorPos !== null && (
+      {showAutocompleteButtons && aiSuggestion && suggestionCursorPos !== null && (
         <div
           className="absolute z-20 flex gap-2 items-center mt-1 p-1 bg-white rounded-md shadow-md border border-gray-300"
           style={{

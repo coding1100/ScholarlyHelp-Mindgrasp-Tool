@@ -248,7 +248,7 @@ const FooterBar = () => {
     setHoveredCell(null);
   };
   return (
-    <div className="flex justify-between items-center px-2 py-1 border-t border-gray-300 bg-white w-full mt-8 text-black">
+    <div className="flex flex-shrink-0 justify-between items-center px-2 py-1 border-t border-gray-300 bg-white w-full text-black">
       {/* Center buttons */}
       <div className="flex items-center gap-2 mx-auto">
         {/* <button className="text-gray-700 text-lg hover:text-[#155dfc]">

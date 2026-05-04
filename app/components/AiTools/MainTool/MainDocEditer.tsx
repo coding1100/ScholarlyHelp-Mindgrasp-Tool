@@ -9,14 +9,20 @@ import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
-import { FiEdit2 } from "react-icons/fi";
 import { BsFileEarmarkText } from "react-icons/bs";
+import { HiOutlineDocumentArrowUp, HiOutlineSparkles } from "react-icons/hi2";
 // import { SiMicrosoftword } from "react-icons/si";
 import { Extension } from "@tiptap/core";
 // import PromptModal from "../PopModal/PromptModal";
-import { TitleContext, EditorContext } from "./MainToolLayout";
+import {
+  TitleContext,
+  EditorContext,
+  EditorPreferencesContext,
+} from "./MainToolLayout";
 import ParagraphToolbar from "./ParagraphToolbar";
 import PromptModal from "../PromptModal";
+import axios from "axios";
+import toast from "react-hot-toast";
 // import ParagraphToolbar from "../../Paragraph-tool/ParagraphToolbar";
 
 // Custom backspace behavior
@@ -49,9 +55,15 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { title, setTitle } = useContext(TitleContext);
   const { setEditor: setEditorContext } = useContext(EditorContext);
+  const { citationStyle, setCitationStyle } = useContext(
+    EditorPreferencesContext,
+  );
   const [showStarterOptions, setShowStarterOptions] = useState(true);
   const [isTypingTitle, setIsTypingTitle] = useState(false);
   const [isPromptModalOpen, setPromptModalOpen] = useState(false);
+  const [promptInput, setPromptInput] = useState("");
+  const [selectedOutline, setSelectedOutline] = useState("smart");
+  const [isGenerating, setIsGenerating] = useState(false);
   const [showFormatToolbar, setShowFormatToolbar] = useState(false);
   const [formatToolbarPos, setFormatToolbarPos] = useState<{
     top: number;
@@ -194,6 +206,91 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
     fileInputRef.current?.click();
   };
 
+  const handleGenerateHeadings = async () => {
+    const prompt = promptInput.trim();
+    if (!prompt) {
+      toast.error("Add a document prompt first.");
+      return;
+    }
+
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("access_token")
+        : null;
+
+    setIsGenerating(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_NGROX_URL}/tools/essay-outline`,
+        {
+          topic: prompt,
+          essay_type: selectedOutline === "none" ? "not_provided" : "descriptive",
+          essay_level: "post graduate",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const sectionTitles = response.data?.data?.outline
+        ?.map((item: any) => item.section)
+        .filter(Boolean);
+
+      if (sectionTitles?.length) {
+        setOutlineResponse(sectionTitles);
+      }
+
+      if (!title.trim()) {
+        setTitle(prompt.split(/[.?!]/)[0].slice(0, 80) || "Untitled");
+      }
+
+      onStartWriting();
+    } catch (error) {
+      console.error("Error generating outline:", error);
+      toast.error("Could not generate headings. Starting a blank draft.");
+      onStartWriting();
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleImportFile = async (file: File) => {
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("access_token")
+        : null;
+    const formData = new FormData();
+    formData.append("file", file);
+
+    setIsGenerating(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_NGROX_URL}/tools/parse-document`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const importedText = String(response.data || "").trim();
+      setShowStarterOptions(false);
+      editor?.commands.setContent(`<p>${importedText || file.name}</p>`);
+      if (!title.trim()) setTitle(file.name.replace(/\.[^.]+$/, ""));
+      editor?.commands.focus("end");
+      toast.success("Document imported");
+    } catch (error) {
+      console.error("Error importing document:", error);
+      toast.error("Could not import this file.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <div className="p-8 max-w-3xl mx-auto relative">
       {/* ===== Editable Title ===== */}
@@ -214,46 +311,105 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
 
       {/* ===== Starter Options ===== */}
       {!isTypingTitle && showStarterOptions && (
-        <div className="mb-6 space-y-4">
-          <div
-            className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 p-2 rounded"
-            onClick={() => setPromptModalOpen(true)}
-          >
-            <FiEdit2 size={16} />
-            <span>Start with a prompt</span>
+        <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-base font-semibold text-gray-900">
+                Set up your research document
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-gray-500">
+                Add a prompt, choose citation settings, then generate headings
+                or start from a blank page.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="rounded-full bg-primary-100 px-3 py-1 text-xs font-semibold text-primary-400"
+              onClick={() => setPromptModalOpen(true)}
+            >
+              Advanced prompt
+            </button>
           </div>
 
-          <div
-            className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 p-2 rounded"
-            onClick={() => {
-              setShowStarterOptions(false);
-              editor?.commands.setContent("<p></p>");
-              editor?.commands.focus("end");
-            }}
-          >
-            <BsFileEarmarkText size={16} />
-            <span>Press enter to start from scratch</span>
+          <label className="mt-5 block text-sm font-medium text-gray-800">
+            Fill document prompt
+          </label>
+          <textarea
+            value={promptInput}
+            onChange={(event) => setPromptInput(event.target.value)}
+            placeholder="Example: Write a literature review about AI in higher education with recent peer-reviewed sources."
+            className="mt-2 h-28 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-200"
+          />
+
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <label className="block text-sm font-medium text-gray-800">
+              Citation style
+              <select
+                value={citationStyle}
+                onChange={(event) => setCitationStyle(event.target.value)}
+                className="mt-2 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 outline-none focus:border-primary-400"
+              >
+                <option value="APA 7th edition">APA 7th edition</option>
+                <option value="MLA 9th edition">MLA 9th edition</option>
+                <option value="Chicago 17th edition">Chicago 17th edition</option>
+                <option value="Harvard">Harvard</option>
+              </select>
+            </label>
+            <label className="block text-sm font-medium text-gray-800">
+              Headings
+              <select
+                value={selectedOutline}
+                onChange={(event) => setSelectedOutline(event.target.value)}
+                className="mt-2 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 outline-none focus:border-primary-400"
+              >
+                <option value="smart">Smart headings</option>
+                <option value="standard">Standard headings</option>
+                <option value="none">No headings</option>
+              </select>
+            </label>
           </div>
 
-          <div
-            className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 p-2 rounded"
-            onClick={handleDocImportClick}
-          >
-            {/* <SiMicrosoftword size={16} /> */}
-            <span>Import from docx file</span>
-            <span className="text-[#2b7fff] text-xs bg-blue-100 rounded px-1 ml-1">
-              BETA
-            </span>
+          <div className="mt-5 grid gap-2 sm:grid-cols-3">
+            <button
+              type="button"
+              disabled={isGenerating}
+              onClick={() => void handleGenerateHeadings()}
+              className="flex items-center justify-center gap-2 rounded-lg bg-primary-400 px-3 py-2 text-sm font-semibold text-white hover:bg-primary-500 disabled:cursor-not-allowed disabled:bg-gray-300"
+            >
+              <HiOutlineSparkles className="h-4 w-4" />
+              {isGenerating ? "Generating..." : "Generate headings"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowStarterOptions(false);
+                editor?.commands.setContent("<p></p>");
+                editor?.commands.focus("end");
+              }}
+              className="flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+            >
+              <BsFileEarmarkText size={16} />
+              Start writing
+            </button>
+            <button
+              type="button"
+              onClick={handleDocImportClick}
+              className="flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+            >
+              <HiOutlineDocumentArrowUp className="h-4 w-4" />
+              Import Word
+              <span className="rounded bg-primary-100 px-1 text-[10px] text-primary-400">
+                BETA
+              </span>
+            </button>
             <input
               type="file"
-              accept=".docx"
+              accept=".doc,.docx,.pdf,.txt"
               ref={fileInputRef}
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
-                if (file) {
-                  console.log("Imported docx file:", file);
-                }
+                if (file) void handleImportFile(file);
               }}
             />
           </div>
