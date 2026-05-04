@@ -345,7 +345,10 @@ const Step4: FC<Step4Props> = ({ text }) => {
   } else {
     return (
       <div className={`${EmailPhone && "w-full"}`}>
-        {currentPage !== "/take-my-class/" && (
+        {currentPage !== "/take-my-class/" &&
+          currentPage !== "/take-my-class" &&
+          currentPage !== "/take-my-class-3/" &&
+          currentPage !== "/take-my-class-3" && (
           <p className="font-bold">Get a Text Back in 5 Minutes!</p>
         )}
         <div className="bg-white pb-5 pt-2 px-5 rounded-md mt-3 relative">

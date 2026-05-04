@@ -19,6 +19,11 @@ interface ProcessProps {
 const Process: FC<ProcessProps> = ({ content }) => {
   const [activeProcessIndex, setActiveProcessIndex] = useState(0);
   const currentPage = usePathname();
+  const isTakeMyClassPage =
+    currentPage === "/take-my-class/" ||
+    currentPage === "/take-my-class" ||
+    currentPage === "/take-my-class-3/" ||
+    currentPage === "/take-my-class-3";
   useEffect(() => {
     let interval = setInterval(() => {
       setActiveProcessIndex((prev) =>
@@ -63,7 +68,7 @@ const Process: FC<ProcessProps> = ({ content }) => {
                       <p>{item.description}</p>
                     </div>
                     <div className="mt-8 md:block flex justify-center ">
-                      {currentPage === "/take-my-class/" ? (
+                      {isTakeMyClassPage ? (
                         <Link href="#PhoneEmailMsgForm">
                           <Button className="md:w-64 w-48 bg-secondary-500 hover:text-secondary-500 hover:border-secondary-500">
                             Place an Order Now

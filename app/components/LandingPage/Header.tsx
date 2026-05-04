@@ -422,7 +422,7 @@ export default function Header() {
                   fetchPriority="high"
                 />
               </span>
-              <span className="sm:block hidden">+1 646 480 6092 </span>
+              <span className="sm:block hidden">+1 646 480 6092</span>
               <span className="sm:hidden block text-white">Text Us</span>
             </a>
           </div>
@@ -510,23 +510,37 @@ export default function Header() {
                 </div>
               ))}
             </nav>
-            <div className="">
-              <a
-                href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || "17167081869"}`}
-                className="flex items-center sm:text-primary-400 sm:text-[#565add] transition sm:bg-white bg-[#9F92EC] sm:rounded-none rounded-full sm:px-0 px-4 sm:py-0 py-1"
-              >
-                <span className="w-6 mr-1 text-primary-400 sm:block hidden">
-                  <Image
-                    src={Phone}
-                    alt="Phone"
-                    width={22}
-                    height={22}
-                    fetchPriority="high"
-                  />
-                </span>
-                <span className="sm:block hidden">+1 646 480 6092 </span>
-                <span className="sm:hidden block text-white">Text Us</span>
-              </a>
+            <div>
+              {pathname === "/take-my-class-3/" ? (
+                <>
+                  <button
+                    type="submit"
+                    className="rounded-md px-3 py-2 cursor-pointer bg-[#ff641a] text-white border border-transparent transition duration-300 text-[15px] font-medium md:flex hidden items-center justify-center hover:bg-white hover:text-[#ff641a] hover:border-[#ff641a] w-full"
+                  >
+                    Secure My "A" or "B" Grades
+                  </button>
+                  {/* <button className="sm:hidden block text-xs text-white bg-[#9F92EC] rounded-full px-4 py-2">
+                    Text Us
+                  </button> */}
+                </>
+              ) : (
+                <a
+                  href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER || "17167081869"}`}
+                  className="flex items-center sm:text-primary-400 sm:text-[#565add] transition sm:bg-white bg-[#9F92EC] sm:rounded-none rounded-full sm:px-0 px-4 sm:py-0 py-1"
+                >
+                  <span className="w-6 mr-1 text-primary-400 sm:block hidden">
+                    <Image
+                      src={Phone}
+                      alt="Phone"
+                      width={22}
+                      height={22}
+                      fetchPriority="high"
+                    />
+                  </span>
+                  <span className="sm:block hidden">+1 646 480 6092</span>
+                  <span className="sm:hidden block text-white">Text Us</span>
+                </a>
+              )}
             </div>
           </>
         )}
