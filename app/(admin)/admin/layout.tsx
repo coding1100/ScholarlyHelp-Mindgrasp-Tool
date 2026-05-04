@@ -63,6 +63,7 @@ const navigation = [
   { name: 'Edit On-Time Delivery', href: '/admin/on-time-delivery-guarantee', icon: DeliveryIcon },
   { name: 'Edit Take My Class 1', href: '/admin/take-my-class-1', icon: HomeIcon },
   { name: 'Edit Take My Class 2', href: '/admin/take-my-class-2', icon: HomeIcon },
+  { name: 'Edit Take My Class 3', href: '/admin/take-my-class-3', icon: HomeIcon },
   // { name: 'Edit FAQ', href: '/admin/faq', icon: FaqIcon },
 ];
 

@@ -22,6 +22,11 @@ const AppNav: FC<AppNavProps> = ({}) => {
   const [servicesMenu, setOpenServicesMenu] = useState(false);
 
   const currentPage = usePathname();
+  const isTakeMyClassPage =
+    currentPage === "/take-my-class/" ||
+    currentPage === "/take-my-class" ||
+    currentPage === "/take-my-class-3/" ||
+    currentPage === "/take-my-class-3";
   const hideLink = hideLinks.includes(currentPage);
   const withChat = withChatNow.includes(currentPage);
   const showSupportMail = supportMail.includes(currentPage);
@@ -103,7 +108,7 @@ const AppNav: FC<AppNavProps> = ({}) => {
               +1 646 480 6092 
             </a>
           </div> */}
-            {currentPage !== "/take-my-class/" && (
+            {!isTakeMyClassPage && (
               <div className="mr-4">
                 <a
                   href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
@@ -389,7 +394,7 @@ const AppNav: FC<AppNavProps> = ({}) => {
                 />
               </Link>
             </div>
-            {currentPage !== "/take-my-class/" && (
+            {!isTakeMyClassPage && (
               <div className="md:text-lg text-sm text-primary-400 mr-2">
                 <a
                   href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE_NUMBER}`}
