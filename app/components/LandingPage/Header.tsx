@@ -545,7 +545,7 @@ export default function Header() {
           </>
         )}
       </div>
-      {isTakeMyClass && (
+      {(isTakeMyClass || isTakeMyClass3) && (
         <div className=" md:hidden flex-col items-center flex py-2">
           <div className="flex">
             {[...Array(5)].map((_, i) => (
