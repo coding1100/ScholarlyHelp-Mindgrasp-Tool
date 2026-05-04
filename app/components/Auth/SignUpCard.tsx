@@ -76,6 +76,14 @@ const SignUpCard: FC<SignUpCardProps> = ({
     return null;
   };
 
+  // --- Add derived state for button enablement ---
+  const isFormValid =
+    name.trim().length >= 3 &&
+    email.trim().length > 0 &&
+    password.length >= 8 &&
+    !getPasswordValidationMsg(password) &&
+    !getNameValidationMsg(name);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
@@ -216,10 +224,10 @@ const SignUpCard: FC<SignUpCardProps> = ({
         </div>
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || !isFormValid}
           className={`lg:w-[90%] bg-[#ff641a] text-white font-semibold min-h-[39px] px-4 py-2 rounded-lg hover:bg-[#ff641a]/80 transition duration-300 flex items-center justify-center gap-2 ${
             submitError ? "flex-col text-center gap-1" : ""
-          }`}
+          } ${!isFormValid || loading ? "opacity-50 cursor-not-allowed" : ""}`}
           aria-live="polite"
         >
           {loading ? (
