@@ -4,14 +4,8 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
 import AuthProvider from "./context/auth/AuthProvider";
-
-const AppNav = dynamic(() => import("./components/LandingPage/Header"), {
-  ssr: false,
-});
-
-const Footer = dynamic(() => import("./components/Footer/Footer"), {
-  ssr: false,
-});
+import AppNav from "./components/LandingPage/Header";
+import Footer from "./components/Footer/Footer";
 
 const ExitPopUp = dynamic(() => import("./components/PopUpModal/ExitPopup"), {
   ssr: false,
