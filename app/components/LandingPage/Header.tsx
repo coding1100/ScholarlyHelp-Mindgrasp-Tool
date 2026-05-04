@@ -37,6 +37,8 @@ export default function Header() {
   const isTakeMyExam =
     pathname === "/take-my-exam/" || pathname === "/take-my-exam";
   const isSpecialRoute = isTakeMyClass || isTakeMyExam;
+  const isSpecialRoute3 = isSpecialRoute || isTakeMyClass3;
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
   const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(
@@ -343,9 +345,11 @@ export default function Header() {
   return (
     <header className="bg-white z-[9999] relative">
       {/* Header Top Bar */}
-      <div className="max-w-7xl mx-auto max-[1320px]:px-8 flex items-center justify-between pt-2 min-h-[64px]">
+      <div
+        className={`max-w-7xl mx-auto max-[1320px]:px-8 flex items-center pt-2 min-h-[64px] ${isTakeMyClass3 ? "md:justify-between justify-center" : "justify-between"}`}
+      >
         {/* Menu Button - Hidden for special routes */}
-        {!isSpecialRoute && (
+        {!isSpecialRoute3 && (
           <button
             onClick={() => {
               setMobileOpen((prev) => {
