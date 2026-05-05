@@ -14,9 +14,16 @@ export default function SemesterCard(props: {
   onChange: (next: Semester) => void;
   onRemoveSemester: () => void;
   disableRemove?: boolean;
+  showResults?: boolean;
 }) {
-  const { semester, gradeScale, onChange, onRemoveSemester, disableRemove } =
-    props;
+  const {
+    semester,
+    gradeScale,
+    onChange,
+    onRemoveSemester,
+    disableRemove,
+    showResults = true,
+  } = props;
 
   const totals = useMemo(
     () => computeSemesterTotals(semester, gradeScale),
@@ -114,22 +121,24 @@ export default function SemesterCard(props: {
           </Button> */}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <Stat
-            label="Total credits"
-            value={roundTo(totals.totalCredits, 2).toFixed(2)}
-          />
-          <Stat
-            label="Quality points"
-            value={roundTo(totals.totalQualityPoints, 4).toFixed(4)}
-            subValue="(unrounded internally)"
-          />
-          <Stat
-            label="Semester GPA"
-            value={formatGpaMaybe(totals.gpa)}
-            subValue="GPA = quality points ÷ credits"
-          />
-        </div>
+        {showResults ? (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <Stat
+              label="Total credits"
+              value={roundTo(totals.totalCredits, 2).toFixed(2)}
+            />
+            <Stat
+              label="Quality points"
+              value={roundTo(totals.totalQualityPoints, 4).toFixed(4)}
+              subValue="(unrounded internally)"
+            />
+            <Stat
+              label="Semester GPA"
+              value={formatGpaMaybe(totals.gpa)}
+              subValue="GPA = quality points ÷ credits"
+            />
+          </div>
+        ) : null}
       </CardBody>
     </Card>
   );
