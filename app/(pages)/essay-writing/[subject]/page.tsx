@@ -28,8 +28,6 @@ import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
 import PriceSection from "@/app/components/PriceSection/PriceSection";
 import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
-import JsonLdHead from "@/app/components/Seo/JsonLdHead";
-import { buildServiceJsonLd, normalizeSiteUrl } from "@/app/lib/serviceJsonLd";
 
 const GetQouteDynamic = dynamicImport(
   () => import("@/app/components/LandingPage/GetQoute"),
@@ -151,25 +149,9 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       getQuote: { mainHeading: "", description: "", ctaButton: { text: "" } },
       faq: { mainHeading: "", faqs: [] },
     };
-    const baseUrl = normalizeSiteUrl(
-      process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
-    );
-    const subjectTitle =
-      params.subject.charAt(0).toUpperCase() +
-      params.subject.slice(1).replace(/-/g, " ");
-    const schemaJson = buildServiceJsonLd({
-      pageData: defaultPageData,
-      canonicalUrl: `${baseUrl}/essay-writing/${params.subject}/`,
-      title: `${subjectTitle} Essay Writing Help - Professional Assistance`,
-      description: `Get expert help with your ${params.subject.replace(
-        /-/g,
-        " ",
-      )} essay writing.`,
-    });
 
     return (
       <EssayWritingDataProvider data={defaultPageData}>
-        <JsonLdHead id="essay-writing-subject-service-json-ld" json={schemaJson} />
         <MainLayout>
           <HeroSection />
           <DeliveredOn />
@@ -201,25 +183,9 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   ) {
     notFound();
   }
-  const baseUrl = normalizeSiteUrl(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
-  );
-  const subjectTitle =
-    params.subject.charAt(0).toUpperCase() +
-    params.subject.slice(1).replace(/-/g, " ");
-  const schemaJson = buildServiceJsonLd({
-    pageData,
-    canonicalUrl: `${baseUrl}/essay-writing/${params.subject}/`,
-    title: `${subjectTitle} Essay Writing Help - Professional Assistance`,
-    description: `Get expert help with your ${params.subject.replace(
-      /-/g,
-      " ",
-    )} essay writing.`,
-  });
 
   return (
     <EssayWritingDataProvider data={pageData}>
-      <JsonLdHead id="essay-writing-subject-service-json-ld" json={schemaJson} />
       <MainLayout>
         <HeroSection />
         <DeliveredOn />
