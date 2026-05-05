@@ -23,6 +23,8 @@ import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
 import PriceSection from "@/app/components/PriceSection/PriceSection";
 import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
+import JsonLdHead from "@/app/components/Seo/JsonLdHead";
+import { buildServiceJsonLd, normalizeSiteUrl } from "@/app/lib/serviceJsonLd";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -115,9 +117,25 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       getQuote: { mainHeading: "", description: "", ctaButton: { text: "" } },
       faq: { mainHeading: "", faqs: [] },
     };
+    const baseUrl = normalizeSiteUrl(
+      process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+    );
+    const subjectTitle =
+      params.subject.charAt(0).toUpperCase() +
+      params.subject.slice(1).replace(/-/g, " ");
+    const schemaJson = buildServiceJsonLd({
+      pageData: defaultPageData,
+      canonicalUrl: `${baseUrl}/homework/${params.subject}/`,
+      title: `${subjectTitle} Homework Help - Professional Assistance`,
+      description: `Get expert help with your ${params.subject.replace(
+        /-/g,
+        " ",
+      )} homework.`,
+    });
 
     return (
       <HomeworkDataProvider data={defaultPageData}>
+        <JsonLdHead id="homework-subject-service-json-ld" json={schemaJson} />
         <MainLayout>
           <HeroSection />
           <DeliveredOn />
@@ -146,9 +164,25 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   ) {
     notFound();
   }
+  const baseUrl = normalizeSiteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+  );
+  const subjectTitle =
+    params.subject.charAt(0).toUpperCase() +
+    params.subject.slice(1).replace(/-/g, " ");
+  const schemaJson = buildServiceJsonLd({
+    pageData,
+    canonicalUrl: `${baseUrl}/homework/${params.subject}/`,
+    title: `${subjectTitle} Homework Help - Professional Assistance`,
+    description: `Get expert help with your ${params.subject.replace(
+      /-/g,
+      " ",
+    )} homework.`,
+  });
 
   return (
     <HomeworkDataProvider data={pageData}>
+      <JsonLdHead id="homework-subject-service-json-ld" json={schemaJson} />
       <MainLayout>
         <HeroSection />
         <DeliveredOn />

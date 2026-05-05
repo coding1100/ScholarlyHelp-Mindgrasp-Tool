@@ -35,6 +35,8 @@ import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
 import PriceSection from "@/app/components/PriceSection/PriceSection";
 import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
+import JsonLdHead from "@/app/components/Seo/JsonLdHead";
+import { buildServiceJsonLd, normalizeSiteUrl } from "@/app/lib/serviceJsonLd";
 
 async function fetchPageData(slug: string) {
   try {
@@ -119,9 +121,24 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       getQuote: { mainHeading: "", description: "", ctaButton: { text: "" } },
       faq: { mainHeading: "", faqs: [] },
     };
+    const baseUrl = normalizeSiteUrl(
+      process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+    );
+    const subjectTitle =
+      subject.charAt(0).toUpperCase() + subject.slice(1).replace(/-/g, " ");
+    const schemaJson = buildServiceJsonLd({
+      pageData: defaultPageData,
+      canonicalUrl: `${baseUrl}/assignment/${subject}/`,
+      title: `${subjectTitle} Assignment Help - Professional Assistance`,
+      description: `Get expert help with your ${subject.replace(
+        /-/g,
+        " ",
+      )} assignment.`,
+    });
 
     return (
       <AssignmentDataProvider data={defaultPageData}>
+        <JsonLdHead id="assignment-subject-service-json-ld" json={schemaJson} />
         <MainLayout>
           <HeroSection />
           <DeliveredOn />
@@ -152,9 +169,24 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   ) {
     notFound();
   }
+  const baseUrl = normalizeSiteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+  );
+  const subjectTitle =
+    subject.charAt(0).toUpperCase() + subject.slice(1).replace(/-/g, " ");
+  const schemaJson = buildServiceJsonLd({
+    pageData,
+    canonicalUrl: `${baseUrl}/assignment/${subject}/`,
+    title: `${subjectTitle} Assignment Help - Professional Assistance`,
+    description: `Get expert help with your ${subject.replace(
+      /-/g,
+      " ",
+    )} assignment.`,
+  });
 
   return (
     <AssignmentDataProvider data={pageData}>
+      <JsonLdHead id="assignment-subject-service-json-ld" json={schemaJson} />
       <MainLayout>
         <HeroSection />
         <DeliveredOn />

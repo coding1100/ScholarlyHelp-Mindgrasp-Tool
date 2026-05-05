@@ -6,6 +6,8 @@ import Subjects from "@/app/components/LandingPage/Subjects";
 import { OnlineClassDataProvider } from "./OnlineClassDataProvider";
 import { onlineClassSubjects } from "./content";
 import { getPageData } from "@/app/lib/mongodb";
+import JsonLdHead from "@/app/components/Seo/JsonLdHead";
+import { buildServiceJsonLd, normalizeSiteUrl } from "@/app/lib/serviceJsonLd";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -34,9 +36,19 @@ async function fetchOnlineClassData() {
 
 const Page = async () => {
   const pageData = await fetchOnlineClassData();
+  const baseUrl = normalizeSiteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+  );
+  const schemaJson = buildServiceJsonLd({
+    pageData,
+    canonicalUrl: `${baseUrl}/online-class/`,
+    title: MetaData.onlineClass.title,
+    description: MetaData.onlineClass.description,
+  });
 
   return (
     <OnlineClassDataProvider data={pageData}>
+      <JsonLdHead id="online-class-service-json-ld" json={schemaJson} />
       <MainLayout>
         <HeroSection />
         <BelowFoldLanding>

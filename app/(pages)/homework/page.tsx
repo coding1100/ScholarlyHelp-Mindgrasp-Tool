@@ -6,6 +6,8 @@ import Subjects from "@/app/components/LandingPage/Subjects";
 import { HomeworkDataProvider } from "./HomeworkDataProvider";
 import { homeworkSubject } from "./content";
 import { getPageData } from "@/app/lib/mongodb";
+import JsonLdHead from "@/app/components/Seo/JsonLdHead";
+import { buildServiceJsonLd, normalizeSiteUrl } from "@/app/lib/serviceJsonLd";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -26,9 +28,19 @@ async function fetchHomeworkData() {
 
 const Page = async () => {
   const pageData = await fetchHomeworkData();
+  const baseUrl = normalizeSiteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+  );
+  const schemaJson = buildServiceJsonLd({
+    pageData,
+    canonicalUrl: `${baseUrl}/homework/`,
+    title: MetaData.homeWork.title,
+    description: MetaData.homeWork.description,
+  });
 
   return (
     <HomeworkDataProvider data={pageData}>
+      <JsonLdHead id="homework-service-json-ld" json={schemaJson} />
       <MainLayout>
         <HeroSection />
         <BelowFoldLanding>

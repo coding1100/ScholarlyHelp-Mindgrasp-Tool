@@ -20,6 +20,8 @@ import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
 import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
 import PriceSection from "@/app/components/PriceSection/PriceSection";
+import JsonLdHead from "@/app/components/Seo/JsonLdHead";
+import { buildServiceJsonLd, normalizeSiteUrl } from "@/app/lib/serviceJsonLd";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -112,9 +114,22 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       getQuote: { mainHeading: "", description: "", ctaButton: { text: "" } },
       faq: { mainHeading: "", faqs: [] },
     };
+    const baseUrl = normalizeSiteUrl(
+      process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+    );
+    const subjectTitle =
+      params.subject.charAt(0).toUpperCase() +
+      params.subject.slice(1).replace(/-/g, " ");
+    const schemaJson = buildServiceJsonLd({
+      pageData: defaultPageData,
+      canonicalUrl: `${baseUrl}/exams/${params.subject}/`,
+      title: `Take My ${subjectTitle} Exam | Professional ${subjectTitle} Exam Help`,
+      description: `Get expert help with your ${params.subject} exams. Professional ${params.subject} exam assistance for better grades.`,
+    });
 
     return (
       <ExamDataProvider data={defaultPageData}>
+        <JsonLdHead id="exams-subject-service-json-ld" json={schemaJson} />
         <MainLayout>
           <HeroSection />
           <DeliveredOn />
@@ -142,9 +157,22 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   ) {
     notFound();
   }
+  const baseUrl = normalizeSiteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+  );
+  const subjectTitle =
+    params.subject.charAt(0).toUpperCase() +
+    params.subject.slice(1).replace(/-/g, " ");
+  const schemaJson = buildServiceJsonLd({
+    pageData,
+    canonicalUrl: `${baseUrl}/exams/${params.subject}/`,
+    title: `Take My ${subjectTitle} Exam | Professional ${subjectTitle} Exam Help`,
+    description: `Get expert help with your ${params.subject} exams. Professional ${params.subject} exam assistance for better grades.`,
+  });
 
   return (
     <ExamDataProvider data={pageData}>
+      <JsonLdHead id="exams-subject-service-json-ld" json={schemaJson} />
       <MainLayout>
         <HeroSection />
         <DeliveredOn />
