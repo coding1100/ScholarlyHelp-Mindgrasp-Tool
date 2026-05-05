@@ -1,39 +1,104 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { FormEvent, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { CalculatorState, Semester } from "./types";
 import SemesterCard from "./components/SemesterCard";
 import { Button, Input } from "./components/ui";
-import {
-  clearCgpaToolState,
-  loadCgpaToolState,
-  saveCgpaToolState,
-} from "./utils/storage";
-import {
-  createInitialState,
-  createSemester,
-  normalizeLoadedState,
-} from "./utils/state";
-import { computeAllSemesterTotals } from "./utils/calc";
+import { createInitialState, createSemester } from "./utils/state";
+import { computeAllSemesterTotals, SemesterTotals } from "./utils/calc";
+import { formatGpaMaybe } from "./utils/numbers";
+
+type GpaEmailResponse = {
+  success?: boolean;
+  message?: string;
+};
+
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function buildGpaEmailBody(
+  state: CalculatorState,
+  semesterTotals: Array<{ semesterId: string; totals: SemesterTotals }>,
+) {
+  const validSemesterLines = state.semesters
+    .map((semester, index) => {
+      const found = semesterTotals.find((x) => x.semesterId === semester.id);
+      if (!found || found.totals.validCourseCount <= 0) return null;
+
+      const title = semester.title.trim() || `Semester ${index + 1}`;
+      return `${title}: ${formatGpaMaybe(found.totals.gpa)}`;
+    })
+    .filter((line): line is string => Boolean(line));
+
+  const totalCredits = semesterTotals.reduce(
+    (sum, item) => sum + item.totals.totalCredits,
+    0,
+  );
+  const totalQualityPoints = semesterTotals.reduce(
+    (sum, item) => sum + item.totals.totalQualityPoints,
+    0,
+  );
+
+  if (totalCredits <= 0 || validSemesterLines.length === 0) return "";
+
+  const gpa = totalQualityPoints / totalCredits;
+  return [`Your GPA is ${formatGpaMaybe(gpa)}`, ...validSemesterLines].join(
+    "\n",
+  );
+}
+
+async function sendGpaEmail({
+  email,
+  body,
+  subject,
+}: {
+  email: string;
+  body: string;
+  subject?: string;
+}) {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_NGROX_URL?.replace(/\/$/, "");
+  if (!apiBaseUrl) {
+    throw new Error("API base URL is not configured");
+  }
+
+  let res: Response;
+  try {
+    res = await fetch(`${apiBaseUrl}/tools/gpa-email`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, body, subject }),
+    });
+  } catch {
+    throw new Error(
+      "Unable to connect. Please check your internet and try again.",
+    );
+  }
+
+  let data: GpaEmailResponse = {};
+  try {
+    data = (await res.json()) as GpaEmailResponse;
+  } catch {
+    data = {};
+  }
+
+  if (!res.ok) {
+    throw new Error(
+      data?.message || "Failed to send GPA email. Please try again.",
+    );
+  }
+
+  return data;
+}
 
 export default function CgpaSemesterCalculator() {
   const initial = useMemo(() => createInitialState(), []);
   const [state, setState] = useState<CalculatorState>(initial);
-  const [hydrated, setHydrated] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [showEmailPopup, setShowEmailPopup] = useState(false);
   const [email, setEmail] = useState("");
-
-  useEffect(() => {
-    const loaded = loadCgpaToolState();
-    if (loaded) setState(normalizeLoadedState(loaded, initial));
-    setHydrated(true);
-  }, [initial]);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    saveCgpaToolState(state);
-  }, [state, hydrated]);
+  const [isSending, setIsSending] = useState(false);
 
   const semesterTotals = useMemo(
     () => computeAllSemesterTotals(state.semesters, state.gradeScale),
@@ -75,7 +140,46 @@ export default function CgpaSemesterCalculator() {
     const next = createInitialState();
     setState(next);
     setShowResults(false);
-    clearCgpaToolState();
+  }
+
+  async function handleEmailSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || !isValidEmail(trimmedEmail)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    const body = buildGpaEmailBody(state, semesterTotals);
+    if (!body.trim()) {
+      toast.error("Please add at least one course with a grade and credits.");
+      return;
+    }
+
+    if (body.length > 10000) {
+      toast.error("GPA result is too long to send.");
+      return;
+    }
+
+    setIsSending(true);
+    try {
+      const data = await sendGpaEmail({
+        email: trimmedEmail,
+        body,
+        subject: "Your GPA Result",
+      });
+      toast.success(data.message || "Email sent successfully.");
+      setEmail("");
+      setShowEmailPopup(false);
+      setShowResults(true);
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to send GPA email",
+      );
+    } finally {
+      setIsSending(false);
+    }
   }
 
   return (
@@ -138,7 +242,7 @@ export default function CgpaSemesterCalculator() {
 
             <form
               className="mt-5 space-y-4"
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={handleEmailSubmit}
             >
               <Input
                 type="email"
@@ -146,6 +250,7 @@ export default function CgpaSemesterCalculator() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 aria-label="Email address"
+                disabled={isSending}
               />
 
               <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
@@ -153,11 +258,22 @@ export default function CgpaSemesterCalculator() {
                   type="button"
                   variant="secondary"
                   onClick={() => setShowEmailPopup(false)}
+                  disabled={isSending}
                 >
                   Cancel
                 </Button>
-                <Button type="submit" variant="primary">
-                  Submit
+                <Button type="submit" variant="primary" disabled={isSending}>
+                  {isSending ? (
+                    <>
+                      <span
+                        className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"
+                        aria-hidden="true"
+                      />
+                      Sending...
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
                 </Button>
               </div>
             </form>
