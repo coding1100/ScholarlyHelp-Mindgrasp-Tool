@@ -4,6 +4,8 @@ import Image, { StaticImageData } from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
 import userImg from "@/app/assets/Images/userImg.png";
 import Link from "next/link";
+import CgpaSemesterCalculator from "../AiTools/CgpaTool/CgpaSemesterCalculator";
+import { usePathname } from "next/navigation";
 
 interface AiHeroProps {
   heroContent: {
@@ -22,7 +24,7 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
-
+  const currentPage = usePathname();
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -30,7 +32,7 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (heroRef.current) {
@@ -47,7 +49,7 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
           entry.target.classList.add("animate-fade-in-up");
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (imageRef.current) {
@@ -64,24 +66,29 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
     >
       <div className="mx-auto flex w-full flex-col pb-24 px-5 sm:px-10 xl:container xl:px-10">
         <h1
-          className={`mb-[31px] text-center text-4xl font-medium leading-tight text-[#101828] dark:text-gray-100 sm:text-5xl lg:text-[62px] lg:leading-[1.05] transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          className={`mb-[31px] text-center text-4xl font-medium leading-tight text-[#101828] dark:text-gray-100 sm:text-5xl lg:text-[62px] lg:leading-[1.05] transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
           dangerouslySetInnerHTML={{
             __html: heroContent.mainHeading,
           }}
         />
+
         <div
-          className={`mx-auto mb-10 max-w-[1038px] text-center transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          className={`mx-auto mb-10 max-w-[1038px] text-center transition-all duration-1000 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
           <p
             className="text-base text-[#333333] dark:text-gray-300 sm:text-lg"
             dangerouslySetInnerHTML={{ __html: heroContent.description }}
           />
         </div>
+        {currentPage === "/cgpa-calculator/" && <CgpaSemesterCalculator />}
         <div
-          className={`flex flex-col items-center transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          className={`flex flex-col items-center transition-all duration-1000 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
           <Link
             href={heroContent.buttonUrl}
@@ -90,6 +97,7 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
             <span className="relative z-10">{heroContent.buttonText}</span>
             <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#535ced] to-[#323dd6] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
           </Link>
+
           <div className="flex flex-col items-center gap-3 sm:flex-row">
             <div className="flex -space-x-3">
               {testimonials.map((_, index) => (
