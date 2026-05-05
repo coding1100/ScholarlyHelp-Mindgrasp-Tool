@@ -21,6 +21,8 @@ import { examsSubjects } from "../../exams/content";
 import DeliveredOn from "../../take-my-class/DeliveredOn";
 import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
+import JsonLdHead from "@/app/components/Seo/JsonLdHead";
+import { buildServiceJsonLd, normalizeSiteUrl } from "@/app/lib/serviceJsonLd";
 
 // Force dynamic rendering to prevent caching
 export const dynamic = "force-dynamic";
@@ -113,9 +115,21 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       getQuote: { mainHeading: "", description: "", ctaButton: { text: "" } },
       faq: { mainHeading: "", faqs: [] },
     };
+    const baseUrl = normalizeSiteUrl(
+      process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+    );
+    const subjectTitle =
+      subject.charAt(0).toUpperCase() + subject.slice(1).replace(/-/g, " ");
+    const schemaJson = buildServiceJsonLd({
+      pageData: defaultPageData,
+      canonicalUrl: `${baseUrl}/exam/${subject}/`,
+      title: `${subjectTitle} Exam Help - Professional Assistance`,
+      description: `Get expert help with your ${subject.replace(/-/g, " ")} exam.`,
+    });
 
     return (
       <ExamDataProvider data={defaultPageData}>
+        <JsonLdHead id="exam-subject-service-json-ld" json={schemaJson} />
         <MainLayout>
           <HeroSection />
           <DeliveredOn />
@@ -143,9 +157,21 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   ) {
     notFound();
   }
+  const baseUrl = normalizeSiteUrl(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com",
+  );
+  const subjectTitle =
+    subject.charAt(0).toUpperCase() + subject.slice(1).replace(/-/g, " ");
+  const schemaJson = buildServiceJsonLd({
+    pageData,
+    canonicalUrl: `${baseUrl}/exam/${subject}/`,
+    title: `${subjectTitle} Exam Help - Professional Assistance`,
+    description: `Get expert help with your ${subject.replace(/-/g, " ")} exam.`,
+  });
 
   return (
     <ExamDataProvider data={pageData}>
+      <JsonLdHead id="exam-subject-service-json-ld" json={schemaJson} />
       <MainLayout>
         <HeroSection />
         <DeliveredOn />
