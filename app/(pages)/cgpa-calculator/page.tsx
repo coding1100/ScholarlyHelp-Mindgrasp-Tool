@@ -1,14 +1,12 @@
 import { FC } from "react";
 import { Metadata } from "next";
-import { MetaData } from "@/app/metadata/metadata";
 import AiHero from "@/app/components/AiLandingPage/AiHero";
-import CgpaSemesterCalculator from "@/app/components/AiTools/CgpaTool/CgpaSemesterCalculator";
 import AiTrust from "@/app/components/AiLandingPage/AITrust";
 import KeyFeatures from "@/app/components/AiLandingPage/KeyFeatures";
 import AiMission from "@/app/components/AiLandingPage/AiMission";
 import AiFaq from "@/app/components/AiLandingPage/AiFaq";
 import ElevateWriting from "@/app/components/AiLandingPage/ElevateWriting";
-import { AiParahrasingContent } from "@/app/components/AiLandingPage/AiContent";
+import { CgpaCalculatorContent } from "@/app/components/AiLandingPage/AiContent";
 // import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
 interface PageProps {}
@@ -18,18 +16,18 @@ const Page: FC<PageProps> = ({}) => {
       {/* <ThemeToggle /> */}
 
       <AiHero
-        heroContent={AiParahrasingContent.heroContent}
-        imgSection={AiParahrasingContent.imgSection}
+        heroContent={CgpaCalculatorContent.heroContent}
+        imgSection={CgpaCalculatorContent.imgSection}
       />
 
-      <AiTrust trustSection={AiParahrasingContent.trustSection} />
-      <KeyFeatures featuresSection={AiParahrasingContent.featuresSection} />
+      <AiTrust trustSection={CgpaCalculatorContent.trustSection} />
+      <KeyFeatures featuresSection={CgpaCalculatorContent.featuresSection} />
       <AiMission
-        missionSection={AiParahrasingContent.missionSection}
-        guideSection={AiParahrasingContent.guideSection}
+        missionSection={CgpaCalculatorContent.missionSection}
+        guideSection={CgpaCalculatorContent.guideSection}
       />
-      <AiFaq FaqSestion={AiParahrasingContent.FaqSestion} />
-      <ElevateWriting elevateSection={AiParahrasingContent.elevateSection} />
+      <AiFaq FaqSestion={CgpaCalculatorContent.FaqSestion} />
+      <ElevateWriting elevateSection={CgpaCalculatorContent.elevateSection} />
     </>
   );
 };
@@ -41,12 +39,12 @@ export function generateMetadata(): Metadata {
   const normalizedBaseUrl = baseUrl.endsWith("/")
     ? baseUrl.slice(0, -1)
     : baseUrl;
-  const canonicalUrl = `${normalizedBaseUrl}/ai-paraphraser`;
+  const canonicalUrl = `${normalizedBaseUrl}/cgpa-calculator`;
 
   return {
-    title: "AI Paraphrasing Tool | Rewrite & Refine Academic Content Free",
+    title: "CGPA Calculator | Calculate GPA & Track Academic Progress",
     description:
-      "Enhance clarity and originality with our AI-powered paraphrasing tool. Reward academic content effortlessly while maintaining your true meaning and professional tone.",
+      "Calculate your semester GPA and CGPA with Scholarly Help's easy academic calculator. Add courses, credits, and grades to track your academic progress.",
     alternates: {
       canonical: canonicalUrl,
     },

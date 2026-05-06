@@ -84,19 +84,22 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
             dangerouslySetInnerHTML={{ __html: heroContent.description }}
           />
         </div>
-        {currentPage === "/cgpa-calculator/" && <CgpaSemesterCalculator />}
+        {(currentPage === "/cgpa-calculator" ||
+          currentPage === "/cgpa-calculator/") && <CgpaSemesterCalculator />}
         <div
           className={`flex flex-col items-center transition-all duration-1000 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <Link
-            href={heroContent.buttonUrl}
-            className="group mx-auto mb-10 inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[#323dd6] to-[#535ced] px-[21px] py-[11px] text-[18px] font-medium text-white shadow-lg shadow-[#323dd6]/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#2a36b9] hover:to-[#4a52d4] hover:shadow-xl hover:shadow-[#323dd6]/40 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#323dd6] relative"
-          >
-            <span className="relative z-10">{heroContent.buttonText}</span>
-            <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#535ced] to-[#323dd6] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-          </Link>
+          {currentPage !== "/cgpa-calculator" && (
+            <Link
+              href={heroContent.buttonUrl}
+              className="group mx-auto mb-10 inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[#323dd6] to-[#535ced] px-[21px] py-[11px] text-[18px] font-medium text-white shadow-lg shadow-[#323dd6]/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#2a36b9] hover:to-[#4a52d4] hover:shadow-xl hover:shadow-[#323dd6]/40 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#323dd6] relative"
+            >
+              <span className="relative z-10">{heroContent.buttonText}</span>
+              <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#535ced] to-[#323dd6] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+            </Link>
+          )}
 
           <div className="flex flex-col items-center gap-3 sm:flex-row">
             <div className="flex -space-x-3">
