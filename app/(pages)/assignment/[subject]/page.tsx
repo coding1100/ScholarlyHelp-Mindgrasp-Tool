@@ -35,6 +35,7 @@ import SubSubjectsSection from "@/app/components/LandingPage/SubSubjects";
 import OnlinePlatform from "@/app/components/OnlinePlatform/OnlinePlatform";
 import PriceSection from "@/app/components/PriceSection/PriceSection";
 import FinalCTA from "@/app/components/FinalCTA/FinalCTA";
+import ProductSchema from "@/app/components/ProductSchema";
 
 async function fetchPageData(slug: string) {
   try {
@@ -119,9 +120,24 @@ const Page: React.FC<PageProps> = async ({ params }) => {
       getQuote: { mainHeading: "", description: "", ctaButton: { text: "" } },
       faq: { mainHeading: "", faqs: [] },
     };
+    const subjectTitle =
+      subject.charAt(0).toUpperCase() + subject.slice(1).replace(/-/g, " ");
+    const rawBaseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+    const baseUrl = rawBaseUrl.endsWith("/")
+      ? rawBaseUrl.slice(0, -1)
+      : rawBaseUrl;
 
     return (
       <AssignmentDataProvider data={defaultPageData}>
+        <ProductSchema
+          productTitle={`${subjectTitle} Assignment Help - Professional Assistance`}
+          metaDescription={`Get expert help with your ${subject.replace(
+            /-/g,
+            " ",
+          )} assignment.`}
+          pageUrl={`${baseUrl}/assignment/${subject}`}
+        />
         <MainLayout>
           <HeroSection />
           <DeliveredOn />
@@ -152,9 +168,27 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   ) {
     notFound();
   }
+  const subjectTitle =
+    subject.charAt(0).toUpperCase() + subject.slice(1).replace(/-/g, " ");
+  const rawBaseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://scholarlyhelp.com";
+  const baseUrl = rawBaseUrl.endsWith("/")
+    ? rawBaseUrl.slice(0, -1)
+    : rawBaseUrl;
+  const productTitle = pageData.meta?.title || `${subjectTitle} Assignment Help`;
+  const metaDescription =
+    pageData.meta?.description ||
+    `Get expert help with your ${subject.replace(/-/g, " ")} assignment.`;
+  const pageUrl =
+    pageData.meta?.canonicalUrl || `${baseUrl}/assignment/${subject}`;
 
   return (
     <AssignmentDataProvider data={pageData}>
+      <ProductSchema
+        productTitle={productTitle}
+        metaDescription={metaDescription}
+        pageUrl={pageUrl}
+      />
       <MainLayout>
         <HeroSection />
         <DeliveredOn />
