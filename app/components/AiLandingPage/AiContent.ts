@@ -279,6 +279,144 @@ export const MainAiLanding = {
   ],
 };
 
+export const AiAcademicResearchContent = {
+  heroContent: {
+    mainHeading: "Meet Your Intelligent Academic Research Assistant",
+    description: `Scholarly academic research helps students, researchers, and academic writers move from a blank page to a well-supported draft with more confidence. Use it to explore sources, organize research notes, write with clearer structure, and prepare citations without losing sight of your own argument. It is built for serious academic work where every idea needs context, clarity, and a source you can check.`,
+    buttonText: "Start researching",
+    buttonUrl: "/sign-in?returnUrl=/tools/academic-research-assistant",
+  },
+  imgSection: {
+    img: AiDashboard,
+  },
+  trustSection: {
+    heading: "Trusted by Students, Scholars, and Researchers",
+    description:
+      "Academic writers use Scholarly academic research to simplify source discovery, improve research writing, and keep citations organized from the first note to the final draft.",
+    sliderImgs: [slide1, slide2, slide3, slide4, slide5],
+  },
+  featuresSection: {
+    subTitle: "CORE FEATURES",
+    heading: "Built for Research That Stays Clear and Cited",
+    description:
+      "Scholarly academic research brings source discovery, writing support, and citation guidance into one focused academic workspace.",
+    features: [
+      {
+        heading: "Research with Source Awareness",
+        description:
+          "Find useful academic material, review key ideas, and keep your writing connected to the sources behind it. Scholarly academic research helps you work with evidence instead of relying on unsupported claims.",
+        linkText: "Get Started",
+        url: "/sign-in?returnUrl=/tools/academic-research-assistant",
+        img: effortless,
+      },
+      {
+        heading: "Write Alongside Academic AI",
+        description:
+          "Turn notes, outlines, and source insights into clearer paragraphs while keeping control of your argument. Scholarly academic research supports literature reviews, essays, reports, and research drafts with an academic tone.",
+        linkText: "Start Writing",
+        url: "/sign-in?returnUrl=/tools/academic-research-assistant",
+        img: interactive,
+      },
+      {
+        heading: "Cite, Review, and Refine",
+        description:
+          "Prepare cleaner references, check whether your claims need stronger support, and polish your draft before submission. Scholarly academic research helps you revise with more structure and less guesswork.",
+        linkText: "Explore the Tool",
+        url: "/sign-in?returnUrl=/tools/academic-research-assistant",
+        img: learning,
+      },
+    ],
+  },
+  missionSection: {
+    subTitle: "OUR PURPOSE",
+    heading: "Helping Researchers Build Stronger Academic Work",
+    description:
+      "Scholarly academic research is designed to support responsible research writing. It helps you understand sources, shape stronger arguments, and cite information with care while keeping your own analysis at the center of the work.",
+    buttonText: "Get Started",
+    buttonUrl: "/sign-in?returnUrl=/tools/academic-research-assistant",
+  },
+  guideSection: {
+    subTitle: "HOW IT WORKS",
+    heading: "From Research Question to Cited Draft",
+    description:
+      "Use Scholarly academic research to collect ideas, write with evidence, and prepare a more polished academic draft.",
+    steps: [
+      {
+        icon: "IoCheckmarkCircle",
+        title: "Start with Your Topic",
+        description:
+          "Enter your research question, assignment prompt, or working topic so Scholarly academic research can understand the direction of your project.",
+      },
+      {
+        icon: "PiNotePencilDuotone",
+        title: "Add or Explore Sources",
+        description:
+          "Bring in your notes, articles, or source material, then use the assistant to identify useful points, compare findings, and organize the evidence behind your writing.",
+      },
+      {
+        icon: "GrMagic",
+        title: "Draft with Guidance",
+        description:
+          "Build paragraphs, outlines, literature review sections, or research summaries with AI support that keeps your academic purpose and source context in view.",
+      },
+      {
+        icon: "PiLightbulbDuotone",
+        title: "Review and Cite",
+        description:
+          "Refine wording, strengthen weak claims, and prepare citations or references so your final work is clearer, better supported, and easier to submit with confidence.",
+      },
+    ],
+  },
+  FaqSestion: {
+    subTitle: "HELP CENTER",
+    heading: "Frequently Asked Questions",
+    faqs: [
+      {
+        question: "What is Scholarly academic research?",
+        answer:
+          "Scholarly academic research is an AI-powered academic research assistant that helps you explore sources, organize ideas, draft research content, and prepare citations for essays, papers, and literature reviews.",
+      },
+      {
+        question: "How is it different from a general AI chatbot?",
+        answer:
+          "It is focused on academic workflows. Instead of only generating quick answers, Scholarly academic research helps you work through sources, structure arguments, improve clarity, and keep research writing tied to evidence.",
+      },
+      {
+        question: "Can Scholarly academic research help with citations?",
+        answer:
+          "Yes. The tool can help you prepare citation-ready information, organize references, and review where claims may need stronger source support before you finalize your paper.",
+      },
+      {
+        question: "Can I use it for literature reviews?",
+        answer:
+          "Absolutely. Scholarly academic research can help summarize source themes, compare findings, build outlines, and turn research notes into clearer literature review sections.",
+      },
+      {
+        question: "Does it replace my own research or writing?",
+        answer:
+          "No. It is designed to support your research process, not replace your thinking. You remain responsible for selecting sources, checking claims, and shaping the final argument.",
+      },
+      {
+        question: "Is Scholarly academic research useful for students and researchers?",
+        answer:
+          "Yes. Students, graduate writers, and researchers can use it to plan papers, understand sources, improve academic tone, and manage research-heavy writing tasks more efficiently.",
+      },
+      {
+        question: "Can I revise AI-assisted content before submitting?",
+        answer:
+          "Yes. You should always review, edit, and verify the output. Scholarly academic research is most helpful when you use it as a drafting and research support tool alongside your own judgment.",
+      },
+    ],
+  },
+  elevateSection: {
+    heading: "Make Research Writing Clearer, Faster, and Better Supported",
+    description:
+      "Start using Scholarly academic research to explore sources, shape stronger arguments, and write academic drafts with more confidence from the first idea to the final citation.",
+    buttonText: "Start researching",
+    buttonUrl: "/sign-in?returnUrl=/tools/academic-research-assistant",
+  },
+};
+
 export const AiSummarizerContent = {
   heroContent: {
     mainHeading: "Smarter Summaries for Sharper Writing",
