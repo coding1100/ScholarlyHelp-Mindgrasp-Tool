@@ -1,0 +1,73 @@
+[    6300ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:38559
+[   16451ms] [LOG] 🔄 Sidebar useEffect - localStorage values: {user_name: mirzatouheed27, profile_image: null, access_token: ✅, user_id: 890156ea-4bf5-4fd7-9dd3-a66d3222cd16, provider: null} @ webpack-internal:///(app-pages-browser)/./app/components/AiTools/MTSidebar.tsx:201
+[   16453ms] [LOG] ✅ Set user name in sidebar: mirzatouheed27 @ webpack-internal:///(app-pages-browser)/./app/components/AiTools/MTSidebar.tsx:210
+[   16534ms] [LOG] 🔄 Sidebar useEffect - localStorage values: {user_name: mirzatouheed27, profile_image: null, access_token: ✅, user_id: 890156ea-4bf5-4fd7-9dd3-a66d3222cd16, provider: null} @ webpack-internal:///(app-pages-browser)/./app/components/AiTools/MTSidebar.tsx:201
+[   16536ms] [LOG] ✅ Set user name in sidebar: mirzatouheed27 @ webpack-internal:///(app-pages-browser)/./app/components/AiTools/MTSidebar.tsx:210
+[   19304ms] [LOG] Token verification response: {data: Object, status: 200, statusText: OK, headers: AxiosHeaders, config: Object} @ webpack-internal:///(app-pages-browser)/./app/components/AiTools/MTSidebar.tsx:475
+[   23415ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[   23424ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[   23430ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[   23436ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[   26363ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://z.clarity.ms/collect:0
+[   28842ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[   50164ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[   50946ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/sources:0
+[   51315ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/sources:0
+[   72421ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[   94091ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[   94835ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/tools/research-chat:0
+[  146747ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[  167143ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[  168484ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/tools/research-review:0
+[  195710ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[  213073ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[  214552ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/documents/69fc3b74cbce887df4c9f982/export?format=pdf:0
+[  240143ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[  259856ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[  293438ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[  306205ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/documents/69fc3b74cbce887df4c9f982/content:0
+[  306207ms] [ERROR] Autosave failed: Could not autosave document. @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:37
+[  357032ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/tools/citation-search?q=artificial%20intelligence&type=title&style=APA:0
+[  357691ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/sources:0
+[  358363ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/tools/research-chat:0
+[  359034ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ https://app.scholarlyhelp.com/v1/tools/research-review:0
+[  421100ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:192
+[  427264ms] [LOG] [Fast Refresh] done in 6164ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:47
+[  428669ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
+[  549869ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:192
+[  553238ms] [LOG] [Fast Refresh] done in 3369ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:47
+[  556606ms] [WARNING] [TikTok Pixel] - Invalid Event Name Format
+Issue: 1 event name was rejected for not following TikTok format requirements.
+Suggestion: Go to your source code and update these event types according to TikTok format requirements. See https://ads.tiktok.com/help/article/custom-events?lang=en for more information. @ https://analytics.tiktok.com/i18n/pixel/static/main.MWE0ZWQ3ZWQwMQ.js:0
