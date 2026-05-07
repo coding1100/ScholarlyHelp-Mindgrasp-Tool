@@ -6,6 +6,7 @@ import React, {
   useState,
   useMemo,
   useContext,
+  useRef,
 } from "react";
 import {
   EditorContent,
@@ -19,22 +20,50 @@ import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
 import Paragraph from "@tiptap/extension-paragraph";
 import CodeBlock from "@tiptap/extension-code-block";
-import Underline from "@tiptap/extension-underline";
 import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
-import { Extension } from "@tiptap/core";
-import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { Extension, type Editor } from "@tiptap/core";
+import { Plugin, PluginKey, Transaction } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
-import { Transaction } from "@tiptap/pm/state";
 import BlockMenu from "./BlockMenu";
 import BlockToolbar from "./BlockToolbar";
 import ParagraphToolbar from "./ParagraphToolbar";
-import axios from "axios";
 import { MdOutlineDragIndicator, MdAdd } from "react-icons/md";
-import { WordCountContext, EditorContext } from "./MainToolLayout";
+import {
+  WordCountContext,
+  EditorContext,
+  EditorPreferencesContext,
+} from "./MainToolLayout";
 import { trackToolGenerate } from "@/app/utils/toolsSheetClient";
+import toast from "react-hot-toast";
+import {
+  generateParagraph,
+  getAcademicErrorMessage,
+  updateDocumentContent,
+} from "./academicResearchApi";
+
+const MIN_CHARS_BEFORE_CURSOR = 10;
+const PARAGRAPH_SUGGESTION_DEBOUNCE_MS = 2200;
+
+function editorHasEffectiveFocus(editor: Editor): boolean {
+  if (editor.view.hasFocus()) return true;
+  if (typeof document === "undefined") return false;
+  const active = document.activeElement;
+  return !!(active && editor.view.dom.contains(active));
+}
+
+function pickParagraphApiText(data: {
+  section_content?: string;
+  content?: string;
+}): string {
+  const a = data?.section_content;
+  const b = data?.content;
+  if (typeof a === "string" && a.trim()) return a;
+  if (typeof b === "string" && b.trim()) return b;
+  return typeof a === "string" ? a : typeof b === "string" ? b : "";
+}
 
 // Custom node views by extending built-in nodes
 const CustomHeading = Heading.extend({
@@ -169,13 +198,13 @@ const NodeWithControls: React.FC<NodeViewProps> = (props) => {
             <HeadingTag
               className={`prose focus:outline-none flex-1 font-bold ${fontSize}`}
             >
-              <NodeViewContent as="div" className="contents" />
+              <NodeViewContent as={"span" as any} className="contents" />
             </HeadingTag>
           );
         })()
       ) : props.node.type.name === "paragraph" ? (
         <p className="prose focus:outline-none flex-1 mt-2">
-          <NodeViewContent as="div" className="contents" />
+          <NodeViewContent as={"span" as any} className="contents" />
         </p>
       ) : props.node.type.name === "codeBlock" ? (
         <pre className="prose focus:outline-none flex-1">
@@ -312,38 +341,44 @@ const AISuggestionExtension = Extension.create({
 interface ParagraphEditorProps {
   aiApiUrl?: string;
   outlineResponse: string[];
+  documentId?: string | null;
+  initialContent?: string;
 }
 
-const fetchAISuggestion = async (
-  payload: {
-    topic: string;
-    headings: string[];
-    current_section: string;
-    content_sofar: string;
-  },
-  apiUrl: string,
-) => {
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
-  const res = await axios.post(apiUrl, payload, {
-    headers: {
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      "Content-Type": "application/json",
-    },
-  });
-  console.log("API Response:", res.data);
-  return res.data.section_content as string;
+const fetchAISuggestion = async (payload: {
+  topic: string;
+  headings: string[];
+  current_section: string;
+  content_sofar: string;
+}) => {
+  const data = await generateParagraph(payload);
+  return pickParagraphApiText(data as { section_content?: string; content?: string });
 };
 
 const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
-  aiApiUrl = `${process.env.NEXT_PUBLIC_NGROX_URL}/tools/paragraph-generator`,
   outlineResponse,
+  documentId,
+  initialContent,
 }) => {
   const { setWordCount } = useContext(WordCountContext);
   const { setEditor: setEditorContext } = useContext(EditorContext);
+  const { autoComplete, showAutocompleteButtons } = useContext(
+    EditorPreferencesContext,
+  );
+  const editorShellRef = useRef<HTMLDivElement | null>(null);
+  const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const suggestionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastSuggestionKeyRef = useRef("");
+  const suggestionRequestIdRef = useRef(0);
+  const suppressSuggestionRef = useRef(false);
+  const lastLoadedDocumentIdRef = useRef<string | null>(null);
 
   // Generate content from outlineResponse
-  const initialContent = useMemo(() => {
+  const computedInitialContent = useMemo(() => {
+    if (initialContent) {
+      return initialContent;
+    }
+
     if (!outlineResponse || outlineResponse.length === 0) {
       return "<h1>Main Heading</h1><p></p>";
     }
@@ -358,7 +393,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     });
 
     return content;
-  }, [outlineResponse]);
+  }, [initialContent, outlineResponse]);
 
   const editor = useEditor({
     extensions: [
@@ -370,7 +405,6 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       CustomHeading,
       CustomParagraph,
       CustomCodeBlock,
-      Underline,
       Table.configure({
         resizable: true,
         HTMLAttributes: {
@@ -391,7 +425,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       }),
       AISuggestionExtension,
     ],
-    content: initialContent,
+    content: computedInitialContent,
     autofocus: false,
     immediatelyRender: false,
     editorProps: {
@@ -402,6 +436,15 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       },
     },
   });
+
+  useEffect(() => {
+    if (!editor || !documentId || lastLoadedDocumentIdRef.current === documentId) {
+      return;
+    }
+
+    editor.commands.setContent(initialContent || "<h1>Main Heading</h1><p></p>");
+    lastLoadedDocumentIdRef.current = documentId;
+  }, [documentId, editor, initialContent]);
 
   const [aiSuggestion, setAISuggestion] = useState<string>("");
   const [suggestionCursorPos, setSuggestionCursorPos] = useState<number | null>(
@@ -453,108 +496,188 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     return firstH1 || "Main Topic";
   }, [editor]);
 
-  // Helper function to determine current section based on cursor position
-  const getCurrentSection = useCallback(
-    (cursorPos: number): string => {
-      if (!editor) return "Introduction";
+  /**
+   * ProseMirror: doc.nodeAt(pos) only matches node boundaries, so scanning
+   * positions backward never finds headings. Use nodesBetween instead.
+   */
+  const getSectionContextAt = useCallback(
+    (cursorPos: number) => {
+      if (!editor) {
+        return { current_section: "Introduction", content_sofar: "" };
+      }
 
       const doc = editor.state.doc;
-      let currentSection = "Introduction";
+      const topic = getTopic();
+      const safeEnd = Math.min(Math.max(cursorPos, 0), doc.content.size);
 
-      for (let i = cursorPos; i >= 0; i--) {
-        const node = doc.nodeAt(i);
-        if (node && node.type.name === "heading") {
-          const headingText = node.textContent.trim();
-          if (headingText) {
-            currentSection = headingText;
-            break;
+      let lastHeadingText = "";
+      let bodyStartAfterHeading = 0;
+      let sawHeading = false;
+
+      doc.nodesBetween(0, safeEnd, (node, pos) => {
+        if (node.type.name === "heading") {
+          const title = node.textContent.trim();
+          if (title) {
+            lastHeadingText = title;
+            bodyStartAfterHeading = pos + node.nodeSize;
+            sawHeading = true;
           }
         }
-      }
+        return true;
+      });
 
-      return currentSection;
+      const content_sofar = doc
+        .textBetween(bodyStartAfterHeading, cursorPos, " ")
+        .trim();
+
+      const current_section = sawHeading
+        ? lastHeadingText || topic
+        : topic;
+
+      return { current_section, content_sofar };
     },
-    [editor],
+    [editor, getTopic],
   );
 
-  // Helper function to get content under current section
-  const getContentUnderCurrentSection = useCallback(
-    (cursorPos: number): string => {
-      if (!editor) return "";
+  const clearSuggestion = useCallback(() => {
+    setAISuggestion("");
+    setSuggestionCursorPos(null);
+    const commands = editor?.commands as any;
+    commands?.clearAISuggestion?.();
+  }, [editor]);
 
-      const doc = editor.state.doc;
-      let sectionStartPos = 0;
-      let foundCurrentHeading = false;
+  const updateSuggestionButtonPosition = useCallback(
+    (pos: number) => {
+      if (!editor || !editorShellRef.current) return;
 
-      for (let i = cursorPos; i >= 0; i--) {
-        const node = doc.nodeAt(i);
-        if (node && node.type.name === "heading") {
-          sectionStartPos = i + node.nodeSize;
-          foundCurrentHeading = true;
-          break;
-        }
+      try {
+        const cursorRect = editor.view.coordsAtPos(pos);
+        const shellRect = editorShellRef.current.getBoundingClientRect();
+        const top = cursorRect.bottom - shellRect.top + 8;
+        const left = Math.min(
+          Math.max(cursorRect.left - shellRect.left, 0),
+          Math.max(shellRect.width - 180, 0),
+        );
+
+        setSuggestionButtonPos({ top, left });
+      } catch {
+        setSuggestionButtonPos({ top: 0, left: 0 });
       }
-
-      if (!foundCurrentHeading) {
-        return "";
-      }
-
-      const content = doc.textBetween(sectionStartPos, cursorPos, " ");
-      return content.trim();
     },
     [editor],
   );
 
   useEffect(() => {
     if (!editor) return;
-    const updateSuggestion = async () => {
-      const pos = editor.state.selection.from;
-
-      // Build payload from document content
-      const topic = getTopic();
-      const headings = getAllHeadings();
-      const current_section = getCurrentSection(pos);
-      const content_sofar = getContentUnderCurrentSection(pos);
-
-      const payload = {
-        topic,
-        headings,
-        current_section,
-        content_sofar: content_sofar || "",
-      };
-
-      const suggestion = await fetchAISuggestion(payload, aiApiUrl);
-      const plainText = suggestion.replace(/<[^>]*>/g, "");
-
-      setAISuggestion(plainText);
-      setSuggestionCursorPos(pos);
-
-      // Clear previous suggestion and add new one
-      const commands = editor.commands as any;
-      commands.clearAISuggestion();
-      commands.addAISuggestion(pos, plainText);
-
-      // Position the buttons near the cursor
-      const dom = editor.view.domAtPos(pos);
-      if (dom.node instanceof HTMLElement) {
-        const rect = dom.node.getBoundingClientRect();
-        setSuggestionButtonPos({
-          top: rect.bottom + window.scrollY,
-          left: rect.left + window.scrollX,
-        });
+    const scheduleSuggestionUpdate = ({
+      transaction,
+    }: {
+      transaction: Transaction;
+    }) => {
+      if (!autoComplete) {
+        clearSuggestion();
+        return;
       }
+
+      if (!transaction.docChanged || !editorHasEffectiveFocus(editor)) {
+        return;
+      }
+
+      if (suggestionTimerRef.current) {
+        clearTimeout(suggestionTimerRef.current);
+      }
+
+      suggestionTimerRef.current = setTimeout(async () => {
+        if (suppressSuggestionRef.current) return;
+
+        const { state } = editor;
+        const { from, to } = state.selection;
+        if (from !== to) {
+          clearSuggestion();
+          return;
+        }
+
+        const pos = from;
+        const resolvedPos = state.doc.resolve(pos);
+        if (resolvedPos.parent.type.name !== "paragraph") {
+          clearSuggestion();
+          return;
+        }
+
+        const textBeforeCursor = resolvedPos.parent.textBetween(
+          0,
+          resolvedPos.parentOffset,
+          " ",
+        );
+        if (textBeforeCursor.trim().length < MIN_CHARS_BEFORE_CURSOR) {
+          clearSuggestion();
+          return;
+        }
+
+        // Build payload from document content
+        const topic = getTopic();
+        const headings = getAllHeadings();
+        const { current_section, content_sofar } =
+          getSectionContextAt(pos);
+        const requestKey = JSON.stringify({
+          topic,
+          current_section,
+          content_sofar,
+        });
+
+        if (!content_sofar || requestKey === lastSuggestionKeyRef.current) {
+          return;
+        }
+
+        const requestId = suggestionRequestIdRef.current + 1;
+        suggestionRequestIdRef.current = requestId;
+
+        const payload = {
+          topic,
+          headings,
+          current_section,
+          content_sofar,
+        };
+
+        try {
+          const suggestion = await fetchAISuggestion(payload);
+          if (requestId !== suggestionRequestIdRef.current) return;
+
+          const plainText = suggestion.replace(/<[^>]*>/g, "");
+          if (!plainText.trim()) return;
+
+          lastSuggestionKeyRef.current = requestKey;
+
+          setAISuggestion(plainText);
+          setSuggestionCursorPos(pos);
+
+          const commands = editor.commands as any;
+          commands.clearAISuggestion();
+          commands.addAISuggestion(pos, plainText);
+          updateSuggestionButtonPosition(pos);
+        } catch (error) {
+          const message = getAcademicErrorMessage(error, "AI suggestion failed.");
+          console.error("Error fetching AI suggestion:", message);
+          toast.error(message, { id: "paragraph-suggestion-autocomplete", duration: 4000 });
+        }
+      }, PARAGRAPH_SUGGESTION_DEBOUNCE_MS);
     };
-    editor.on("selectionUpdate", updateSuggestion);
+
+    editor.on("update", scheduleSuggestionUpdate);
     return () => {
-      editor.off("selectionUpdate", updateSuggestion);
+      editor.off("update", scheduleSuggestionUpdate);
+      if (suggestionTimerRef.current) {
+        clearTimeout(suggestionTimerRef.current);
+      }
     };
   }, [
     editor,
-    aiApiUrl,
     getTopic,
     getAllHeadings,
-    getCurrentSection,
-    getContentUnderCurrentSection,
+    getSectionContextAt,
+    autoComplete,
+    clearSuggestion,
+    updateSuggestionButtonPosition,
   ]);
 
   // Share editor instance with context for FooterBar undo/redo
@@ -596,6 +719,42 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
   }, [editor, setWordCount]);
 
   useEffect(() => {
+    if (!editor || !documentId) return;
+
+    const AUTOSAVE_MS = 10_000;
+
+    const handleAutosave = ({
+      transaction,
+    }: {
+      transaction: Transaction;
+    }) => {
+      if (!transaction.docChanged) return;
+
+      if (autosaveTimerRef.current) {
+        clearTimeout(autosaveTimerRef.current);
+      }
+
+      autosaveTimerRef.current = setTimeout(() => {
+        void updateDocumentContent(documentId, editor.getHTML()).catch((error) => {
+          console.error(
+            "Autosave failed:",
+            getAcademicErrorMessage(error, "Could not autosave document."),
+          );
+        });
+      }, AUTOSAVE_MS);
+    };
+
+    editor.on("update", handleAutosave);
+
+    return () => {
+      editor.off("update", handleAutosave);
+      if (autosaveTimerRef.current) {
+        clearTimeout(autosaveTimerRef.current);
+      }
+    };
+  }, [documentId, editor]);
+
+  useEffect(() => {
     if (!editor) return;
     const handleSelection = () => {
       const { state } = editor;
@@ -633,10 +792,14 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
   const handleAccept = useCallback(() => {
     if (editor && aiSuggestion && suggestionCursorPos !== null) {
       trackToolGenerate({ toolName: "Main Tool" });
+      suppressSuggestionRef.current = true;
       const commands = editor.commands as any;
       commands.acceptAISuggestion(suggestionCursorPos, aiSuggestion);
       setAISuggestion("");
       setSuggestionCursorPos(null);
+      window.setTimeout(() => {
+        suppressSuggestionRef.current = false;
+      }, 2500);
     }
   }, [editor, aiSuggestion, suggestionCursorPos]);
 
@@ -647,8 +810,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
 
     const topic = getTopic();
     const headings = getAllHeadings();
-    const current_section = getCurrentSection(pos);
-    const content_sofar = getContentUnderCurrentSection(pos);
+    const { current_section, content_sofar } = getSectionContextAt(pos);
 
     const payload = {
       topic,
@@ -657,22 +819,43 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       content_sofar: content_sofar || "",
     };
 
-    const suggestion = await fetchAISuggestion(payload, aiApiUrl);
-    const plainText = suggestion.replace(/<[^>]*>/g, "");
+    try {
+      const suggestion = await fetchAISuggestion(payload);
+      const plainText = suggestion.replace(/<[^>]*>/g, "");
+      if (!plainText.trim()) {
+        toast.error("No suggestion returned. Try typing a bit more and wait.");
+        return;
+      }
 
-    setAISuggestion(plainText);
-    setSuggestionCursorPos(pos);
+      lastSuggestionKeyRef.current = JSON.stringify({
+        topic,
+        current_section,
+        content_sofar: content_sofar || "",
+      });
 
-    const commands = editor.commands as any;
-    commands.clearAISuggestion();
-    commands.addAISuggestion(pos, plainText);
+      setAISuggestion(plainText);
+      setSuggestionCursorPos(pos);
+      updateSuggestionButtonPosition(pos);
+
+      const commands = editor.commands as any;
+      commands.clearAISuggestion();
+      commands.addAISuggestion(pos, plainText);
+    } catch (error) {
+      const message = getAcademicErrorMessage(
+        error,
+        "Could not refresh suggestion.",
+      );
+      toast.error(message, {
+        id: "paragraph-suggestion-retry",
+        duration: 4000,
+      });
+    }
   }, [
     editor,
-    aiApiUrl,
     getTopic,
     getAllHeadings,
-    getCurrentSection,
-    getContentUnderCurrentSection,
+    getSectionContextAt,
+    updateSuggestionButtonPosition,
   ]);
 
   // Handle keyboard shortcut for Accept (Shift + →)
@@ -693,7 +876,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
   }, [editor, aiSuggestion, handleAccept]);
 
   return (
-    <div className="relative">
+    <div ref={editorShellRef} className="relative">
       {editor && showFormatToolbar && (
         <div
           className="absolute z-50"
@@ -794,13 +977,14 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
         editor={editor}
         className="min-h-[300px] outline-none border-none focus:outline-none focus:ring-0 focus:border-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:border-none [&_.ProseMirror]:focus:outline-none [&_.ProseMirror]:focus:ring-0 [&_.ProseMirror]:focus:border-none"
       />
-      {aiSuggestion && suggestionCursorPos !== null && (
+      {showAutocompleteButtons && aiSuggestion && suggestionCursorPos !== null && (
         <div
           className="absolute z-20 flex gap-2 items-center mt-1 p-1 bg-white rounded-md shadow-md border border-gray-300"
           style={{
             top: suggestionButtonPos.top,
             left: suggestionButtonPos.left,
           }}
+          onMouseDown={(event) => event.preventDefault()}
         >
           <button
             className="px-2 py-1 bg-[#2b7fff] text-white rounded text-xs hover:bg-[#155dfc] w-max"

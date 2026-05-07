@@ -1,0 +1,180 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e209]:
+      - complementary [ref=e210]:
+        - generic [ref=e212] [cursor=pointer]:
+          - generic [ref=e213]: m
+          - generic [ref=e214]: mirzatouheed27
+          - img [ref=e216]
+        - generic [ref=e219]:
+          - link "Dashboard" [ref=e221] [cursor=pointer]:
+            - /url: /tools/dashboard/
+          - generic [ref=e222]:
+            - link "Academic Research Assistant" [ref=e223] [cursor=pointer]:
+              - /url: /tools/academic-research-assistant/
+            - generic [ref=e224]:
+              - button "New" [ref=e225] [cursor=pointer]:
+                - img [ref=e226]
+                - generic [ref=e227]: New
+              - button "Documents" [ref=e228] [cursor=pointer]:
+                - img [ref=e229]
+                - generic [ref=e231]: Documents
+              - button "Library" [ref=e232] [cursor=pointer]:
+                - img [ref=e233]
+                - generic [ref=e235]: Library
+              - button "AI Chat" [ref=e236] [cursor=pointer]:
+                - img [ref=e237]
+                - generic [ref=e239]: AI Chat
+              - button "Review" [ref=e240] [cursor=pointer]:
+                - img [ref=e241]
+                - generic [ref=e243]: Review
+              - button "Tutorials" [ref=e244] [cursor=pointer]:
+                - img [ref=e245]
+                - generic [ref=e247]: Tutorials
+              - button "Shortcuts" [ref=e248] [cursor=pointer]:
+                - img [ref=e249]
+                - generic [ref=e251]: Shortcuts
+          - link "Paraphraser Tool" [ref=e253] [cursor=pointer]:
+            - /url: /tools/paraphraser-tool/
+          - link "Summarizer Tool" [ref=e255] [cursor=pointer]:
+            - /url: /tools/summarizer-tool/
+          - link "Humanizer Tool" [ref=e257] [cursor=pointer]:
+            - /url: /tools/humanizer-tool/
+          - link "Thesis Generator Tool" [ref=e259] [cursor=pointer]:
+            - /url: /tools/thesis-generator-tool/
+          - link "Essay Outline Tool" [ref=e261] [cursor=pointer]:
+            - /url: /tools/essay-outline-tool/
+          - link "Essay Title Generator" [ref=e263] [cursor=pointer]:
+            - /url: /tools/essay-title/
+          - link "Research Question Generator" [ref=e265] [cursor=pointer]:
+            - /url: /tools/research-question/
+          - link "Pythagoras Equation Solver" [ref=e267] [cursor=pointer]:
+            - /url: /tools/pythagoras-solver/
+          - link "Citation Tool" [ref=e269] [cursor=pointer]:
+            - /url: /tools/citation-tool/
+          - link "Tutor Tool" [ref=e271] [cursor=pointer]:
+            - /url: /tools/tutor/
+          - link "Micro Learning" [ref=e273] [cursor=pointer]:
+            - /url: /tools/micro-learning/
+          - link "Exam Prep" [ref=e275] [cursor=pointer]:
+            - /url: /tools/exam-prep/
+          - link "Language Practice" [ref=e277] [cursor=pointer]:
+            - /url: /tools/language-practice/
+          - link "CGPA Calculator" [ref=e279] [cursor=pointer]:
+            - /url: /tools/cgpa-calculator/
+        - generic [ref=e281]:
+          - generic [ref=e283]:
+            - generic [ref=e284]: Token limit
+            - generic [ref=e285]: 27,411/100,000
+          - button "See Pricing" [ref=e288] [cursor=pointer]:
+            - img [ref=e289]
+            - text: See Pricing
+      - generic [ref=e291]:
+        - generic [ref=e294]:
+          - generic [ref=e296]: Untitled
+          - generic [ref=e297]:
+            - button "Autocomplete On" [ref=e298] [cursor=pointer]
+            - button "Review" [ref=e299] [cursor=pointer]
+            - button "See Pricing" [ref=e300] [cursor=pointer]:
+              - img [ref=e301]
+              - generic [ref=e303]: See Pricing
+            - button "Export" [ref=e305] [cursor=pointer]
+            - button "Share" [ref=e307] [cursor=pointer]
+            - button [ref=e308] [cursor=pointer]:
+              - img [ref=e309]
+            - button [ref=e311] [cursor=pointer]:
+              - img [ref=e312]
+        - main [ref=e314]:
+          - generic [ref=e315]:
+            - textbox "Untitled" [ref=e317]
+            - generic [ref=e318]:
+              - generic [ref=e319]:
+                - generic [ref=e320]:
+                  - heading "Set up your research document" [level=2] [ref=e321]
+                  - paragraph [ref=e322]: Add a prompt, choose citation settings, then generate headings or start from a blank page.
+                - button "Advanced prompt" [ref=e323] [cursor=pointer]
+              - generic [ref=e324]: Fill document prompt
+              - 'textbox "Example: Write a literature review about AI in higher education with recent peer-reviewed sources." [ref=e325]': write a review about impact of AI on coding and developers
+              - generic [ref=e326]:
+                - generic [ref=e327]:
+                  - text: Citation style
+                  - combobox "Citation style" [ref=e328]:
+                    - option "APA 7th edition" [selected]
+                    - option "MLA 9th edition"
+                    - option "Chicago 17th edition"
+                    - option "Harvard"
+                - generic [ref=e329]:
+                  - text: Headings
+                  - combobox "Headings" [ref=e330]:
+                    - option "Smart headings" [selected]
+                    - option "Standard headings"
+                    - option "No headings"
+              - generic [ref=e331]:
+                - button "Generating..." [disabled] [ref=e441]:
+                  - img [ref=e333]
+                  - text: Generating...
+                - button "Start writing" [ref=e335] [cursor=pointer]:
+                  - img [ref=e336]
+                  - text: Start writing
+                - button "Import Word BETA" [ref=e339] [cursor=pointer]:
+                  - img [ref=e340]
+                  - text: Import Word
+                  - generic [ref=e342]: BETA
+        - generic [ref=e344]:
+          - generic [ref=e345]:
+            - button "Text" [ref=e348] [cursor=pointer]:
+              - generic [ref=e349]: Text
+              - img [ref=e351]
+            - button "insert image" [ref=e354] [cursor=pointer]:
+              - img [ref=e355]
+            - button "Insert table" [ref=e359] [cursor=pointer]:
+              - img [ref=e360]
+            - button "Undo (Ctrl+Z)" [disabled] [ref=e364]:
+              - img [ref=e365]
+            - button "Redo (Ctrl+Y)" [disabled] [ref=e367]:
+              - img [ref=e368]
+          - generic [ref=e371]: 0 words
+    - generic [ref=e373]:
+      - generic [ref=e374]:
+        - heading [level=2] [ref=e375]: Document settings
+        - button [ref=e376] [cursor=pointer]:
+          - img [ref=e377]
+      - generic [ref=e380]:
+        - heading [level=2] [ref=e381]: Document settings
+        - generic [ref=e382]:
+          - img [ref=e383]
+          - heading [level=3] [ref=e385]: Auto Complete
+        - generic [ref=e389]:
+          - generic [ref=e390]:
+            - generic [ref=e391]:
+              - paragraph [ref=e392]: Auto-complete
+              - paragraph [ref=e393]: Turn on to enable auto-complete
+            - switch [ref=e397]
+          - generic [ref=e398]:
+            - generic [ref=e399]:
+              - paragraph [ref=e400]: Show Auto-complete Buttons
+              - paragraph [ref=e401]: Turn on to show accept/cycle buttons
+            - switch [ref=e405]
+        - generic [ref=e406]:
+          - img [ref=e407]
+          - heading [level=3] [ref=e409]: Citations
+        - generic [ref=e413]:
+          - generic [ref=e414]:
+            - paragraph [ref=e415]: Citation Style
+            - combobox [ref=e416]
+          - generic [ref=e417]:
+            - generic [ref=e418]:
+              - paragraph [ref=e419]: Auto Cite from New Sources
+              - paragraph [ref=e420]: External sources will be considered
+            - switch [checked] [ref=e424]
+          - generic [ref=e425]:
+            - generic [ref=e426]:
+              - paragraph [ref=e427]: Auto-cite from Library
+              - paragraph [ref=e428]: Library sources will be considered
+            - switch [checked] [ref=e432]
+          - generic [ref=e433]:
+            - generic [ref=e434]:
+              - paragraph [ref=e435]: Citation Recency Filter
+              - paragraph [ref=e436]: Only consider citations from specified year onwards
+            - switch [ref=e440]
+  - alert [ref=e198]

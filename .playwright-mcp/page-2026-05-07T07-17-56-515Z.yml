@@ -1,0 +1,265 @@
+- generic [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e5]:
+      - complementary [ref=e6]:
+        - generic [ref=e8] [cursor=pointer]:
+          - generic [ref=e9]: m
+          - generic [ref=e10]: mirzatouheed27
+          - img [ref=e12]
+        - generic [ref=e15]:
+          - link "Dashboard" [ref=e17] [cursor=pointer]:
+            - /url: /tools/dashboard/?doc=69fc3b74cbce887df4c9f982
+          - generic [ref=e18]:
+            - link "Academic Research Assistant" [ref=e19] [cursor=pointer]:
+              - /url: /tools/academic-research-assistant/?doc=69fc3b74cbce887df4c9f982
+            - generic [ref=e20]:
+              - button "New" [ref=e21] [cursor=pointer]:
+                - img [ref=e22]
+                - generic [ref=e23]: New
+              - button "Documents" [ref=e24] [cursor=pointer]:
+                - img [ref=e25]
+                - generic [ref=e27]: Documents
+              - button "Library" [ref=e28] [cursor=pointer]:
+                - img [ref=e29]
+                - generic [ref=e31]: Library
+              - button "AI Chat" [ref=e32] [cursor=pointer]:
+                - img [ref=e33]
+                - generic [ref=e35]: AI Chat
+              - button "Review" [ref=e36] [cursor=pointer]:
+                - img [ref=e37]
+                - generic [ref=e39]: Review
+              - button "Tutorials" [ref=e40] [cursor=pointer]:
+                - img [ref=e41]
+                - generic [ref=e43]: Tutorials
+              - button "Shortcuts" [ref=e44] [cursor=pointer]:
+                - img [ref=e45]
+                - generic [ref=e47]: Shortcuts
+          - link "Paraphraser Tool" [ref=e49] [cursor=pointer]:
+            - /url: /tools/paraphraser-tool/?doc=69fc3b74cbce887df4c9f982
+          - link "Summarizer Tool" [ref=e51] [cursor=pointer]:
+            - /url: /tools/summarizer-tool/?doc=69fc3b74cbce887df4c9f982
+          - link "Humanizer Tool" [ref=e53] [cursor=pointer]:
+            - /url: /tools/humanizer-tool/?doc=69fc3b74cbce887df4c9f982
+          - link "Thesis Generator Tool" [ref=e55] [cursor=pointer]:
+            - /url: /tools/thesis-generator-tool/?doc=69fc3b74cbce887df4c9f982
+          - link "Essay Outline Tool" [ref=e57] [cursor=pointer]:
+            - /url: /tools/essay-outline-tool/?doc=69fc3b74cbce887df4c9f982
+          - link "Essay Title Generator" [ref=e59] [cursor=pointer]:
+            - /url: /tools/essay-title/?doc=69fc3b74cbce887df4c9f982
+          - link "Research Question Generator" [ref=e61] [cursor=pointer]:
+            - /url: /tools/research-question/?doc=69fc3b74cbce887df4c9f982
+          - link "Pythagoras Equation Solver" [ref=e63] [cursor=pointer]:
+            - /url: /tools/pythagoras-solver/?doc=69fc3b74cbce887df4c9f982
+          - link "Citation Tool" [ref=e65] [cursor=pointer]:
+            - /url: /tools/citation-tool/?doc=69fc3b74cbce887df4c9f982
+          - link "Tutor Tool" [ref=e67] [cursor=pointer]:
+            - /url: /tools/tutor/?doc=69fc3b74cbce887df4c9f982
+          - link "Micro Learning" [ref=e69] [cursor=pointer]:
+            - /url: /tools/micro-learning/?doc=69fc3b74cbce887df4c9f982
+          - link "Exam Prep" [ref=e71] [cursor=pointer]:
+            - /url: /tools/exam-prep/?doc=69fc3b74cbce887df4c9f982
+          - link "Language Practice" [ref=e73] [cursor=pointer]:
+            - /url: /tools/language-practice/?doc=69fc3b74cbce887df4c9f982
+          - link "CGPA Calculator" [ref=e75] [cursor=pointer]:
+            - /url: /tools/cgpa-calculator/?doc=69fc3b74cbce887df4c9f982
+        - generic [ref=e77]:
+          - generic [ref=e79]:
+            - generic [ref=e80]: Token limit
+            - generic [ref=e81]: 30,473/100,000
+          - button "See Pricing" [ref=e83] [cursor=pointer]:
+            - img [ref=e84]
+            - text: See Pricing
+      - complementary [ref=e378]:
+        - generic [ref=e419]:
+          - generic [ref=e420]:
+            - img [ref=e422]
+            - generic [ref=e424]:
+              - heading "Review" [level=2] [ref=e425]
+              - paragraph [ref=e426]: Check clarity, structure, and citation opportunities.
+          - button "Close panel" [ref=e427] [cursor=pointer]:
+            - img [ref=e428]
+        - generic [ref=e430]:
+          - generic [ref=e431]:
+            - generic [ref=e432]:
+              - paragraph [ref=e433]: Words
+              - paragraph [ref=e434]: "37"
+            - generic [ref=e435]:
+              - paragraph [ref=e436]: Sources
+              - paragraph [ref=e437]: "0"
+          - button "Review document" [ref=e438] [cursor=pointer]
+          - paragraph [ref=e440]: Run review to get feedback on argument flow, evidence, citations, and next writing steps.
+      - generic [ref=e86]:
+        - generic [ref=e89]:
+          - generic [ref=e91]: write a review about impact of AI on coding and developers
+          - generic [ref=e92]:
+            - button "Autocomplete On" [ref=e93] [cursor=pointer]
+            - button "Review" [ref=e94] [cursor=pointer]
+            - button "See Pricing" [ref=e95] [cursor=pointer]:
+              - img [ref=e96]
+              - generic [ref=e98]: See Pricing
+            - button "Export" [ref=e100] [cursor=pointer]
+            - generic [ref=e101]:
+              - button "Share" [active] [ref=e102] [cursor=pointer]
+              - generic [ref=e457]:
+                - generic [ref=e458]:
+                  - generic [ref=e459]:
+                    - heading "Publish document" [level=3] [ref=e460]
+                    - paragraph [ref=e461]: Publish a read-only version of this document. You can unpublish at any time.
+                  - button "Close" [ref=e462] [cursor=pointer]:
+                    - img [ref=e463]
+                - generic [ref=e465]:
+                  - generic [ref=e466]:
+                    - img [ref=e468]
+                    - generic [ref=e470]:
+                      - paragraph [ref=e471]: Increase exposure
+                      - paragraph [ref=e472]: We will index your paper in Google search results and drive traffic.
+                  - generic [ref=e473]:
+                    - img [ref=e475]
+                    - generic [ref=e477]:
+                      - paragraph [ref=e478]: Track your impact
+                      - paragraph [ref=e479]: Get updates on number of pageviews your paper is receiving.
+                  - generic [ref=e480]:
+                    - img [ref=e482]
+                    - generic [ref=e484]:
+                      - paragraph [ref=e485]: Find collaborators
+                      - paragraph [ref=e486]: Sharing a pre-print is an excellent way to attract potential collaborators.
+                - button "Publish Document" [ref=e488] [cursor=pointer]
+            - button [ref=e103] [cursor=pointer]:
+              - img [ref=e104]
+            - button [ref=e106] [cursor=pointer]:
+              - img [ref=e107]
+        - main [ref=e109]:
+          - generic [ref=e214]:
+            - generic [ref=e216]:
+              - generic [ref=e217]:
+                - button [ref=e218] [cursor=pointer]:
+                  - img [ref=e219]
+                - button [ref=e222]:
+                  - img [ref=e223]
+              - 'heading "1. Introduction: The Metamorphosis of the Integrated Development Environment" [level=1] [ref=e226]':
+                - generic [ref=e228]: "1. Introduction: The Metamorphosis of the Integrated Development Environment"
+            - generic [ref=e230]:
+              - generic [ref=e231]:
+                - button [ref=e232] [cursor=pointer]:
+                  - img [ref=e233]
+                - button [ref=e236]:
+                  - img [ref=e237]
+              - paragraph [ref=e240]
+            - generic [ref=e244]:
+              - generic [ref=e245]:
+                - button [ref=e246] [cursor=pointer]:
+                  - img [ref=e247]
+                - button [ref=e250]:
+                  - img [ref=e251]
+              - heading "2. Temporal Compression and the New Heuristic Flow" [level=2] [ref=e254]:
+                - generic [ref=e256]: 2. Temporal Compression and the New Heuristic Flow
+            - generic [ref=e258]:
+              - generic [ref=e259]:
+                - button [ref=e260] [cursor=pointer]:
+                  - img [ref=e261]
+                - button [ref=e264]:
+                  - img [ref=e265]
+              - paragraph [ref=e268]
+            - generic [ref=e272]:
+              - generic [ref=e273]:
+                - button [ref=e274] [cursor=pointer]:
+                  - img [ref=e275]
+                - button [ref=e278]:
+                  - img [ref=e279]
+              - heading "3. The Cognitive Cartography of Latent Space Navigation" [level=2] [ref=e282]:
+                - generic [ref=e284]: 3. The Cognitive Cartography of Latent Space Navigation
+            - generic [ref=e286]:
+              - generic [ref=e287]:
+                - button [ref=e288] [cursor=pointer]:
+                  - img [ref=e289]
+                - button [ref=e292]:
+                  - img [ref=e293]
+              - paragraph [ref=e296]
+            - generic [ref=e300]:
+              - generic [ref=e301]:
+                - button [ref=e302] [cursor=pointer]:
+                  - img [ref=e303]
+                - button [ref=e306]:
+                  - img [ref=e307]
+              - heading "4. Reclaiming Epistemic Agency and Digital Craftsmanship" [level=2] [ref=e310]:
+                - generic [ref=e312]: 4. Reclaiming Epistemic Agency and Digital Craftsmanship
+            - generic [ref=e314]:
+              - generic [ref=e315]:
+                - button [ref=e316] [cursor=pointer]:
+                  - img [ref=e317]
+                - button [ref=e320]:
+                  - img [ref=e321]
+              - paragraph [ref=e324]
+            - generic [ref=e328]:
+              - generic [ref=e329]:
+                - button [ref=e330] [cursor=pointer]:
+                  - img [ref=e331]
+                - button [ref=e334]:
+                  - img [ref=e335]
+              - 'heading "5. Conclusion: The Synthesis of Human and Machine Intelligence" [level=2] [ref=e338]':
+                - generic [ref=e340]: "5. Conclusion: The Synthesis of Human and Machine Intelligence"
+            - generic [ref=e342]:
+              - generic [ref=e343]:
+                - button [ref=e344] [cursor=pointer]:
+                  - img [ref=e345]
+                - button [ref=e348]:
+                  - img [ref=e349]
+              - paragraph [ref=e352]
+        - generic [ref=e114]:
+          - generic [ref=e115]:
+            - button "Text" [ref=e118] [cursor=pointer]:
+              - generic [ref=e119]: Text
+              - img [ref=e121]
+            - button "insert image" [ref=e124] [cursor=pointer]:
+              - img [ref=e125]
+            - button "Insert table" [ref=e129] [cursor=pointer]:
+              - img [ref=e130]
+            - button "Undo (Ctrl+Z)" [ref=e134] [cursor=pointer]:
+              - img [ref=e135]
+            - button "Redo (Ctrl+Y)" [disabled] [ref=e137]:
+              - img [ref=e138]
+          - generic [ref=e141]: 37 words
+    - generic [ref=e143]:
+      - generic [ref=e144]:
+        - heading [level=2] [ref=e145]: Document settings
+        - button [ref=e146] [cursor=pointer]:
+          - img [ref=e147]
+      - generic [ref=e150]:
+        - heading [level=2] [ref=e151]: Document settings
+        - generic [ref=e152]:
+          - img [ref=e153]
+          - heading [level=3] [ref=e155]: Auto Complete
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - generic [ref=e161]:
+              - paragraph [ref=e162]: Auto-complete
+              - paragraph [ref=e163]: Turn on to enable auto-complete
+            - switch [ref=e167]
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - paragraph [ref=e170]: Show Auto-complete Buttons
+              - paragraph [ref=e171]: Turn on to show accept/cycle buttons
+            - switch [ref=e175]
+        - generic [ref=e176]:
+          - img [ref=e177]
+          - heading [level=3] [ref=e179]: Citations
+        - generic [ref=e183]:
+          - generic [ref=e184]:
+            - paragraph [ref=e185]: Citation Style
+            - combobox [ref=e186]
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - paragraph [ref=e189]: Auto Cite from New Sources
+              - paragraph [ref=e190]: External sources will be considered
+            - switch [checked] [ref=e194]
+          - generic [ref=e195]:
+            - generic [ref=e196]:
+              - paragraph [ref=e197]: Auto-cite from Library
+              - paragraph [ref=e198]: Library sources will be considered
+            - switch [checked] [ref=e202]
+          - generic [ref=e203]:
+            - generic [ref=e204]:
+              - paragraph [ref=e205]: Citation Recency Filter
+              - paragraph [ref=e206]: Only consider citations from specified year onwards
+            - switch [ref=e210]
+  - alert [ref=e4]

@@ -1,0 +1,174 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e237]:
+      - generic [ref=e239]:
+        - link "Scholarly Help" [ref=e240] [cursor=pointer]:
+          - /url: /
+          - img "Scholarly Help" [ref=e241]
+        - navigation [ref=e242]:
+          - link "Online Class" [ref=e244] [cursor=pointer]:
+            - /url: /online-class/
+            - text: Online Class
+            - img [ref=e245]
+          - link "Exam Help" [ref=e248] [cursor=pointer]:
+            - /url: /exams/
+            - text: Exam Help
+            - img [ref=e249]
+          - link "Assignment Help" [ref=e252] [cursor=pointer]:
+            - /url: /assignment/
+            - text: Assignment Help
+            - img [ref=e253]
+          - link "Homework" [ref=e256] [cursor=pointer]:
+            - /url: /homework/
+            - text: Homework
+            - img [ref=e257]
+          - link "Essay Writing" [ref=e260] [cursor=pointer]:
+            - /url: /essay-writing/
+            - text: Essay Writing
+            - img [ref=e261]
+          - link "Tools" [ref=e264] [cursor=pointer]:
+            - /url: /tools/
+        - link "Phone +1 646 480 6092" [ref=e266] [cursor=pointer]:
+          - /url: tel:+1-646-480-6092
+          - img "Phone" [ref=e268]
+          - generic [ref=e269]: +1 646 480 6092
+      - main [ref=e270]:
+        - generic [ref=e272]:
+          - generic [ref=e273]:
+            - heading "Leading Academic Writing Services" [level=1] [ref=e274]
+            - paragraph [ref=e275]:
+              - text: Our service guarantees not only top-notch quality but also 100% uniqueness of the delivered papers! Be assured to get a
+              - strong [ref=e276]: Turnitin-safe
+              - text: paper written by verified experts.
+            - generic [ref=e277]:
+              - generic [ref=e278]:
+                - img [ref=e280]
+                - generic [ref=e282]: 100% confidential
+              - generic [ref=e283]:
+                - img [ref=e285]
+                - generic [ref=e288]: No spam
+              - generic [ref=e289]:
+                - img [ref=e291]
+                - generic [ref=e294]: Plagiarism Free Work
+              - generic [ref=e295]:
+                - img [ref=e297]
+                - generic [ref=e299]: Money Back Guarantee
+          - generic [ref=e303]:
+            - img "logo is here" [ref=e305]
+            - generic [ref=e306]:
+              - generic [ref=e307]:
+                - text: Email
+                - generic [ref=e308]:
+                  - img [ref=e309]
+                  - textbox "Enter your email address" [ref=e312]: mirzatouheed27@gmail.com
+              - generic [ref=e313]:
+                - text: Password
+                - generic [ref=e314]:
+                  - textbox "Enter your password" [ref=e315]: Touheed1234
+                  - button [ref=e316] [cursor=pointer]:
+                    - img [ref=e317]
+              - link "Forgot Password?" [ref=e320] [cursor=pointer]:
+                - /url: /forgot-password/?returnUrl=%2Ftools%2Facademic-research-assistant%2F
+              - button [disabled] [ref=e452]:
+                - progressbar "color-ring-loading" [ref=e453]
+                - img [ref=e323]
+              - generic [ref=e325]:
+                - generic [ref=e328]: OR
+                - generic [ref=e331]:
+                  - button "Continue with Google. Opens in new tab" [ref=e333] [cursor=pointer]:
+                    - generic [ref=e335]:
+                      - img [ref=e337]
+                      - generic [ref=e344]: Continue with Google
+                  - iframe
+            - paragraph [ref=e345]:
+              - text: Do not have an account?
+              - link "Sign up Here" [ref=e346] [cursor=pointer]:
+                - /url: /sign-up/?returnUrl=%2Ftools%2Facademic-research-assistant%2F
+      - generic [ref=e347]:
+        - generic [ref=e349]:
+          - generic [ref=e350]:
+            - link "Scholarly Help" [ref=e351] [cursor=pointer]:
+              - /url: /
+              - img "Scholarly Help" [ref=e352]
+            - paragraph [ref=e354]: Scholarly Help delivers academic writing services. Our team of qualified subject experts can help you with your challenging online classes, homework, assignments, quizzes, and exams.
+          - generic [ref=e355]:
+            - generic [ref=e356]:
+              - paragraph [ref=e358]: Explore
+              - generic [ref=e359]:
+                - link "Home" [ref=e361] [cursor=pointer]:
+                  - /url: /
+                  - paragraph [ref=e362]: Home
+                - link "About Us" [ref=e364] [cursor=pointer]:
+                  - /url: /about-us/
+                  - paragraph [ref=e365]: About Us
+                - link "Contact Us" [ref=e367] [cursor=pointer]:
+                  - /url: /contact-us/
+                  - paragraph [ref=e368]: Contact Us
+                - link "Samples" [ref=e370] [cursor=pointer]:
+                  - /url: /samples/
+                  - paragraph [ref=e371]: Samples
+                - link "Blog" [ref=e373] [cursor=pointer]:
+                  - /url: https://scholarlyhelp.com/blog/
+                  - paragraph [ref=e374]: Blog
+            - generic [ref=e375]:
+              - paragraph [ref=e377]: Our Services
+              - generic [ref=e378]:
+                - link "Online Class" [ref=e380] [cursor=pointer]:
+                  - /url: /online-class/
+                  - paragraph [ref=e381]: Online Class
+                - link "Exam" [ref=e383] [cursor=pointer]:
+                  - /url: /exams/
+                  - paragraph [ref=e384]: Exam
+                - link "Homework" [ref=e386] [cursor=pointer]:
+                  - /url: /homework/
+                  - paragraph [ref=e387]: Homework
+                - link "Assignment" [ref=e389] [cursor=pointer]:
+                  - /url: /assignment/
+                  - paragraph [ref=e390]: Assignment
+                - link "Essay Writing" [ref=e392] [cursor=pointer]:
+                  - /url: /essay-writing/
+                  - paragraph [ref=e393]: Essay Writing
+            - generic [ref=e394]:
+              - paragraph [ref=e396]: Legal Info
+              - generic [ref=e397]:
+                - link "Terms & Conditions" [ref=e399] [cursor=pointer]:
+                  - /url: /terms-and-conditions/
+                  - paragraph [ref=e400]: Terms & Conditions
+                - link "Privacy Policy" [ref=e402] [cursor=pointer]:
+                  - /url: /privacy/
+                  - paragraph [ref=e403]: Privacy Policy
+            - generic [ref=e404]:
+              - paragraph [ref=e406]: Contact Info
+              - generic [ref=e407]:
+                - link "+1 646 480 6092" [ref=e409] [cursor=pointer]:
+                  - /url: tel:+1-646-480-6092
+                  - img [ref=e411]
+                  - text: +1 646 480 6092
+                - generic [ref=e417]:
+                  - link "Follow us on Facebook" [ref=e419] [cursor=pointer]:
+                    - /url: https://www.facebook.com/Scholarly.help
+                    - img [ref=e420]
+                  - link "Follow us on Instagram" [ref=e423] [cursor=pointer]:
+                    - /url: https://www.instagram.com/scholarlyhelp/
+                    - img "instagram" [ref=e424]
+                  - link "Follow us on LinkedIn" [ref=e426] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/company/scholarlyhelp/
+                    - img "Linkedin" [ref=e427]
+                  - link "Follow us on TikTok" [ref=e429] [cursor=pointer]:
+                    - /url: https://www.tiktok.com/@scholarlyhelp.com
+                    - img "Tiktok" [ref=e430]
+                  - link "Follow us on Snapchat" [ref=e432] [cursor=pointer]:
+                    - /url: https://www.snapchat.com/add/helpscholarly
+                    - img [ref=e433]
+                  - link "Visit our YouTube channel" [ref=e436] [cursor=pointer]:
+                    - /url: https://www.youtube.com/@ScholarlyHelp/
+                    - img [ref=e437]
+                - generic [ref=e439]:
+                  - img "MasterCard" [ref=e441]
+                  - img "Visa" [ref=e443]
+                  - img "AmericanExpress" [ref=e445]
+                  - img "Paypal" [ref=e447]
+        - generic [ref=e449]:
+          - paragraph [ref=e450]: Copyrights © 2026 All Rights Reserved by Scholarly Help
+          - paragraph [ref=e451]: Website owned and operated by Eliya Enterprises.
+  - alert [ref=e235]

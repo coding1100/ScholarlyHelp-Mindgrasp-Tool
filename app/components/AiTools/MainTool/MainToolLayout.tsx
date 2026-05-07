@@ -1,13 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DocumentsSidebar from "./DocumentsSidebar";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import MTSidebar from "../MTSidebar";
 import MTHeader from "./MTHeader";
 import FooterBar from "./FooterBar";
 import SettingsSidePanel from "./PopupModal/SettingsSidePanel";
 import PromptModal from "../PromptModal";
 import { appendQueryString } from "@/app/utils/url";
+import AcademicAssistantPanel, {
+  type AssistantPanel,
+} from "./AcademicAssistantPanel";
 export interface TitleContextValue {
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -38,6 +41,25 @@ export const EditorContext = React.createContext<EditorContextValue>({
   setEditor: () => {},
 });
 
+export interface EditorPreferencesValue {
+  autoComplete: boolean;
+  setAutoComplete: React.Dispatch<React.SetStateAction<boolean>>;
+  showAutocompleteButtons: boolean;
+  setShowAutocompleteButtons: React.Dispatch<React.SetStateAction<boolean>>;
+  citationStyle: string;
+  setCitationStyle: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const EditorPreferencesContext =
+  React.createContext<EditorPreferencesValue>({
+    autoComplete: true,
+    setAutoComplete: () => {},
+    showAutocompleteButtons: true,
+    setShowAutocompleteButtons: () => {},
+    citationStyle: "APA 7th edition",
+    setCitationStyle: () => {},
+  });
+
 interface MainToolLayoutProps {
   children: React.ReactNode;
   setFlag: (value: boolean) => void;
@@ -54,10 +76,15 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
   const [wordCount, setWordCount] = useState<number>(0);
   const [editor, setEditor] = useState<any | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [documentsOpen, setDocumentsOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState<AssistantPanel | null>(null);
   const [isPromptModalOpen, setPromptModalOpen] = useState(false);
+  const [autoComplete, setAutoComplete] = useState(true);
+  const [showAutocompleteButtons, setShowAutocompleteButtons] = useState(true);
+  const [citationStyle, setCitationStyle] = useState("APA 7th edition");
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const documentId = searchParams.get("doc");
   const currentQs =
     typeof window !== "undefined" ? window.location.search.slice(1) : "";
   const [token, setToken] = useState<string | null>(null);
@@ -82,6 +109,9 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
   }, [currentQs, router, pathname]);
 
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const togglePanel = (panel: AssistantPanel) => {
+    setActivePanel((prev) => (prev === panel ? null : panel));
+  };
 
   if (!checked) {
     return (
@@ -95,62 +125,83 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
     <TitleContext.Provider value={{ title, setTitle }}>
       <WordCountContext.Provider value={{ wordCount, setWordCount }}>
         <EditorContext.Provider value={{ editor, setEditor }}>
-          <div
-            className={`flex h-screen ${
-              settingsOpen
-                ? "mr-[360px] md:mr-[420px] transition-[margin] duration-300"
-                : "transition-[margin] duration-300"
-            }`}
-          >
-            {/* {sidebarOpen && <MTSidebar onToggle={() => setSidebarOpen(false)} />} */}
-            {sidebarOpen && (
-              <MTSidebar
-                onToggle={() => setSidebarOpen(false)}
-                setFlag={setFlag}
-                flag={flag}
-                documentsOpen={documentsOpen}
-                onToggleDocuments={() => setDocumentsOpen((prev) => !prev)}
-              />
-            )}
-            {/* Right-side documents/settings panel next to sidebar */}
-            {documentsOpen && (
-              <div className="hidden lg:block h-screen w-[18rem] xl:w-[22rem] border-r bg-white">
-                <div className="h-full w-full overflow-auto">
-                  <DocumentsSidebar
-                    onNew={() => setPromptModalOpen(true)}
-                    // onSelect={(id) => router.push(`/writely-ai?doc=${id}`)}
-                    onSelect={(id) => router.push(`/tools/main-tool?doc=${id}`)}
-                    className="w-full"
-                  />
-                </div>
-              </div>
-            )}
-            <div className="flex flex-col flex-1">
-              {/* <MTHeader /> */}
-              <MTHeader
-                sidebarOpen={sidebarOpen}
-                onToggleSidebar={toggleSidebar}
-                onToggleSettings={() => setSettingsOpen((prev) => !prev)}
-              />
-              <main className="flex-1 overflow-auto bg-white text-black">
-                {children}
-              </main>
-              <FooterBar />
-            </div>
-          </div>
-          <SettingsSidePanel
-            open={settingsOpen}
-            onClose={() => setSettingsOpen(false)}
-          />
-          <PromptModal
-            isOpen={isPromptModalOpen}
-            onClose={() => setPromptModalOpen(false)}
-            onStartWriting={() => {
-              setPromptModalOpen(false);
-              // router.push("/writely-ai?start=1");
-              router.push("/tools/main-tool?start=1");
+          <EditorPreferencesContext.Provider
+            value={{
+              autoComplete,
+              setAutoComplete,
+              showAutocompleteButtons,
+              setShowAutocompleteButtons,
+              citationStyle,
+              setCitationStyle,
             }}
-          />
+          >
+            <div
+              className={`flex h-[100dvh] overflow-hidden ${
+                settingsOpen
+                  ? "mr-[360px] md:mr-[420px] transition-[margin] duration-300"
+                  : "transition-[margin] duration-300"
+              }`}
+            >
+              {/* {sidebarOpen && <MTSidebar onToggle={() => setSidebarOpen(false)} />} */}
+              {sidebarOpen && (
+                <MTSidebar
+                  onToggle={() => setSidebarOpen(false)}
+                  setFlag={setFlag}
+                  flag={flag}
+                  activePanel={activePanel}
+                  onPanelToggle={togglePanel}
+                  onNewDocument={() => setPromptModalOpen(true)}
+                />
+              )}
+              {activePanel === "documents" && (
+                <div className="hidden lg:block h-full w-[18rem] xl:w-[22rem] border-r bg-white">
+                  <div className="h-full w-full overflow-auto">
+                    <DocumentsSidebar
+                      onNew={() => setPromptModalOpen(true)}
+                      onSelect={(id) =>
+                        router.push(`${pathname || "/tools/academic-research-assistant"}?doc=${id}`)
+                      }
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              )}
+              {activePanel && activePanel !== "documents" && (
+                <AcademicAssistantPanel
+                  activePanel={activePanel}
+                  onClose={() => setActivePanel(null)}
+                />
+              )}
+              <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+                {/* <MTHeader /> */}
+                <MTHeader
+                  sidebarOpen={sidebarOpen}
+                  onToggleSidebar={toggleSidebar}
+                  onToggleSettings={() => setSettingsOpen((prev) => !prev)}
+                  onOpenReview={() => setActivePanel("review")}
+                  documentId={documentId}
+                />
+                <main className="min-h-0 flex-1 overflow-auto bg-white text-black">
+                  {children}
+                </main>
+                <FooterBar />
+              </div>
+            </div>
+            <SettingsSidePanel
+              open={settingsOpen}
+              onClose={() => setSettingsOpen(false)}
+            />
+            <PromptModal
+              isOpen={isPromptModalOpen}
+              onClose={() => setPromptModalOpen(false)}
+              onStartWriting={() => {
+                setPromptModalOpen(false);
+                router.push(
+                  `${pathname || "/tools/academic-research-assistant"}?start=1`,
+                );
+              }}
+            />
+          </EditorPreferencesContext.Provider>
         </EditorContext.Provider>
       </WordCountContext.Provider>
     </TitleContext.Provider>
