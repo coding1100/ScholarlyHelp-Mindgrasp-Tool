@@ -13,6 +13,7 @@ export default function SemesterCard(props: {
   gradeScale: GradeScale;
   onChange: (next: Semester) => void;
   onRemoveSemester: () => void;
+  onCalculateGpa?: () => void;
   disableRemove?: boolean;
   showResults?: boolean;
 }) {
@@ -21,6 +22,7 @@ export default function SemesterCard(props: {
     gradeScale,
     onChange,
     onRemoveSemester,
+    onCalculateGpa,
     disableRemove,
     showResults = true,
   } = props;
@@ -94,7 +96,7 @@ export default function SemesterCard(props: {
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex justify-between gap-2">
           <Button
             type="button"
             variant="primary"
@@ -104,9 +106,37 @@ export default function SemesterCard(props: {
                 courses: [...semester.courses, createEmptyCourse()],
               })
             }
+            aria-label="Add course"
           >
-            Add course
+            <span className="hidden md:inline">Add course</span>
+            <span className="md:hidden" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 5v14M5 12h14"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
           </Button>
+          {onCalculateGpa ? (
+            <Button
+              type="button"
+              variant="primary"
+              onClick={onCalculateGpa}
+              className=""
+            >
+              Calculate GPA
+            </Button>
+          ) : null}
           {/* <Button
             type="button"
             variant="secondary"

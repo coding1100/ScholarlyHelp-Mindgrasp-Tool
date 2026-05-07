@@ -9,6 +9,7 @@ import {
   FiLayers,
   FiMessageSquare,
   FiPenTool,
+  FiSmile,
   FiSearch,
   FiTarget,
   FiTriangle,
@@ -35,6 +36,12 @@ const tools: ToolCardData[] = [
     description: "Turn long readings into crisp, study-ready notes.",
     href: "/tools/summarizer-tool",
     icon: FiFileText,
+  },
+  {
+    name: "Humanizer Tool",
+    description: "Make AI text sound more natural and human.",
+    href: "/tools/humanizer-tool",
+    icon: FiSmile,
   },
   {
     name: "Thesis Generator",
@@ -81,7 +88,7 @@ const tools: ToolCardData[] = [
   {
     name: "Micro Learning",
     description: "Learn in short, guided steps you can finish.",
-    href: "/tools/mirco-learning",
+    href: "/tools/micro-learning",
     icon: FiZap,
     badge: "Focus",
   },
