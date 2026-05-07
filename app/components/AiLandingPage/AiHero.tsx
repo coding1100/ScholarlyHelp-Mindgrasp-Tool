@@ -22,8 +22,11 @@ interface AiHeroProps {
 const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
   const testimonials = Array.from({ length: 3 });
   const [isVisible, setIsVisible] = useState(false);
+  const [isCalculatorVisible, setIsCalculatorVisible] = useState(true);
+  const [isMdUp, setIsMdUp] = useState(true);
   const heroRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const calculatorRef = useRef<HTMLDivElement>(null);
   const currentPage = usePathname();
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -59,6 +62,41 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mql = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsMdUp(mql.matches);
+    update();
+
+    if (typeof mql.addEventListener === "function") {
+      mql.addEventListener("change", update);
+      return () => mql.removeEventListener("change", update);
+    }
+
+    mql.addListener(update);
+    return () => mql.removeListener(update);
+  }, []);
+
+  useEffect(() => {
+    const isCgpaLanding =
+      currentPage === "/cgpa-calculator" || currentPage === "/cgpa-calculator/";
+    if (!isCgpaLanding) return;
+
+    const target = calculatorRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsCalculatorVisible(entry.isIntersecting);
+      },
+      { threshold: 0.15 },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [currentPage]);
+
   return (
     <section
       ref={heroRef}
@@ -85,7 +123,11 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
           />
         </div>
         {(currentPage === "/cgpa-calculator" ||
-          currentPage === "/cgpa-calculator/") && <CgpaSemesterCalculator />}
+          currentPage === "/cgpa-calculator/") && (
+          <div ref={calculatorRef}>
+            <CgpaSemesterCalculator />
+          </div>
+        )}
         <div
           className={`flex flex-col items-center transition-all duration-1000 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -136,6 +178,26 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
           />
         </div>
       </div>
+
+      {(currentPage === "/cgpa-calculator" ||
+        currentPage === "/cgpa-calculator/") &&
+      !isMdUp &&
+      !isCalculatorVisible ? (
+        <div className="fixed bottom-3 left-0 right-0 z-50 px-4 md:hidden">
+          <button
+            type="button"
+            onClick={() => {
+              calculatorRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }}
+            className="mx-auto flex w-full max-w-md items-center justify-center rounded-xl bg-gradient-to-r from-[#323dd6] to-[#535ced] px-4 py-3 text-base font-medium text-white shadow-lg shadow-[#323dd6]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#323dd6]"
+          >
+            Get Free CGPA Email
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 };
