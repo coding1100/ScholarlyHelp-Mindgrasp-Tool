@@ -192,6 +192,7 @@ export default function CgpaSemesterCalculator() {
           <Button
             type="button"
             variant="primary"
+            className="md:inline-block hidden"
             onClick={() => setShowEmailPopup(true)}
           >
             Calculate GPA
@@ -213,6 +214,7 @@ export default function CgpaSemesterCalculator() {
               gradeScale={state.gradeScale}
               onChange={setSemester}
               onRemoveSemester={() => removeSemester(semester.id)}
+              onCalculateGpa={() => setShowEmailPopup(true)}
               disableRemove={state.semesters.length <= 1}
               showResults={showResults}
             />
@@ -235,15 +237,36 @@ export default function CgpaSemesterCalculator() {
 
       {showEmailPopup ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-950">
+          <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-950">
+            <button
+              type="button"
+              onClick={() => setShowEmailPopup(false)}
+              aria-label="Close"
+              className="absolute right-4 top-4 rounded-md p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#323dd6] dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-200"
+              disabled={isSending}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M18 6L6 18M6 6l12 12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
             <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
               Add your email and we will mail your CGPA result to your mail
             </div>
 
-            <form
-              className="mt-5 space-y-4"
-              onSubmit={handleEmailSubmit}
-            >
+            <form className="mt-5 space-y-4" onSubmit={handleEmailSubmit}>
               <Input
                 type="email"
                 value={email}
@@ -253,15 +276,7 @@ export default function CgpaSemesterCalculator() {
                 disabled={isSending}
               />
 
-              <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={() => setShowEmailPopup(false)}
-                  disabled={isSending}
-                >
-                  Cancel
-                </Button>
+              <div className="flex justify-end">
                 <Button type="submit" variant="primary" disabled={isSending}>
                   {isSending ? (
                     <>
@@ -272,7 +287,7 @@ export default function CgpaSemesterCalculator() {
                       Sending...
                     </>
                   ) : (
-                    "Submit"
+                    "Get Free CGPA Email"
                   )}
                 </Button>
               </div>
