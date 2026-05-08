@@ -6,91 +6,8 @@ import { CalculatorState, Semester } from "./types";
 import SemesterCard from "./components/SemesterCard";
 import { Button, Input } from "./components/ui";
 import { createInitialState, createSemester } from "./utils/state";
-import { computeAllSemesterTotals, SemesterTotals } from "./utils/calc";
-import { formatGpaMaybe } from "./utils/numbers";
-
-type GpaEmailResponse = {
-  success?: boolean;
-  message?: string;
-};
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-function buildGpaEmailBody(
-  state: CalculatorState,
-  semesterTotals: Array<{ semesterId: string; totals: SemesterTotals }>,
-) {
-  const validSemesterLines = state.semesters
-    .map((semester, index) => {
-      const found = semesterTotals.find((x) => x.semesterId === semester.id);
-      if (!found || found.totals.validCourseCount <= 0) return null;
-
-      const title = semester.title.trim() || `Semester ${index + 1}`;
-      return `${title}: ${formatGpaMaybe(found.totals.gpa)}`;
-    })
-    .filter((line): line is string => Boolean(line));
-
-  const totalCredits = semesterTotals.reduce(
-    (sum, item) => sum + item.totals.totalCredits,
-    0,
-  );
-  const totalQualityPoints = semesterTotals.reduce(
-    (sum, item) => sum + item.totals.totalQualityPoints,
-    0,
-  );
-
-  if (totalCredits <= 0 || validSemesterLines.length === 0) return "";
-
-  const gpa = totalQualityPoints / totalCredits;
-  return [`Your GPA is ${formatGpaMaybe(gpa)}`, ...validSemesterLines].join(
-    "\n",
-  );
-}
-
-async function sendGpaEmail({
-  email,
-  body,
-  subject,
-}: {
-  email: string;
-  body: string;
-  subject?: string;
-}) {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_NGROX_URL?.replace(/\/$/, "");
-  if (!apiBaseUrl) {
-    throw new Error("API base URL is not configured");
-  }
-
-  let res: Response;
-  try {
-    res = await fetch(`${apiBaseUrl}/tools/gpa-email`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, body, subject }),
-    });
-  } catch {
-    throw new Error(
-      "Unable to connect. Please check your internet and try again.",
-    );
-  }
-
-  let data: GpaEmailResponse = {};
-  try {
-    data = (await res.json()) as GpaEmailResponse;
-  } catch {
-    data = {};
-  }
-
-  if (!res.ok) {
-    throw new Error(
-      data?.message || "Failed to send GPA email. Please try again.",
-    );
-  }
-
-  return data;
-}
+import { computeAllSemesterTotals } from "./utils/calc";
+import { buildGpaEmailBody, isValidEmail, sendGpaEmail } from "./utils/gpaEmail";
 
 export default function CgpaSemesterCalculator() {
   const initial = useMemo(() => createInitialState(), []);
@@ -151,7 +68,7 @@ export default function CgpaSemesterCalculator() {
       return;
     }
 
-    const body = buildGpaEmailBody(state, semesterTotals);
+    const body = buildGpaEmailBody(state);
     if (!body.trim()) {
       toast.error("Please add at least one course with a grade and credits.");
       return;

@@ -1511,7 +1511,8 @@ export const CgpaCalculatorContent = {
   heroContent: {
     mainHeading: "CGPA Calculator for Fast, Accurate Grade Tracking",
     description:
-      "Use Scholarly Help's CGPA calculator to calculate your semester GPA and cumulative grade performance without manual formulas. Add your courses, credits, and letter grades, then get clear results that help you understand where you stand academically.",
+      "<ul style='display: flex; flex-wrap: wrap; gap: 24px; list-style: disc inside; margin-top: 18px; margin-bottom: 0; padding-left: 0;'><li>Calculate Your Semester GPA</li><li>Add Your Courses, Credits, and Letter Grade</li><li>100% Free Tool</li></ul>",
+
     buttonText: "Calculate Your CGPA",
     buttonUrl: "/sign-in?returnUrl=/tools/cgpa-calculator",
   },
