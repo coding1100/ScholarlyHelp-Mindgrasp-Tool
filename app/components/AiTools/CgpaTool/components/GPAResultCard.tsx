@@ -12,13 +12,15 @@ export default function GPAResultCard(props: {
   state: CalculatorState;
   onChange: (next: CalculatorState) => void;
   onReset: () => void;
+  locked?: boolean;
 }) {
-  const { state, onChange, onReset } = props;
+  const { state, onChange, onReset, locked = false } = props;
 
   const totals = useMemo(() => computeCumulativeTotals(state), [state]);
   const prevDisplayRef = useRef<string | null>(null);
 
   useEffect(() => {
+    if (locked) return;
     const nextDisplay = formatGpaMaybe(totals.cgpa);
     const prevDisplay = prevDisplayRef.current;
     prevDisplayRef.current = nextDisplay;
@@ -283,10 +285,12 @@ export default function GPAResultCard(props: {
             Final CGPA
           </div>
           <div className="mt-1 text-3xl font-semibold text-slate-900 dark:text-slate-100">
-            {formatGpaMaybe(totals.cgpa)}
+            {locked ? "—" : formatGpaMaybe(totals.cgpa)}
           </div>
           <div className="mt-1 text-xs text-slate-600 dark:text-slate-300">
-            Rounded to 2 decimals for display.
+            {locked
+              ? "Click “Calculate CGPA” to reveal your results."
+              : "Rounded to 2 decimals for display."}
           </div>
         </div>
       </CardBody>
