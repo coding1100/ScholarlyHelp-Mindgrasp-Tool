@@ -19,6 +19,7 @@ import icon8 from "@/app/assets/Icons/icon-8.png";
 import CgpaFull from "@/app/assets/Images/aitoollanding/cgpafullimg.png";
 import PreSemester from "@/app/assets/Images/aitoollanding/presemester.png";
 import NewSemester from "@/app/assets/Images/aitoollanding/newsemester.png";
+import AcademicResearchImg from "@/app/assets/Images/aitoollanding/AcademicResearchImg.png";
 
 export const MainAiLanding = {
   heroContent: {
@@ -287,7 +288,7 @@ export const AiAcademicResearchContent = {
     buttonUrl: "/sign-in?returnUrl=/tools/academic-research-assistant",
   },
   imgSection: {
-    img: AiDashboard,
+    img: AcademicResearchImg,
   },
   trustSection: {
     heading: "Trusted by Students, Scholars, and Researchers",
