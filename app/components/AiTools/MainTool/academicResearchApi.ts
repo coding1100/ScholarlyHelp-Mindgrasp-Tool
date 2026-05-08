@@ -19,10 +19,19 @@ const authHeaders = () => {
 };
 
 export const isTokenBalanceError = (error: unknown) =>
-  axios.isAxiosError(error) && error.response?.status === 403;
+  // NOTE: Token enforcement should be handled entirely by the backend.
+  // Keeping previous frontend paywall detection here (commented) in case we
+  // want to re-enable client-side messaging later.
+  //
+  // axios.isAxiosError(error) && error.response?.status === 403;
+  false;
 
 export const getAcademicErrorMessage = (error: unknown, fallback: string) =>
-  isTokenBalanceError(error) ? ACADEMIC_PAYWALL_MESSAGE : fallback;
+  // NOTE: Do not swap error messages based on token status on the client.
+  // Keep the old logic commented (do not delete) so behavior can be restored.
+  //
+  // isTokenBalanceError(error) ? ACADEMIC_PAYWALL_MESSAGE : fallback;
+  fallback;
 
 type ApiEnvelope<T> = {
   success?: boolean;
@@ -180,6 +189,27 @@ export const generateParagraph = (payload: {
   }>("/tools/paragraph-generator", {
     method: "POST",
     data: payload,
+    headers: { "Content-Type": "application/json" },
+  });
+
+export type HumanizerTone = "natural" | "simple" | "polished";
+
+export type HumanizerResponse = {
+  original_text?: string;
+  selected_tone?: HumanizerTone;
+  humanized_text: string;
+  variants?: Array<{
+    id: string;
+    label?: string;
+    description?: string;
+    text: string;
+  }>;
+};
+
+export const humanizeText = (payload: { text: string; tone?: HumanizerTone }) =>
+  request<HumanizerResponse>("/tools/humanizer", {
+    method: "POST",
+    data: { text: payload.text, tone: payload.tone || "natural" },
     headers: { "Content-Type": "application/json" },
   });
 
