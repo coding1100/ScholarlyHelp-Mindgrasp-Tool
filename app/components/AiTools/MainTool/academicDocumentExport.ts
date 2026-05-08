@@ -8,6 +8,7 @@ import {
   TextRun,
 } from "docx";
 import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 export function sanitizeFilename(name: string): string {
   const base = (name || "document").trim() || "document";
@@ -308,68 +309,108 @@ export async function buildDocxBlob(
 }
 
 export async function savePdfFromHtml(html: string, baseName: string) {
+  // Render HTML to canvas first (reliable layout), then paginate into A4.
+  // jsPDF.html() tends to produce odd scaling/line breaks for rich editor HTML.
   const wrapper = document.createElement("div");
   wrapper.style.position = "fixed";
-  wrapper.style.left = "0";
+  wrapper.style.left = "-10000px";
   wrapper.style.top = "0";
   wrapper.style.pointerEvents = "none";
   wrapper.style.zIndex = "-1";
-  wrapper.style.width = "900px";
-  wrapper.style.maxWidth = "100%";
-  wrapper.style.padding = "24px 28px";
-  wrapper.style.boxSizing = "border-box";
   wrapper.style.background = "#ffffff";
+
+  // A4 content width at 96dpi ≈ 794px. Use a fixed width so wrapping is stable.
+  wrapper.style.width = "794px";
+  wrapper.style.padding = "72px 64px"; // ~1in-ish margins in px
+  wrapper.style.boxSizing = "border-box";
   wrapper.style.fontFamily = "Georgia, 'Times New Roman', serif";
   wrapper.style.fontSize = "12pt";
-  wrapper.style.lineHeight = "1.55";
+  wrapper.style.lineHeight = "1.6";
   wrapper.style.color = "#111827";
-  wrapper.innerHTML = html;
+
+  wrapper.innerHTML = `
+    <style>
+      .pdf-root { color: #111827; }
+      .pdf-root * { box-sizing: border-box; }
+      .pdf-root h1 { font-size: 20pt; font-weight: 700; margin: 0 0 12pt 0; line-height: 1.25; }
+      .pdf-root h2 { font-size: 16pt; font-weight: 700; margin: 16pt 0 10pt 0; line-height: 1.28; }
+      .pdf-root h3 { font-size: 13.5pt; font-weight: 700; margin: 14pt 0 8pt 0; line-height: 1.3; }
+      .pdf-root p  { margin: 0 0 10pt 0; }
+      .pdf-root strong { font-weight: 700; }
+      .pdf-root em { font-style: italic; }
+      .pdf-root u { text-decoration: underline; }
+      .pdf-root a { color: #1d4ed8; text-decoration: underline; }
+      .pdf-root code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 10.5pt; }
+      .pdf-root pre { background: #f3f4f6; padding: 10pt; border-radius: 6pt; overflow: hidden; }
+      .pdf-root ul, .pdf-root ol { margin: 0 0 10pt 18pt; padding: 0; }
+      .pdf-root li { margin: 0 0 4pt 0; }
+      .pdf-root table { border-collapse: collapse; width: 100%; margin: 12pt 0; }
+      .pdf-root th, .pdf-root td { border: 1px solid #e5e7eb; padding: 6pt 8pt; vertical-align: top; }
+      .pdf-root th { background: #f9fafb; font-weight: 700; }
+      .pdf-root img { max-width: 100%; height: auto; }
+      .pdf-root { word-break: break-word; overflow-wrap: anywhere; }
+    </style>
+    <div class="pdf-root">${html}</div>
+  `;
 
   document.body.appendChild(wrapper);
 
-  const pdf = new jsPDF({
-    orientation: "portrait",
-    unit: "mm",
-    format: "a4",
-    compress: true,
-  });
-
   const safe = sanitizeFilename(baseName);
 
-  await new Promise<void>((resolve, reject) => {
-    try {
-      const worker = pdf.html(wrapper, {
-        callback: (doc) => {
-          try {
-            doc.save(`${safe}.pdf`);
-            wrapper.remove();
-            resolve();
-          } catch (e) {
-            wrapper.remove();
-            reject(e);
-          }
-        },
-        x: 14,
-        y: 14,
-        width: 182,
-        windowWidth: 900,
-        autoPaging: "text",
-        html2canvas: {
-          scale: 0.72,
-          useCORS: true,
-          logging: false,
-          backgroundColor: "#ffffff",
-        },
-      });
-      if (worker && typeof (worker as Promise<void>).then === "function") {
-        (worker as Promise<void>).catch((e) => {
-          wrapper.remove();
-          reject(e);
-        });
-      }
-    } catch (e) {
-      wrapper.remove();
-      reject(e);
+  try {
+    const canvas = await html2canvas(wrapper, {
+      scale: Math.min(2, (window.devicePixelRatio || 1) * 2),
+      useCORS: true,
+      logging: false,
+      backgroundColor: "#ffffff",
+    });
+
+    // Use px units so we can paginate precisely based on canvas pixels.
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "px",
+      format: "a4",
+      compress: true,
+      hotfixes: ["px_scaling"],
+    } as any);
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 32; // px
+    const printableWidth = pageWidth - margin * 2;
+    const printableHeight = pageHeight - margin * 2;
+
+    // Scale canvas to fit printable width.
+    const imgWidth = printableWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    const imgData = canvas.toDataURL("image/jpeg", 0.92);
+
+    let heightLeft = imgHeight;
+    let y = margin;
+
+    pdf.addImage(imgData, "JPEG", margin, y, imgWidth, imgHeight, undefined, "FAST");
+    heightLeft -= printableHeight;
+
+    while (heightLeft > 1) {
+      pdf.addPage();
+      // Move the big image up so the next slice appears on the page.
+      y = margin - (imgHeight - heightLeft);
+      pdf.addImage(
+        imgData,
+        "JPEG",
+        margin,
+        y,
+        imgWidth,
+        imgHeight,
+        undefined,
+        "FAST",
+      );
+      heightLeft -= printableHeight;
     }
-  });
+
+    pdf.save(`${safe}.pdf`);
+  } finally {
+    wrapper.remove();
+  }
 }
