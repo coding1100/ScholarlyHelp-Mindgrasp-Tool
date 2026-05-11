@@ -125,7 +125,11 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
         {(currentPage === "/cgpa-calculator" ||
           currentPage === "/cgpa-calculator/") && (
           <div ref={calculatorRef}>
-            <CgpaTool gateResults persistState={false} />
+            <CgpaTool
+              gateResults
+              persistState={false}
+              neverShowResultsOnPage
+            />
           </div>
         )}
         <div
