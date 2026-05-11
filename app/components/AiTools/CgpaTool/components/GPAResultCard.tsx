@@ -13,8 +13,10 @@ export default function GPAResultCard(props: {
   onChange: (next: CalculatorState) => void;
   onReset: () => void;
   locked?: boolean;
+  /** When `locked`, replaces the default hint under Final CGPA. */
+  lockedBlurb?: string;
 }) {
-  const { state, onChange, onReset, locked = false } = props;
+  const { state, onChange, onReset, locked = false, lockedBlurb } = props;
 
   const totals = useMemo(() => computeCumulativeTotals(state), [state]);
   const prevDisplayRef = useRef<string | null>(null);
@@ -237,19 +239,21 @@ export default function GPAResultCard(props: {
             ))}
           </div>
 
-          <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Stat
-              label="Total credits added"
-              value={roundTo(totals.previousCredits, 2).toFixed(2)}
-            />
-            <Stat
-              label="Previous CGPA"
-              value={formatGpaMaybe(totals.previousGpa)}
-            />
-          </div>
+          {!locked ? (
+            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Stat
+                label="Total credits added"
+                value={roundTo(totals.previousCredits, 2).toFixed(2)}
+              />
+              <Stat
+                label="Previous CGPA"
+                value={formatGpaMaybe(totals.previousGpa)}
+              />
+            </div>
+          ) : null}
         </div>
 
-        {state.preferences.includePreviousInCgpa ? (
+        {state.preferences.includePreviousInCgpa && !locked ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Stat
               label="Current credits"
@@ -289,7 +293,8 @@ export default function GPAResultCard(props: {
           </div>
           <div className="mt-1 text-xs text-slate-600 dark:text-slate-300">
             {locked
-              ? "Click “Calculate CGPA” to reveal your results."
+              ? lockedBlurb ||
+                "Click “Calculate CGPA” to reveal your results."
               : "Rounded to 2 decimals for display."}
           </div>
         </div>

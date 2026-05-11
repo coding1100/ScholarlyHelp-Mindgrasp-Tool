@@ -7,7 +7,11 @@ import SemesterCard from "./components/SemesterCard";
 import { Button, Input } from "./components/ui";
 import { createInitialState, createSemester } from "./utils/state";
 import { computeAllSemesterTotals } from "./utils/calc";
-import { buildGpaEmailBody, isValidEmail, sendGpaEmail } from "./utils/gpaEmail";
+import {
+  buildGpaEmailBody,
+  isValidEmail,
+  sendGpaEmail,
+} from "./utils/gpaEmail";
 
 export default function CgpaSemesterCalculator() {
   const initial = useMemo(() => createInitialState(), []);
