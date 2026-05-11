@@ -17,12 +17,14 @@ import {
   createSemester,
   normalizeLoadedState,
 } from "./utils/state";
-import { computeAllSemesterTotals } from "./utils/calc";
+import { computeAllSemesterTotals, computeCumulativeTotals } from "./utils/calc";
+import { formatGpaMaybe } from "./utils/numbers";
 import {
   buildGpaEmailBody,
   isValidEmail,
   sendGpaEmail,
 } from "./utils/gpaEmail";
+import { syncCgpaToGhl } from "./utils/ghlCgpaSync";
 import { usePathname } from "next/navigation";
 
 function getDeviceLabel() {
@@ -135,6 +137,12 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
       return;
     }
 
+    const cgpaDisplay = formatGpaMaybe(computeCumulativeTotals(state).cgpa);
+    if (cgpaDisplay === "—") {
+      toast.error("Please add at least one course with a grade and credits.");
+      return;
+    }
+
     setIsSending(true);
 
     const fbclid =
@@ -154,16 +162,35 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
     }).catch(() => {});
 
     try {
-      const data = await sendGpaEmail({
-        email: trimmedEmail,
-        body,
-        subject: "Your GPA Result",
-      });
+      const [emailOutcome, ghlOutcome] = await Promise.allSettled([
+        sendGpaEmail({
+          email: trimmedEmail,
+          body,
+          subject: "Your GPA Result",
+        }),
+        syncCgpaToGhl({ email: trimmedEmail, cgpa: cgpaDisplay }),
+      ]);
+
+      if (emailOutcome.status === "rejected") {
+        const error = emailOutcome.reason;
+        toast.error(
+          error instanceof Error ? error.message : "Failed to send GPA email",
+        );
+        return;
+      }
+
+      const data = emailOutcome.value;
       toast.success(data.message || "Email sent successfully.");
       setEmail("");
       setShowEmailPopup(false);
       if (!neverShowResultsOnPage) {
         setResultsUnlocked(true);
+      }
+
+      if (ghlOutcome.status === "rejected") {
+        console.warn("GHL CGPA sync failed:", ghlOutcome.reason);
+      } else if (ghlOutcome.value.ok === false) {
+        console.warn("GHL CGPA sync failed:", ghlOutcome.value.message);
       }
     } catch (error) {
       toast.error(
