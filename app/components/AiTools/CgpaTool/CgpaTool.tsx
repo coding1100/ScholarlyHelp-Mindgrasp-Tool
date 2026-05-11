@@ -25,13 +25,26 @@ import {
 } from "./utils/gpaEmail";
 import { usePathname } from "next/navigation";
 
+function getDeviceLabel() {
+  if (typeof navigator === "undefined") return "";
+  const ua = navigator.userAgent || "";
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) return "Mobile";
+  return "Desktop";
+}
+
 type CgpaToolProps = {
   gateResults?: boolean;
   persistState?: boolean;
+  /** When set with `gateResults`, numeric results stay hidden even after the email succeeds. */
+  neverShowResultsOnPage?: boolean;
 };
 
 export default function CgpaTool(props: CgpaToolProps = {}) {
-  const { gateResults = false, persistState = true } = props;
+  const {
+    gateResults = false,
+    persistState = true,
+    neverShowResultsOnPage = false,
+  } = props;
   const initial = useMemo(() => createInitialState(), []);
   const [state, setState] = useState<CalculatorState>(initial);
   const [hydrated, setHydrated] = useState(false);
@@ -123,6 +136,23 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
     }
 
     setIsSending(true);
+
+    const fbclid =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("fbclid")?.trim() ||
+          ""
+        : "";
+
+    void fetch("/api/cgpa-lp-sheet", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: trimmedEmail,
+        fbc: fbclid,
+        device: getDeviceLabel(),
+      }),
+    }).catch(() => {});
+
     try {
       const data = await sendGpaEmail({
         email: trimmedEmail,
@@ -132,7 +162,9 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
       toast.success(data.message || "Email sent successfully.");
       setEmail("");
       setShowEmailPopup(false);
-      setResultsUnlocked(true);
+      if (!neverShowResultsOnPage) {
+        setResultsUnlocked(true);
+      }
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Failed to send GPA email",
@@ -204,6 +236,11 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                     onChange={setState}
                     onReset={resetAll}
                     locked={gateResults && !resultsUnlocked}
+                    lockedBlurb={
+                      neverShowResultsOnPage
+                        ? "Your CGPA is sent by email only and is not shown on this page."
+                        : undefined
+                    }
                   />
 
                   <div className="flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
