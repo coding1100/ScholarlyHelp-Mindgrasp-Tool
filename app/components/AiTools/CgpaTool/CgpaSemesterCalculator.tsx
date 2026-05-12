@@ -9,6 +9,7 @@ import { createInitialState, createSemester } from "./utils/state";
 import { computeAllSemesterTotals } from "./utils/calc";
 import {
   buildGpaEmailBody,
+  formatCgpaForEmailAndSync,
   isValidEmail,
   sendGpaEmail,
 } from "./utils/gpaEmail";
@@ -73,8 +74,11 @@ export default function CgpaSemesterCalculator() {
     }
 
     const body = buildGpaEmailBody(state);
-    if (!body.trim()) {
-      toast.error("Please add at least one course with a grade and credits.");
+    const cgpaDisplay = formatCgpaForEmailAndSync(state);
+    if (!body.trim() || cgpaDisplay === "—") {
+      toast.error(
+        "Add at least one course with a grade and credits, or enter previous semester credits and GPA.",
+      );
       return;
     }
 
