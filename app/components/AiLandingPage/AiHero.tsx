@@ -100,28 +100,31 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
   return (
     <section
       ref={heroRef}
-      className="bg-gradient-to-b from-white to-[#f8f9ff] dark:from-[#0a0a0f] dark:to-[#1a1a2e] pt-20 overflow-hidden transition-colors duration-300"
+      className="bg-gradient-to-b from-white to-[#f8f9ff] dark:from-[#0a0a0f] dark:to-[#1a1a2e] md:pt-20 pt-5 overflow-hidden transition-colors duration-300"
     >
       <div className="mx-auto flex w-full flex-col pb-24 px-5 sm:px-10 xl:container xl:px-10">
         <h1
-          className={`mb-[31px] text-center text-4xl font-medium leading-tight text-[#101828] dark:text-gray-100 sm:text-5xl lg:text-[62px] lg:leading-[1.05] transition-all duration-1000 ${
+          className={`sm:mb-[31px] mb-5 text-center text-3xl font-medium leading-tight text-[#101828] dark:text-gray-100 sm:text-5xl lg:text-[62px] lg:leading-[1.05] transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
           dangerouslySetInnerHTML={{
             __html: heroContent.mainHeading,
           }}
         />
-
-        <div
-          className={`mx-auto md:mb-0 mb-5 max-w-[1038px] text-center transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <p
-            className="text-base text-[#333333] dark:text-gray-300 sm:text-lg"
-            dangerouslySetInnerHTML={{ __html: heroContent.description }}
-          />
-        </div>
+        {heroContent.description && (
+          <div
+            className={`mx-auto md:mb-0 mb-5 max-w-[1038px] text-center transition-all duration-1000 delay-200 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            <p
+              className="text-base text-[#333333] dark:text-gray-300 sm:text-lg"
+              dangerouslySetInnerHTML={{ __html: heroContent.description }}
+            />
+          </div>
+        )}
         {(currentPage === "/cgpa-calculator" ||
           currentPage === "/cgpa-calculator/") && (
           <div ref={calculatorRef}>
