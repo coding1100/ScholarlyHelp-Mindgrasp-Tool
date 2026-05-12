@@ -1510,9 +1510,9 @@ export const ResearchQuestionContent = {
 
 export const CgpaCalculatorContent = {
   heroContent: {
-    mainHeading: "FAST AND ACCURATE CGPA CALCULATOR",
-    description:
-      "<style>.cgpa-hero-desc-list{list-style:disc inside;margin-bottom:0;padding-left:0}@media (max-width:767px){.cgpa-hero-desc-list{text-align:left;width:100%}}@media (min-width:768px){.cgpa-hero-desc-list{display:flex;flex-wrap:wrap;gap:24px}}</style><ul class='cgpa-hero-desc-list'><li>Calculate Your Semester GPA</li><li>Add Your Academic Details</li><li>100% Free Tool</li></ul>",
+    mainHeading: "CGPA CALCULATOR",
+    description: "Fast - Accurate - Free",
+    // "<style>.cgpa-hero-desc-list{list-style:disc inside;margin-bottom:0;padding-left:0}@media (max-width:767px){.cgpa-hero-desc-list{text-align:left;width:100%}}@media (min-width:768px){.cgpa-hero-desc-list{display:flex;flex-wrap:wrap;gap:24px}}</style><ul class='cgpa-hero-desc-list'><li>Calculate Your Semester GPA</li><li>Add Your Academic Details</li><li>100% Free Tool</li></ul>",
 
     buttonText: "Calculate Your CGPA",
     buttonUrl: "/sign-in?returnUrl=/tools/cgpa-calculator",

@@ -6,7 +6,10 @@ import { CalculatorState, Semester } from "./types";
 import SemesterCard from "./components/SemesterCard";
 import { Button } from "./components/ui";
 import { createInitialState, createSemester } from "./utils/state";
-import { computeAllSemesterTotals, hasAnyCalculableCgpaInput } from "./utils/calc";
+import {
+  computeAllSemesterTotals,
+  hasAnyCalculableCgpaInput,
+} from "./utils/calc";
 import { formatCgpaForEmailAndSync } from "./utils/gpaEmail";
 
 export default function CgpaSemesterCalculator() {
@@ -33,7 +36,7 @@ export default function CgpaSemesterCalculator() {
       ...prev,
       semesters: [
         ...prev.semesters,
-        createSemester(prev.semesters.length + 1, 4),
+        createSemester(prev.semesters.length + 1),
       ],
     }));
   }
@@ -45,7 +48,7 @@ export default function CgpaSemesterCalculator() {
 
       return {
         ...prev,
-        semesters: next.length ? next : [createSemester(1, 4)],
+        semesters: next.length ? next : [createSemester(1)],
       };
     });
   }
@@ -112,11 +115,7 @@ export default function CgpaSemesterCalculator() {
               );
               if (!found || found.totals.validCourseCount > 0) return null;
 
-              return (
-                <div className="px-1 text-xs text-slate-500 dark:text-slate-400">
-                  Tip: only rows with a grade and positive credits are counted.
-                </div>
-              );
+              return <></>;
             })()}
           </div>
         ))}
