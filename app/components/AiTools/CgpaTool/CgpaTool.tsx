@@ -17,10 +17,10 @@ import {
   createSemester,
   normalizeLoadedState,
 } from "./utils/state";
-import { computeAllSemesterTotals, computeCumulativeTotals } from "./utils/calc";
-import { formatGpaMaybe } from "./utils/numbers";
+import { computeAllSemesterTotals } from "./utils/calc";
 import {
   buildGpaEmailBody,
+  formatCgpaForEmailAndSync,
   isValidEmail,
   sendGpaEmail,
 } from "./utils/gpaEmail";
@@ -127,19 +127,16 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
     }
 
     const body = buildGpaEmailBody(state);
-    if (!body.trim()) {
-      toast.error("Please add at least one course with a grade and credits.");
+    const cgpaDisplay = formatCgpaForEmailAndSync(state);
+    if (!body.trim() || cgpaDisplay === "—") {
+      toast.error(
+        "Add at least one course with a grade and credits, or enter previous semester credits and GPA.",
+      );
       return;
     }
 
     if (body.length > 10000) {
       toast.error("GPA result is too long to send.");
-      return;
-    }
-
-    const cgpaDisplay = formatGpaMaybe(computeCumulativeTotals(state).cgpa);
-    if (cgpaDisplay === "—") {
-      toast.error("Please add at least one course with a grade and credits.");
       return;
     }
 
@@ -265,7 +262,7 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                     locked={gateResults && !resultsUnlocked}
                     lockedBlurb={
                       neverShowResultsOnPage
-                        ? "Your CGPA is sent by email only and is not shown on this page."
+                        ? "Your CGPA will be sent on your email only and is not shown on this page."
                         : undefined
                     }
                   />
