@@ -5,7 +5,7 @@ type CgpaGhlResponse = {
 
 /**
  * Upserts the contact in GHL with final CGPA (server route; token stays server-side).
- * Failures are non-blocking for the Nest GPA email flow — check return value if needed.
+ * When failures should block the UI, check the return value.
  */
 export async function syncCgpaToGhl({
   email,

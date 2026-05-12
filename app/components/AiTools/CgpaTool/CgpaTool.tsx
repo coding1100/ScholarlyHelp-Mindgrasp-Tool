@@ -17,13 +17,11 @@ import {
   createSemester,
   normalizeLoadedState,
 } from "./utils/state";
-import { computeAllSemesterTotals } from "./utils/calc";
 import {
-  buildGpaEmailBody,
-  formatCgpaForEmailAndSync,
-  isValidEmail,
-  sendGpaEmail,
-} from "./utils/gpaEmail";
+  computeAllSemesterTotals,
+  hasAnyCalculableCgpaInput,
+} from "./utils/calc";
+import { formatCgpaForEmailAndSync, isValidEmail } from "./utils/gpaEmail";
 import { syncCgpaToGhl } from "./utils/ghlCgpaSync";
 import { usePathname } from "next/navigation";
 
@@ -34,10 +32,12 @@ function getDeviceLabel() {
   return "Desktop";
 }
 
+const CALCULATE_CGPA_GATE_MESSAGE = "First add values to calculate CGPA";
+
 type CgpaToolProps = {
   gateResults?: boolean;
   persistState?: boolean;
-  /** When set with `gateResults`, numeric results stay hidden even after the email succeeds. */
+  /** When set with `gateResults`, numeric results stay hidden even after unlock succeeds. */
   neverShowResultsOnPage?: boolean;
 };
 
@@ -57,6 +57,13 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
   const [showEmailPopup, setShowEmailPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [headerCalculateCgpaError, setHeaderCalculateCgpaError] = useState<
+    string | null
+  >(null);
+  const [
+    semesterCalculateGpaErrorSemesterId,
+    setSemesterCalculateGpaErrorSemesterId,
+  ] = useState<string | null>(null);
   const currentRoute = usePathname();
   useEffect(() => {
     if (!persistState) {
@@ -78,6 +85,38 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
     () => computeAllSemesterTotals(state.semesters, state.gradeScale),
     [state.semesters, state.gradeScale],
   );
+
+  const hasCalculableCgpaInput = useMemo(
+    () => hasAnyCalculableCgpaInput(state),
+    [state],
+  );
+
+  useEffect(() => {
+    if (hasCalculableCgpaInput) {
+      setHeaderCalculateCgpaError(null);
+      setSemesterCalculateGpaErrorSemesterId(null);
+    }
+  }, [hasCalculableCgpaInput]);
+
+  function tryOpenCalculateCgpaPopup(
+    source: "header" | "semester",
+    semesterId?: string,
+  ) {
+    if (!gateResults) return;
+    if (!hasAnyCalculableCgpaInput(state)) {
+      if (source === "header") {
+        setHeaderCalculateCgpaError(CALCULATE_CGPA_GATE_MESSAGE);
+        setSemesterCalculateGpaErrorSemesterId(null);
+      } else if (semesterId) {
+        setHeaderCalculateCgpaError(null);
+        setSemesterCalculateGpaErrorSemesterId(semesterId);
+      }
+      return;
+    }
+    setHeaderCalculateCgpaError(null);
+    setSemesterCalculateGpaErrorSemesterId(null);
+    setShowEmailPopup(true);
+  }
 
   function setSemester(next: Semester) {
     if (gateResults) setResultsUnlocked(false);
@@ -126,17 +165,11 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
       return;
     }
 
-    const body = buildGpaEmailBody(state);
     const cgpaDisplay = formatCgpaForEmailAndSync(state);
-    if (!body.trim() || cgpaDisplay === "—") {
+    if (cgpaDisplay === "—") {
       toast.error(
         "Add at least one course with a grade and credits, or enter previous semester credits and GPA.",
       );
-      return;
-    }
-
-    if (body.length > 10000) {
-      toast.error("GPA result is too long to send.");
       return;
     }
 
@@ -159,39 +192,25 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
     }).catch(() => {});
 
     try {
-      const [emailOutcome, ghlOutcome] = await Promise.allSettled([
-        sendGpaEmail({
-          email: trimmedEmail,
-          body,
-          subject: "Your GPA Result",
-        }),
-        syncCgpaToGhl({ email: trimmedEmail, cgpa: cgpaDisplay }),
-      ]);
+      const ghlOutcome = await syncCgpaToGhl({
+        email: trimmedEmail,
+        cgpa: cgpaDisplay,
+      });
 
-      if (emailOutcome.status === "rejected") {
-        const error = emailOutcome.reason;
-        toast.error(
-          error instanceof Error ? error.message : "Failed to send GPA email",
-        );
+      if (!ghlOutcome.ok) {
+        toast.error(ghlOutcome.message);
         return;
       }
 
-      const data = emailOutcome.value;
-      toast.success(data.message || "Email sent successfully.");
+      toast.success("Your CGPA is saved and your results are unlocked.");
       setEmail("");
       setShowEmailPopup(false);
       if (!neverShowResultsOnPage) {
         setResultsUnlocked(true);
       }
-
-      if (ghlOutcome.status === "rejected") {
-        console.warn("GHL CGPA sync failed:", ghlOutcome.reason);
-      } else if (ghlOutcome.value.ok === false) {
-        console.warn("GHL CGPA sync failed:", ghlOutcome.value.message);
-      }
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to send GPA email",
+        error instanceof Error ? error.message : "Something went wrong",
       );
     } finally {
       setIsSending(false);
@@ -212,11 +231,10 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                     CGPA / College GPA Calculator
                   </div>
                   <div className="mt-1 text-sm sm:text-[15px] text-slate-600 dark:text-slate-300">
-                    Enter courses by semester. The calculator updates instantly
-                    and safely ignores incomplete rows.
+                    Enter your complete cousrse details by semester
                   </div>
                 </div>
-                {activeScreen === "calculator" ? (
+                {/* {activeScreen === "calculator" ? (
                   <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                     {gateResults ? (
                       <Button
@@ -239,7 +257,7 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                       </Button>
                     )}
                   </div>
-                ) : null}
+                ) : null} */}
               </div>
             </div>
 
@@ -271,7 +289,7 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                     <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                       Semesters
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-2">
+                    <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:items-start">
                       <Button
                         type="button"
                         variant="primary"
@@ -280,13 +298,15 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                         Add semester
                       </Button>
                       {gateResults ? (
-                        <Button
-                          type="button"
-                          variant="primary"
-                          onClick={() => setShowEmailPopup(true)}
-                        >
-                          Calculate CGPA
-                        </Button>
+                        <div className="flex w-full sm:w-auto flex-col gap-1 sm:items-end">
+                          <Button
+                            type="button"
+                            variant="primary"
+                            onClick={() => tryOpenCalculateCgpaPopup("header")}
+                          >
+                            Calculate CGPA
+                          </Button>
+                        </div>
                       ) : null}
                       <Button
                         type="button"
@@ -297,7 +317,14 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                       </Button>
                     </div>
                   </div>
-
+                  {headerCalculateCgpaError ? (
+                    <p
+                      className="text-sm text-[#f60606] text-right"
+                      role="alert"
+                    >
+                      {headerCalculateCgpaError}
+                    </p>
+                  ) : null}
                   <div className="space-y-4">
                     {state.semesters.map((s) => (
                       <div key={s.id} className="space-y-2">
@@ -310,8 +337,14 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                           showResults={!gateResults || resultsUnlocked}
                           onCalculateGpa={
                             gateResults
-                              ? () => setShowEmailPopup(true)
+                              ? () =>
+                                  tryOpenCalculateCgpaPopup("semester", s.id)
                               : undefined
+                          }
+                          calculateGpaBlockedMessage={
+                            semesterCalculateGpaErrorSemesterId === s.id
+                              ? CALCULATE_CGPA_GATE_MESSAGE
+                              : null
                           }
                         />
                         {(() => {
@@ -365,7 +398,7 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
               </svg>
             </button>
             <div className="pr-10 text-lg font-semibold text-slate-900 dark:text-slate-100">
-              Add your email and we will mail your CGPA result to your mail
+              Enter your email to save your result and unlock your CGPA below
             </div>
 
             <form className="mt-5 space-y-4" onSubmit={handleEmailSubmit}>
@@ -379,7 +412,11 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
               />
 
               <div className="flex justify-end">
-                <Button type="submit" variant="primary" disabled={isSending}>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  disabled={isSending || !email.trim()}
+                >
                   {isSending ? (
                     <>
                       <span
@@ -389,7 +426,7 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
                       Sending...
                     </>
                   ) : (
-                    "Get Free CGPA Email"
+                    "Save & show my CGPA"
                   )}
                 </Button>
               </div>

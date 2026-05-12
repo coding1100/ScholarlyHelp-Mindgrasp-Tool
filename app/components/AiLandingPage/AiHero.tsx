@@ -113,7 +113,7 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
         />
 
         <div
-          className={`mx-auto mb-10 max-w-[1038px] text-center transition-all duration-1000 delay-200 ${
+          className={`mx-auto md:mb-0 mb-5 max-w-[1038px] text-center transition-all duration-1000 delay-200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -125,11 +125,7 @@ const AiHero: FC<AiHeroProps> = ({ heroContent, imgSection }) => {
         {(currentPage === "/cgpa-calculator" ||
           currentPage === "/cgpa-calculator/") && (
           <div ref={calculatorRef}>
-            <CgpaTool
-              gateResults
-              persistState={false}
-              neverShowResultsOnPage
-            />
+            <CgpaTool gateResults persistState={false} neverShowResultsOnPage />
           </div>
         )}
         <div
