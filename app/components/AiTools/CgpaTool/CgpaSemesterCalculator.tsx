@@ -1,26 +1,18 @@
 "use client";
 
-import React, { FormEvent, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { CalculatorState, Semester } from "./types";
 import SemesterCard from "./components/SemesterCard";
-import { Button, Input } from "./components/ui";
+import { Button } from "./components/ui";
 import { createInitialState, createSemester } from "./utils/state";
-import { computeAllSemesterTotals } from "./utils/calc";
-import {
-  buildGpaEmailBody,
-  formatCgpaForEmailAndSync,
-  isValidEmail,
-  sendGpaEmail,
-} from "./utils/gpaEmail";
+import { computeAllSemesterTotals, hasAnyCalculableCgpaInput } from "./utils/calc";
+import { formatCgpaForEmailAndSync } from "./utils/gpaEmail";
 
 export default function CgpaSemesterCalculator() {
   const initial = useMemo(() => createInitialState(), []);
   const [state, setState] = useState<CalculatorState>(initial);
   const [showResults, setShowResults] = useState(false);
-  const [showEmailPopup, setShowEmailPopup] = useState(false);
-  const [email, setEmail] = useState("");
-  const [isSending, setIsSending] = useState(false);
 
   const semesterTotals = useMemo(
     () => computeAllSemesterTotals(state.semesters, state.gradeScale),
@@ -64,47 +56,17 @@ export default function CgpaSemesterCalculator() {
     setShowResults(false);
   }
 
-  async function handleEmailSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const trimmedEmail = email.trim();
-    if (!trimmedEmail || !isValidEmail(trimmedEmail)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
-
-    const body = buildGpaEmailBody(state);
-    const cgpaDisplay = formatCgpaForEmailAndSync(state);
-    if (!body.trim() || cgpaDisplay === "—") {
+  function tryShowGpaResults() {
+    if (
+      !hasAnyCalculableCgpaInput(state) ||
+      formatCgpaForEmailAndSync(state) === "—"
+    ) {
       toast.error(
         "Add at least one course with a grade and credits, or enter previous semester credits and GPA.",
       );
       return;
     }
-
-    if (body.length > 10000) {
-      toast.error("GPA result is too long to send.");
-      return;
-    }
-
-    setIsSending(true);
-    try {
-      const data = await sendGpaEmail({
-        email: trimmedEmail,
-        body,
-        subject: "Your GPA Result",
-      });
-      toast.success(data.message || "Email sent successfully.");
-      setEmail("");
-      setShowEmailPopup(false);
-      setShowResults(true);
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to send GPA email",
-      );
-    } finally {
-      setIsSending(false);
-    }
+    setShowResults(true);
   }
 
   return (
@@ -118,7 +80,7 @@ export default function CgpaSemesterCalculator() {
             type="button"
             variant="primary"
             className="md:inline-block hidden"
-            onClick={() => setShowEmailPopup(true)}
+            onClick={tryShowGpaResults}
           >
             Calculate GPA
           </Button>
@@ -139,7 +101,7 @@ export default function CgpaSemesterCalculator() {
               gradeScale={state.gradeScale}
               onChange={setSemester}
               onRemoveSemester={() => removeSemester(semester.id)}
-              onCalculateGpa={() => setShowEmailPopup(true)}
+              onCalculateGpa={tryShowGpaResults}
               disableRemove={state.semesters.length <= 1}
               showResults={showResults}
             />
@@ -159,67 +121,6 @@ export default function CgpaSemesterCalculator() {
           </div>
         ))}
       </div>
-
-      {showEmailPopup ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-950">
-            <button
-              type="button"
-              onClick={() => setShowEmailPopup(false)}
-              aria-label="Close"
-              className="absolute right-4 top-4 rounded-md p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#323dd6] dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-slate-200"
-              disabled={isSending}
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M18 6L6 18M6 6l12 12"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <div className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-              Add your email and we will mail your CGPA result to your mail
-            </div>
-
-            <form className="mt-5 space-y-4" onSubmit={handleEmailSubmit}>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                aria-label="Email address"
-                disabled={isSending}
-              />
-
-              <div className="flex justify-end">
-                <Button type="submit" variant="primary" disabled={isSending}>
-                  {isSending ? (
-                    <>
-                      <span
-                        className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"
-                        aria-hidden="true"
-                      />
-                      Sending...
-                    </>
-                  ) : (
-                    "Get Free CGPA Email"
-                  )}
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
-      ) : null}
     </section>
   );
 }
