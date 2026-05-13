@@ -123,6 +123,90 @@ function decodeHtmlEntities(input: string): string {
   return out;
 }
 
+type UserTutorImagePreview =
+  | { kind: "image"; dataUrl: string; name: string }
+  | { kind: "placeholder"; name: string };
+
+function userTutorMessageDisplay(item: TutorMessageDto): {
+  body: string;
+  images: UserTutorImagePreview[];
+} {
+  const fromDto = (item.attachments || []).filter(
+    (a) => a?.dataUrl && /^data:image\//i.test(a.dataUrl),
+  );
+
+  if (fromDto.length > 0) {
+    return {
+      body: item.message.trim(),
+      images: fromDto.map((a) => ({
+        kind: "image" as const,
+        dataUrl: a.dataUrl,
+        name: a.name || "Image",
+      })),
+    };
+  }
+
+  let body = item.message;
+  const images: UserTutorImagePreview[] = [];
+  body = body.replace(/\n?\[Attached image:\s*([^\]]+)\]/gi, (_m, name: string) => {
+    images.push({ kind: "placeholder", name: String(name).trim() || "Image" });
+    return "";
+  });
+  const blockMatch = body.match(/\n\nAttached images:\n([\s\S]*)$/m);
+  if (blockMatch && blockMatch.index !== undefined) {
+    body = body.slice(0, blockMatch.index).trimEnd();
+    const lines = blockMatch[1].split("\n").filter(Boolean);
+    for (const line of lines) {
+      const m = line.match(/Image\s+\d+:\s*(.+?)\s+\([^)]+\)\s*$/);
+      if (m) images.push({ kind: "placeholder", name: m[1].trim() });
+    }
+  }
+  return { body: body.trim(), images };
+}
+
+function TutorUserMessageBody({ item }: { item: TutorMessageDto }) {
+  const { body, images } = userTutorMessageDisplay(item);
+  return (
+    <div className="space-y-2">
+      {images.length > 0 ? (
+        <div className="flex flex-wrap gap-2">
+          {images.map((img, idx) =>
+            img.kind === "image" ? (
+              <a
+                key={`${item._id}-img-${idx}`}
+                href={img.dataUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block max-w-[200px] shrink-0"
+              >
+                <img
+                  src={img.dataUrl}
+                  alt={img.name}
+                  className="aspect-video max-h-32 w-full rounded-lg border border-[#c9cef5] object-cover object-center shadow-sm"
+                />
+                <span className="mt-1 block truncate text-[11px] text-[#4e5385]">{img.name}</span>
+              </a>
+            ) : (
+              <div
+                key={`${item._id}-ph-${idx}`}
+                className="flex h-28 w-[160px] shrink-0 flex-col items-center justify-center rounded-lg border border-dashed border-[#b8c0ea] bg-[#f5f6fd] p-2 text-center"
+              >
+                <FiImage className="h-8 w-8 text-[#7a82b8]" aria-hidden />
+                <span className="mt-1 line-clamp-2 max-w-full text-[11px] text-[#4e5385]">
+                  {img.name}
+                </span>
+              </div>
+            ),
+          )}
+        </div>
+      ) : null}
+      {body ? (
+        <p className="whitespace-pre-wrap break-words">{decodeHtmlEntities(body)}</p>
+      ) : null}
+    </div>
+  );
+}
+
 function StudyTutorMarkdown({ content }: { content: string }) {
   return (
     <div className="tutor-md max-w-full break-words text-[13px] leading-relaxed text-[#424660]">
@@ -730,17 +814,23 @@ export default function StudyWorkspace() {
     const message = tutorInput.trim();
     if (!message) return;
     const attachments = pendingAttachment ? [pendingAttachment] : undefined;
-    const userMessage = pendingAttachment
-      ? `${message}\n[Attached image: ${pendingAttachment.name}]`
-      : message;
 
     const optimisticUser: TutorMessageDto = {
       _id: `temp-user-${Date.now()}`,
       sessionId,
       role: "user",
-      message: userMessage,
+      message,
       citations: [],
       createdAt: new Date().toISOString(),
+      ...(attachments?.length
+        ? {
+            attachments: attachments.map((a) => ({
+              name: a.name,
+              mimeType: a.mimeType,
+              dataUrl: a.dataUrl,
+            })),
+          }
+        : {}),
     };
     setTutorMessages((prev) => [...prev, optimisticUser]);
     setTutorInput("");
@@ -1472,9 +1562,7 @@ export default function StudyWorkspace() {
                     ) : item.role === "assistant" ? (
                       <StudyTutorMarkdown content={decodeHtmlEntities(item.message)} />
                     ) : (
-                      <p className="whitespace-pre-wrap break-words">
-                        {decodeHtmlEntities(item.message)}
-                      </p>
+                      <TutorUserMessageBody item={item} />
                     )}
                   </div>
                 ))}

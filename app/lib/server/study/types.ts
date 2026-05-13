@@ -33,6 +33,12 @@ export interface StudyArtifact {
   updatedAt: Date;
 }
 
+export type TutorMessageImageAttachment = {
+  name: string;
+  mimeType: string;
+  dataUrl: string;
+};
+
 export interface TutorMessage {
   _id?: string;
   sessionId: string;
@@ -40,5 +46,7 @@ export interface TutorMessage {
   message: string;
   citations: number[];
   provenance?: "source" | "general" | "image";
+  /** User image uploads only; used for thumbnails in the tutor UI */
+  attachments?: TutorMessageImageAttachment[];
   createdAt: Date;
 }

@@ -166,7 +166,22 @@ export async function POST(
       await saveTutorMessage({
         sessionId: params.id,
         role: "user",
-        message: messageWithAttachmentContext,
+        message,
+        attachments:
+          imageAttachments.length > 0
+            ? imageAttachments
+                .map((item) => {
+                  const dataUrl = (item.dataUrl || "").trim();
+                  if (!dataUrl.startsWith("data:image/")) return null;
+                  return {
+                    name: (item.name || "image").trim() || "image",
+                    mimeType: (item.mimeType || "image/jpeg").trim(),
+                    dataUrl,
+                  };
+                })
+                .filter((x): x is NonNullable<typeof x> => Boolean(x))
+                .slice(0, 4)
+            : undefined,
         citations: [],
         createdAt: now,
       });
@@ -383,7 +398,22 @@ export async function POST(
       saveTutorMessage({
         sessionId: params.id,
         role: "user",
-        message: messageWithAttachmentContext,
+        message,
+        attachments:
+          imageAttachments.length > 0
+            ? imageAttachments
+                .map((item) => {
+                  const dataUrl = (item.dataUrl || "").trim();
+                  if (!dataUrl.startsWith("data:image/")) return null;
+                  return {
+                    name: (item.name || "image").trim() || "image",
+                    mimeType: (item.mimeType || "image/jpeg").trim(),
+                    dataUrl,
+                  };
+                })
+                .filter((x): x is NonNullable<typeof x> => Boolean(x))
+                .slice(0, 4)
+            : undefined,
         citations: [],
         createdAt: now,
       }),

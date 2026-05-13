@@ -5,6 +5,7 @@ import {
   StudySession,
   StudySourceKind,
   TutorMessage,
+  TutorMessageImageAttachment,
 } from "@/app/lib/server/study/types";
 import { chunkText, normalizeText } from "@/app/lib/server/study/text";
 
@@ -40,6 +41,7 @@ type MemoryTutorMessage = {
   message: string;
   citations: number[];
   provenance?: "source" | "general" | "image";
+  attachments?: TutorMessageImageAttachment[];
   createdAt: Date;
 };
 
@@ -437,6 +439,7 @@ export async function saveTutorMessage(input: TutorMessage) {
       message: input.message,
       citations: input.citations,
       provenance: input.provenance,
+      attachments: input.attachments,
       createdAt: input.createdAt,
     });
     return _id;
@@ -447,6 +450,7 @@ export async function saveTutorMessage(input: TutorMessage) {
     message: input.message,
     citations: input.citations,
     provenance: input.provenance,
+    ...(input.attachments?.length ? { attachments: input.attachments } : {}),
     createdAt: input.createdAt,
   };
   const result = await db.collection(COLLECTIONS.tutorMessages).insertOne(payload);
@@ -466,6 +470,7 @@ export async function listTutorMessages(sessionId: string) {
         message: item.message,
         citations: item.citations || [],
         provenance: item.provenance,
+        attachments: item.attachments,
         createdAt: item.createdAt,
       }));
   }
@@ -482,6 +487,7 @@ export async function listTutorMessages(sessionId: string) {
     message: item.message,
     citations: item.citations || [],
     provenance: item.provenance,
+    attachments: Array.isArray(item.attachments) ? item.attachments : undefined,
     createdAt: item.createdAt,
   }));
 }
