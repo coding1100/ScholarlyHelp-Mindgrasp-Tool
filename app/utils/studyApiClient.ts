@@ -28,6 +28,12 @@ export interface StudySourceDto {
 
 export type StudyArtifactType = "notes" | "summary" | "flashcards" | "quizzes";
 
+export type TutorMessageImageDto = {
+  name: string;
+  mimeType: string;
+  dataUrl: string;
+};
+
 export interface TutorMessageDto {
   _id: string;
   sessionId: string;
@@ -35,6 +41,7 @@ export interface TutorMessageDto {
   message: string;
   citations: number[];
   provenance?: "source" | "general" | "image";
+  attachments?: TutorMessageImageDto[];
   createdAt: string;
 }
 
