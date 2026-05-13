@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 next build",
-    "start": "next start",
+    "dev": "node init && next dev",
+    "build": "node init && cross-env NODE_OPTIONS=--max-old-space-size=4096 next build",
+    "start": "node init && next start",
     "lint": "next lint",
     "analyze": "cross-env ANALYZE=true NODE_OPTIONS=--max-old-space-size=4096 next build"
   },
