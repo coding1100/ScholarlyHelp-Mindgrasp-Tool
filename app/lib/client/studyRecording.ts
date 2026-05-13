@@ -21,6 +21,8 @@ export interface StudyRecordingSnapshot {
   transcript: string;
   lastResult: StudyRecordingResult | null;
   previewStream: MediaStream | null;
+  /** Web Speech API available (live caption from microphone) */
+  liveTranscriptCapable: boolean;
 }
 
 type RecordingStore = {
@@ -28,12 +30,17 @@ type RecordingStore = {
   mode: StudyRecordingMode | null;
   startedAt: number | null;
   transcript: string;
+  /** Finalized speech segments (Web Speech API) */
+  speechFinalBuffer: string;
   lastResult: StudyRecordingResult | null;
   recorder: MediaRecorder | null;
   stream: MediaStream | null;
   chunks: BlobPart[];
   mimeType: string | null;
   speechRecognizer: SpeechRecognitionLike | null;
+  speechRestartTimer: ReturnType<typeof setTimeout> | null;
+  /** Mic / speech permission denied — do not spin restart until next recording */
+  speechDisabledForSession: boolean;
   pendingStop:
     | null
     | { resolve: (value: StudyRecordingResult | null) => void; reject: (reason?: unknown) => void };
@@ -59,12 +66,15 @@ function initialStore(): RecordingStore {
     mode: null,
     startedAt: null,
     transcript: "",
+    speechFinalBuffer: "",
     lastResult: null,
     recorder: null,
     stream: null,
     chunks: [],
     mimeType: null,
     speechRecognizer: null,
+    speechRestartTimer: null,
+    speechDisabledForSession: false,
     pendingStop: null,
   };
 }
@@ -84,12 +94,20 @@ function emitState() {
   window.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: getStudyRecordingSnapshot() }));
 }
 
+function clearSpeechRestartTimer(store: RecordingStore) {
+  if (store.speechRestartTimer) {
+    clearTimeout(store.speechRestartTimer);
+    store.speechRestartTimer = null;
+  }
+}
+
 function cleanupStream(stream: MediaStream | null) {
   if (!stream) return;
   stream.getTracks().forEach((track) => track.stop());
 }
 
 function stopSpeechRecognizer(store: RecordingStore) {
+  clearSpeechRestartTimer(store);
   if (!store.speechRecognizer) return;
   try {
     store.speechRecognizer.stop();
@@ -108,8 +126,16 @@ function getSpeechRecognitionCtor() {
   return windowAny.SpeechRecognition || windowAny.webkitSpeechRecognition || null;
 }
 
+/**
+ * Live transcript uses the device microphone (Web Speech API). It runs for both
+ * mic-only and browser-tab capture so captions can follow narration; it does not
+ * transcribe tab/system audio. Chrome often ends a session after silence — we restart
+ * while `MediaRecorder` is still active.
+ */
 function tryStartSpeechRecognition(store: RecordingStore) {
-  if (store.mode !== "microphone") return;
+  if (store.status !== "recording") return;
+  if (store.speechRecognizer) return;
+  if (store.speechDisabledForSession) return;
   const Ctor = getSpeechRecognitionCtor();
   if (!Ctor) return;
   try {
@@ -118,21 +144,54 @@ function tryStartSpeechRecognition(store: RecordingStore) {
     recognition.interimResults = true;
     recognition.continuous = true;
     recognition.onresult = (event: unknown) => {
-      const eventAny = event as { results?: ArrayLike<ArrayLike<{ transcript: string }>> };
-      const results = eventAny.results;
-      if (!results) return;
-      let text = "";
-      for (let idx = 0; idx < results.length; idx += 1) {
-        const item = results[idx]?.[0];
-        if (item?.transcript) {
-          text += `${item.transcript} `;
+      const ev = event as {
+        resultIndex?: number;
+        results?: ArrayLike<{ length: number; [k: number]: { transcript?: string }; isFinal: boolean }>;
+      };
+      const results = ev.results;
+      const start = typeof ev.resultIndex === "number" ? ev.resultIndex : 0;
+      if (!results || results.length === 0) return;
+      let interim = "";
+      for (let i = start; i < results.length; i += 1) {
+        const alt = results[i]?.[0];
+        const piece = (alt?.transcript || "").trim();
+        if (!piece) continue;
+        if (results[i].isFinal) {
+          store.speechFinalBuffer = `${store.speechFinalBuffer} ${piece}`.trim();
+        } else {
+          interim += `${piece} `;
         }
       }
-      store.transcript = text.trim();
+      store.transcript = `${store.speechFinalBuffer}${interim ? ` ${interim.trim()}` : ""}`.trim();
       emitState();
     };
-    recognition.onerror = () => undefined;
-    recognition.onend = () => undefined;
+    recognition.onerror = (event: unknown) => {
+      const code = (event as { error?: string })?.error;
+      if (code === "not-allowed" || code === "service-not-allowed") {
+        store.speechDisabledForSession = true;
+      }
+    };
+    recognition.onend = () => {
+      if (store.speechRecognizer !== recognition) return;
+      store.speechRecognizer = null;
+      if (
+        store.status !== "recording" ||
+        !store.recorder ||
+        store.recorder.state !== "recording"
+      ) {
+        return;
+      }
+      clearSpeechRestartTimer(store);
+      store.speechRestartTimer = setTimeout(() => {
+        store.speechRestartTimer = null;
+        if (
+          store.status === "recording" &&
+          store.recorder?.state === "recording"
+        ) {
+          tryStartSpeechRecognition(store);
+        }
+      }, 160);
+    };
     recognition.start();
     store.speechRecognizer = recognition;
   } catch {
@@ -179,6 +238,7 @@ export function getStudyRecordingSnapshot(): StudyRecordingSnapshot {
     transcript: store.transcript,
     lastResult: store.lastResult,
     previewStream: store.stream,
+    liveTranscriptCapable: Boolean(getSpeechRecognitionCtor()),
   };
 }
 
@@ -224,12 +284,14 @@ export async function startStudyRecording(mode: StudyRecordingMode) {
   store.startedAt = Date.now();
   store.status = "recording";
   store.transcript = "";
+  store.speechFinalBuffer = "";
   store.chunks = [];
   store.mimeType = mimeType || recorder.mimeType || null;
   store.stream = stream;
   store.recorder = recorder;
   store.lastResult = null;
   stopSpeechRecognizer(store);
+  store.speechDisabledForSession = false;
   tryStartSpeechRecognition(store);
 
   recorder.ondataavailable = (event) => {
@@ -249,6 +311,8 @@ export async function startStudyRecording(mode: StudyRecordingMode) {
     store.stream = null;
     store.chunks = [];
     store.mimeType = null;
+    store.transcript = "";
+    store.speechFinalBuffer = "";
     store.lastResult = result;
     emitState();
     if (store.pendingStop) {

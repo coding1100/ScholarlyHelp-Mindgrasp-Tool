@@ -1062,6 +1062,30 @@ export default function StudyWorkspace() {
                         Words: {recordingWordCount}
                       </span>
                     </div>
+                    {!recordingSnapshot.liveTranscriptCapable ? (
+                      <p className="text-center text-xs text-amber-900">
+                        This browser does not support live transcription (no Speech Recognition).
+                      </p>
+                    ) : recordingSnapshot.mode === "browser-tab" ? (
+                      <p className="text-center text-xs leading-snug text-[#6b7199]">
+                        Live transcript follows your{" "}
+                        <span className="font-semibold text-[#454b74]">microphone</span>, not
+                        sound from the tab. Narrate or ask questions while recording to see text
+                        here.
+                      </p>
+                    ) : null}
+                    <div className="rounded-lg border border-[#e3e7ff] bg-[#fbfcff] p-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-[#6b73ab]">
+                        Live transcript
+                      </p>
+                      <p className="mt-2 max-h-36 overflow-y-auto whitespace-pre-wrap text-sm text-[#3f4468]">
+                        {recordingSnapshot.transcript.trim()
+                          ? recordingSnapshot.transcript
+                          : recordingSnapshot.liveTranscriptCapable
+                            ? "Listening…"
+                            : "—"}
+                      </p>
+                    </div>
                     <div className="rounded-xl border border-[#d9defb] bg-[#fbfcff] p-6">
                       <div className="mx-auto aspect-video w-full max-w-3xl overflow-hidden rounded-xl border border-[#d8defd] bg-black">
                         <video
