@@ -1,9 +1,10 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
-import DashboardGate from "@/app/components/AiTools/Dashboard/DashboardGate";
+import StudySourceIngestion from "@/app/components/AiTools/Dashboard/StudySourceIngestion";
+import StudyWorkspace from "@/app/components/AiTools/Dashboard/StudyWorkspace";
 import { appendQueryString } from "@/app/utils/url";
 import {
   createStudySession,
@@ -11,9 +12,8 @@ import {
   listStudySessions,
   setActiveStudySessionId,
 } from "@/app/utils/studyApiClient";
-// import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
-export default function EssayTitlePage() {
+export default function StudyWorkspacePage() {
   const [flag, setFlag] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -26,7 +26,7 @@ export default function EssayTitlePage() {
       const currentQs =
         typeof window !== "undefined" ? window.location.search.slice(1) : "";
       const signInBase = currentQs ? `/sign-in?${currentQs}` : "/sign-in";
-      const returnTo = `${pathname || "/tools/dashboard"}${currentQs ? `?${currentQs}` : ""}`;
+      const returnTo = `${pathname || "/tools/study-workspace"}${currentQs ? `?${currentQs}` : ""}`;
       router.replace(
         appendQueryString(
           signInBase,
@@ -64,7 +64,10 @@ export default function EssayTitlePage() {
       const nextParams = new URLSearchParams(searchParams.toString());
       if (nextParams.get("sessionId") !== resolvedSession._id) {
         nextParams.set("sessionId", resolvedSession._id);
-        const nextHref = appendQueryString(pathname || "/tools/dashboard", nextParams.toString());
+        const nextHref = appendQueryString(
+          pathname || "/tools/study-workspace",
+          nextParams.toString(),
+        );
         router.replace(nextHref);
       }
     }
@@ -79,14 +82,12 @@ export default function EssayTitlePage() {
   }, [pathname, router, searchParams]);
 
   return (
-    <Suspense
-      fallback={
-        <div className="animate-pulse bg-gray-200 dark:bg-gray-800 h-72" />
-      }
-    >
-      {/* <ThemeToggle top="top-12" /> */}
+    <Suspense fallback={<div className="animate-pulse bg-gray-200 h-72" />}>
       <ToolsLayout setFlag={setFlag} flag={flag}>
-        <DashboardGate mode="inline" />
+        <main className="overflow-y-auto h-[90vh] bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+          <StudySourceIngestion />
+          <StudyWorkspace />
+        </main>
       </ToolsLayout>
     </Suspense>
   );
