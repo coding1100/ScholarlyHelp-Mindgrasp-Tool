@@ -41,7 +41,7 @@ const ClientPage = () => {
   }, [documentId]);
 
   return (
-    <MainToolLayout flag={flag} setFlag={setFlag}>
+    <MainToolLayout flag={flag} setFlag={setFlag} tourEditorActive={showEditor}>
       {showEditor ? (
         <EditorContainer outlineResponse={outlineResponse} documentId={documentId} />
       ) : (

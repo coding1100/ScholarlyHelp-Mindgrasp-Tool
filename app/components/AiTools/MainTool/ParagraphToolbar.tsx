@@ -123,7 +123,10 @@ const ParagraphToolbar: React.FC<ParagraphToolbarProps> = ({
 
   return (
     <div className={`inline-block ${className}`}>
-      <div className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white p-1 shadow-sm">
+      <div
+        data-tour="ara-selection-toolbar"
+        className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white p-1 shadow-sm"
+      >
         {/* Left group: Cite, Chat, AI Edit */}
         {/* <button
           type="button"
