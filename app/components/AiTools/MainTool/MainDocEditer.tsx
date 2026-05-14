@@ -316,7 +316,10 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
   };
 
   return (
-    <div className="p-8 max-w-3xl mx-auto relative">
+    <div
+      data-tour="ara-welcome-screen"
+      className="p-8 max-w-3xl mx-auto relative"
+    >
       {/* ===== Editable Title ===== */}
       <div className="relative w-full mb-6">
         <input

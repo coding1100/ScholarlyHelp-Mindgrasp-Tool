@@ -49,7 +49,10 @@ const EditorContainer: React.FC<EditorContainerProps> = ({
   }, [documentId, setTitle]);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div
+      data-tour="ara-editor"
+      className="min-h-screen flex flex-col"
+    >
       {/* <TopHeader /> */}
       <div className="flex-1 flex justify-center items-start pt-8">
         <div className="w-full max-w-3xl  p-6 border-none">

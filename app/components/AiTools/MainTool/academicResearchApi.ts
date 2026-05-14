@@ -324,3 +324,19 @@ export const removeSource = (id: string) =>
 
 export const getAxiosStatus = (error: unknown) =>
   (error as AxiosError | undefined)?.response?.status;
+
+export type AcademicResearchTourState = {
+  academic_research_assistant_tour_completed: boolean;
+};
+
+export const getAcademicResearchTourState = () =>
+  request<AcademicResearchTourState>("/users/me/tour-state", {
+    method: "GET",
+  });
+
+export const completeAcademicResearchTour = () =>
+  request<AcademicResearchTourState>("/users/me/tour-state", {
+    method: "PATCH",
+    data: { academic_research_assistant_tour_completed: true },
+    headers: { "Content-Type": "application/json" },
+  });

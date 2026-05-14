@@ -11,6 +11,7 @@ import { appendQueryString } from "@/app/utils/url";
 import AcademicAssistantPanel, {
   type AssistantPanel,
 } from "./AcademicAssistantPanel";
+import AcademicResearchAssistantTour from "./AcademicResearchAssistantTour";
 export interface TitleContextValue {
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -64,12 +65,15 @@ interface MainToolLayoutProps {
   children: React.ReactNode;
   setFlag: (value: boolean) => void;
   flag: boolean;
+  /** Used only on Academic Research Assistant for the first-time product tour. */
+  tourEditorActive?: boolean;
 }
 
 const MainToolLayout: React.FC<MainToolLayoutProps> = ({
   children,
   setFlag,
   flag,
+  tourEditorActive = false,
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [title, setTitle] = useState<string>("");
@@ -172,7 +176,10 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
                   onClose={() => setActivePanel(null)}
                 />
               )}
-              <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+              <div
+                className="flex min-h-0 min-w-0 flex-1 flex-col"
+                data-tour="ara-main-workspace"
+              >
                 {/* <MTHeader /> */}
                 <MTHeader
                   sidebarOpen={sidebarOpen}
@@ -201,6 +208,7 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
                 );
               }}
             />
+            <AcademicResearchAssistantTour tourEditorActive={tourEditorActive} />
           </EditorPreferencesContext.Provider>
         </EditorContext.Provider>
       </WordCountContext.Provider>

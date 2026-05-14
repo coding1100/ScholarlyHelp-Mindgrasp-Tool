@@ -444,6 +444,7 @@ const MTSidebar = ({
 
   return (
     <aside
+      data-tour="ara-sidebar"
       className={
         "relative flex h-full w-60 flex-col overflow-hidden border-r dark:border-gray-700 bg-gray-100 dark:bg-gray-800 p-4 font-sans text-black dark:text-gray-200 transition-colors duration-300"
       }
@@ -522,7 +523,10 @@ const MTSidebar = ({
                   {tool.name}
                 </Link>
                 {isAcademicAssistant && isAssistantRoute && (
-                  <div className="mt-1 mb-2 ml-2 space-y-1 border-l border-gray-200 pl-3">
+                  <div
+                    data-tour="ara-assistant-panels"
+                    className="mt-1 mb-2 ml-2 space-y-1 border-l border-gray-200 pl-3"
+                  >
                     <button
                       type="button"
                       className="flex w-full cursor-pointer items-center gap-2 rounded-md bg-white px-2 py-1.5 text-left text-sm font-semibold text-gray-800 shadow-sm transition-colors hover:bg-primary-100"
