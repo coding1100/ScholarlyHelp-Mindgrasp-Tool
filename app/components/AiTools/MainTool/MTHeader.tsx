@@ -58,7 +58,10 @@ const MTHeader = ({
   }, [showExport]);
   return (
     <div>
-      <header className="sticky top-0 bg-white z-50  py-2 px-6 text-black ">
+      <header
+        data-tour="ara-header"
+        className="sticky top-0 bg-white z-50  py-2 px-6 text-black "
+      >
         <div className=" flex items-center justify-between">
           {/* Header left section */}
           <div className="flex items-center space-x-3">
