@@ -31,6 +31,7 @@ interface SidebarProps {
   activePanel?: AssistantPanel | null;
   onPanelToggle?: (panel: AssistantPanel) => void;
   onNewDocument?: () => void;
+  onStartTour?: () => void;
 }
 
 const MTSidebar = ({
@@ -40,6 +41,7 @@ const MTSidebar = ({
   activePanel,
   onPanelToggle,
   onNewDocument,
+  onStartTour,
 }: SidebarProps) => {
   const currentRoute = usePathname();
   const router = useRouter();
@@ -86,6 +88,8 @@ const MTSidebar = ({
   // Documents panel is controlled by parent layout
   const isAssistantRoute =
     normalizedRoute === "/tools/academic-research-assistant";
+  const isStudyWorkspaceRoute = normalizedRoute === "/tools/main-tool";
+  const showHowToUse = (isAssistantRoute || isStudyWorkspaceRoute) && !!onStartTour;
   const assistantActions = [
     {
       name: "Documents",
@@ -579,6 +583,16 @@ const MTSidebar = ({
               </div>
             );
           })}
+          {showHowToUse && (
+            <button
+              type="button"
+              className="mt-3 flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm text-gray-700 transition-colors hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+              onClick={onStartTour}
+            >
+              <HiOutlineQuestionMarkCircle className="h-4 w-4" />
+              <span>How to Use</span>
+            </button>
+          )}
         </div>
       </div>
 
