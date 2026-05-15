@@ -11,7 +11,7 @@ import { appendQueryString } from "@/app/utils/url";
 import AcademicAssistantPanel, {
   type AssistantPanel,
 } from "./AcademicAssistantPanel";
-import AcademicResearchAssistantTour from "./AcademicResearchAssistantTour";
+import MainToolProductTour from "./MainToolProductTour";
 export interface TitleContextValue {
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -65,7 +65,7 @@ interface MainToolLayoutProps {
   children: React.ReactNode;
   setFlag: (value: boolean) => void;
   flag: boolean;
-  /** Used only on Academic Research Assistant for the first-time product tour. */
+  /** Used for the first-time product tour on workspace editor routes. */
   tourEditorActive?: boolean;
 }
 
@@ -93,6 +93,17 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
     typeof window !== "undefined" ? window.location.search.slice(1) : "";
   const [token, setToken] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  const [tourRestartNonce, setTourRestartNonce] = useState(0);
+
+  const normalizedPath = pathname?.endsWith("/")
+    ? pathname.slice(0, -1)
+    : pathname;
+  const isAcademicResearchRoute =
+    normalizedPath === "/tools/academic-research-assistant";
+  const isStudyWorkspaceRoute = normalizedPath === "/tools/main-tool";
+  const hasProductTour = isAcademicResearchRoute || isStudyWorkspaceRoute;
+
+  const handleStartTour = () => setTourRestartNonce((n) => n + 1);
 
   useEffect(() => {
     const t =
@@ -155,9 +166,10 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
                   activePanel={activePanel}
                   onPanelToggle={togglePanel}
                   onNewDocument={() => setPromptModalOpen(true)}
+                  onStartTour={hasProductTour ? handleStartTour : undefined}
                 />
               )}
-              {activePanel === "documents" && (
+              {isAcademicResearchRoute && activePanel === "documents" && (
                 <div className="hidden lg:block h-full w-[18rem] xl:w-[22rem] border-r bg-white">
                   <div className="h-full w-full overflow-auto">
                     <DocumentsSidebar
@@ -170,7 +182,9 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
                   </div>
                 </div>
               )}
-              {activePanel && activePanel !== "documents" && (
+              {isAcademicResearchRoute &&
+                activePanel &&
+                activePanel !== "documents" && (
                 <AcademicAssistantPanel
                   activePanel={activePanel}
                   onClose={() => setActivePanel(null)}
@@ -208,7 +222,12 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
                 );
               }}
             />
-            <AcademicResearchAssistantTour tourEditorActive={tourEditorActive} />
+            {hasProductTour && (
+              <MainToolProductTour
+                tourEditorActive={tourEditorActive}
+                restartNonce={tourRestartNonce}
+              />
+            )}
           </EditorPreferencesContext.Provider>
         </EditorContext.Provider>
       </WordCountContext.Provider>
