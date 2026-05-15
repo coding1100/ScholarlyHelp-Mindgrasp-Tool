@@ -325,18 +325,31 @@ export const removeSource = (id: string) =>
 export const getAxiosStatus = (error: unknown) =>
   (error as AxiosError | undefined)?.response?.status;
 
-export type AcademicResearchTourState = {
+export type ProductTourState = {
   academic_research_assistant_tour_completed: boolean;
+  ai_study_workspace_tour_completed: boolean;
 };
 
-export const getAcademicResearchTourState = () =>
-  request<AcademicResearchTourState>("/users/me/tour-state", {
+/** @deprecated Use ProductTourState */
+export type AcademicResearchTourState = ProductTourState;
+
+export const getProductTourState = () =>
+  request<ProductTourState>("/users/me/tour-state", {
     method: "GET",
   });
 
+export const getAcademicResearchTourState = getProductTourState;
+
 export const completeAcademicResearchTour = () =>
-  request<AcademicResearchTourState>("/users/me/tour-state", {
+  request<ProductTourState>("/users/me/tour-state", {
     method: "PATCH",
     data: { academic_research_assistant_tour_completed: true },
+    headers: { "Content-Type": "application/json" },
+  });
+
+export const completeStudyWorkspaceTour = () =>
+  request<ProductTourState>("/users/me/tour-state", {
+    method: "PATCH",
+    data: { ai_study_workspace_tour_completed: true },
     headers: { "Content-Type": "application/json" },
   });
