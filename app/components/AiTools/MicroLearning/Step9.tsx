@@ -57,7 +57,8 @@ Please provide:
   }, [duration, topic]);
 
   return (
-    <div className="h-[calc(100vh-8vh)] w-full overflow-y-auto overflow-x-hidden break-words flex justify-center py-4 mb-6 bg-linear-to-br from-gray-100 to-gray-200">
+    <div className="relative h-[calc(100vh-8vh)] w-full overflow-y-auto overflow-x-hidden break-words flex justify-center py-4 mb-6 bg-linear-to-br from-gray-100 to-gray-200">
+      <ToolsApiLoader show={isLoading} />
       <div className="w-full max-w-4xl mx-auto px-4 md:px-8">
         {/* Header Bar */}
         <div className="bg-[#F0F0F0] rounded-2xl p-4 mb-6 flex items-center justify-between shadow-lg">
@@ -91,8 +92,7 @@ Please provide:
         </div>
 
         {/* Main Content Card */}
-        <div className="relative w-full bg-[#F0F0F0] rounded-3xl p-4 md:p-8 shadow-2xl overflow-x-hidden">
-          <ToolsApiLoader show={isLoading} contained />
+        <div className="w-full bg-[#F0F0F0] rounded-3xl p-4 md:p-8 shadow-2xl overflow-x-hidden">
           {error ? (
             <div className="flex flex-col items-center justify-center py-20">
               <div className="text-[#fb2c36] text-4xl mb-4">⚠️</div>

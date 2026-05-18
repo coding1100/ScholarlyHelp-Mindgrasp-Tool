@@ -186,6 +186,7 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
 
   return (
     <div className="container relative overflow-y-auto h-[90vh] mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl">
+      <ToolsApiLoader show={isSubmitting} />
       <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 overflow-hidden transition-colors duration-300">
         {/* Main Overview Section */}
         <div className="pt-6 ">
@@ -426,7 +427,6 @@ const ResearchQuestion: FC<ResearchQuestionProps> = ({ setFlag }) => {
           </div>
         )}
 
-        <ToolsApiLoader show={isSubmitting && questions.length === 0} />
       </div>
 
       {/* Footer Quote */}
