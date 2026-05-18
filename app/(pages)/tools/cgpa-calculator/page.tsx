@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
 import CgpaTool from "@/app/components/AiTools/CgpaTool/CgpaTool";
 import { appendQueryString } from "@/app/utils/url";
+import { ToolsSuspenseFallback } from "@/app/components/AiTools/ToolsApiLoader";
 // import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
 export default function PythagorasSolverPage() {
@@ -31,7 +32,7 @@ export default function PythagorasSolverPage() {
   return (
     <Suspense
       fallback={
-        <div className="animate-pulse bg-gray-200 dark:bg-gray-800 h-72" />
+        <ToolsSuspenseFallback />
       }
     >
       {/* <ThemeToggle top="top-12" /> */}

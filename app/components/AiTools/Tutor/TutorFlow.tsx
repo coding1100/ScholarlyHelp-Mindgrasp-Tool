@@ -21,6 +21,7 @@ import {
   TutorWorkspace,
   updateTutorWorkspace,
 } from "@/app/utilities/api";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 
 const academicLevels: {
   value: TutorAcademicLevel;
@@ -361,7 +362,8 @@ export default function TutorFlow() {
   };
 
   return (
-    <div className="h-[calc(100vh-8vh)] overflow-y-auto flex justify-center bg-linear-to-br from-gray-100 to-gray-200">
+    <div className="relative h-[calc(100vh-8vh)] overflow-y-auto flex justify-center bg-linear-to-br from-gray-100 to-gray-200">
+      <ToolsApiLoader show={isWorkspaceLoading || isExecuting} />
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[minmax(0,420px)_1fr]">
         <form
           onSubmit={handleSubmit}
@@ -552,9 +554,7 @@ export default function TutorFlow() {
 
             {!result ? (
               <div className="mt-6 rounded-xl border border-gray-300/50 bg-white/40 p-5 text-sm text-gray-600">
-                {isWorkspaceLoading
-                  ? "Loading saved workspace..."
-                  : "Run a Tutor action to see explanation, steps, practice, and progress here."}
+                Run a Tutor action to see explanation, steps, practice, and progress here.
               </div>
             ) : (
               <div className="mt-6 space-y-5">
