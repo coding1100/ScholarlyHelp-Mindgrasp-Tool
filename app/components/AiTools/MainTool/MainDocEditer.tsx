@@ -28,6 +28,7 @@ import {
   getAcademicErrorMessage,
   parseDocumentFile,
 } from "./academicResearchApi";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 // import ParagraphToolbar from "../../Paragraph-tool/ParagraphToolbar";
 
 // Custom backspace behavior
@@ -320,6 +321,7 @@ const MainDocEditor: React.FC<MainDocEditorProps> = ({
       data-tour="ara-welcome-screen"
       className="p-8 max-w-3xl mx-auto relative"
     >
+      <ToolsApiLoader show={isGenerating} contained />
       {/* ===== Editable Title ===== */}
       <div className="relative w-full mb-6">
         <input

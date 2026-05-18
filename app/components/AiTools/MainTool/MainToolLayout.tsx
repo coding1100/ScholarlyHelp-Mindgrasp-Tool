@@ -12,6 +12,7 @@ import AcademicAssistantPanel, {
   type AssistantPanel,
 } from "./AcademicAssistantPanel";
 import MainToolProductTour from "./MainToolProductTour";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 export interface TitleContextValue {
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -129,9 +130,7 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
   };
 
   if (!checked) {
-    return (
-      <div className="flex-1 flex items-center justify-center">Loading...</div>
-    );
+    return <ToolsApiLoader show respectToolsSidebar={false} />;
   }
 
   if (!token) return null;

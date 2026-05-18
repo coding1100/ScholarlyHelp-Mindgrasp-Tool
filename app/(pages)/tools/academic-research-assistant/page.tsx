@@ -7,6 +7,7 @@ import { Toaster, toast } from "react-hot-toast";
 import MainToolLayout from "@/app/components/AiTools/MainTool/MainToolLayout";
 import EditorContainer from "@/app/components/AiTools/MainTool/EditorContainer";
 import MainDocEditer from "@/app/components/AiTools/MainTool/MainDocEditer";
+import { ToolsSuspenseFallback } from "@/app/components/AiTools/ToolsApiLoader";
 
 const ClientPage = () => {
   const searchParams = useSearchParams();
@@ -57,7 +58,7 @@ const ClientPage = () => {
 
 const Page = () => {
   return (
-    <Suspense fallback={<div />}>
+    <Suspense fallback={<ToolsSuspenseFallback />}>
       <ClientPage />
     </Suspense>
   );

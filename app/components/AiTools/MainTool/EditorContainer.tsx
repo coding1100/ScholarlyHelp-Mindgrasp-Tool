@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import ParagraphEditor from "./ParagraphEditor";
 import { TitleContext } from "./MainToolLayout";
 import { getAcademicErrorMessage, getDocument } from "./academicResearchApi";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 // import FloatingToolbar from "./FloatingToolbar";
 
 interface EditorContainerProps {
@@ -51,20 +52,17 @@ const EditorContainer: React.FC<EditorContainerProps> = ({
   return (
     <div
       data-tour="ara-editor"
-      className="min-h-screen flex flex-col"
+      className="relative min-h-screen flex flex-col"
     >
       {/* <TopHeader /> */}
       <div className="flex-1 flex justify-center items-start pt-8">
-        <div className="w-full max-w-3xl  p-6 border-none">
-          {loadingDocument ? (
-            <div className="text-sm text-gray-500">Loading document...</div>
-          ) : (
-            <ParagraphEditor
-              outlineResponse={outlineResponse}
-              documentId={documentId}
-              initialContent={initialContent}
-            />
-          )}
+        <div className="relative w-full max-w-3xl p-6 border-none">
+          <ToolsApiLoader show={loadingDocument} contained />
+          <ParagraphEditor
+            outlineResponse={outlineResponse}
+            documentId={documentId}
+            initialContent={initialContent}
+          />
         </div>
       </div>
       {/* <FloatingToolbar /> */}
