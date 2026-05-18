@@ -7,6 +7,7 @@ import {
   listDocuments,
   type DocumentRecord,
 } from "./academicResearchApi";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 
 export interface DocumentItem {
   id: string | number;
@@ -104,12 +105,8 @@ const DocumentsSidebar: React.FC<DocumentsSidebarProps> = ({
         />
       </div>
 
-      <div className="flex-1 overflow-auto">
-        {loading && (
-          <div className="px-4 py-3 text-sm text-gray-500">
-            Loading documents...
-          </div>
-        )}
+      <div className="relative flex-1 overflow-auto">
+        <ToolsApiLoader show={loading} contained />
         {!loading && filteredDocs.length === 0 && (
           <div className="px-4 py-3 text-sm text-gray-500">
             No documents found.

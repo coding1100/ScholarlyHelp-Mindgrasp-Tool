@@ -5,6 +5,7 @@ import axios from "axios";
 import { FaRegCopy } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { trackToolGenerate } from "@/app/utils/toolsSheetClient";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 
 type OutlineItem = {
   section: string;
@@ -54,7 +55,7 @@ const EssayOutlinetool = () => {
   };
 
   return (
-    <div className="container w-[89%] mx-auto h-[90vh] p-4 md:p-8">
+    <div className="container relative w-[89%] mx-auto h-[90vh] p-4 md:p-8">
       {/* <h1 className="text-2xl md:text-5xl text-center mb-4 font-serif">
         Essay Outliner Generator
       </h1> */}
@@ -78,12 +79,9 @@ const EssayOutlinetool = () => {
               <span>Copy</span>
             </button>
           </div>
-          <div className="max-h-[500px] overflow-auto p-4">
-            {isSubmitting ? (
-              <p className="text-gray-700 dark:text-gray-200">
-                Generating Essay...
-              </p>
-            ) : (
+          <div className="relative max-h-[500px] overflow-auto p-4">
+            <ToolsApiLoader show={isSubmitting} contained />
+            {!isSubmitting && (
               <>
                 {outlineData.length === 0 ? (
                   <p className="text-gray-500 dark:text-gray-400">
