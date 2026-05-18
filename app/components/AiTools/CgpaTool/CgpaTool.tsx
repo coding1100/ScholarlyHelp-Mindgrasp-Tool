@@ -23,6 +23,7 @@ import {
 } from "./utils/calc";
 import { formatCgpaForEmailAndSync, isValidEmail } from "./utils/gpaEmail";
 import { syncCgpaToGhl } from "./utils/ghlCgpaSync";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 import { usePathname } from "next/navigation";
 import { FaCheck } from "react-icons/fa";
 
@@ -238,8 +239,9 @@ export default function CgpaTool(props: CgpaToolProps = {}) {
 
   return (
     <div
-      className={`container ${currentRoute === "/tools/cgpa-calculator/" && "overflow-y-auto h-[90vh] "} mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl`}
+      className={`container relative ${currentRoute === "/tools/cgpa-calculator/" && "overflow-y-auto h-[90vh] "} mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl`}
     >
+      <ToolsApiLoader show={isSending} />
       <div className="bg-white dark:bg-gray-800 overflow-hidden transition-colors duration-300">
         <div className="w-full">
           <div className="mx-auto">

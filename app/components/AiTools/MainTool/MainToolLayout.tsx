@@ -130,7 +130,13 @@ const MainToolLayout: React.FC<MainToolLayoutProps> = ({
   };
 
   if (!checked) {
-    return <ToolsApiLoader show respectToolsSidebar={false} />;
+    return (
+      <ToolsApiLoader
+        show
+        respectToolsSidebar={false}
+        respectToolHeader={false}
+      />
+    );
   }
 
   if (!token) return null;
