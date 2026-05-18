@@ -8,6 +8,8 @@ export type ToolsApiLoaderProps = {
   contained?: boolean;
   /** Offset for the desktop tools sidebar (w-60) when using a full-area overlay */
   respectToolsSidebar?: boolean;
+  /** Offset below ToolHeader (8vh) on /tools/* layout pages */
+  respectToolHeader?: boolean;
   /** Larger GIF for main workspace overlays; use "md" for sidebars/cards */
   size?: "md" | "lg";
   className?: string;
@@ -22,6 +24,7 @@ export function ToolsApiLoader({
   show,
   contained = false,
   respectToolsSidebar = true,
+  respectToolHeader = true,
   size,
   className = "",
 }: ToolsApiLoaderProps) {
@@ -33,8 +36,9 @@ export function ToolsApiLoader({
   const positionClasses = contained
     ? "absolute inset-0 z-50"
     : [
-        "fixed inset-0 z-[100]",
-        respectToolsSidebar ? "lg:left-60" : "",
+        "fixed z-[100] right-0 bottom-0",
+        respectToolHeader ? "top-[8vh]" : "top-0",
+        respectToolsSidebar ? "left-0 lg:left-60" : "left-0",
       ].join(" ");
 
   return (

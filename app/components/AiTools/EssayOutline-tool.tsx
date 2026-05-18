@@ -59,6 +59,7 @@ const EssayOutlinetool = () => {
       {/* <h1 className="text-2xl md:text-5xl text-center mb-4 font-serif">
         Essay Outliner Generator
       </h1> */}
+      <ToolsApiLoader show={isSubmitting} />
       <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
         {/* Left Column */}
         <EssayOutlinerForm
@@ -79,8 +80,7 @@ const EssayOutlinetool = () => {
               <span>Copy</span>
             </button>
           </div>
-          <div className="relative max-h-[500px] overflow-auto p-4">
-            <ToolsApiLoader show={isSubmitting} contained />
+          <div className="max-h-[500px] overflow-auto p-4">
             {!isSubmitting && (
               <>
                 {outlineData.length === 0 ? (
