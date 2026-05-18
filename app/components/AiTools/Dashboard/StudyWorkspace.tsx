@@ -22,11 +22,23 @@ import {
   FiZap,
 } from "react-icons/fi";
 import {
+  detectStudyChatIntent,
+  intentSuggestedMode,
+  intentTargetTab,
+} from "@/app/lib/client/studyIntent";
+import {
+  getStoredExamTopics,
+  getStoredStudyMode,
+  setStoredExamTopics,
+  setStoredStudyMode,
+} from "@/app/lib/client/studyModeStorage";
+import {
   addStudySource,
   generateStudyArtifact,
   getStudySessionDetails,
   streamStudyTutor,
   StudyArtifactType,
+  StudyLearningMode,
   TutorAttachmentInput,
   TutorMessageDto,
 } from "@/app/utils/studyApiClient";
@@ -37,6 +49,9 @@ import {
   StudyRecordingResult,
   StudyRecordingSnapshot,
 } from "@/app/lib/client/studyRecording";
+import ExamTopicsModal from "@/app/components/AiTools/Dashboard/ExamTopicsModal";
+import StudyLearningModeBar from "@/app/components/AiTools/Dashboard/StudyLearningModeBar";
+import StudyQuizPanel from "@/app/components/AiTools/Dashboard/StudyQuizPanel";
 
 type WorkspaceTab = "original" | "notes" | "summary" | "flashcards" | "quizzes";
 
@@ -384,11 +399,21 @@ export default function StudyWorkspace() {
   const [isTutorResponding, setIsTutorResponding] = useState(false);
   const [isMicListening, setIsMicListening] = useState(false);
   const [pendingAttachment, setPendingAttachment] = useState<TutorAttachmentInput | null>(null);
+  const [learningMode, setLearningMode] = useState<StudyLearningMode>("research");
+  const [examTopics, setExamTopics] = useState<string[]>([]);
+  const [showExamTopicsModal, setShowExamTopicsModal] = useState(false);
+  const [quizQuestionIndex, setQuizQuestionIndex] = useState(0);
   const handledRecordingResultIds = useRef<Set<string>>(new Set());
   const livePreviewRef = useRef<HTMLVideoElement | null>(null);
   const tutorMessagesScrollRef = useRef<HTMLDivElement | null>(null);
   const tutorAttachmentInputRef = useRef<HTMLInputElement | null>(null);
   const speechRecognitionRef = useRef<SpeechRecognitionInstance | null>(null);
+
+  useEffect(() => {
+    if (!sessionId) return;
+    setLearningMode(getStoredStudyMode(sessionId));
+    setExamTopics(getStoredExamTopics(sessionId));
+  }, [sessionId]);
 
   useEffect(() => {
     if (!sessionId) {
@@ -490,7 +515,13 @@ export default function StudyWorkspace() {
 
   const notesContent = (artifacts.notes || {}) as {
     title?: string;
-    sections?: Array<{ heading?: string; bullets?: string[] }>;
+    mode?: string;
+    examTips?: string[];
+    sections?: Array<{
+      heading?: string;
+      priority?: string;
+      bullets?: string[];
+    }>;
   };
 
   const flashcardsContent = (artifacts.flashcards || []) as Array<{
@@ -505,6 +536,8 @@ export default function StudyWorkspace() {
     options: string[];
     correctAnswerIndex: number;
     explanation: string;
+    difficulty?: string;
+    questionType?: string;
   }>;
 
   useEffect(() => {
@@ -515,7 +548,25 @@ export default function StudyWorkspace() {
   useEffect(() => {
     setQuizSelections({});
     setQuizSubmitted(false);
+    setQuizQuestionIndex(0);
   }, [artifacts.quizzes]);
+
+  const handleModeChange = (mode: StudyLearningMode) => {
+    setLearningMode(mode);
+    if (sessionId) setStoredStudyMode(sessionId, mode);
+    if (mode === "exam") setShowExamTopicsModal(true);
+  };
+
+  const applyExamTopics = (topics: string[]) => {
+    setExamTopics(topics);
+    if (sessionId) setStoredExamTopics(sessionId, topics);
+    setShowExamTopicsModal(false);
+    toast.success(
+      topics.length > 0
+        ? `Exam focus set (${topics.length} topics)`
+        : "Exam mode enabled — add topics anytime",
+    );
+  };
 
   useEffect(() => {
     if (!sessionId || typeof window === "undefined") return;
@@ -699,25 +750,63 @@ export default function StudyWorkspace() {
     }
   };
 
-  const runGeneration = async (type: StudyArtifactType) => {
+  const runGeneration = async (
+    type: StudyArtifactType,
+    options?: { mode?: StudyLearningMode; forceExamTopics?: boolean },
+  ) => {
     if (!sessionId) {
       toast.error("Session is still loading. Please wait.");
       return;
     }
+    const mode = options?.mode ?? learningMode;
+    let topics = examTopics;
+    if (
+      mode === "exam" &&
+      topics.length === 0 &&
+      (type === "notes" || type === "quizzes")
+    ) {
+      if (options?.forceExamTopics !== false) {
+        setShowExamTopicsModal(true);
+        toast("Pick exam topics first for focused results");
+        return;
+      }
+    }
+    if (mode === "quiz" && type === "notes") {
+      topics = [];
+    }
     setIsLoading(true);
     try {
-      const result = await generateStudyArtifact(sessionId, type);
+      const result = await generateStudyArtifact(sessionId, type, {
+        mode: type === "summary" || type === "flashcards" ? mode : mode,
+        examTopics: topics,
+      });
       setArtifacts((prev) => ({
         ...prev,
         [type]: result.content,
       }));
-      toast.success(`${type} generated`);
+      const labels: Record<StudyArtifactType, string> = {
+        notes: "Study notes",
+        summary: "Summary",
+        flashcards: "Flashcards",
+        quizzes: "Quiz",
+      };
+      toast.success(`${labels[type]} ready (${mode} mode)`);
     } catch (error) {
       console.error(`Failed to generate ${type}`, error);
       toast.error(`Failed to generate ${type}`);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const requestGenerate = (type: StudyArtifactType) => {
+    const mode =
+      type === "quizzes" || type === "flashcards"
+        ? learningMode === "exam"
+          ? "exam"
+          : "quiz"
+        : learningMode;
+    void runGeneration(type, { mode });
   };
 
   const clearPendingAttachment = () => {
@@ -813,6 +902,27 @@ export default function StudyWorkspace() {
     }
     const message = tutorInput.trim();
     if (!message) return;
+
+    const intent = detectStudyChatIntent(message);
+    const suggestedMode = intentSuggestedMode(intent);
+    let tutorMode = learningMode;
+    if (suggestedMode) {
+      tutorMode = suggestedMode;
+      setLearningMode(suggestedMode);
+      setStoredStudyMode(sessionId, suggestedMode);
+    }
+    const targetTab = intentTargetTab(intent);
+    if (targetTab) {
+      setActiveTab(targetTab);
+      if (suggestedMode === "exam") setShowExamTopicsModal(true);
+      if (intent.type === "exam_notes") {
+        toast("Opening exam-focused notes — pick topics if prompted, then generate in AI Notes.");
+      }
+      if (intent.type === "generate_quiz" || intent.type === "generate_questions") {
+        toast("Use Generate in the Quizzes tab for practice questions.");
+      }
+    }
+
     const attachments = pendingAttachment ? [pendingAttachment] : undefined;
 
     const optimisticUser: TutorMessageDto = {
@@ -849,7 +959,12 @@ export default function StudyWorkspace() {
       };
       setTutorMessages((prev) => [...prev, assistantMessage]);
       let streamedText = "";
-      await streamStudyTutor(sessionId, message, attachments, {
+      await streamStudyTutor(
+        sessionId,
+        message,
+        attachments,
+        { mode: tutorMode, examTopics },
+        {
         onChunk: (chunk) => {
           streamedText += chunk;
           setTutorMessages((prev) =>
@@ -888,7 +1003,8 @@ export default function StudyWorkspace() {
             ),
           );
         },
-      });
+      },
+      );
     } catch (error) {
       console.error("Failed to get tutor reply", error);
       const reason =
@@ -1003,6 +1119,12 @@ export default function StudyWorkspace() {
           }`}
         >
           <div className="shrink-0 border-b border-[#e3e7ff] bg-gradient-to-r from-[#f4f6ff] to-[#eef1ff] px-3 py-2 rounded-tr-[15px] rounded-tl-[15px]">
+            <StudyLearningModeBar
+              mode={learningMode}
+              examTopicCount={examTopics.length}
+              onModeChange={handleModeChange}
+              onConfigureExamTopics={() => setShowExamTopicsModal(true)}
+            />
             <div className="flex flex-wrap gap-1">
               {TABS.map((tab) => (
                 <button
@@ -1254,20 +1376,39 @@ export default function StudyWorkspace() {
               <TabCard
                 title="AI Notes"
                 subtitle="Generate detailed notes covering the important information in your original content"
-                onGenerate={() => runGeneration("notes")}
+                onGenerate={() => requestGenerate("notes")}
                 isLoading={isLoading}
               >
                 {notesContent.sections?.length ? (
                   <div className="mt-5 space-y-3 text-left">
+                    {notesContent.examTips && notesContent.examTips.length > 0 ? (
+                      <div className="rounded-lg border border-[#c9d1ff] bg-[#f5f7ff] p-3">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-[#5f70ff]">
+                          Exam tips
+                        </p>
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#4c4e66]">
+                          {notesContent.examTips.map((tip, i) => (
+                            <li key={`exam-tip-${i}`}>{decodeHtmlEntities(tip)}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
                     {notesContent.sections.map((section, index) => (
                       <div
                         key={`note-section-${index}`}
                         className="rounded-lg border border-[#e3e4f3] p-3"
                       >
-                        <p className="text-sm font-semibold text-[#27283b]">
-                          {decodeHtmlEntities(section.heading || "Section")}
-                        </p>
-                        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#4c4e66]">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="text-sm font-semibold text-[#27283b]">
+                            {decodeHtmlEntities(section.heading || "Section")}
+                          </p>
+                          {section.priority === "must-know" ? (
+                            <span className="rounded-full bg-[#ffe8e8] px-2 py-0.5 text-[10px] font-bold uppercase text-[#b42318]">
+                              Must know
+                            </span>
+                          ) : null}
+                        </div>
+                        <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-[#4c4e66]">
                           {(section.bullets || []).map((bullet, bulletIdx) => (
                             <li key={`bullet-${index}-${bulletIdx}`}>
                               {decodeHtmlEntities(String(bullet))}
@@ -1285,7 +1426,7 @@ export default function StudyWorkspace() {
               <TabCard
                 title="AI Summary"
                 subtitle="Create a clear and easy-to-understand summary of your content"
-                onGenerate={() => runGeneration("summary")}
+                onGenerate={() => requestGenerate("summary")}
                 isLoading={isLoading}
               >
                 {summaryContent.short || summaryContent.detailed ? (
@@ -1375,7 +1516,7 @@ export default function StudyWorkspace() {
                   <TabCard
                     title="AI Flashcards"
                     subtitle="Create active-recall flashcards from your content"
-                    onGenerate={() => runGeneration("flashcards")}
+                    onGenerate={() => requestGenerate("flashcards")}
                     isLoading={isLoading}
                   />
                 )}
@@ -1392,12 +1533,12 @@ export default function StudyWorkspace() {
                       onClick={() => setQuizSubmitted((prev) => !prev)}
                       className="rounded-md bg-[#5f70ff] px-3 py-1.5 text-xs font-semibold text-white"
                     >
-                      {quizSubmitted ? "Review Mode" : "Create Quiz"}
+                      {quizSubmitted ? "Review all" : "Practice mode"}
                     </button>
                   ) : (
                     <button
                       type="button"
-                      onClick={() => runGeneration("quizzes")}
+                      onClick={() => requestGenerate("quizzes")}
                       className="rounded-md bg-[#5f70ff] px-3 py-1.5 text-xs font-semibold text-white"
                     >
                       {isLoading ? "Creating..." : "Create Quiz"}
@@ -1405,69 +1546,19 @@ export default function StudyWorkspace() {
                   )}
                 </div>
 
-                {quizzesContent.length === 0 ? (
-                  <div className="rounded-md bg-[#f4f5fc] py-3 text-center text-sm text-[#797da0]">
-                    No quizzes found
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {quizzesContent.map((quiz, qIndex) => (
-                      <div key={quiz.id} className="rounded-md border border-[#e8e9f6] p-3">
-                        <p className="text-sm font-semibold text-[#292a40]">
-                          {qIndex + 1}. {decodeHtmlEntities(quiz.question)}
-                        </p>
-                        <div className="mt-2 space-y-1">
-                          {quiz.options.map((option, idx) => {
-                            const selected = quizSelections[quiz.id] === idx;
-                            const correct = idx === quiz.correctAnswerIndex;
-                            return (
-                              <button
-                                key={`${quiz.id}-${idx}`}
-                                type="button"
-                                onClick={() =>
-                                  setQuizSelections((prev) => ({ ...prev, [quiz.id]: idx }))
-                                }
-                                className={`w-full rounded-md px-2 py-2 text-left text-sm ${
-                                  quizSubmitted && correct
-                                    ? "bg-emerald-100 text-emerald-800"
-                                    : quizSubmitted && selected && !correct
-                                      ? "bg-red-100 text-red-700"
-                                      : selected
-                                        ? "bg-[#e8ebff] text-[#3441b5]"
-                                        : "bg-[#f7f8ff] text-[#4f5373]"
-                                }`}
-                              >
-                                {decodeHtmlEntities(option)}
-                              </button>
-                            );
-                          })}
-                        </div>
-                        {quizSubmitted ? (
-                          <p className="mt-2 text-xs text-[#696d8d]">
-                            {decodeHtmlEntities(quiz.explanation)}
-                          </p>
-                        ) : null}
-                      </div>
-                    ))}
-                    <div className="flex items-center justify-between rounded-md border border-[#e8e9f6] px-3 py-2 text-xs text-[#65698a]">
-                      <span>
-                        Answered {answeredCount}/{quizzesContent.length}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setQuizSubmitted(true)}
-                        className="rounded-md bg-[#5f70ff] px-2 py-1 font-semibold text-white"
-                      >
-                        Submit
-                      </button>
-                      {quizSubmitted ? (
-                        <span className="font-semibold">
-                          Score: {quizScore}/{quizzesContent.length}
-                        </span>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
+                <StudyQuizPanel
+                  quizzes={quizzesContent}
+                  quizQuestionIndex={quizQuestionIndex}
+                  setQuizQuestionIndex={setQuizQuestionIndex}
+                  quizSelections={quizSelections}
+                  setQuizSelections={setQuizSelections}
+                  quizSubmitted={quizSubmitted}
+                  setQuizSubmitted={setQuizSubmitted}
+                  answeredCount={answeredCount}
+                  quizScore={quizScore}
+                  isLoading={isLoading}
+                  onGenerate={() => requestGenerate("quizzes")}
+                />
               </div>
             ) : null}
           </div>
@@ -1759,6 +1850,14 @@ export default function StudyWorkspace() {
           }
         }
       `}</style>
+      {showExamTopicsModal && sessionId ? (
+        <ExamTopicsModal
+          sessionId={sessionId}
+          initialSelected={examTopics}
+          onClose={() => setShowExamTopicsModal(false)}
+          onConfirm={applyExamTopics}
+        />
+      ) : null}
     </section>
   );
 }

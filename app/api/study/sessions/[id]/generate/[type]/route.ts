@@ -6,7 +6,10 @@ import {
   upsertArtifact,
 } from "@/app/lib/server/study/repo";
 import { fail, getAuthenticatedUserId, ok } from "@/app/lib/server/study/http";
-import { StudyArtifactType } from "@/app/lib/server/study/types";
+import {
+  StudyArtifactType,
+  StudyLearningMode,
+} from "@/app/lib/server/study/types";
 
 export const dynamic = "force-dynamic";
 
@@ -44,7 +47,25 @@ export async function POST(
       return fail("No source text found for this session");
     }
 
-    const content = await generateArtifact(type, mergedText);
+    let body: { mode?: StudyLearningMode; examTopics?: string[] } = {};
+    const rawBody = await request.text();
+    if (rawBody.trim()) {
+      try {
+        body = JSON.parse(rawBody) as typeof body;
+      } catch {
+        return fail("Invalid JSON body");
+      }
+    }
+
+    const mode =
+      body.mode === "exam" || body.mode === "quiz" || body.mode === "research"
+        ? body.mode
+        : "research";
+    const examTopics = Array.isArray(body.examTopics)
+      ? body.examTopics.map((t) => String(t).trim()).filter(Boolean).slice(0, 12)
+      : [];
+
+    const content = await generateArtifact(type, mergedText, { mode, examTopics });
     await upsertArtifact(params.id, type, content);
 
     return ok({ type, content });

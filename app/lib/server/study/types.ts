@@ -4,6 +4,9 @@ export type StudyArtifactType =
   | "flashcards"
   | "quizzes";
 
+/** How the AI should teach and prioritize content */
+export type StudyLearningMode = "research" | "quiz" | "exam";
+
 export type StudySourceKind = "text" | "url" | "file" | "youtube";
 
 export interface StudySession {
@@ -46,7 +49,11 @@ export interface TutorMessage {
   message: string;
   citations: number[];
   provenance?: "source" | "general" | "image";
-  /** User image uploads only; used for thumbnails in the tutor UI */
   attachments?: TutorMessageImageAttachment[];
   createdAt: Date;
+}
+
+export interface GenerateArtifactOptions {
+  mode?: StudyLearningMode;
+  examTopics?: string[];
 }

@@ -28,6 +28,13 @@ export interface StudySourceDto {
 
 export type StudyArtifactType = "notes" | "summary" | "flashcards" | "quizzes";
 
+export type StudyLearningMode = "research" | "quiz" | "exam";
+
+export interface GenerateStudyArtifactOptions {
+  mode?: StudyLearningMode;
+  examTopics?: string[];
+}
+
 export type TutorMessageImageDto = {
   name: string;
   mimeType: string;
@@ -188,14 +195,25 @@ export async function deleteStudySession(sessionId: string) {
   });
 }
 
+export async function fetchStudyExamTopics(sessionId: string) {
+  return callStudyApi<{ topics: string[] }>(`/sessions/${sessionId}/topics`, {
+    method: "GET",
+  });
+}
+
 export async function generateStudyArtifact(
   sessionId: string,
   type: StudyArtifactType,
+  options: GenerateStudyArtifactOptions = {},
 ) {
   return callStudyApi<{ type: StudyArtifactType; content: unknown }>(
     `/sessions/${sessionId}/generate/${type}`,
     {
       method: "POST",
+      body: JSON.stringify({
+        mode: options.mode || "research",
+        examTopics: options.examTopics || [],
+      }),
     },
   );
 }
@@ -222,6 +240,10 @@ export async function streamStudyTutor(
   sessionId: string,
   message: string,
   attachments: TutorAttachmentInput[] | undefined,
+  options: {
+    mode?: StudyLearningMode;
+    examTopics?: string[];
+  } | undefined,
   handlers: {
     onChunk: (text: string) => void;
     onDone?: (payload: {
@@ -239,7 +261,13 @@ export async function streamStudyTutor(
       "x-user-id": getUserId(),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ message, attachments, stream: true }),
+    body: JSON.stringify({
+      message,
+      attachments,
+      stream: true,
+      mode: options?.mode || "research",
+      examTopics: options?.examTopics || [],
+    }),
   });
   if (!res.ok || !res.body) {
     const payload = (await res.json().catch(() => null)) as ApiEnvelope<unknown> | null;

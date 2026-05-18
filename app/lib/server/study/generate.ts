@@ -1,5 +1,20 @@
-import { splitSentences, topChunksByQuery } from "@/app/lib/server/study/text";
-import { StudyArtifactType } from "@/app/lib/server/study/types";
+import { splitSentences } from "@/app/lib/server/study/text";
+import {
+  flashcardsSystemInstruction,
+  flashcardsUserPrompt,
+  notesSystemInstruction,
+  notesUserPrompt,
+  quizSystemInstruction,
+  quizUserPrompt,
+  summarySystemInstruction,
+  summaryUserPrompt,
+} from "@/app/lib/server/study/prompts";
+import { prioritizeSourceText } from "@/app/lib/server/study/sourcePriority";
+import {
+  GenerateArtifactOptions,
+  StudyArtifactType,
+  StudyLearningMode,
+} from "@/app/lib/server/study/types";
 import { generateGeminiText } from "@/app/lib/server/ai/gemini";
 
 function extractJsonBlock(raw: string) {
@@ -12,60 +27,60 @@ function parseJson<T>(raw: string): T {
   return JSON.parse(extractJsonBlock(raw)) as T;
 }
 
-async function buildSummary(sourceText: string) {
+function resolveMode(mode?: StudyLearningMode): StudyLearningMode {
+  return mode === "exam" || mode === "quiz" || mode === "research" ? mode : "research";
+}
+
+function prepareSource(
+  sourceText: string,
+  mode: StudyLearningMode,
+  examTopics: string[],
+): string {
+  return prioritizeSourceText(sourceText, mode, examTopics);
+}
+
+async function buildSummary(sourceText: string, mode: StudyLearningMode) {
+  const prepared = prepareSource(sourceText, mode, []);
   const raw = await generateGeminiText({
-    systemInstruction:
-      "You are an educational summarizer. Return valid JSON only without markdown fences.",
-    userPrompt: [
-      "Summarize the source text into JSON with this exact shape:",
-      '{ "short": "2-3 sentences", "detailed": "single concise paragraph under 220 words" }',
-      "Use only facts from source text. Do not invent missing details.",
-      "",
-      "SOURCE TEXT:",
-      sourceText.slice(0, 14000),
-    ].join("\n"),
+    systemInstruction: summarySystemInstruction(mode),
+    userPrompt: summaryUserPrompt(prepared, mode),
+    temperature: 0.3,
+    maxOutputTokens: 1200,
   });
   return parseJson<{ short: string; detailed: string }>(raw);
 }
 
-async function buildNotes(sourceText: string) {
+async function buildNotes(
+  sourceText: string,
+  mode: StudyLearningMode,
+  examTopics: string[],
+) {
+  const prepared = prepareSource(sourceText, mode, examTopics);
   const raw = await generateGeminiText({
-    systemInstruction:
-      "You are an academic study assistant. Return valid JSON only without markdown fences.",
-    userPrompt: [
-      "Create AI notes in JSON with shape:",
-      '{ "title": "AI Notes", "sections": [ { "heading": "string", "bullets": ["string"] } ] }',
-      "Rules:",
-      "- 3 to 6 sections",
-      "- each section has 3 to 6 concise bullets",
-      "- every bullet must come from source text",
-      "",
-      "SOURCE TEXT:",
-      sourceText.slice(0, 16000),
-    ].join("\n"),
+    systemInstruction: notesSystemInstruction(mode),
+    userPrompt: notesUserPrompt(prepared, mode, examTopics),
+    temperature: 0.35,
+    maxOutputTokens: 4096,
   });
   return parseJson<{
     title: string;
-    sections: Array<{ heading: string; bullets: string[] }>;
+    mode?: string;
+    examTips?: string[];
+    sections: Array<{
+      heading: string;
+      priority?: string;
+      bullets: string[];
+    }>;
   }>(raw);
 }
 
-async function buildFlashcards(sourceText: string) {
+async function buildFlashcards(sourceText: string, mode: StudyLearningMode) {
+  const prepared = prepareSource(sourceText, mode, []);
   const raw = await generateGeminiText({
-    systemInstruction:
-      "You are a flashcard generator for students. Return valid JSON only without markdown fences.",
-    userPrompt: [
-      "Generate flashcards as JSON array with each item shape:",
-      '{ "id": "card-1", "front": "question", "back": "answer" }',
-      "Rules:",
-      "- 8 to 12 cards",
-      "- no duplicate cards",
-      "- questions should be specific and source-grounded",
-      "- answers must be factual and concise",
-      "",
-      "SOURCE TEXT:",
-      sourceText.slice(0, 16000),
-    ].join("\n"),
+    systemInstruction: flashcardsSystemInstruction(),
+    userPrompt: flashcardsUserPrompt(prepared, mode),
+    temperature: 0.35,
+    maxOutputTokens: 4096,
   });
   const cards = parseJson<Array<{ id: string; front: string; back: string }>>(raw);
   return cards.map((card, index) => ({
@@ -75,22 +90,17 @@ async function buildFlashcards(sourceText: string) {
   }));
 }
 
-async function buildQuiz(sourceText: string) {
+async function buildQuiz(
+  sourceText: string,
+  mode: StudyLearningMode,
+  examTopics: string[],
+) {
+  const prepared = prepareSource(sourceText, mode, examTopics);
   const raw = await generateGeminiText({
-    systemInstruction:
-      "You are a quiz generator. Return valid JSON only without markdown fences.",
-    userPrompt: [
-      "Generate 5 to 8 multiple-choice quiz items from source text.",
-      "Return JSON array with each item shape:",
-      '{ "id": "quiz-1", "question": "string", "options": ["A","B","C","D"], "correctAnswerIndex": 0, "explanation": "string" }',
-      "Rules:",
-      "- exactly 4 options each",
-      "- correctAnswerIndex must be between 0 and 3",
-      "- explanation must be grounded in source text",
-      "",
-      "SOURCE TEXT:",
-      sourceText.slice(0, 16000),
-    ].join("\n"),
+    systemInstruction: quizSystemInstruction(),
+    userPrompt: quizUserPrompt(prepared, mode, examTopics),
+    temperature: 0.4,
+    maxOutputTokens: 4096,
   });
   const quizzes = parseJson<
     Array<{
@@ -99,6 +109,8 @@ async function buildQuiz(sourceText: string) {
       options: string[];
       correctAnswerIndex: number;
       explanation: string;
+      difficulty?: string;
+      questionType?: string;
     }>
   >(raw);
   return quizzes.map((quiz, index) => ({
@@ -108,10 +120,10 @@ async function buildQuiz(sourceText: string) {
       Array.isArray(quiz.options) && quiz.options.length === 4
         ? quiz.options.map((option) => String(option))
         : [
-            "Insufficient options generated.",
-            "Insufficient options generated.",
-            "Insufficient options generated.",
-            "Insufficient options generated.",
+            "Option A",
+            "Option B",
+            "Option C",
+            "Option D",
           ],
     correctAnswerIndex:
       typeof quiz.correctAnswerIndex === "number" &&
@@ -120,26 +132,36 @@ async function buildQuiz(sourceText: string) {
         ? quiz.correctAnswerIndex
         : 0,
     explanation: String(quiz.explanation || "").trim(),
+    difficulty: quiz.difficulty || "medium",
+    questionType: quiz.questionType || "recall",
   }));
 }
 
-export async function generateArtifact(type: StudyArtifactType, sourceText: string) {
+export async function generateArtifact(
+  type: StudyArtifactType,
+  sourceText: string,
+  options: GenerateArtifactOptions = {},
+) {
+  const mode = resolveMode(options.mode);
+  const examTopics = (options.examTopics || []).map((t) => t.trim()).filter(Boolean);
+
   try {
     switch (type) {
       case "summary":
-        return await buildSummary(sourceText);
+        return await buildSummary(sourceText, mode);
       case "notes":
-        return await buildNotes(sourceText);
+        return await buildNotes(sourceText, mode, examTopics);
       case "flashcards":
-        return await buildFlashcards(sourceText);
+        return await buildFlashcards(sourceText, mode);
       case "quizzes":
-        return await buildQuiz(sourceText);
+        return await buildQuiz(sourceText, mode, examTopics);
       default:
         return { message: "Unsupported generation type." };
     }
   } catch (error) {
     console.error("study.generateArtifact.llm", error);
-    const fallbackSentences = splitSentences(sourceText);
+    const prioritized = prepareSource(sourceText, mode, examTopics);
+    const fallbackSentences = splitSentences(prioritized);
     if (type === "summary") {
       return {
         short: fallbackSentences.slice(0, 3).join(" "),
@@ -148,10 +170,15 @@ export async function generateArtifact(type: StudyArtifactType, sourceText: stri
     }
     if (type === "notes") {
       return {
-        title: "AI Notes",
+        title: mode === "exam" ? "Exam Study Guide" : "Study Notes",
+        mode,
+        examTips:
+          mode === "exam"
+            ? ["Review headings and repeated terms in your source.", "Focus on definitions marked as important."]
+            : undefined,
         sections: [
-          { heading: "Key Concepts", bullets: fallbackSentences.slice(0, 6) },
-          { heading: "Important Details", bullets: fallbackSentences.slice(6, 12) },
+          { heading: "Key Ideas", priority: "must-know", bullets: fallbackSentences.slice(0, 6) },
+          { heading: "Details to Review", bullets: fallbackSentences.slice(6, 12) },
         ].filter((section) => section.bullets.length > 0),
       };
     }
@@ -162,7 +189,7 @@ export async function generateArtifact(type: StudyArtifactType, sourceText: stri
           front: "What is the main idea in your uploaded source?",
           back:
             fallbackSentences[0] ||
-            "Upload richer source text to generate stronger, source-grounded flashcards.",
+            "Upload richer source text to generate stronger flashcards.",
         },
       ];
     }
@@ -170,65 +197,20 @@ export async function generateArtifact(type: StudyArtifactType, sourceText: stri
       return [
         {
           id: "quiz-1",
-          question: "Which statement best reflects your source text?",
+          question: "Which statement best reflects your source?",
           options: [
             fallbackSentences[0] || "Not enough source text.",
-            "A contradictory statement.",
-            "An unrelated interpretation.",
-            "No conclusion can be drawn.",
+            "A statement that contradicts the source.",
+            "An unrelated fact.",
+            "None of the above.",
           ],
           correctAnswerIndex: 0,
-          explanation: "The first option is derived directly from your source text.",
+          explanation: "This matches your uploaded source material.",
+          difficulty: "easy",
+          questionType: "recall",
         },
       ];
     }
     return { message: "Unsupported generation type." };
-  }
-}
-
-export async function buildTutorReply(
-  sourceChunks: string[],
-  prompt: string,
-): Promise<{ answer: string; citations: number[] }> {
-  const ranked = topChunksByQuery(sourceChunks, prompt, 3);
-  const citations = ranked.map((r) => r.index);
-
-  const context = ranked
-    .map((item) => `[${item.index}] ${item.chunk}`)
-    .join("\n\n");
-
-  if (!context) {
-    return {
-      answer:
-        "I could not find matching source context for this question yet. Please add more source text to the session.",
-      citations: [],
-    };
-  }
-
-  try {
-    const answer = await generateGeminiText({
-      systemInstruction:
-        "You are an academic AI tutor. Answer strictly from provided source context. If unsure, say context is insufficient.",
-      userPrompt: [
-        "QUESTION:",
-        prompt,
-        "",
-        "SOURCE CONTEXT WITH CITATION IDS:",
-        context,
-        "",
-        "Output concise explanation. Reference citation ids like [12] inline where relevant.",
-      ].join("\n"),
-      temperature: 0.25,
-      maxOutputTokens: 900,
-    });
-    return { answer, citations };
-  } catch (error) {
-    console.error("study.buildTutorReply.llm", error);
-    const fallbackAnswer = [
-      "Based on your uploaded source, here is what I found:",
-      ranked.map((item) => `- ${item.chunk}`).join("\n"),
-      "I can explain this further, or turn it into notes/flashcards.",
-    ].join("\n\n");
-    return { answer: fallbackAnswer, citations };
   }
 }
