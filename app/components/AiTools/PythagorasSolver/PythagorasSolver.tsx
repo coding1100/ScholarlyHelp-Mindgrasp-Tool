@@ -5,6 +5,7 @@ import { FaRegCopy } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { trackToolGenerate } from "@/app/utils/toolsSheetClient";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 
 interface PythagorasSolverProps {
   setFlag: (value: boolean) => void;
@@ -162,7 +163,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
   };
 
   return (
-    <div className="container overflow-y-auto h-[90vh] mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl">
+    <div className="container overflow-y-auto h-[90vh] mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl relative">
       <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 overflow-hidden transition-colors duration-300">
         {/* Main Overview Section */}
         <div className="pt-6">
@@ -466,15 +467,7 @@ const PythagorasSolver: FC<PythagorasSolverProps> = ({ setFlag }) => {
           </div>
         )}
 
-        {/* Loading State */}
-        {isSubmitting && !result && (
-          <div className="p-6 text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#155dfc] dark:border-[#51a2ff]"></div>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
-              Solving triangle...
-            </p>
-          </div>
-        )}
+        <ToolsApiLoader show={isSubmitting && !result} />
       </div>
 
       {/* Footer Quote */}

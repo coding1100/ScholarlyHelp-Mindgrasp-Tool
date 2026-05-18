@@ -533,14 +533,14 @@ const MTSidebar = ({
                   >
                     <button
                       type="button"
-                      className="flex w-full cursor-pointer items-center gap-2 rounded-md bg-white px-2 py-1.5 text-left text-sm font-semibold text-gray-800 shadow-sm transition-colors hover:bg-primary-100"
+                      className="flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm text-gray-700 transition-colors hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
                       onClick={() =>
                         onNewDocument
                           ? onNewDocument()
                           : setPromptModalOpen(true)
                       }
                     >
-                      <FiPlus className="h-4 w-4 text-primary-400" />
+                      <FiPlus className="h-4 w-4" />
                       <span>New</span>
                     </button>
                     {assistantActions.map((item) => (

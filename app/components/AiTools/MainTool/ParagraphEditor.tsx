@@ -307,6 +307,23 @@ const NodeWithControls: React.FC<NodeViewProps> = (props) => {
 // AI Suggestion Plugin Key
 const suggestionPluginKey = new PluginKey("aiSuggestion");
 
+const createSuggestionLoadingWidget = () => {
+  const span = document.createElement("span");
+  span.className =
+    "inline-flex items-center gap-[3px] ml-0.5 align-baseline pointer-events-none";
+  span.setAttribute("data-suggestion-loading", "true");
+  span.setAttribute("aria-label", "Loading suggestion");
+
+  for (let i = 0; i < 3; i += 1) {
+    const dot = document.createElement("span");
+    dot.className = "inline-block h-1 w-1 rounded-full bg-gray-400 animate-bounce";
+    dot.style.animationDelay = `${i * 0.15}s`;
+    span.appendChild(dot);
+  }
+
+  return span;
+};
+
 // Create AI Suggestion Extension
 const AISuggestionExtension = Extension.create({
   name: "aiSuggestion",
@@ -333,6 +350,14 @@ const AISuggestionExtension = Extension.create({
                   span.setAttribute("data-suggestion", "true");
                   return span;
                 },
+                { side: 1 },
+              );
+              return DecorationSet.create(tr.doc, [decoration]);
+            } else if (action?.type === "addSuggestionLoading") {
+              const { pos } = action;
+              const decoration = Decoration.widget(
+                pos,
+                () => createSuggestionLoadingWidget(),
                 { side: 1 },
               );
               return DecorationSet.create(tr.doc, [decoration]);
@@ -382,6 +407,23 @@ const AISuggestionExtension = Extension.create({
         }) => {
           if (dispatch) {
             tr.setMeta(suggestionPluginKey, { type: "clearSuggestion" });
+          }
+          return true;
+        },
+      addAISuggestionLoading:
+        (pos: number) =>
+        ({
+          tr,
+          dispatch,
+        }: {
+          tr: Transaction;
+          dispatch?: (tr: Transaction) => void;
+        }) => {
+          if (dispatch) {
+            tr.setMeta(suggestionPluginKey, {
+              type: "addSuggestionLoading",
+              pos,
+            });
           }
           return true;
         },
@@ -439,6 +481,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
   const suggestionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSuggestionKeyRef = useRef("");
   const suggestionRequestIdRef = useRef(0);
+  const suggestionLoadingRef = useRef(false);
   const suppressSuggestionRef = useRef(false);
   const lastLoadedDocumentIdRef = useRef<string | null>(null);
 
@@ -612,7 +655,24 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     [editor, getTopic],
   );
 
+  const clearSuggestionLoading = useCallback(() => {
+    suggestionLoadingRef.current = false;
+    (editor?.commands as any)?.clearAISuggestion?.();
+  }, [editor]);
+
+  const showSuggestionLoading = useCallback(
+    (pos: number) => {
+      if (!editor) return;
+      suggestionLoadingRef.current = true;
+      const commands = editor.commands as any;
+      commands.clearAISuggestion?.();
+      commands.addAISuggestionLoading?.(pos);
+    },
+    [editor],
+  );
+
   const clearSuggestion = useCallback(() => {
+    suggestionLoadingRef.current = false;
     setAISuggestion("");
     setSuggestionCursorPos(null);
     const commands = editor?.commands as any;
@@ -654,6 +714,11 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
 
       if (!transaction.docChanged || !editorHasEffectiveFocus(editor)) {
         return;
+      }
+
+      if (suggestionLoadingRef.current) {
+        suggestionRequestIdRef.current += 1;
+        clearSuggestionLoading();
       }
 
       if (suggestionTimerRef.current) {
@@ -711,12 +776,21 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
           content_sofar,
         };
 
+        setAISuggestion("");
+        setSuggestionCursorPos(null);
+        showSuggestionLoading(pos);
+
         try {
           const suggestion = await fetchAISuggestion(payload);
           if (requestId !== suggestionRequestIdRef.current) return;
 
+          suggestionLoadingRef.current = false;
+
           const plainText = suggestion.replace(/<[^>]*>/g, "");
-          if (!plainText.trim()) return;
+          if (!plainText.trim()) {
+            clearSuggestionLoading();
+            return;
+          }
 
           lastSuggestionKeyRef.current = requestKey;
 
@@ -728,6 +802,8 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
           commands.addAISuggestion(pos, plainText);
           updateSuggestionButtonPosition(pos);
         } catch (error) {
+          if (requestId !== suggestionRequestIdRef.current) return;
+          clearSuggestionLoading();
           const message = getAcademicErrorMessage(
             error,
             "AI suggestion failed.",
@@ -755,6 +831,8 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     getSectionContextAt,
     autoComplete,
     clearSuggestion,
+    clearSuggestionLoading,
+    showSuggestionLoading,
     updateSuggestionButtonPosition,
   ]);
 
@@ -895,10 +973,17 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       content_sofar: content_sofar || "",
     };
 
+    setAISuggestion("");
+    setSuggestionCursorPos(null);
+    showSuggestionLoading(pos);
+
     try {
       const suggestion = await fetchAISuggestion(payload);
+      suggestionLoadingRef.current = false;
+
       const plainText = suggestion.replace(/<[^>]*>/g, "");
       if (!plainText.trim()) {
+        clearSuggestionLoading();
         toast.error("No suggestion returned. Try typing a bit more and wait.");
         return;
       }
@@ -917,6 +1002,7 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
       commands.clearAISuggestion();
       commands.addAISuggestion(pos, plainText);
     } catch (error) {
+      clearSuggestionLoading();
       const message = getAcademicErrorMessage(
         error,
         "Could not refresh suggestion.",
@@ -931,6 +1017,8 @@ const ParagraphEditor: React.FC<ParagraphEditorProps> = ({
     getTopic,
     getAllHeadings,
     getSectionContextAt,
+    showSuggestionLoading,
+    clearSuggestionLoading,
     updateSuggestionButtonPosition,
   ]);
 
