@@ -139,7 +139,7 @@ Difficulty: medium`;
   if (isLoading) {
     return (
       <div className="relative h-[calc(100vh-8vh)] overflow-y-auto flex mt-10 justify-center p-4 bg-linear-to-br from-gray-100 to-gray-200">
-        <ToolsApiLoader show contained respectToolsSidebar={false} />
+        <ToolsApiLoader show />
       </div>
     );
   }
