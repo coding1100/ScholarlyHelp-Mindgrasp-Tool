@@ -11,6 +11,12 @@ import {
   generateGeminiText,
   streamGeminiText,
 } from "@/app/lib/server/ai/gemini";
+import {
+  buildTutorUserPrompt,
+  tutorSystemInstruction,
+  TUTOR_MARKDOWN_RULES,
+} from "@/app/lib/server/study/prompts";
+import { StudyLearningMode } from "@/app/lib/server/study/types";
 
 export const dynamic = "force-dynamic";
 
@@ -24,15 +30,6 @@ type TutorAttachment = {
 type TutorProvenance = "source" | "general" | "image";
 
 const TUTOR_MAX_OUTPUT_TOKENS = 8192;
-
-const TUTOR_MARKDOWN_RULES = [
-  "Formatting (use GitHub-flavored Markdown):",
-  "- Use ### for section titles and leave a blank line after each heading.",
-  "- Use bullet lists (- item) for facts; one fact per line.",
-  "- Use **bold** for key terms; keep paragraphs short (2–4 sentences).",
-  "- Put a blank line between sections so it renders as separate blocks.",
-  "- Always complete every sentence, bullet, and section; never stop mid-word or mid-thought.",
-].join("\n");
 
 const TUTOR_SYSTEM_MARKDOWN =
   " Always format answers in readable Markdown (headings, lists, bold keywords, blank lines between sections).";
@@ -61,7 +58,7 @@ async function continuePartialTutorAnswer(input: {
   const tail = input.partialAnswer.slice(-12000);
   return generateGeminiText({
     systemInstruction:
-      `You continue an AI tutor reply. Output ONLY new text that follows the partial answer — do not repeat any prior sentences or bullets. Use Markdown; complete every sentence and bullet.${TUTOR_SYSTEM_MARKDOWN}`,
+      `You continue a friendly student tutor reply. Output ONLY new text after the partial answer — do not repeat prior content. Plain English; Markdown; complete every sentence.${TUTOR_SYSTEM_MARKDOWN}`,
     userPrompt: [
       "USER QUESTION:",
       input.userQuestion,
@@ -79,28 +76,8 @@ async function continuePartialTutorAnswer(input: {
   });
 }
 
-function buildSourceFirstPrompt(input: {
-  question: string;
-  context: string;
-  hasRelevantContext: boolean;
-}) {
-  return [
-    "QUESTION:",
-    input.question,
-    "",
-    "SOURCE CONTEXT WITH CITATION IDS:",
-    input.context || "(none)",
-    "",
-    "Rules:",
-    "- If source context is relevant, answer from it and cite ids like [2].",
-    "- If source context is not relevant or insufficient, still answer helpfully from general knowledge and start with exactly: Not from source:",
-    "- Keep the answer accurate and thorough enough to fully answer the question.",
-    "- Always finish complete sentences and bullets; do not truncate early.",
-    "",
-    TUTOR_MARKDOWN_RULES,
-    "",
-    `Has relevant source context: ${input.hasRelevantContext ? "yes" : "no"}`,
-  ].join("\n");
+function resolveLearningMode(mode?: string): StudyLearningMode {
+  return mode === "exam" || mode === "quiz" || mode === "research" ? mode : "research";
 }
 
 export async function POST(
@@ -124,7 +101,13 @@ export async function POST(
       message?: string;
       stream?: boolean;
       attachments?: TutorAttachment[];
+      mode?: StudyLearningMode;
+      examTopics?: string[];
     };
+    const learningMode = resolveLearningMode(body.mode);
+    const examTopics = Array.isArray(body.examTopics)
+      ? body.examTopics.map((t) => String(t).trim()).filter(Boolean).slice(0, 12)
+      : [];
     const message = (body?.message || "").trim();
     const useStream = Boolean(body?.stream);
     const imageAttachments = Array.isArray(body?.attachments)
@@ -145,7 +128,8 @@ export async function POST(
     }
 
     const { chunks } = await getSessionSourceText(params.id);
-    const ranked = topChunksByQuery(chunks, message, 3);
+    const chunkLimit = learningMode === "exam" ? 5 : 3;
+    const ranked = topChunksByQuery(chunks, message, chunkLimit);
     const citations = ranked.map((item) => item.index);
     const hasRelevantContext = ranked.some((item) => item.score > 0);
     const context = ranked.map((item) => `[${item.index}] ${item.chunk}`).join("\n\n");
@@ -200,7 +184,7 @@ export async function POST(
               if (parsedImages.length > 0) {
                 const multimodalAnswer = await generateGeminiMultimodalText({
                   systemInstruction:
-                    `You are a multimodal academic tutor. Analyze attached images and answer the question accurately. Distinguish observation from inference. If source context is relevant, also use it and cite ids like [2].${TUTOR_SYSTEM_MARKDOWN}`,
+                    `${tutorSystemInstruction(learningMode)} Analyze attached images clearly for a student. Distinguish what you see vs what you infer. Cite source ids like [2] when using context.${TUTOR_SYSTEM_MARKDOWN}`,
                   userPrompt: [
                     "QUESTION:",
                     messageWithAttachmentContext,
@@ -232,12 +216,13 @@ export async function POST(
               }
             } else {
               for await (const chunk of streamGeminiText({
-                systemInstruction:
-                  `You are an academic AI tutor. Prioritize source context, but if insufficient, still answer from general knowledge and clearly prefix with 'Not from source:'.${TUTOR_SYSTEM_MARKDOWN}`,
-                userPrompt: buildSourceFirstPrompt({
+                systemInstruction: `${tutorSystemInstruction(learningMode)}${TUTOR_SYSTEM_MARKDOWN}`,
+                userPrompt: buildTutorUserPrompt({
                   question: messageWithAttachmentContext,
                   context,
                   hasRelevantContext,
+                  mode: learningMode,
+                  examTopics,
                 }),
                 temperature: 0.25,
                 maxOutputTokens: TUTOR_MAX_OUTPUT_TOKENS,
@@ -286,12 +271,13 @@ export async function POST(
             }
             if (!answer || emittedChunks === 0) {
               answer = await generateGeminiText({
-                systemInstruction:
-                  `You are an academic AI tutor. Prioritize source context and cite when used. If source is insufficient, start answer with 'Not from source:'.${TUTOR_SYSTEM_MARKDOWN}`,
-                userPrompt: buildSourceFirstPrompt({
+                systemInstruction: `${tutorSystemInstruction(learningMode)}${TUTOR_SYSTEM_MARKDOWN}`,
+                userPrompt: buildTutorUserPrompt({
                   question: messageWithAttachmentContext,
                   context,
                   hasRelevantContext,
+                  mode: learningMode,
+                  examTopics,
                 }),
                 temperature: 0.25,
                 maxOutputTokens: TUTOR_MAX_OUTPUT_TOKENS,
@@ -351,7 +337,7 @@ export async function POST(
       if (parsedImages.length > 0) {
         answer = await generateGeminiMultimodalText({
           systemInstruction:
-            `You are a multimodal academic tutor. Analyze attached images and answer clearly. Distinguish observation from inference.${TUTOR_SYSTEM_MARKDOWN}`,
+            `${tutorSystemInstruction(learningMode)} Analyze images for a student.${TUTOR_SYSTEM_MARKDOWN}`,
           userPrompt: [
             "QUESTION:",
             messageWithAttachmentContext,
@@ -368,12 +354,13 @@ export async function POST(
       }
     } else {
       answer = await generateGeminiText({
-        systemInstruction:
-          `You are an academic AI tutor. Prioritize source context and cite when used. If source is insufficient, start answer with 'Not from source:'.${TUTOR_SYSTEM_MARKDOWN}`,
-        userPrompt: buildSourceFirstPrompt({
+        systemInstruction: `${tutorSystemInstruction(learningMode)}${TUTOR_SYSTEM_MARKDOWN}`,
+        userPrompt: buildTutorUserPrompt({
           question: messageWithAttachmentContext,
           context,
           hasRelevantContext,
+          mode: learningMode,
+          examTopics,
         }),
         temperature: 0.25,
         maxOutputTokens: TUTOR_MAX_OUTPUT_TOKENS,
@@ -381,12 +368,13 @@ export async function POST(
     }
     if (!answer.trim()) {
       answer = await generateGeminiText({
-        systemInstruction:
-          `You are an academic AI tutor. Provide a direct and useful answer. If not based on source context, start with 'Not from source:'.${TUTOR_SYSTEM_MARKDOWN}`,
-        userPrompt: buildSourceFirstPrompt({
+        systemInstruction: `${tutorSystemInstruction(learningMode)}${TUTOR_SYSTEM_MARKDOWN}`,
+        userPrompt: buildTutorUserPrompt({
           question: messageWithAttachmentContext,
           context,
           hasRelevantContext,
+          mode: learningMode,
+          examTopics,
         }),
         temperature: 0.25,
         maxOutputTokens: TUTOR_MAX_OUTPUT_TOKENS,
