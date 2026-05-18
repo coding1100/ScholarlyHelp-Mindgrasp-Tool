@@ -8,16 +8,27 @@ export type ToolsApiLoaderProps = {
   contained?: boolean;
   /** Offset for the desktop tools sidebar (w-60) when using a full-area overlay */
   respectToolsSidebar?: boolean;
+  /** Larger GIF for main workspace overlays; use "md" for sidebars/cards */
+  size?: "md" | "lg";
   className?: string;
 };
+
+const LOADER_SIZE_CLASSES = {
+  md: "h-[clamp(4.5rem,18vmin,10rem)] w-[clamp(4.5rem,18vmin,10rem)] sm:h-[clamp(5rem,16vmin,11rem)] sm:w-[clamp(5rem,16vmin,11rem)]",
+  lg: "h-[clamp(7rem,26vmin,14rem)] w-[clamp(7rem,26vmin,14rem)] sm:h-[clamp(8rem,24vmin,16rem)] sm:w-[clamp(8rem,24vmin,16rem)] lg:h-[clamp(9rem,22vmin,18rem)] lg:w-[clamp(9rem,22vmin,18rem)]",
+} as const;
 
 export function ToolsApiLoader({
   show,
   contained = false,
   respectToolsSidebar = true,
+  size,
   className = "",
 }: ToolsApiLoaderProps) {
   if (!show) return null;
+
+  const imageSizeClass =
+    LOADER_SIZE_CLASSES[size ?? (contained ? "md" : "lg")];
 
   const positionClasses = contained
     ? "absolute inset-0 z-50"
@@ -36,11 +47,11 @@ export function ToolsApiLoader({
       <Image
         src="/videos/icon.gif"
         alt=""
-        width={160}
-        height={160}
+        width={320}
+        height={320}
         unoptimized
         priority
-        className="h-[clamp(3.5rem,16vmin,7.5rem)] w-[clamp(3.5rem,16vmin,7.5rem)] object-contain sm:h-[clamp(4rem,14vmin,8rem)] sm:w-[clamp(4rem,14vmin,8rem)] md:h-[clamp(4.5rem,12vmin,8.5rem)] md:w-[clamp(4.5rem,12vmin,8.5rem)]"
+        className={`${imageSizeClass} object-contain`}
       />
     </div>
   );
