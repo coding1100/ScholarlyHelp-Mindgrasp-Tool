@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
 import SummarizerTool from "@/app/components/AiTools/summarizer-tool";
 import { appendQueryString } from "@/app/utils/url";
+import { ToolsSuspenseFallback } from "@/app/components/AiTools/ToolsApiLoader";
 // import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
 export default function SummarizerPage() {
@@ -29,7 +30,7 @@ export default function SummarizerPage() {
   }, [pathname, router]);
 
   return (
-    <Suspense fallback={<div className="animate-pulse bg-gray-200 h-72" />}>
+    <Suspense fallback={<ToolsSuspenseFallback />}>
       {/* <ThemeToggle top="top-12" /> */}
       <ToolsLayout setFlag={setFlag} flag={flag}>
         <SummarizerTool />

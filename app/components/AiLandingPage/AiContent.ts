@@ -19,6 +19,7 @@ import icon8 from "@/app/assets/Icons/icon-8.png";
 import CgpaFull from "@/app/assets/Images/aitoollanding/cgpafullimg.png";
 import PreSemester from "@/app/assets/Images/aitoollanding/presemester.png";
 import NewSemester from "@/app/assets/Images/aitoollanding/newsemester.png";
+import AcademicResearchImg from "@/app/assets/Images/aitoollanding/AcademicResearchImg.png";
 
 export const MainAiLanding = {
   heroContent: {
@@ -287,7 +288,7 @@ export const AiAcademicResearchContent = {
     buttonUrl: "/sign-in?returnUrl=/tools/academic-research-assistant",
   },
   imgSection: {
-    img: AiDashboard,
+    img: AcademicResearchImg,
   },
   trustSection: {
     heading: "Trusted by Students, Scholars, and Researchers",
@@ -1509,9 +1510,10 @@ export const ResearchQuestionContent = {
 
 export const CgpaCalculatorContent = {
   heroContent: {
-    mainHeading: "CGPA Calculator for Fast, Accurate Grade Tracking",
-    description:
-      "Use Scholarly Help's CGPA calculator to calculate your semester GPA and cumulative grade performance without manual formulas. Add your courses, credits, and letter grades, then get clear results that help you understand where you stand academically.",
+    mainHeading: "CGPA CALCULATOR",
+    description: "Fast - Accurate - Free",
+    // "<style>.cgpa-hero-desc-list{list-style:disc inside;margin-bottom:0;padding-left:0}@media (max-width:767px){.cgpa-hero-desc-list{text-align:left;width:100%}}@media (min-width:768px){.cgpa-hero-desc-list{display:flex;flex-wrap:wrap;gap:24px}}</style><ul class='cgpa-hero-desc-list'><li>Calculate Your Semester GPA</li><li>Add Your Academic Details</li><li>100% Free Tool</li></ul>",
+
     buttonText: "Calculate Your CGPA",
     buttonUrl: "/sign-in?returnUrl=/tools/cgpa-calculator",
   },

@@ -9,6 +9,7 @@ import ActionButtons from "@/app/components/AiTools/ActionButtons";
 import ResultDisplay from "@/app/components/AiTools/ResultDisplay";
 import { countWords } from "@/app/utils/text";
 import { trackToolGenerate } from "@/app/utils/toolsSheetClient";
+import ToolsApiLoader from "@/app/components/AiTools/ToolsApiLoader";
 
 type HumanizerTone = "natural" | "simple" | "polished";
 type VariantId = "best" | "alternate_1" | "alternate_2";
@@ -193,15 +194,8 @@ const HumanizerTool: React.FC = () => {
   const toneDescription = TONE_META[tone]?.description || "";
 
   return (
-    <div className="container overflow-y-auto h-[90vh] mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl">
-      {loading && (
-        <div className="flex justify-center items-center py-4">
-          <div className="w-8 h-8 border-4 border-[#2b7fff] border-t-transparent rounded-full animate-spin" />
-          <span className="ml-3 text-[#155dfc] dark:text-[#51a2ff] font-medium">
-            Processing...
-          </span>
-        </div>
-      )}
+    <div className="container relative overflow-y-auto h-[90vh] mx-auto max-w-[840px] px-4 md:px-8 md:pt-8 2xl:max-w-6xl">
+      <ToolsApiLoader show={loading} />
 
       <div
         className="grid grid-cols-1 md:grid-cols-2"
