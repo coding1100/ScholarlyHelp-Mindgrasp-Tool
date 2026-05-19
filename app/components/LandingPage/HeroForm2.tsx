@@ -1,7 +1,8 @@
 "use client";
 
 import axiosInstance from "@/app/axios";
-import { useRouter } from "next/navigation";
+import { isTakeMyClassProfessorLandingPage } from "@/app/lib/takeMyClassLandingRoutes";
+import { usePathname, useRouter } from "next/navigation";
 import React, { FC, useEffect, useState, useRef } from "react";
 import { IoIosMail } from "react-icons/io";
 import { IoChatbubbles } from "react-icons/io5";
@@ -26,7 +27,9 @@ const HeroForm2: FC<ZohoForm2Props> = ({
 }) => {
   const data = usePageData();
   const getQuote = data?.getQuote;
+  const pathname = usePathname();
   const router = useRouter();
+  const isProfessorPage = isTakeMyClassProfessorLandingPage(pathname);
 
   const [formData, setFormData] = useState({
     Email: "",
@@ -95,9 +98,15 @@ const HeroForm2: FC<ZohoForm2Props> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validateEmail = () => {
+  const validateEmail = (required = false) => {
     const email = formData.Email.trim();
-    if (!email) return true;
+    if (!email) {
+      if (required) {
+        alert("Please enter your email address.");
+        return false;
+      }
+      return true;
+    }
     const at = email.indexOf("@");
     const dot = email.lastIndexOf(".");
     if (at < 1 || dot < at + 2 || dot + 2 >= email.length) {
@@ -108,6 +117,9 @@ const HeroForm2: FC<ZohoForm2Props> = ({
   };
 
   const checkMandatory = () => {
+    if (isProfessorPage) {
+      return validateEmail(true);
+    }
     if (!formData.Last_Name.trim()) {
       alert("Last Name cannot be empty.");
       return false;
@@ -123,15 +135,34 @@ const HeroForm2: FC<ZohoForm2Props> = ({
       return;
     }
 
-    const fd = new FormData();
-    if (FBCLID) fd.append("fbclid", FBCLID);
-    if (GCLID) fd.append("gclid", GCLID);
-    fd.append("url", wholeUrl);
-    if (formData.Email) fd.append("email", formData.Email);
-    if (formData.Phone) fd.append("phone_number", formData.Phone);
-    if (formData.Description) fd.append("instructions", formData.Description);
-
     try {
+      if (isProfessorPage) {
+        await axiosInstance.post(`/order/take-my-class/`, {
+          phoneNumber: "",
+          PageURL: wholeUrl,
+          email: formData.Email.trim(),
+          FBCLID,
+          GCLID,
+        });
+        setFormData({
+          Email: "",
+          Last_Name: "DefaultLastName",
+          Phone: "",
+          Description: "",
+        });
+        setLoading(false);
+        router.push("/thank-you-2");
+        return;
+      }
+
+      const fd = new FormData();
+      if (FBCLID) fd.append("fbclid", FBCLID);
+      if (GCLID) fd.append("gclid", GCLID);
+      fd.append("url", wholeUrl);
+      if (formData.Email) fd.append("email", formData.Email);
+      if (formData.Phone) fd.append("phone_number", formData.Phone);
+      if (formData.Description) fd.append("instructions", formData.Description);
+
       await axiosInstance.post(`/order/quote`, fd);
       setFormData({
         Email: "",
@@ -194,8 +225,8 @@ const HeroForm2: FC<ZohoForm2Props> = ({
           className="bg-white max-[768px]:bg-transparent max-[768px]:shadow-none max-[768px]:p-0 rounded-lg shadow-sm p-6 flex flex-col sm:gap-4 gap-2 -z-[999]"
           id="quote-form"
         >
-          {/* 1. What do you need help with? */}
-          <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] h-[65px] max-[768px]:bg-[#F5F6FA] px-4 pt-3 pb-2 min-[768px]:min-h-[150px] max-[768px]:relative">
+          {!isProfessorPage && (
+            <div className="flex items-start border rounded-md bg-[#EDEFFE] border-[#E3E5F3] h-[65px] max-[768px]:bg-[#F5F6FA] px-4 pt-3 pb-2 min-[768px]:min-h-[150px] max-[768px]:relative">
             <textarea
               id="Description"
               name="Description"
@@ -208,9 +239,10 @@ const HeroForm2: FC<ZohoForm2Props> = ({
             />
             <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
             <IoChatbubbles className="text-[#9ea9bf] text-xl mt-1 flex-shrink-0" />
-          </div>
+            </div>
+          )}
 
-          {/* 2. Email */}
+          {/* Email */}
           <div className="flex items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative">
             <input
               type="email"
@@ -226,22 +258,23 @@ const HeroForm2: FC<ZohoForm2Props> = ({
             <IoIosMail className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
           </div>
 
-          {/* 3. Mobile No to Text Your Quote */}
-          <div className="flex text-black items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative">
-            <input
-              type="text"
-              id="Phone"
-              name="Phone"
-              placeholder="Mobile No to Text Your Quote *"
-              value={formData.Phone}
-              onChange={handleChange}
-              maxLength={30}
-              required
-              className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
-            />
-            <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
-            <MdPhoneInTalk className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
-          </div>
+          {!isProfessorPage && (
+            <div className="flex text-black items-center sm:h-18 h-[65px] max-[768px]:h-[50px] border rounded-md bg-[#EDEFFE] max-[768px]:bg-[#F5F6FA] border-[#E3E5F3] px-4 max-[768px]:relative">
+              <input
+                type="text"
+                id="Phone"
+                name="Phone"
+                placeholder="Mobile No to Text Your Quote *"
+                value={formData.Phone}
+                onChange={handleChange}
+                maxLength={30}
+                required
+                className="flex-1 bg-transparent outline-none text-sm placeholder-[#9CA3AF] pr-3 "
+              />
+              <div className="absolute top-[15px] right-[50px] w-[2px] h-[20px] bg-gray-200 min-[768px]:hidden"></div>
+              <MdPhoneInTalk className="text-[#9ea9bf] text-xl flex-shrink-0 max-[768px]:absolute max-[768px]:right-4" />
+            </div>
+          )}
 
           {/* Submit Button */}
           <button

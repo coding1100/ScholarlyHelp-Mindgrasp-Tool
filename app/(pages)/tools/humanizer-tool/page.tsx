@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import ToolsLayout from "@/app/components/AiTools/ToolsLayout";
 import HumanizerTool from "@/app/components/AiTools/HumanizerTool/HumanizerTool";
 import { appendQueryString } from "@/app/utils/url";
+import { ToolsSuspenseFallback } from "@/app/components/AiTools/ToolsApiLoader";
 
 export default function HumanizerPage() {
   const [flag, setFlag] = useState<boolean>(false);
@@ -29,7 +30,7 @@ export default function HumanizerPage() {
 
   return (
     <Suspense
-      fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-800 h-72" />}
+      fallback={<ToolsSuspenseFallback />}
     >
       <ToolsLayout setFlag={setFlag} flag={flag}>
         <HumanizerTool />

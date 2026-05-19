@@ -36,6 +36,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
     "/take-my-class-2/",
     "/take-my-class-3",
     "/take-my-class-3/",
+    "/take-my-class-professor-does-not-care",
+    "/take-my-class-professor-does-not-care/",
     "/take-my-exam",
     "/take-my-exam/",
   ];
@@ -54,6 +56,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
     "/take-my-class-2/",
     "/take-my-class-3",
     "/take-my-class-3/",
+    "/take-my-class-professor-does-not-care",
+    "/take-my-class-professor-does-not-care/",
     "/take-my-exam",
     "/take-my-exam/",
   ];

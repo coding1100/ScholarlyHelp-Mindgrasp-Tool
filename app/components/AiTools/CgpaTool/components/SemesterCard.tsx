@@ -14,6 +14,8 @@ export default function SemesterCard(props: {
   onChange: (next: Semester) => void;
   onRemoveSemester: () => void;
   onCalculateGpa?: () => void;
+  /** Shown under the semester action row when opening the email popup is blocked (e.g. no grades entered). */
+  calculateGpaBlockedMessage?: string | null;
   disableRemove?: boolean;
   showResults?: boolean;
 }) {
@@ -23,6 +25,7 @@ export default function SemesterCard(props: {
     onChange,
     onRemoveSemester,
     onCalculateGpa,
+    calculateGpaBlockedMessage,
     disableRemove,
     showResults = true,
   } = props;
@@ -96,59 +99,54 @@ export default function SemesterCard(props: {
           ))}
         </div>
 
-        <div className="flex justify-between gap-2">
-          <Button
-            type="button"
-            variant="primary"
-            onClick={() =>
-              onChange({
-                ...semester,
-                courses: [...semester.courses, createEmptyCourse()],
-              })
-            }
-            aria-label="Add course"
-          >
-            <span className="hidden md:inline">Add course</span>
-            <span className="md:hidden" aria-hidden="true">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 5v14M5 12h14"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </Button>
-          {onCalculateGpa ? (
+        <div className="flex flex-col gap-1">
+          <div className="flex justify-between gap-2">
             <Button
               type="button"
               variant="primary"
-              onClick={onCalculateGpa}
-              className=""
+              onClick={() =>
+                onChange({
+                  ...semester,
+                  courses: [...semester.courses, createEmptyCourse()],
+                })
+              }
+              aria-label="Add course"
             >
-              Calculate GPA
+              <span className="hidden md:inline">Add course</span>
+              <span className="md:hidden" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 5v14M5 12h14"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </Button>
+            {onCalculateGpa ? (
+              <Button
+                type="button"
+                variant="primary"
+                onClick={onCalculateGpa}
+                className=""
+              >
+                Calculate GPA
+              </Button>
+            ) : null}
+          </div>
+          {calculateGpaBlockedMessage ? (
+            <p className="text-right text-sm text-[#f60606]" role="alert">
+              {calculateGpaBlockedMessage}
+            </p>
           ) : null}
-          {/* <Button
-            type="button"
-            variant="secondary"
-            onClick={() =>
-              onChange({
-                ...semester,
-                courses: semester.courses.length ? semester.courses : [createEmptyCourse()],
-              })
-            }
-          >
-            Ensure 1 row
-          </Button> */}
         </div>
 
         {showResults ? (

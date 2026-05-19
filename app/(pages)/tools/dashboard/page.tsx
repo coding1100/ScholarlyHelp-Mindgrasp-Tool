@@ -1,13 +1,10 @@
 import { Suspense } from "react";
 import DashboardPageContent from "./DashboardPageContent";
+import { ToolsSuspenseFallback } from "@/app/components/AiTools/ToolsApiLoader";
 
-export default function EssayTitlePage() {
+export default function DashboardPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="h-72 animate-pulse bg-gray-200 dark:bg-gray-800" />
-      }
-    >
+    <Suspense fallback={<ToolsSuspenseFallback />}>
       <DashboardPageContent />
     </Suspense>
   );

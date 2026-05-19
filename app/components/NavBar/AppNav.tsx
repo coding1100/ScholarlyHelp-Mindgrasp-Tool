@@ -10,6 +10,7 @@ import useBreakpoint from "@/app/(pages)/hooks/useMediabreakpoint";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { hideLinks, supportMail, withChatNow } from "../HideLinks/HideLinks";
+import { isTakeMyClassLandingPage } from "@/app/lib/takeMyClassLandingRoutes";
 import LogoSmall from "@/app/assets/Images/logoSmall.png";
 import LogoNormal from "@/app/assets/Images/logo.png";
 import Image from "next/image";
@@ -22,11 +23,7 @@ const AppNav: FC<AppNavProps> = ({}) => {
   const [servicesMenu, setOpenServicesMenu] = useState(false);
 
   const currentPage = usePathname();
-  const isTakeMyClassPage =
-    currentPage === "/take-my-class/" ||
-    currentPage === "/take-my-class" ||
-    currentPage === "/take-my-class-3/" ||
-    currentPage === "/take-my-class-3";
+  const isTakeMyClassPage = isTakeMyClassLandingPage(currentPage);
   const hideLink = hideLinks.includes(currentPage);
   const withChat = withChatNow.includes(currentPage);
   const showSupportMail = supportMail.includes(currentPage);

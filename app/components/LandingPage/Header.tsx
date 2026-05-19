@@ -8,6 +8,10 @@ import Image from "next/image";
 import LogoSmall from "@/app/assets/Images/logoSmall.png";
 import LogoNormal from "@/app/assets/Images/logo.svg";
 import Phone from "@/app/assets/Icons/phone.webp";
+import {
+  isTakeMyClass3LandingPage,
+  isTakeMyClassHeaderRoute,
+} from "@/app/lib/takeMyClassLandingRoutes";
 
 const Star: React.FC<{ className?: string }> = ({ className }) => (
   <svg
@@ -27,13 +31,8 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const prefetchedRoutesRef = useRef<Set<string>>(new Set());
-  const isTakeMyClass3 =
-    pathname === "/take-my-class-3/" || pathname === "/take-my-class-3";
-  const isTakeMyClass =
-    pathname === "/take-my-class/" ||
-    pathname === "/take-my-class" ||
-    pathname === "/take-my-class-2/" ||
-    pathname === "/take-my-class-2";
+  const isTakeMyClass3 = isTakeMyClass3LandingPage(pathname);
+  const isTakeMyClass = isTakeMyClassHeaderRoute(pathname);
   const isTakeMyExam =
     pathname === "/take-my-exam/" || pathname === "/take-my-exam";
   const isSpecialRoute = isTakeMyClass || isTakeMyExam;

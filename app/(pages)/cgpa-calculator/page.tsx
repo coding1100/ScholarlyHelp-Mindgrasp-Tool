@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Metadata } from "next";
 import AiHero from "@/app/components/AiLandingPage/AiHero";
-import AiTrust from "@/app/components/AiLandingPage/AITrust";
-import KeyFeatures from "@/app/components/AiLandingPage/KeyFeatures";
-import AiMission from "@/app/components/AiLandingPage/AiMission";
-import AiFaq from "@/app/components/AiLandingPage/AiFaq";
-import ElevateWriting from "@/app/components/AiLandingPage/ElevateWriting";
+// import AiTrust from "@/app/components/AiLandingPage/AITrust";
+// import KeyFeatures from "@/app/components/AiLandingPage/KeyFeatures";
+// import AiMission from "@/app/components/AiLandingPage/AiMission";
+// import AiFaq from "@/app/components/AiLandingPage/AiFaq";
+// import ElevateWriting from "@/app/components/AiLandingPage/ElevateWriting";
 import { CgpaCalculatorContent } from "@/app/components/AiLandingPage/AiContent";
 // import ThemeToggle from "@/app/components/AiLandingPage/ThemeToggle";
 
@@ -20,14 +20,14 @@ const Page: FC<PageProps> = ({}) => {
         imgSection={CgpaCalculatorContent.imgSection}
       />
 
-      <AiTrust trustSection={CgpaCalculatorContent.trustSection} />
+      {/* <AiTrust trustSection={CgpaCalculatorContent.trustSection} />
       <KeyFeatures featuresSection={CgpaCalculatorContent.featuresSection} />
       <AiMission
         missionSection={CgpaCalculatorContent.missionSection}
         guideSection={CgpaCalculatorContent.guideSection}
       />
       <AiFaq FaqSestion={CgpaCalculatorContent.FaqSestion} />
-      <ElevateWriting elevateSection={CgpaCalculatorContent.elevateSection} />
+      <ElevateWriting elevateSection={CgpaCalculatorContent.elevateSection} /> */}
     </>
   );
 };

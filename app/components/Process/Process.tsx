@@ -6,6 +6,7 @@ import Image from "next/image";
 import Button from "../Button/Button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isTakeMyClassLandingPage } from "@/app/lib/takeMyClassLandingRoutes";
 
 type Content = {
   title?: string;
@@ -19,11 +20,7 @@ interface ProcessProps {
 const Process: FC<ProcessProps> = ({ content }) => {
   const [activeProcessIndex, setActiveProcessIndex] = useState(0);
   const currentPage = usePathname();
-  const isTakeMyClassPage =
-    currentPage === "/take-my-class/" ||
-    currentPage === "/take-my-class" ||
-    currentPage === "/take-my-class-3/" ||
-    currentPage === "/take-my-class-3";
+  const isTakeMyClassPage = isTakeMyClassLandingPage(currentPage);
   useEffect(() => {
     let interval = setInterval(() => {
       setActiveProcessIndex((prev) =>
