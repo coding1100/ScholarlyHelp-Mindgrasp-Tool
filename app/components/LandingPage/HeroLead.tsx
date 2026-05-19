@@ -163,30 +163,27 @@ const HeroLead: FC<HeroLeadProps> = ({ heroContent, hideHeading }) => {
     <div className="max-w-2xl">
       {!hideHeading && (
         <h1 className="font-semibold text-[30px] md:text-[48px] leading-[1.1] text-black">
-          {isTakeMyClassPage ? (
+          {heroContent?.mainHeading ? (
+            <span
+              className={isTakeMyClassPage ? "md:pt-5 block" : undefined}
+              dangerouslySetInnerHTML={{
+                __html: getStyledMainHeading(heroContent.mainHeading),
+              }}
+            />
+          ) : isTakeMyClassPage ? (
             <div className="md:pt-5">
               We Take Your Online Class |{" "}
               <span className="text-[#F56200]">Guaranteed A or B</span>
             </div>
           ) : (
             <>
-              {heroContent?.mainHeading ? (
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: getStyledMainHeading(heroContent.mainHeading),
-                  }}
-                />
-              ) : (
-                <>
-                  Stop Sacrificing
-                  <br />
-                  Your Time, We&apos;ll
-                  <br />
-                  Handle Your
-                  <br />
-                  Classes
-                </>
-              )}
+              Stop Sacrificing
+              <br />
+              Your Time, We&apos;ll
+              <br />
+              Handle Your
+              <br />
+              Classes
             </>
           )}
         </h1>
