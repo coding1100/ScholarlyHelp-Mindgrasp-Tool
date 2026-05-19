@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
+import { isTakeMyClassLandingPage } from "@/app/lib/takeMyClassLandingRoutes";
 
 type PhoneEmailPayload = {
   FBCLID: string;
@@ -25,11 +26,7 @@ const DetailsAndMsgForm: FC<DetailsAndMsgFormProps> = ({}) => {
   const [wholeUrl, setWholeUrl] = useState<string>("");
 
   const currentPage = usePathname();
-  const isTakeMyClassPage =
-    currentPage === "/take-my-class/" ||
-    currentPage === "/take-my-class" ||
-    currentPage === "/take-my-class-3/" ||
-    currentPage === "/take-my-class-3";
+  const isTakeMyClassPage = isTakeMyClassLandingPage(currentPage);
   // const wholeUrl = window.location.href;
   const router = useRouter();
 
