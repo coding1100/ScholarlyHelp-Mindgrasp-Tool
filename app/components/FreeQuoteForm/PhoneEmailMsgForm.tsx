@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
 import PhoneNumberInput from "../PhoneInput/PhoneInput";
+import { isTakeMyClassLandingPage } from "@/app/lib/takeMyClassLandingRoutes";
 
 type PayLoad = {
   email: string;
@@ -30,11 +31,7 @@ const PhoneEmailMsgFrom: FC<PhoneEmailMsgFromProps> = ({}) => {
   const router = useRouter();
   // const wholeUrl = window.location.href;
   const currentPage = usePathname();
-  const isTakeMyClassPage =
-    currentPage === "/take-my-class/" ||
-    currentPage === "/take-my-class" ||
-    currentPage === "/take-my-class-3/" ||
-    currentPage === "/take-my-class-3";
+  const isTakeMyClassPage = isTakeMyClassLandingPage(currentPage);
   useEffect(() => {
     // Ensure this code runs only on the client
     if (typeof window !== "undefined") {
