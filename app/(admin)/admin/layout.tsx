@@ -64,6 +64,7 @@ const navigation = [
   { name: 'Edit Take My Class 1', href: '/admin/take-my-class-1', icon: HomeIcon },
   { name: 'Edit Take My Class 2', href: '/admin/take-my-class-2', icon: HomeIcon },
   { name: 'Edit Take My Class 3', href: '/admin/take-my-class-3', icon: HomeIcon },
+  { name: 'Edit Take My Class (Professor)', href: '/admin/take-my-class-professor-does-not-care', icon: HomeIcon },
   // { name: 'Edit FAQ', href: '/admin/faq', icon: FaqIcon },
 ];
 
