@@ -3,11 +3,22 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+function resolveTakeMyClassAdminPage(pathname: string | null) {
+  if (pathname?.includes("take-my-class-professor-does-not-care")) {
+    return {
+      pageId: "take-my-class-professor-does-not-care",
+      pageLabel: "Take My Class (Professor Does Not Care)",
+    };
+  }
+  if (pathname?.includes("take-my-class-3")) {
+    return { pageId: "take-my-class-3", pageLabel: "Take My Class 3" };
+  }
+  return { pageId: "take-my-class", pageLabel: "Take My Class" };
+}
+
 export default function TakeMyClassAdmin() {
   const pathname = usePathname();
-  const isTakeMyClass3 = pathname?.includes("take-my-class-3");
-  const pageId = isTakeMyClass3 ? "take-my-class-3" : "take-my-class";
-  const pageLabel = isTakeMyClass3 ? "Take My Class 3" : "Take My Class";
+  const { pageId, pageLabel } = resolveTakeMyClassAdminPage(pathname);
   const [pageData, setPageData] = useState<any>(null);
   const [pageLoading, setPageLoading] = useState(false);
 

@@ -8,6 +8,7 @@ export const hideFooterLinks = [
   "/take-my-exam/",
   "/take-my-class/",
   "/take-my-class-3/",
+  "/take-my-class-professor-does-not-care/",
   "/do-my-exam/",
   "/take-my-proctored-exam-for-me/",
   "/help-me-with-my-exam/",
@@ -39,7 +40,11 @@ export const wholeFromFreeQuote = [
   "",
 ];
 
-export const emailFormFreeQuote = ["/take-my-class/", "/take-my-class-3/"];
+export const emailFormFreeQuote = [
+  "/take-my-class/",
+  "/take-my-class-3/",
+  "/take-my-class-professor-does-not-care/",
+];
 export const formFreeQuote = [
   "",
   // "/take-my-class/",
@@ -75,6 +80,7 @@ export const sms = [
 export const smsHide = [
   "/take-my-class/",
   "/take-my-class-3/",
+  "/take-my-class-professor-does-not-care/",
   "/take-my-proctored-exam-for-me/",
 ];
 
