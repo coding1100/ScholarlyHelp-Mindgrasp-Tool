@@ -62,7 +62,7 @@ const increaseSpace = ["/take-my-class-professor-does-not-care/"];
               useHeroForm2={useHeroForm2}
             />
           </div>
-          <div className={`mid:col-span-3 md:col-span-6 md:self-end relative z-20 -bottom-[35px] sm:block hidden ${increaseSpace.includes(cuurentRoute) ? "[992px]:pt-[250px]" : ""}`}>
+          <div className={`mid:col-span-3 md:col-span-6 md:self-end relative z-20 -bottom-[35px] sm:block hidden ${increaseSpace.includes(cuurentRoute) ? "md:pt-[250px]" : ""}`}>
             <div className="hidden md:flex flex-col gap-5">
               <div className="flex max-w-xs flex-col gap-2">
                 <div className="flex items-center gap-1">
